@@ -1,0 +1,274 @@
+---  clean tables and procedures
+--create:
+
+use [GD2C2013]
+GO
+--select top 100 * FROM gd_esquema.Maestra
+CREATE SCHEMA CLINICA
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- clean:
+
+--use [GD2C2013]
+--GO
+
+--drop table [CLINICA].[PLAN]
+--GO
+--drop table [CLINICA].[AFILIADO]
+--GO
+--drop schema CLINICA
+
+/*************************************************************************************
+*                    TABLES                                                          *
+**************************************************************************************/
+
+create table [CLINICA].[AFILIADO]
+(
+	nro_afiliado [int] identity(1,1) not null,
+	apellido [varchar] (255) not null,
+	nombre [varchar] (255) not null,
+	dni [int] not null,
+	direccion [varchar] (255) not null,
+	codigo_estado_civil [int],
+	fecha_nac [datetime] not null,
+	telefono [int] not null,
+	mail [varchar] (255) not null,
+	--cantidad_hijos [int] not null,
+	fecha_baja [datetime],
+	codigo_plan [int] not null
+)
+GO
+
+create table [CLINICA].[ESTADO_CIVIL]
+(
+	codigo [int]identity(1,1) not null,
+	descripcion [varchar] (255) not null
+)
+GO
+
+create table [CLINICA].[CAMBIO_PLAN]
+(
+	fecha_modificaion [datetime] not null,
+	motivo [varchar] (255) not null
+)
+GO
+
+create table [CLINICA].[PLAN]
+(
+	codigo [int] not null,
+	descripcion [varchar] (255) not null,
+	precio_bono_consulta  [int] not null,
+	precio_bono_farmacia [int] not null
+)
+GO
+
+create table [CLINICA].[BONO_CONSULTA]
+(
+	fecha_compra [datetime],
+	numero [int],
+	numero_consulta [int],
+	fecha_impresion [datetime],
+	numero_afiliado [int] not null
+)
+GO
+
+create table [CLINICA].[BONO_FARMACIA]
+(
+	fecha_compra [datetime],
+	numero [int],
+	numero_consulta [int],
+	fecha_impresion [datetime],
+	fecha_vencimiento [datetime],
+	numero_afiliado [int] not null
+)
+GO
+
+create table [CLINICA].[PROFESIONAL]
+(
+	apellido [varchar] (255) not null,
+	nombre [varchar] (255) not null,
+	dni [int] not null,
+	direccion [varchar] (255) not null,
+	fecha_nac [datetime] not null,
+	telefono [int] not null,
+	mail [varchar] (255) not null
+)
+GO
+
+create table [CLINICA].[DIA_ATENCION]
+(
+	dia [varchar] (255) not null,
+	hora_fin [int] not null,
+	hora_inicio [int] not null
+)
+GO
+
+create table [CLINICA].[TURNO]
+(
+	numero [int] not null,
+	fecha [datetime] not null,
+	fecha_llegada [datetime],
+	nro_afiliado [int],
+	dni_afiliado [int] not null,
+	dni_profesional [int] not null
+)
+GO
+
+create table [CLINICA].[ESPECIALIDAD_MEDICA]
+(
+	codigo [int] not null,
+	descripcion [varchar] (255) not null,
+	codigo_tipo_especialidad_medica [int] not null
+)
+GO
+
+create table [CLINICA].[TIPO_ESPECIALIDAD_MEDICA]
+(
+	codigo [int] not null,
+	descripcion [varchar] (255) not null
+)
+GO
+
+
+
+/*************************************************************************************
+*                    CONSTRAINT                                                          *
+**************************************************************************************/
+
+--ALTER TABLE [CLINICA].[AFILIADO] ADD CONSTRAINT pk_nro_afiliado PRIMARY KEY(nro_afiliado);
+--ALTER TABLE [CLINICA].[PLAN] ADD CONSTRAINT pk_codigo PRIMARY KEY(codigo);
+
+/*************************************************************************************
+*                    MIGRATION                                                          *
+**************************************************************************************/
+
+
+/******************************************************
+*                    ESTADO CIVIL                     *
+*******************************************************/
+
+INSERT INTO 
+	[CLINICA].[ESTADO_CIVIL] (descripcion)
+VALUES 
+	('single')
+
+INSERT INTO 
+	[CLINICA].[ESTADO_CIVIL] (descripcion)
+VALUES 
+	('married')
+
+INSERT INTO 
+	[CLINICA].[ESTADO_CIVIL] (descripcion)
+VALUES 
+	('widower')
+
+INSERT INTO 
+	[CLINICA].[ESTADO_CIVIL] (descripcion)
+VALUES 
+	('concubinage')
+
+INSERT INTO 
+	[CLINICA].[ESTADO_CIVIL] (descripcion)
+VALUES 
+	('divorced')
+GO
+
+/******************************************************
+*                    AFILIADO                         *
+*******************************************************/
+
+INSERT INTO 
+	[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, fecha_nac, telefono, mail, codigo_plan)
+SELECT DISTINCT  TOP 50 
+	Paciente_Apellido, Paciente_Nombre, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo 
+FROM 
+	gd_esquema.Maestra
+GO
+
+/******************************************************
+*                    PLAN                             *
+*******************************************************/
+
+INSERT INTO 
+	[CLINICA].[PLAN](codigo, descripcion, precio_bono_consulta, precio_bono_farmacia)
+SELECT DISTINCT  
+	Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
+FROM 
+	gd_esquema.Maestra
+GO
+
+/******************************************************
+*                    PROFESIONAL                      *
+*******************************************************/
+
+INSERT INTO 
+	[CLINICA].[PROFESIONAL](apellido, nombre, dni, direccion, fecha_nac, telefono, mail)
+SELECT DISTINCT 
+	Medico_Apellido, Medico_Nombre, Medico_Dni, Medico_Direccion, Medico_Fecha_Nac, Medico_Telefono, Medico_Mail 
+FROM 
+	gd_esquema.Maestra
+WHERE 
+	Medico_Apellido IS NOT NULL AND
+	Medico_Nombre IS NOT NULL AND
+	Medico_Dni IS NOT NULL AND
+	Medico_Direccion IS NOT NULL AND
+	Medico_Fecha_Nac IS NOT NULL AND
+	Medico_Telefono IS NOT NULL AND
+	Medico_Mail IS NOT NULL
+	--COALESCE(Medico_Apellido, Medico_Nombre, Medico_Dni, Medico_Direccion, Medico_Telefono, Medico_Mail) IS NOT NULL
+GO
+
+/******************************************************
+*                    TIPO_ESPECIALIDAD_MEDICA         *
+*******************************************************/
+
+INSERT INTO 
+	[CLINICA].[TIPO_ESPECIALIDAD_MEDICA](codigo, descripcion)
+SELECT DISTINCT 
+	Tipo_Especialidad_Codigo, Tipo_Especialidad_Descripcion
+FROM 
+	gd_esquema.Maestra
+WHERE
+	Tipo_Especialidad_Codigo IS NOT NULL AND
+	Tipo_Especialidad_Descripcion IS NOT NULL
+GO
+
+/******************************************************
+*                    ESPECIALIDAD_MEDICA              *
+*******************************************************/
+
+INSERT INTO 
+	[CLINICA].[ESPECIALIDAD_MEDICA](codigo, descripcion, codigo_tipo_especialidad_medica)
+SELECT DISTINCT 
+	Especialidad_Codigo, Especialidad_Descripcion, Tipo_Especialidad_Codigo
+FROM 
+	gd_esquema.Maestra
+WHERE
+	Especialidad_Codigo IS NOT NULL AND
+	Especialidad_Descripcion IS NOT NULL AND
+	Tipo_Especialidad_Codigo IS NOT NULL
+GO	
+
+	
+/******************************************************
+*                    TURNO                            *
+*******************************************************/
+
+INSERT INTO 
+	[CLINICA].[TURNO](numero, fecha, dni_profesional, dni_afiliado)
+SELECT DISTINCT   
+	Turno_Numero, Turno_Fecha, Medico_Dni, Paciente_Dni
+FROM 
+	gd_esquema.Maestra
+WHERE
+	Turno_Numero IS NOT NULL AND
+	Turno_Fecha IS NOT NULL AND
+	Medico_Dni IS NOT NULL AND
+	Paciente_Dni IS NOT NULL
+

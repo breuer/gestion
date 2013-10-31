@@ -1,0 +1,26 @@
+use [GD2C2013]
+go
+drop table [CLINICA].[ESTADO_CIVIL]
+go
+drop table [CLINICA].[CAMBIO_PLAN]
+go
+drop table [CLINICA].[BONO_CONSULTA]
+go
+drop table [CLINICA].[BONO_FARMACIA]
+go
+drop table [CLINICA].[TURNO]
+go
+drop table [CLINICA].[DIA_ATENCION]
+go
+drop table [CLINICA].[ESPECIALIDAD_MEDICA]
+go
+drop table [CLINICA].[TIPO_ESPECIALIDAD_MEDICA]
+go
+drop table [CLINICA].[PROFESIONAL]
+go
+drop table [CLINICA].[PLAN]
+go
+drop table [CLINICA].[AFILIADO]
+go
+
+drop schema CLINICA
