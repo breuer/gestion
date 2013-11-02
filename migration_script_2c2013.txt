@@ -3,7 +3,7 @@
 
 use [GD2C2013]
 GO
---select top 100 * FROM gd_esquema.Maestra
+--select top 1000 * FROM gd_esquema.Maestra
 CREATE SCHEMA CLINICA
 GO
 
@@ -31,6 +31,7 @@ GO
 create table [CLINICA].[AFILIADO]
 (
 	nro_afiliado [int] identity(1,1) not null,
+	nro_discriminador [int], 
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
 	dni [int] not null,
@@ -39,7 +40,7 @@ create table [CLINICA].[AFILIADO]
 	fecha_nac [datetime] not null,
 	telefono [int] not null,
 	mail [varchar] (255) not null,
-	--cantidad_hijos [int] not null,
+	cantidad_hijos [int],
 	fecha_baja [datetime],
 	codigo_plan [int] not null
 )
@@ -82,7 +83,7 @@ create table [CLINICA].[BONO_FARMACIA]
 (
 	fecha_compra [datetime],
 	numero [int],
-	numero_consulta [int],
+	numero_farmacia [int],
 	fecha_impresion [datetime],
 	fecha_vencimiento [datetime],
 	numero_afiliado [int] not null
@@ -114,7 +115,6 @@ create table [CLINICA].[TURNO]
 	numero [int] not null,
 	fecha [datetime] not null,
 	fecha_llegada [datetime],
-	nro_afiliado [int],
 	dni_afiliado [int] not null,
 	dni_profesional [int] not null
 )
@@ -185,11 +185,78 @@ GO
 
 INSERT INTO 
 	[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, fecha_nac, telefono, mail, codigo_plan)
-SELECT DISTINCT  TOP 50 
+SELECT DISTINCT top 2000
 	Paciente_Apellido, Paciente_Nombre, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo 
 FROM 
 	gd_esquema.Maestra
 GO
+
+/******************************************************
+*                    BONOS                            *
+*******************************************************/
+
+-- turno -> compra bono consulta ó compra bono farmacia -> medicamento
+
+-- bonos consulta no usados
+
+INSERT INTO 
+	[CLINICA].[BONO_CONSULTA](fecha_compra, numero_consulta, fecha_impresion, numero_afiliado)
+SELECT DISTINCT 
+	 M.Compra_Bono_Fecha, M.Bono_Consulta_Numero, M.Bono_Consulta_Fecha_Impresion, A.nro_afiliado
+FROM 
+	gd_esquema.Maestra M
+INNER JOIN
+	[CLINICA].[AFILIADO] A	
+ON
+	M.Paciente_Dni=A.dni
+WHERE 
+	M.Compra_Bono_Fecha IS NOT NULL AND
+	M.Bono_Consulta_Fecha_Impresion IS NOT NULL 
+--Order by 
+--	A.nro_afiliado
+	
+	
+-- bonos farmacia no usados
+INSERT INTO 
+	[CLINICA].[BONO_FARMACIA](fecha_compra, numero_farmacia, fecha_impresion, numero_afiliado)
+SELECT DISTINCT 
+	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.nro_afiliado
+FROM 
+	gd_esquema.Maestra M
+INNER JOIN
+	[CLINICA].[AFILIADO] A	
+ON
+	M.Paciente_Dni=A.dni
+WHERE 
+	M.Compra_Bono_Fecha IS NOT NULL AND
+	M.Bono_Farmacia_Fecha_Impresion IS NOT NULL
+--Order by 
+--	A.nro_afiliado
+	
+/******************************************************
+*                    CONSULTA                         *
+*******************************************************/
+
+/******************************************************
+*                    MEDICAMENTOS                     *
+*******************************************************/
+--INSERT INTO 
+--	[CLINICA].[BONO_FARMACIA](fecha_compra, numero_farmacia, fecha_impresion, numero_afiliado)
+/*
+SELECT DISTINCT 
+	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.nro_afiliado,
+	 M.Consulta_Enfermedades, M.Consulta_Sintomas, M.Bono_Farmacia_Medicamento, M.Bono_Farmacia_Fecha_Vencimiento
+FROM 
+	gd_esquema.Maestra M
+INNER JOIN
+	[CLINICA].[AFILIADO] A	
+ON
+	M.Paciente_Dni=A.dni
+WHERE 
+	M.Bono_Farmacia_Medicamento IS NOT NULL 
+--	M.Bono_Farmacia_Fecha_Impresion IS NOT NULL
+order by A.nro_afiliado
+*/
 
 /******************************************************
 *                    PLAN                             *
@@ -201,7 +268,6 @@ SELECT DISTINCT
 	Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
 FROM 
 	gd_esquema.Maestra
-GO
 
 /******************************************************
 *                    PROFESIONAL                      *
