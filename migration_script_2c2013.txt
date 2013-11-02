@@ -90,6 +90,14 @@ create table [CLINICA].[BONO_FARMACIA]
 )
 GO
 
+create table [CLINICA].[MEDICAMENTO]
+(
+	descripcion [varchar] (255) not null,
+	bono_farmacia_numero [int] not null
+)
+GO
+
+
 create table [CLINICA].[PROFESIONAL]
 (
 	apellido [varchar] (255) not null,
@@ -240,12 +248,11 @@ WHERE
 /******************************************************
 *                    MEDICAMENTOS                     *
 *******************************************************/
---INSERT INTO 
---	[CLINICA].[BONO_FARMACIA](fecha_compra, numero_farmacia, fecha_impresion, numero_afiliado)
-/*
+INSERT INTO 
+	[CLINICA].[MEDICAMENTO](descripcion, bono_farmacia_numero)
+
 SELECT DISTINCT 
-	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.nro_afiliado,
-	 M.Consulta_Enfermedades, M.Consulta_Sintomas, M.Bono_Farmacia_Medicamento, M.Bono_Farmacia_Fecha_Vencimiento
+	 M.Bono_Farmacia_Medicamento, M.Bono_Farmacia_Numero
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
@@ -254,9 +261,7 @@ ON
 	M.Paciente_Dni=A.dni
 WHERE 
 	M.Bono_Farmacia_Medicamento IS NOT NULL 
---	M.Bono_Farmacia_Fecha_Impresion IS NOT NULL
-order by A.nro_afiliado
-*/
+
 
 /******************************************************
 *                    PLAN                             *
