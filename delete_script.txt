@@ -8,6 +8,8 @@ drop table [CLINICA].[BONO_CONSULTA]
 go
 drop table [CLINICA].[BONO_FARMACIA]
 go
+drop table [CLINICA].[MEDICAMENTO]
+go
 drop table [CLINICA].[TURNO]
 go
 drop table [CLINICA].[DIA_ATENCION]
