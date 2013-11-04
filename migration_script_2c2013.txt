@@ -4,7 +4,7 @@
 use [GD2C2013]
 GO
 --select top 1000 * FROM gd_esquema.Maestra
-CREATE SCHEMA CLINICA
+CREATE SCHEMA NN_NN
 GO
 
 SET ANSI_NULLS ON
@@ -18,17 +18,17 @@ GO
 --use [GD2C2013]
 --GO
 
---drop table [CLINICA].[PLAN]
+--drop table [NN_NN].[PLAN]
 --GO
---drop table [CLINICA].[AFILIADO]
+--drop table [NN_NN].[AFILIADO]
 --GO
---drop schema CLINICA
+--drop schema NN_NN
 
 /*************************************************************************************
 *                    TABLES                                                          *
 **************************************************************************************/
 
-create table [CLINICA].[AFILIADO]
+create table [NN_NN].[AFILIADO]
 (
 	nro_afiliado [int] identity(1,1) not null,
 	nro_discriminador [int], 
@@ -46,21 +46,21 @@ create table [CLINICA].[AFILIADO]
 )
 GO
 
-create table [CLINICA].[ESTADO_CIVIL]
+create table [NN_NN].[ESTADO_CIVIL]
 (
 	codigo [int]identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
 GO
 
-create table [CLINICA].[CAMBIO_PLAN]
+create table [NN_NN].[CAMBIO_PLAN]
 (
 	fecha_modificaion [datetime] not null,
 	motivo [varchar] (255) not null
 )
 GO
 
-create table [CLINICA].[PLAN]
+create table [NN_NN].[PLAN]
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null,
@@ -69,7 +69,7 @@ create table [CLINICA].[PLAN]
 )
 GO
 
-create table [CLINICA].[BONO_CONSULTA]
+create table [NN_NN].[BONO_CONSULTA]
 (
 	fecha_compra [datetime],
 	numero [int],
@@ -79,7 +79,7 @@ create table [CLINICA].[BONO_CONSULTA]
 )
 GO
 
-create table [CLINICA].[BONO_FARMACIA]
+create table [NN_NN].[BONO_FARMACIA]
 (
 	fecha_compra [datetime],
 	numero [int],
@@ -90,7 +90,7 @@ create table [CLINICA].[BONO_FARMACIA]
 )
 GO
 
-create table [CLINICA].[MEDICAMENTO]
+create table [NN_NN].[MEDICAMENTO]
 (
 	descripcion [varchar] (255) not null,
 	bono_farmacia_numero [int] not null
@@ -98,7 +98,7 @@ create table [CLINICA].[MEDICAMENTO]
 GO
 
 
-create table [CLINICA].[PROFESIONAL]
+create table [NN_NN].[PROFESIONAL]
 (
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
@@ -110,7 +110,7 @@ create table [CLINICA].[PROFESIONAL]
 )
 GO
 
-create table [CLINICA].[DIA_ATENCION]
+create table [NN_NN].[DIA_ATENCION]
 (
 	dia [varchar] (255) not null,
 	hora_fin [int] not null,
@@ -118,7 +118,7 @@ create table [CLINICA].[DIA_ATENCION]
 )
 GO
 
-create table [CLINICA].[TURNO]
+create table [NN_NN].[TURNO]
 (
 	numero [int] not null,
 	fecha [datetime] not null,
@@ -128,7 +128,7 @@ create table [CLINICA].[TURNO]
 )
 GO
 
-create table [CLINICA].[ESPECIALIDAD_MEDICA]
+create table [NN_NN].[ESPECIALIDAD_MEDICA]
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null,
@@ -136,7 +136,7 @@ create table [CLINICA].[ESPECIALIDAD_MEDICA]
 )
 GO
 
-create table [CLINICA].[TIPO_ESPECIALIDAD_MEDICA]
+create table [NN_NN].[TIPO_ESPECIALIDAD_MEDICA]
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null
@@ -149,8 +149,8 @@ GO
 *                    CONSTRAINT                                                          *
 **************************************************************************************/
 
---ALTER TABLE [CLINICA].[AFILIADO] ADD CONSTRAINT pk_nro_afiliado PRIMARY KEY(nro_afiliado);
---ALTER TABLE [CLINICA].[PLAN] ADD CONSTRAINT pk_codigo PRIMARY KEY(codigo);
+--ALTER TABLE [NN_NN].[AFILIADO] ADD CONSTRAINT pk_nro_afiliado PRIMARY KEY(nro_afiliado);
+--ALTER TABLE [NN_NN].[PLAN] ADD CONSTRAINT pk_codigo PRIMARY KEY(codigo);
 
 /*************************************************************************************
 *                    MIGRATION                                                          *
@@ -162,27 +162,27 @@ GO
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	[NN_NN].[ESTADO_CIVIL] (descripcion)
 VALUES 
 	('single')
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	[NN_NN].[ESTADO_CIVIL] (descripcion)
 VALUES 
 	('married')
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	[NN_NN].[ESTADO_CIVIL] (descripcion)
 VALUES 
 	('widower')
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	[NN_NN].[ESTADO_CIVIL] (descripcion)
 VALUES 
 	('concubinage')
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	[NN_NN].[ESTADO_CIVIL] (descripcion)
 VALUES 
 	('divorced')
 GO
@@ -192,7 +192,7 @@ GO
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, fecha_nac, telefono, mail, codigo_plan)
+	[NN_NN].[AFILIADO](apellido, nombre, dni, direccion, fecha_nac, telefono, mail, codigo_plan)
 SELECT DISTINCT top 2000
 	Paciente_Apellido, Paciente_Nombre, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo 
 FROM 
@@ -208,13 +208,13 @@ GO
 -- bonos consulta no usados
 
 INSERT INTO 
-	[CLINICA].[BONO_CONSULTA](fecha_compra, numero_consulta, fecha_impresion, numero_afiliado)
+	[NN_NN].[BONO_CONSULTA](fecha_compra, numero_consulta, fecha_impresion, numero_afiliado)
 SELECT DISTINCT 
 	 M.Compra_Bono_Fecha, M.Bono_Consulta_Numero, M.Bono_Consulta_Fecha_Impresion, A.nro_afiliado
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
-	[CLINICA].[AFILIADO] A	
+	[NN_NN].[AFILIADO] A	
 ON
 	M.Paciente_Dni=A.dni
 WHERE 
@@ -226,13 +226,13 @@ WHERE
 	
 -- bonos farmacia no usados
 INSERT INTO 
-	[CLINICA].[BONO_FARMACIA](fecha_compra, numero_farmacia, fecha_impresion, numero_afiliado)
+	[NN_NN].[BONO_FARMACIA](fecha_compra, numero_farmacia, fecha_impresion, numero_afiliado)
 SELECT DISTINCT 
 	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.nro_afiliado
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
-	[CLINICA].[AFILIADO] A	
+	[NN_NN].[AFILIADO] A	
 ON
 	M.Paciente_Dni=A.dni
 WHERE 
@@ -249,14 +249,14 @@ WHERE
 *                    MEDICAMENTOS                     *
 *******************************************************/
 INSERT INTO 
-	[CLINICA].[MEDICAMENTO](descripcion, bono_farmacia_numero)
+	[NN_NN].[MEDICAMENTO](descripcion, bono_farmacia_numero)
 
 SELECT DISTINCT 
 	 M.Bono_Farmacia_Medicamento, M.Bono_Farmacia_Numero
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
-	[CLINICA].[AFILIADO] A	
+	[NN_NN].[AFILIADO] A	
 ON
 	M.Paciente_Dni=A.dni
 WHERE 
@@ -268,7 +268,7 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[PLAN](codigo, descripcion, precio_bono_consulta, precio_bono_farmacia)
+	[NN_NN].[PLAN](codigo, descripcion, precio_bono_consulta, precio_bono_farmacia)
 SELECT DISTINCT  
 	Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
 FROM 
@@ -279,7 +279,7 @@ FROM
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[PROFESIONAL](apellido, nombre, dni, direccion, fecha_nac, telefono, mail)
+	[NN_NN].[PROFESIONAL](apellido, nombre, dni, direccion, fecha_nac, telefono, mail)
 SELECT DISTINCT 
 	Medico_Apellido, Medico_Nombre, Medico_Dni, Medico_Direccion, Medico_Fecha_Nac, Medico_Telefono, Medico_Mail 
 FROM 
@@ -300,7 +300,7 @@ GO
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[TIPO_ESPECIALIDAD_MEDICA](codigo, descripcion)
+	[NN_NN].[TIPO_ESPECIALIDAD_MEDICA](codigo, descripcion)
 SELECT DISTINCT 
 	Tipo_Especialidad_Codigo, Tipo_Especialidad_Descripcion
 FROM 
@@ -315,7 +315,7 @@ GO
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[ESPECIALIDAD_MEDICA](codigo, descripcion, codigo_tipo_especialidad_medica)
+	[NN_NN].[ESPECIALIDAD_MEDICA](codigo, descripcion, codigo_tipo_especialidad_medica)
 SELECT DISTINCT 
 	Especialidad_Codigo, Especialidad_Descripcion, Tipo_Especialidad_Codigo
 FROM 
@@ -332,7 +332,7 @@ GO
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[TURNO](numero, fecha, dni_profesional, dni_afiliado)
+	[NN_NN].[TURNO](numero, fecha, dni_profesional, dni_afiliado)
 SELECT DISTINCT   
 	Turno_Numero, Turno_Fecha, Medico_Dni, Paciente_Dni
 FROM 
