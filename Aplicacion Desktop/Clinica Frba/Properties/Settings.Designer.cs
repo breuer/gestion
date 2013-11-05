@@ -25,8 +25,8 @@ namespace Clinica_Frba.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\\\\SQLSERVER2008;Initial Catalog=GD2C2013;User ID=gd;Password" +
-            "=2013")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\\SQLSERVER2008;Initial Catalog=GD2C2013;User ID=gd;Password=" +
+            "gd2013")]
         public string dbConnectionString {
             get {
                 return ((string)(this["dbConnectionString"]));

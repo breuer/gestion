@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="dbConnectionString" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Data Source=localhost\\SQLSERVER2008;Initial Catalog=GD2C2013;User ID=gd;Password=2013</Value>
+      <Value Profile="(Default)">Data Source=localhost\SQLSERVER2008;Initial Catalog=GD2C2013;User ID=gd;Password=gd2013</Value>
     </Setting>
     <Setting Name="fechaConfig" Type="System.String" Scope="Application">
       <Value Profile="(Default)">2009/02/26 18:37:58</Value>
