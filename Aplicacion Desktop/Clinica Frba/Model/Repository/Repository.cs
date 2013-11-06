@@ -38,9 +38,8 @@ namespace Clinica_Frba.Model.Repository
                     sqlCommand.Dispose();
                 }
             }
-            
-            
         }
+
         public DataTable listar(String spName, List<SqlParameter> parametros)
         {
             using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.dbConnectionString))
