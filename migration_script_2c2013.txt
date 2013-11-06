@@ -3,7 +3,7 @@
 
 use [GD2C2013]
 GO
---select top 1000 * FROM gd_esquema.Maestra
+
 CREATE SCHEMA CLINICA
 GO
 
@@ -13,93 +13,87 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
--- clean:
 
---use [GD2C2013]
---GO
-
---drop table [CLINICA].[PLAN]
---GO
---drop table [CLINICA].[AFILIADO]
---GO
 --drop schema CLINICA
 
 /*************************************************************************************
 *                    TABLES                                                          *
 **************************************************************************************/
 
-create table [CLINICA].[AFILIADO]
+CREATE TABLE [CLINICA].[AFILIADO]
 (
-	nro_afiliado [int] identity(1,1) not null,
-	nro_discriminador [int], 
+	numero [int] identity(1,1) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
 	dni [int] not null,
 	direccion [varchar] (255) not null,
-	codigo_estado_civil [int],
+	cod_estado_civil [int],
 	fecha_nac [datetime] not null,
 	telefono [int] not null,
 	mail [varchar] (255) not null,
 	cantidad_hijos [int],
 	fecha_baja [datetime],
-	codigo_plan [int] not null
+	cod_plan [int] not null,
+	enable [varchar] (1)
+	--tipo_afiliado [int] not null
 )
-GO
 
-create table [CLINICA].[ESTADO_CIVIL]
+
+CREATE TABLE [CLINICA].[ESTADO_CIVIL]
 (
 	codigo [int]identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
-GO
 
-create table [CLINICA].[CAMBIO_PLAN]
+
+CREATE TABLE [CLINICA].[CAMBIO_PLAN]
 (
 	fecha_modificaion [datetime] not null,
-	motivo [varchar] (255) not null
+	motivo [varchar] (255) not null,
+	nro_afiliado [int] not null
 )
-GO
 
-create table [CLINICA].[PLAN]
+
+CREATE TABLE [CLINICA].[PLAN]
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null,
 	precio_bono_consulta  [int] not null,
 	precio_bono_farmacia [int] not null
 )
-GO
 
-create table [CLINICA].[BONO_CONSULTA]
+
+CREATE TABLE [CLINICA].[BONO_CONSULTA]
 (
 	fecha_compra [datetime],
 	numero [int],
-	numero_consulta [int],
+	--numero_consulta [int],
 	fecha_impresion [datetime],
-	numero_afiliado [int] not null
+	nro_afiliado [int] not null
 )
-GO
 
-create table [CLINICA].[BONO_FARMACIA]
+
+CREATE TABLE [CLINICA].[BONO_FARMACIA]
 (
 	fecha_compra [datetime],
 	numero [int],
-	numero_farmacia [int],
 	fecha_impresion [datetime],
 	fecha_vencimiento [datetime],
-	numero_afiliado [int] not null
+	nro_afiliado [int] not null
 )
-GO
 
-create table [CLINICA].[MEDICAMENTO]
+
+CREATE TABLE [CLINICA].[MEDICAMENTO]
 (
 	descripcion [varchar] (255) not null,
-	bono_farmacia_numero [int] not null
+	nro_bono_farmacia [int] not null
 )
-GO
 
 
-create table [CLINICA].[PROFESIONAL]
+
+CREATE TABLE [CLINICA].[PROFESIONAL]
 (
+	numero [int] identity(1,1) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
 	dni [int] not null,
@@ -108,17 +102,47 @@ create table [CLINICA].[PROFESIONAL]
 	telefono [int] not null,
 	mail [varchar] (255) not null
 )
-GO
 
-create table [CLINICA].[DIA_ATENCION]
+
+CREATE TABLE [CLINICA].[DIA_ATENCION]
 (
-	dia [varchar] (255) not null,
+	codigo_dia [int] not null,
 	hora_fin [int] not null,
-	hora_inicio [int] not null
+	hora_inicio [int] not null,
+	nro_profesional [int] not null
 )
-GO
 
-create table [CLINICA].[TURNO]
+
+CREATE TABLE [CLINICA].[DIA]
+(
+	codigo [int] identity(1,1) not null,
+	descripcion [varchar] (255) not null
+)
+
+
+CREATE TABLE [CLINICA].[PROFESIONAL_ESPECIALIDAD]
+(
+	nro_profesional [int] not null,
+	cod_especialidad [int] not null
+)
+
+
+CREATE TABLE [CLINICA].[ESPECIALIDAD]
+(
+	codigo [int] not null,
+	descripcion [varchar] (255) not null,
+	cod_tipo_especialidad [int] not null
+)
+
+
+CREATE TABLE [CLINICA].[TIPO_ESPECIALIDAD]
+(
+	codigo [int] not null,
+	descripcion [varchar] (255) not null
+)
+
+
+CREATE TABLE [CLINICA].[TURNO]
 (
 	numero [int] not null,
 	fecha [datetime] not null,
@@ -126,22 +150,33 @@ create table [CLINICA].[TURNO]
 	dni_afiliado [int] not null,
 	dni_profesional [int] not null
 )
-GO
 
-create table [CLINICA].[ESPECIALIDAD_MEDICA]
-(
-	codigo [int] not null,
-	descripcion [varchar] (255) not null,
-	codigo_tipo_especialidad_medica [int] not null
-)
-GO
 
-create table [CLINICA].[TIPO_ESPECIALIDAD_MEDICA]
+CREATE TABLE [CLINICA].[CANCELACION_TURNO]
 (
-	codigo [int] not null,
-	descripcion [varchar] (255) not null
+	motivo [varchar] (255) not null,
+	nro_turno [int] not null,
+	--tipo_cancelacion [int] not null
 )
-GO
+
+
+
+CREATE TABLE [CLINICA].[CONSULTA]
+(
+	diagnostico [varchar] (255) not null,
+	sintomas [varchar] (255) not null,
+	fecha_atencion [datetime],
+	nro_bono_consulta [int] not null,
+	nro_turno [int] not null
+)
+
+
+CREATE TABLE [CLINICA].[CONSULTA_BONO_FARMACIA]
+(
+	nro_bono_farmacia [int] not null,
+	nro_turno [int] not null,
+	nro_bono_consulta [int] not null
+)
 
 
 
@@ -185,19 +220,54 @@ INSERT INTO
 	[CLINICA].[ESTADO_CIVIL] (descripcion)
 VALUES 
 	('divorced')
-GO
+
+
+/******************************************************
+*                    DIA                              *
+*******************************************************/
+
+INSERT INTO 
+	[CLINICA].[DIA] (descripcion)
+VALUES 
+	('monday')
+
+INSERT INTO 
+	[CLINICA].[DIA] (descripcion)
+VALUES 
+	('tuesday')
+
+INSERT INTO 
+	[CLINICA].[DIA] (descripcion)
+VALUES 
+	('wednesday')
+
+INSERT INTO 
+	[CLINICA].[DIA] (descripcion)
+VALUES 
+	('thursday')
+
+INSERT INTO 
+	[CLINICA].[DIA] (descripcion)
+VALUES 
+	('friday')
+
+INSERT INTO 
+	[CLINICA].[DIA] (descripcion)
+VALUES 
+	('saturday')
+
 
 /******************************************************
 *                    AFILIADO                         *
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, fecha_nac, telefono, mail, codigo_plan)
-SELECT DISTINCT top 2000
+	[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, fecha_nac, telefono, mail,  cod_plan)
+SELECT DISTINCT 
 	Paciente_Apellido, Paciente_Nombre, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo 
 FROM 
 	gd_esquema.Maestra
-GO
+
 
 /******************************************************
 *                    BONOS                            *
@@ -205,14 +275,15 @@ GO
 
 -- turno -> compra bono consulta ó compra bono farmacia -> medicamento
 
--- bonos consulta no usados
+-- bonos consulta
 
 INSERT INTO 
-	[CLINICA].[BONO_CONSULTA](fecha_compra, numero_consulta, fecha_impresion, numero_afiliado)
+	[CLINICA].[BONO_CONSULTA](fecha_compra, numero, fecha_impresion, nro_afiliado)
 SELECT DISTINCT 
-	 M.Compra_Bono_Fecha, M.Bono_Consulta_Numero, M.Bono_Consulta_Fecha_Impresion, A.nro_afiliado
+	 M.Compra_Bono_Fecha, M.Bono_Consulta_Numero, M.Bono_Consulta_Fecha_Impresion, A.numero
 FROM 
 	gd_esquema.Maestra M
+--order by M.Bono_Consulta_Numero
 INNER JOIN
 	[CLINICA].[AFILIADO] A	
 ON
@@ -224,11 +295,11 @@ WHERE
 --	A.nro_afiliado
 	
 	
--- bonos farmacia no usados
+-- bonos farmacia 
 INSERT INTO 
-	[CLINICA].[BONO_FARMACIA](fecha_compra, numero_farmacia, fecha_impresion, numero_afiliado)
+	[CLINICA].[BONO_FARMACIA](fecha_compra, numero, fecha_impresion, nro_afiliado)
 SELECT DISTINCT 
-	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.nro_afiliado
+	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.numero
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
@@ -244,12 +315,39 @@ WHERE
 /******************************************************
 *                    CONSULTA                         *
 *******************************************************/
+INSERT INTO 
+	[CLINICA].[CONSULTA](nro_bono_consulta, diagnostico, sintomas, nro_turno)
+SELECT DISTINCT 
+	 M.Bono_Consulta_Numero, M.Consulta_Enfermedades, M.Consulta_Sintomas, M.Turno_Numero 
+FROM 
+	gd_esquema.Maestra M
+where
+	M.Bono_Consulta_Numero is not null and 
+	M.Consulta_Enfermedades is not null and 
+	M.Consulta_Sintomas is not null
+--order by M.Bono_Consulta_Numero
+
+/******************************************************
+*                    CONSULTA_BONO_FARMACIA           *
+*******************************************************/
+INSERT INTO 
+	[CLINICA].[CONSULTA_BONO_FARMACIA](nro_bono_consulta, nro_bono_farmacia, nro_turno)
+SELECT DISTINCT 
+	 M.Bono_Consulta_Numero, M.Bono_Farmacia_Numero, M.Turno_Numero 
+FROM 
+	gd_esquema.Maestra M
+where
+	M.Bono_Consulta_Numero is not null and 
+	M.Consulta_Enfermedades is not null and 
+	M.Consulta_Sintomas is not null
+--order by M.Bono_Consulta_Numero
+
 
 /******************************************************
 *                    MEDICAMENTOS                     *
 *******************************************************/
 INSERT INTO 
-	[CLINICA].[MEDICAMENTO](descripcion, bono_farmacia_numero)
+	[CLINICA].[MEDICAMENTO](descripcion, nro_bono_farmacia)
 
 SELECT DISTINCT 
 	 M.Bono_Farmacia_Medicamento, M.Bono_Farmacia_Numero
@@ -292,30 +390,29 @@ WHERE
 	Medico_Fecha_Nac IS NOT NULL AND
 	Medico_Telefono IS NOT NULL AND
 	Medico_Mail IS NOT NULL
-	--COALESCE(Medico_Apellido, Medico_Nombre, Medico_Dni, Medico_Direccion, Medico_Telefono, Medico_Mail) IS NOT NULL
-GO
+
 
 /******************************************************
 *                    TIPO_ESPECIALIDAD_MEDICA         *
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[TIPO_ESPECIALIDAD_MEDICA](codigo, descripcion)
+	[CLINICA].[TIPO_ESPECIALIDAD](codigo, descripcion)
 SELECT DISTINCT 
-	Tipo_Especialidad_Codigo, Tipo_Especialidad_Descripcion
+	M.Tipo_Especialidad_Codigo, M.Tipo_Especialidad_Descripcion
 FROM 
-	gd_esquema.Maestra
+	gd_esquema.Maestra M
 WHERE
 	Tipo_Especialidad_Codigo IS NOT NULL AND
 	Tipo_Especialidad_Descripcion IS NOT NULL
-GO
+
 
 /******************************************************
 *                    ESPECIALIDAD_MEDICA              *
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[ESPECIALIDAD_MEDICA](codigo, descripcion, codigo_tipo_especialidad_medica)
+	[CLINICA].[ESPECIALIDAD](codigo, descripcion, cod_tipo_especialidad)
 SELECT DISTINCT 
 	Especialidad_Codigo, Especialidad_Descripcion, Tipo_Especialidad_Codigo
 FROM 
@@ -324,7 +421,6 @@ WHERE
 	Especialidad_Codigo IS NOT NULL AND
 	Especialidad_Descripcion IS NOT NULL AND
 	Tipo_Especialidad_Codigo IS NOT NULL
-GO	
 
 	
 /******************************************************
