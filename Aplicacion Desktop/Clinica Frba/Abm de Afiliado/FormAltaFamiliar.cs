@@ -7,18 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Clinica_Frba.NewFolder15
+namespace Clinica_Frba.Abm_de_Afiliado
 {
-    public partial class Form1 : Form
+    public partial class FormAltaFamiliar : Form
     {
-        public Form1()
+        public FormAltaFamiliar()
         {
             InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

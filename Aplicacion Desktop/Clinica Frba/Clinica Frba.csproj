@@ -48,6 +48,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abm de Afiliado\FormAltaFamiliar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\FormAltaFamiliar.Designer.cs">
+      <DependentUpon>FormAltaFamiliar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Afiliado\FormSearchAfiliado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\FormSearchAfiliado.Designer.cs">
+      <DependentUpon>FormSearchAfiliado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Especialidades Medicas\FormSearchEspecialidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Especialidades Medicas\FormSearchEspecialidad.Designer.cs">
+      <DependentUpon>FormSearchEspecialidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Planes\FormSearchPlanes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Planes\FormSearchPlanes.Designer.cs">
+      <DependentUpon>FormSearchPlanes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\EAccionSearch.cs" />
+    <Compile Include="Base\FormSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\FormSearch.Designer.cs">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EspecialidaMedica.cs" />
+    <Compile Include="Model\PlanMedico.cs" />
+    <Compile Include="Model\Repository\EspecialidadMedicaRepository.cs" />
+    <Compile Include="Model\Repository\PlanMedicoRepository.cs" />
+    <Compile Include="Model\Repository\Repository.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,23 +102,24 @@
     <Compile Include="Login\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\TipoEspecialidadMedica.cs" />
     <Compile Include="Registro de Usuario\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Registro de Usuario\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm de Afiliado\Form1.cs">
+    <Compile Include="Abm de Afiliado\FormAltaAfiliado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm de Afiliado\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Abm de Afiliado\FormAltaAfiliado.Designer.cs">
+      <DependentUpon>FormAltaAfiliado.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm de Profesional\Form1.cs">
+    <Compile Include="Abm de Profesional\FormAltaProfesional.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm de Profesional\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Abm de Profesional\FormAltaProfesional.Designer.cs">
+      <DependentUpon>FormAltaProfesional.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm de Especialidades Medicas\Form1.cs">
       <SubType>Form</SubType>
@@ -146,6 +189,36 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Abm de Afiliado\FormAltaAfiliado.resx">
+      <DependentUpon>FormAltaAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Afiliado\FormAltaFamiliar.resx">
+      <DependentUpon>FormAltaFamiliar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Afiliado\FormSearchAfiliado.resx">
+      <DependentUpon>FormSearchAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Especialidades Medicas\FormSearchEspecialidad.resx">
+      <DependentUpon>FormSearchEspecialidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Planes\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Planes\FormSearchPlanes.resx">
+      <DependentUpon>FormSearchPlanes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\FormAltaProfesional.resx">
+      <DependentUpon>FormAltaProfesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\FormSearch.resx">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -155,6 +228,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
