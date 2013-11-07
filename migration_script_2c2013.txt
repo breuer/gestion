@@ -20,7 +20,7 @@ GO
 *                    TABLES                                                          *
 **************************************************************************************/
 
-CREATE TABLE [CLINICA].[AFILIADO]
+create table [CLINICA].[AFILIADO]
 (
 	numero [int] identity(1,1) not null,
 	apellido [varchar] (255) not null,
@@ -28,7 +28,7 @@ CREATE TABLE [CLINICA].[AFILIADO]
 	dni [int] not null,
 	direccion [varchar] (255) not null,
 	cod_estado_civil [int],
-	fecha_nac [datetime] not null,
+	fecha_nac [datetime],
 	telefono [int] not null,
 	mail [varchar] (255) not null,
 	cantidad_hijos [int],
@@ -39,14 +39,14 @@ CREATE TABLE [CLINICA].[AFILIADO]
 )
 
 
-CREATE TABLE [CLINICA].[ESTADO_CIVIL]
+create table [CLINICA].[ESTADO_CIVIL]
 (
 	codigo [int]identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
 
 
-CREATE TABLE [CLINICA].[CAMBIO_PLAN]
+create table [CLINICA].[CAMBIO_PLAN]
 (
 	fecha_modificaion [datetime] not null,
 	motivo [varchar] (255) not null,
@@ -54,7 +54,7 @@ CREATE TABLE [CLINICA].[CAMBIO_PLAN]
 )
 
 
-CREATE TABLE [CLINICA].[PLAN]
+create table [CLINICA].[PLAN]
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null,
@@ -63,27 +63,27 @@ CREATE TABLE [CLINICA].[PLAN]
 )
 
 
-CREATE TABLE [CLINICA].[BONO_CONSULTA]
+create table [CLINICA].[BONO_CONSULTA]
 (
 	fecha_compra [datetime],
 	numero [int],
 	--numero_consulta [int],
 	fecha_impresion [datetime],
-	nro_afiliado [int] not null
+	nro_afiliado [int]
 )
 
 
-CREATE TABLE [CLINICA].[BONO_FARMACIA]
+create table [CLINICA].[BONO_FARMACIA]
 (
 	fecha_compra [datetime],
 	numero [int],
 	fecha_impresion [datetime],
 	fecha_vencimiento [datetime],
-	nro_afiliado [int] not null
+	nro_afiliado [int]
 )
 
 
-CREATE TABLE [CLINICA].[MEDICAMENTO]
+create table [CLINICA].[MEDICAMENTO]
 (
 	descripcion [varchar] (255) not null,
 	nro_bono_farmacia [int] not null
@@ -91,20 +91,21 @@ CREATE TABLE [CLINICA].[MEDICAMENTO]
 
 
 
-CREATE TABLE [CLINICA].[PROFESIONAL]
+create table [CLINICA].[PROFESIONAL]
 (
 	numero [int] identity(1,1) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
 	dni [int] not null,
 	direccion [varchar] (255) not null,
-	fecha_nac [datetime] not null,
+	fecha_nac [datetime],
 	telefono [int] not null,
+	enable [varchar] (1),
 	mail [varchar] (255) not null
 )
 
 
-CREATE TABLE [CLINICA].[DIA_ATENCION]
+create table [CLINICA].[DIA_ATENCION]
 (
 	codigo_dia [int] not null,
 	hora_fin [int] not null,
@@ -113,21 +114,21 @@ CREATE TABLE [CLINICA].[DIA_ATENCION]
 )
 
 
-CREATE TABLE [CLINICA].[DIA]
+create table [CLINICA].[DIA]
 (
 	codigo [int] identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
 
 
-CREATE TABLE [CLINICA].[PROFESIONAL_ESPECIALIDAD]
+create table [CLINICA].[PROFESIONAL_ESPECIALIDAD]
 (
 	nro_profesional [int] not null,
 	cod_especialidad [int] not null
 )
 
 
-CREATE TABLE [CLINICA].[ESPECIALIDAD]
+create table [CLINICA].[ESPECIALIDAD]
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null,
@@ -135,14 +136,14 @@ CREATE TABLE [CLINICA].[ESPECIALIDAD]
 )
 
 
-CREATE TABLE [CLINICA].[TIPO_ESPECIALIDAD]
+create table [CLINICA].[TIPO_ESPECIALIDAD]
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null
 )
 
 
-CREATE TABLE [CLINICA].[TURNO]
+create table [CLINICA].[TURNO]
 (
 	numero [int] not null,
 	fecha [datetime] not null,
@@ -152,7 +153,7 @@ CREATE TABLE [CLINICA].[TURNO]
 )
 
 
-CREATE TABLE [CLINICA].[CANCELACION_TURNO]
+create table [CLINICA].[CANCELACION_TURNO]
 (
 	motivo [varchar] (255) not null,
 	nro_turno [int] not null,
@@ -161,7 +162,7 @@ CREATE TABLE [CLINICA].[CANCELACION_TURNO]
 
 
 
-CREATE TABLE [CLINICA].[CONSULTA]
+create table [CLINICA].[CONSULTA]
 (
 	diagnostico [varchar] (255) not null,
 	sintomas [varchar] (255) not null,
@@ -171,7 +172,7 @@ CREATE TABLE [CLINICA].[CONSULTA]
 )
 
 
-CREATE TABLE [CLINICA].[CONSULTA_BONO_FARMACIA]
+create table [CLINICA].[CONSULTA_BONO_FARMACIA]
 (
 	nro_bono_farmacia [int] not null,
 	nro_turno [int] not null,
@@ -264,7 +265,7 @@ VALUES
 INSERT INTO 
 	[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, fecha_nac, telefono, mail,  cod_plan)
 SELECT DISTINCT 
-	Paciente_Apellido, Paciente_Nombre, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo 
+	Paciente_Apellido, Paciente_Nombre, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
 FROM 
 	gd_esquema.Maestra
 
@@ -439,3 +440,192 @@ WHERE
 	Medico_Dni IS NOT NULL AND
 	Paciente_Dni IS NOT NULL
 
+GO
+/******************************************************
+*                    STORE PROCEDURES                 *
+*******************************************************/
+
+/******************************************************
+*                    ADD AFILIADO                     *
+*******************************************************/
+
+CREATE PROCEDURE 
+	[CLINICA].SP_ADD_AFILIADO (@apellido varchar(255), @nombre varchar(255), 
+	@dni int, @direccion varchar(255), @telefono int, @mail varchar(255),
+	@cod_plan int)
+AS
+BEGIN 
+	INSERT INTO 
+		[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, telefono, mail,  cod_plan)
+	VALUES 
+		(@nombre, @apellido, @dni, @direccion, @telefono, @mail, @cod_plan)
+END
+GO
+
+/******************************************************
+*                    ADD PROFESIONAL                  *
+*******************************************************/
+
+CREATE PROCEDURE 
+	[CLINICA].SP_ADD_PROFESIONAL (@apellido varchar(255), @nombre varchar(255), 
+	@dni int, @direccion varchar(255), @telefono int, @mail varchar(255),
+	@cod_plan int)
+AS
+BEGIN 
+	INSERT INTO 
+		[CLINICA].[PROFESIONAL](apellido, nombre, dni, direccion, telefono, mail)
+	VALUES 
+		(@nombre, @apellido, @dni, @direccion, @telefono, @mail)
+END
+GO
+
+/******************************************************
+*                    ADD ESPECIALIDAD TO PROFESIONAL  *
+*******************************************************/
+
+CREATE PROCEDURE 
+	[CLINICA].SP_ADD_ESPECIALIDAD (@nro_profesional int, @cod_especialidad int)
+AS
+BEGIN 
+	INSERT INTO 
+		[CLINICA].[PROFESIONAL_ESPECIALIDAD](nro_profesional, cod_especialidad)
+	VALUES 
+		(@nro_profesional, @cod_especialidad)
+END
+GO
+
+/******************************************************
+*                    AGENDA PROFESIONAL               *
+*******************************************************/
+
+CREATE PROCEDURE 
+	[CLINICA].SP_ADD_DIA_ATENCION (@codigo_dia int, @nro_profesional int) AS
+BEGIN 
+	INSERT INTO 
+		[CLINICA].[DIA_ATENCION](codigo_dia, nro_profesional)
+	VALUES 
+		(@codigo_dia, @nro_profesional)
+END
+GO
+
+/******************************************************
+*                    BONOS                            *
+*******************************************************/
+CREATE PROCEDURE 
+	[CLINICA].SP_ADD_BONO_CONSULTA AS
+BEGIN 
+	DECLARE @max_nro int = ( 
+		SELECT 
+			MAX(B.numero)
+		FROM
+			[CLINICA].[BONO_CONSULTA] B
+		WHERE
+			B.nro_afiliado IS NULL
+	)
+	IF (@max_nro is null)
+	begin
+		set @max_nro = 0
+	end
+	INSERT INTO 
+		[CLINICA].[BONO_CONSULTA](numero ,fecha_impresion)
+	VALUES 
+		(@max_nro + 1, GETDATE())
+END
+GO
+
+CREATE PROCEDURE 
+	[CLINICA].SP_ADD_BONO_FARMACIA AS
+BEGIN
+	DECLARE @max_nro int = ( 
+		SELECT 
+			MAX(B.numero)
+		FROM
+			[CLINICA].[BONO_FARMACIA] B
+		WHERE
+			B.nro_afiliado IS NULL
+	)
+	IF (@max_nro is null)
+	begin
+		set @max_nro = 0
+	end 
+	INSERT INTO 
+		[CLINICA].[BONO_FARMACIA](numero,fecha_impresion)
+	VALUES 
+		(@max_nro + 1, GETDATE())
+END
+GO
+
+CREATE PROCEDURE 
+	[CLINICA].SP_BUY_BONO_CONSULTA (@nro_afiliado int) AS
+BEGIN
+	DECLARE @nro int = ( 
+		SELECT TOP 1
+			B.numero
+		FROM
+			[CLINICA].[BONO_CONSULTA] B
+		WHERE
+			B.nro_afiliado IS NULL
+	)
+	IF (@nro IS NOT NULL)
+	BEGIN
+		UPDATE [CLINICA].[BONO_CONSULTA]
+		SET 
+			nro_afiliado = @nro_afiliado, 
+			fecha_compra = GETDATE()
+		WHERE
+			numero = @nro
+	END
+END
+GO
+
+CREATE PROCEDURE 
+	[CLINICA].SP_BUY_BONO_FARMACIA (@nro_afiliado int)
+AS
+BEGIN 
+	DECLARE @nro int = ( 
+		SELECT TOP 1
+			B.numero
+		FROM
+			[CLINICA].[BONO_FARMACIA] B
+		WHERE
+			B.nro_afiliado IS NULL
+	)
+	IF (@nro IS NOT NULL)
+	BEGIN
+		UPDATE [CLINICA].[BONO_FARMACIA]
+		SET 
+			nro_afiliado = @nro_afiliado, 
+			fecha_compra = GETDATE()
+		WHERE
+			numero = @nro
+	END
+END
+GO
+
+/******************************************************
+*                    ATENCION MEDICA                  *
+*******************************************************/
+/*
+CREATE PROCEDURE 
+	[CLINICA].SP_LLEGADA_ATENCION_MEDICA (@nro_afiliado int, @nro_profesional int)
+AS
+BEGIN 
+	DECLARE @nro int = ( 
+		SELECT TOP 1
+			B.numero
+		FROM
+			[CLINICA].[BONO_FARMACIA] B
+		WHERE
+			B.nro_afiliado IS NULL
+	)
+	IF (@nro IS NOT NULL)
+	BEGIN
+		UPDATE [CLINICA].[BONO_FARMACIA]
+		SET 
+			nro_afiliado = @nro_afiliado, 
+			fecha_compra = GETDATE()
+		WHERE
+			numero = @nro
+	END
+END
+*/
