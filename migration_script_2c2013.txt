@@ -104,13 +104,20 @@ create table [CLINICA].[PROFESIONAL]
 	mail [varchar] (255) not null
 )
 
+create table [CLINICA].[AGENDA]
+(
+	numero [int] identity(1,1) not null,
+	fecha_fin [date] not null,
+	fecha_inicio [date] not null,
+	nro_profesional [int] not null
+)
 
 create table [CLINICA].[DIA_ATENCION]
 (
 	codigo_dia [int] not null,
-	hora_fin [int] not null,
-	hora_inicio [int] not null,
-	nro_profesional [int] not null
+	hora_fin [time] not null,
+	hora_inicio [time] not null,
+	nro_agenda [int] not null
 )
 
 
@@ -149,7 +156,8 @@ create table [CLINICA].[TURNO]
 	fecha [datetime] not null,
 	fecha_llegada [datetime],
 	dni_afiliado [int] not null,
-	dni_profesional [int] not null
+	dni_profesional [int] not null,
+	nro_day [int] not null
 )
 
 
@@ -226,7 +234,11 @@ VALUES
 /******************************************************
 *                    DIA                              *
 *******************************************************/
-
+INSERT INTO 
+	[CLINICA].[DIA] (descripcion)
+VALUES 
+	('sunday')
+	
 INSERT INTO 
 	[CLINICA].[DIA] (descripcion)
 VALUES 
@@ -429,9 +441,9 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[TURNO](numero, fecha, dni_profesional, dni_afiliado)
+	[CLINICA].[TURNO](numero, fecha, dni_profesional, dni_afiliado, nro_day)
 SELECT DISTINCT   
-	Turno_Numero, Turno_Fecha, Medico_Dni, Paciente_Dni
+	Turno_Numero, Turno_Fecha, Medico_Dni, Paciente_Dni, datepart(dw,Turno_Fecha)
 FROM 
 	gd_esquema.Maestra
 WHERE
@@ -441,6 +453,82 @@ WHERE
 	Paciente_Dni IS NOT NULL
 
 GO
+
+/******************************************************
+*                    AGENDA MEDICA                    *
+*******************************************************/
+
+-- AGENDA MAX DATE MIN DATE BY PROFESIONAL
+
+INSERT INTO
+	[CLINICA].[AGENDA] (nro_profesional, fecha_fin, fecha_inicio )
+SELECT 
+	P.numero, MAX(CONVERT(date,M.Turno_Fecha) ) as fecha_max, DATEADD(DAY, -120,MAX(CONVERT(date,M.Turno_Fecha))) as fecha_min
+FROM 
+	GD2C2013.gd_esquema.Maestra M
+JOIN
+	GD2C2013.CLINICA.PROFESIONAL P
+ON
+	M.Medico_Dni = P.dni
+GROUP BY P.numero
+
+
+-- DAY IN AGENDA MAX TIME MIN TIME BY PROFESIONAL
+
+INSERT INTO
+	[CLINICA].[DIA_ATENCION] (codigo_dia, nro_agenda, hora_fin, hora_inicio)
+select 
+	D.codigo as dia, A.numero as nro_agenda, MAX(CONVERT(time,M.Turno_Fecha) ) as hora_max, MIN(CONVERT(time,M.Turno_Fecha) ) as hora_min
+FROM 
+	GD2C2013.gd_esquema.Maestra M
+INNER JOIN
+	GD2C2013.CLINICA.PROFESIONAL P
+ON 
+	P.dni = M.Medico_Dni
+INNER JOIN
+	GD2C2013.CLINICA.AGENDA A
+ON
+	A.nro_profesional = P.numero
+INNER JOIN
+	GD2C2013.CLINICA.DIA D
+ON
+	datepart(dw,M.Turno_Fecha) = D.codigo
+	
+WHERE
+	M.Turno_Fecha >= A.fecha_inicio AND
+	datepart(dw,M.Turno_Fecha) != 1 -- SUNDAY
+	
+GROUP BY
+	A.numero, D.codigo
+--ORDER BY D.codigo, A.numero
+	
+GO	
+
+-- MONDAY = 2
+/*
+select 
+	2, A.numero, MAX(CONVERT(time,M.Turno_Fecha) ) as hora_max, MIN(CONVERT(time,M.Turno_Fecha) ) as hora_min
+FROM 
+	GD2C2013.gd_esquema.Maestra M
+INNER JOIN
+	GD2C2013.CLINICA.PROFESIONAL P
+ON 
+	P.dni = M.Medico_Dni
+INNER JOIN
+	GD2C2013.CLINICA.AGENDA A
+ON
+	A.nro_profesional = P.numero
+WHERE
+	M.Turno_Fecha >= A.fecha_inicio AND
+	datepart(dw,M.Turno_Fecha) = 2
+GROUP BY
+	A.numero
+*/
+
+
+
+
+
 /******************************************************
 *                    STORE PROCEDURES                 *
 *******************************************************/
@@ -497,7 +585,7 @@ GO
 /******************************************************
 *                    AGENDA PROFESIONAL               *
 *******************************************************/
-
+/*
 CREATE PROCEDURE 
 	[CLINICA].SP_ADD_DIA_ATENCION (@codigo_dia int, @nro_profesional int) AS
 BEGIN 
@@ -507,6 +595,7 @@ BEGIN
 		(@codigo_dia, @nro_profesional)
 END
 GO
+*/
 
 /******************************************************
 *                    BONOS                            *

@@ -28,6 +28,8 @@ drop table [CLINICA].[PROFESIONAL]
 
 drop table [CLINICA].[PROFESIONAL_ESPECIALIDAD]
 
+drop table [CLINICA].[AGENDA]
+
 drop table [CLINICA].[PLAN]
 
 drop table [CLINICA].[DIA]
