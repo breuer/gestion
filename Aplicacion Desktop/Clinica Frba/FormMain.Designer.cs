@@ -167,6 +167,7 @@
             this.btListarPlan.TabIndex = 4;
             this.btListarPlan.Text = "Listar";
             this.btListarPlan.UseVisualStyleBackColor = true;
+            this.btListarPlan.Click += new System.EventHandler(this.btListarPlan_Click);
             // 
             // btModificacionPlan
             // 
@@ -396,6 +397,7 @@
             this.btAltaRol.TabIndex = 1;
             this.btAltaRol.Text = "Alta";
             this.btAltaRol.UseVisualStyleBackColor = true;
+            this.btAltaRol.Click += new System.EventHandler(this.btAltaRol_Click);
             // 
             // btBajaRol
             // 
@@ -415,6 +417,7 @@
             this.btListarRol.TabIndex = 4;
             this.btListarRol.Text = "Listar";
             this.btListarRol.UseVisualStyleBackColor = true;
+            this.btListarRol.Click += new System.EventHandler(this.btListarRol_Click);
             // 
             // btModificacionRol
             // 

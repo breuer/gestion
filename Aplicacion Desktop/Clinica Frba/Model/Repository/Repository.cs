@@ -21,7 +21,7 @@ namespace Clinica_Frba.Model.Repository
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
                 try
                 {
-                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); 
+                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
                     DataTable dataTable = new DataTable();
                     sqlDataAdapter.Fill(dataTable);
                     return (dataTable);
@@ -34,6 +34,7 @@ namespace Clinica_Frba.Model.Repository
                 }
                 finally
                 {
+                    sqlCommand.Parameters.Clear();
                     sqlConnection.Dispose();
                     sqlCommand.Dispose();
                 }
@@ -46,7 +47,10 @@ namespace Clinica_Frba.Model.Repository
             {
                 SqlCommand sqlCommand = new SqlCommand(spName, sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddRange(parametros.ToArray());
+                if (parametros.Count != 0)
+                {
+                    sqlCommand.Parameters.AddRange(parametros.ToArray());
+                }
                 try
                 {
                     SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
@@ -62,12 +66,39 @@ namespace Clinica_Frba.Model.Repository
                 }
                 finally
                 {
+                    sqlCommand.Parameters.Clear();
                     sqlConnection.Dispose();
                     sqlCommand.Dispose();
                 }
             }
-
-
         }
-   }
+
+        public void addModificar(String spName, List<SqlParameter> parametros)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.dbConnectionString))
+            {
+                SqlCommand sqlCommand = new SqlCommand(spName, sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (parametros.Count != 0)
+                {
+                    sqlCommand.Parameters.AddRange(parametros.ToArray());
+                }
+                try
+                {
+                    sqlConnection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+                finally
+                {
+                    sqlCommand.Parameters.Clear();
+                    sqlConnection.Dispose();
+                    sqlCommand.Dispose();
+                }
+            }
+        }
+    }
 }

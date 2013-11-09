@@ -33,9 +33,5 @@ namespace Clinica_Frba.Abm_de_Planes
             tbDescripcion.Tag = new SqlParameter("descripcion", SqlDbType.Text);
         }
 
-        private void btBuscar_Click_1(object sender, EventArgs e)
-        {
-
-        }
     }
 }

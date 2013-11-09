@@ -41,12 +41,34 @@ namespace Clinica_Frba
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            btAltaRol.Enabled = true;
+            btListarPlan.Enabled = true;
+            btListarRol.Enabled = true;
             btAltaAfiliado.Enabled = true;
+            
         }
 
         private void btAltaAfiliado_Click(object sender, EventArgs e)
         {
             Abm_de_Afiliado.FormAltaFamiliar frm = new Abm_de_Afiliado.FormAltaFamiliar();
+            frm.ShowDialog();
+        }
+
+        private void btAltaRol_Click(object sender, EventArgs e)
+        {
+            Abm_de_Rol.FormAltaRol frm = new Clinica_Frba.Abm_de_Rol.FormAltaRol();
+            frm.ShowDialog();
+        }
+
+        private void btListarRol_Click(object sender, EventArgs e)
+        {
+            Abm_de_Rol.FormSearchRol frm = new Clinica_Frba.Abm_de_Rol.FormSearchRol();
+            frm.ShowDialog();
+        }
+
+        private void btListarPlan_Click(object sender, EventArgs e)
+        {
+            Abm_de_Planes.FormSearchPlanes frm = new Clinica_Frba.Abm_de_Planes.FormSearchPlanes();
             frm.ShowDialog();
         }
 

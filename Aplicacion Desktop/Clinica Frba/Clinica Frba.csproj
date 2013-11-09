@@ -72,7 +72,31 @@
     <Compile Include="Abm de Planes\FormSearchPlanes.Designer.cs">
       <DependentUpon>FormSearchPlanes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm de Rol\FormAltaRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Rol\FormAltaRol.Designer.cs">
+      <DependentUpon>FormAltaRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Rol\FormSearchRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Rol\FormSearchRol.Designer.cs">
+      <DependentUpon>FormSearchRol.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\EAccionSearch.cs" />
+    <Compile Include="Base\FormAlta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\FormAlta.Designer.cs">
+      <DependentUpon>FormAlta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\FormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\FormBase.Designer.cs">
+      <DependentUpon>FormBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\FormSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +110,7 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\EspecialidaMedica.cs" />
+    <Compile Include="Model\Funcionalidad.cs" />
     <Compile Include="Model\PlanMedico.cs" />
     <Compile Include="Model\Repository\EspecialidadMedicaRepository.cs" />
     <Compile Include="Model\Repository\PlanMedicoRepository.cs" />
@@ -102,6 +127,8 @@
     <Compile Include="Login\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Repository\RolRepository.cs" />
+    <Compile Include="Model\Rol.cs" />
     <Compile Include="Model\TipoEspecialidadMedica.cs" />
     <Compile Include="Registro de Usuario\Form1.cs">
       <SubType>Form</SubType>
@@ -131,12 +158,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Abm de Planes\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abm de Rol\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm de Rol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Registrar Agenda\Form1.cs">
@@ -210,6 +231,15 @@
     <EmbeddedResource Include="Abm de Profesional\FormAltaProfesional.resx">
       <DependentUpon>FormAltaProfesional.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Rol\FormAltaRol.resx">
+      <DependentUpon>FormAltaRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Rol\FormSearchRol.resx">
+      <DependentUpon>FormSearchRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\FormAlta.resx">
+      <DependentUpon>FormAlta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Base\FormSearch.resx">
       <DependentUpon>FormSearch.cs</DependentUpon>
     </EmbeddedResource>
@@ -238,6 +268,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Validator\Validator.cs" />
+    <Compile Include="Validator\ValidatorFrmRol.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

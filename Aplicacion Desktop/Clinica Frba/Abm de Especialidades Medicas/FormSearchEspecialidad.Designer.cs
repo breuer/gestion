@@ -38,6 +38,9 @@
             this.gbFiltro.SuspendLayout();
             this.SuspendLayout();
             // 
+            // btBuscar
+            // 
+            // 
             // gbFiltro
             // 
             this.gbFiltro.Controls.Add(this.tbCodigo);

@@ -36,7 +36,6 @@
             // 
             // btBuscar
             // 
-            this.btBuscar.Click += new System.EventHandler(this.btBuscar_Click_1);
             // 
             // btLimpiar
             // 
