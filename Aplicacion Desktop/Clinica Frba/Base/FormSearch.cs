@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using Clinica_Frba.Model;
+using Clinica_Frba.Abm_de_Rol;
 
 namespace Clinica_Frba.Base
 {
@@ -45,7 +47,7 @@ namespace Clinica_Frba.Base
 
         protected virtual void btLimpiar_Click(object sender, EventArgs e)
         {
-            this.dgvLista.Rows.Clear();
+            //this.dgvLista.Rows.Clear();
             this.limpiarGroupBox(gbFiltro);
         }
         protected virtual void fill()
@@ -53,6 +55,36 @@ namespace Clinica_Frba.Base
         }
         protected virtual void search(List<SqlParameter> parametros)
         {
+        }
+
+        protected string getValueDataGrit(DataGridView dgvLista, string nameColumn)
+        {
+            bool bEncontro = false;
+            for (int i = 0; i < dgvLista.Columns.Count; i++)
+            {
+                bEncontro = dgvLista.Columns[dgvLista.CurrentRow.Cells[i].ColumnIndex].HeaderText.ToUpper().Equals(nameColumn.ToUpper());
+                if (bEncontro)
+                    return dgvLista.CurrentRow.Cells[i].Value.ToString();
+            }
+            return "";
+        }
+
+        private void dgvLista_DoubleClick(object sender, EventArgs e)
+        {
+            if (dgvLista.RowCount == 0)
+            {
+                return;
+            }
+            Rol rol = new Rol();
+            rol.Id = int.Parse(getValueDataGrit(dgvLista, "id"));
+            rol.Nombre = this.getValueDataGrit(dgvLista,"nombre");
+            rol.Habilitado = this.getValueDataGrit(dgvLista, "habilitado").Equals("true") ? true : false;
+            string[] funcionalidades = this.getValueDataGrit(dgvLista, "FUNCIONALIDAD").Split(';');
+            rol.Funcionaliadades = funcionalidades.ToList<string>();
+            FormAltaRol frm = new FormAltaRol();
+            frm.Accion = EActionSearch.MODIFICACION;
+            frm.Rol = rol;
+            frm.ShowDialog(this);
         }
     }
 }

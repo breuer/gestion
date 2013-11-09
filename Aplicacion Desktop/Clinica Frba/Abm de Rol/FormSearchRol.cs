@@ -35,10 +35,37 @@ namespace Clinica_Frba.Abm_de_Rol
         }
         protected override void search(List<System.Data.SqlClient.SqlParameter> parametros)
         {
-            dgvLista.DataSource = PlanMedico.getRepository.listar(
+            DataTable dt = PlanMedico.getRepository.listar(
                 "[NN_NN].[sp_listar_rol_funcionalidad]",
                 parametros
             );
+            IEnumerable<IGrouping<string, DataRow>> query = from rol in dt.AsEnumerable()
+                                                           group rol by rol["ROL"].ToString() into selected
+                                                           select selected;
+
+            DataTable dtSource = new DataTable();
+            dtSource.Columns.Add("id");
+            dtSource.Columns.Add("nombre");
+            dtSource.Columns.Add("funcionalidad");
+            dtSource.Columns.Add("habilitado");
+
+            foreach (IGrouping<string, DataRow> item in query)
+            {
+                DataRow row = dtSource.NewRow();
+                row["id"] = item.Key;
+                StringBuilder st = new StringBuilder();
+                foreach (DataRow d in item.ToList<DataRow>())
+                {
+                    row["id"] = d[0].ToString();
+                    row["nombre"] = d[1].ToString();
+                    st.Append(d[2].ToString());
+                    st.Append(" ; ");
+                    row["habilitado"] = d[3].ToString();
+                }
+                row["funcionalidad"] = st.ToString();
+                dtSource.Rows.Add(row);
+            }
+            dgvLista.DataSource = dtSource;
         }
     }
 }

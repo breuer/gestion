@@ -93,6 +93,7 @@
             this.dgvLista.ReadOnly = true;
             this.dgvLista.Size = new System.Drawing.Size(903, 270);
             this.dgvLista.TabIndex = 3;
+            this.dgvLista.DoubleClick += new System.EventHandler(this.dgvLista_DoubleClick);
             // 
             // btBuscar
             // 

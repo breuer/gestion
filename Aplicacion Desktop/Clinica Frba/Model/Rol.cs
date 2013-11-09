@@ -11,6 +11,8 @@ namespace Clinica_Frba.Model
         private int id;
         private String nombre;
         private Boolean habilitado;
+        private List<string> funcionalidades = new List<string>();
+        
         private static RolRepository repository = new RolRepository();
 
         public String Nombre
@@ -33,6 +35,12 @@ namespace Clinica_Frba.Model
         public static RolRepository getRepository
         {
             get { return repository; }
+        }
+
+        public List<string> Funcionaliadades
+        {
+            set { funcionalidades = value; }
+            get { return funcionalidades; }
         }
     }
 }

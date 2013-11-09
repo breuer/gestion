@@ -15,9 +15,17 @@ namespace Clinica_Frba.Abm_de_Rol
 {
     public partial class FormAltaRol : FormAlta
     {
+        private Rol rol;
+
         public FormAltaRol()
         {
             InitializeComponent();
+        }
+
+        public Rol Rol
+        {
+            set { rol = value; }
+            get { return rol; }
         }
 
         protected override void btLimpiar_Click(object sender, EventArgs e)
@@ -35,6 +43,29 @@ namespace Clinica_Frba.Abm_de_Rol
             {
                 ckListFuncionalidad.Items.Add(row.ItemArray[1]);
             }
+            switch (Accion)
+            {
+                case EActionSearch.ALTA:
+                    break;
+                case EActionSearch.SELECCION:
+                    
+                    break;
+                case EActionSearch.MODIFICACION:
+                    tbNombre.Text = rol.Nombre;
+                    foreach (string fun in rol.Funcionaliadades)
+                    {
+                        if (fun.Trim().Length > 0)
+                        {
+                            ckListFuncionalidad.SetItemChecked(
+                                ckListFuncionalidad.Items.IndexOf(
+                                    fun.Trim()
+                                ), 
+                                true
+                            );
+                        }
+                    }
+                    break;
+            }
         }
 
         protected override void setControlsTag()
@@ -49,7 +80,26 @@ namespace Clinica_Frba.Abm_de_Rol
             base.ejecutarConsulta(parametros);
             try
             {
-                Rol.getRepository.addModificar("NN_NN.sp_add_rol", parametros);
+                String storeProcedure = String.Empty;
+                switch (Accion)
+                {
+                    case EActionSearch.ALTA:
+                        storeProcedure = "NN_NN.sp_add_rol";
+                        break;
+                    case EActionSearch.SELECCION:
+                        break;
+                    case EActionSearch.MODIFICACION:
+                        SqlParameter param_id = new SqlParameter(
+                            "id",
+                            rol.Id
+                        );
+                        parametros.Add(param_id);
+                        storeProcedure = "NN_NN.sp_modificar_rol";
+                        break;
+                }
+                Rol.getRepository.addModificar(storeProcedure, parametros);
+                
+                
                 MessageBox.Show("Operacion con exito");
             } catch (SqlException ex)
             {

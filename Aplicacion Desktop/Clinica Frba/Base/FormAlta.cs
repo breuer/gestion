@@ -68,12 +68,14 @@ namespace Clinica_Frba.Base
 
                         break;
                     case EActionSearch.SELECCION:
-                        //Load_Select();
-                        //refreshSource();
+                        parametros = new List<SqlParameter>();
+                        this.crearConsulta(this.gbControl, parametros);
+                        this.ejecutarConsulta(parametros);
                         break;
                     case EActionSearch.MODIFICACION:
-                        //modificacion();
-                        //refreshSource();
+                        parametros = new List<SqlParameter>();
+                        this.crearConsulta(this.gbControl, parametros);
+                        this.ejecutarConsulta(parametros);
                         break;
                 }
                 this.Close();
