@@ -4,7 +4,7 @@
 use [GD2C2013]
 GO
 
-CREATE SCHEMA CLINICA
+CREATE SCHEMA NN_NN
 GO
 
 SET ANSI_NULLS ON
@@ -13,14 +13,185 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
---drop schema CLINICA
-
 /*************************************************************************************
-*                    TABLES                                                          *
+*                    ROL                                                                                           *
 **************************************************************************************/
 
-create table [CLINICA].[AFILIADO]
+CREATE TABLE NN_NN.FUNCIONALIDAD(
+	ID NUMERIC(18,0) IDENTITY PRIMARY KEY NOT NULL,
+	NOMBRE VARCHAR(255) UNIQUE NOT NULL
+)
+-- END FUNCIONALIDAD
+GO
+INSERT INTO NN_NN.FUNCIONALIDAD VALUES ('ABM de Cliente'),('ABM de Rol')
+	, ('ABM de Usuario'), ('ABM de Auto'), ('ABM de Reloj')
+	, ('ABM de Chofer')
+	, ('ABM de Turno'), ('Asignación Chofer-Auto'), ('Registro de Viajes'),
+	('Rendición de cuenta del chofer'), ('Facturación a Cliente'), ('Listado Estadístico'),
+	('Correccion incosistencias migracion');
+GO
+---------------------------------------------------
+-- TABLA ROL
+---------------------------------------------------
+CREATE TABLE NN_NN.ROL(
+	ID NUMERIC(18,0)IDENTITY PRIMARY KEY NOT NULL,
+	NOMBRE VARCHAR(255) UNIQUE NOT NULL,
+	HABILITADO BIT DEFAULT 1
+)
+-- END ROL
+GO
+---------------------------------------------------
+-- TABLA ROL FUNCIONALIDAD
+---------------------------------------------------
+CREATE TABLE NN_NN.ROL_FUNCIONALIDAD(
+	ID_ROL NUMERIC(18,0),
+	ID_FUNCIONALIDAD NUMERIC (18,0),
+	CONSTRAINT PK_ROL_FUNCIONALIDAD PRIMARY KEY(ID_ROL, ID_FUNCIONALIDAD),
+	CONSTRAINT FK_ROL FOREIGN KEY(ID_ROL) REFERENCES NN_NN.ROL(ID),
+	CONSTRAINT FK_FUNCIONALIDAD FOREIGN KEY(ID_FUNCIONALIDAD) REFERENCES NN_NN.FUNCIONALIDAD(ID)	
+)
+GO
+INSERT INTO NN_NN.ROL (NOMBRE )VALUES('Administrador');
+INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD) VALUES  (1, 1), (1, 2)
+, (1, 3), (1, 4), (1, 5), (1, 6)
+, (1, 7), (1, 8), (1, 9), (1, 10), (1, 11)
+, (1, 12), (1, 13)
+GO
+INSERT INTO NN_NN.ROL (NOMBRE )VALUES('Administrador');
+GO
+INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD) VALUES (2, 1)
+,(2, 2)
+, (2, 3)
+, (2, 4)
+,  (2, 5)
+,  (2, 6)
+,  (2, 7)
+,  (2, 8)
+,  (2, 9)
+,  (2, 10)
+,  (2, 11)
+,  (2, 12)
+,  (2, 13);
+GO
+
+-----------------------------------------------------------------
+-- PROCEDURE ROL
+-----------------------------------------------------------------
+CREATE PROCEDURE NN_NN.sp_add_rol
+	@nombre VARCHAR(255),
+	@habilitado bit = 1,
+	@funcionalidad XML
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			DECLARE @ID NUMERIC(18,0)
+			INSERT INTO NN_NN.ROL (NOMBRE, HABILITADO)VALUES (@nombre, @habilitado)
+			SET @ID = SCOPE_IDENTITY();
+			INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD)
+			SELECT @ID, FUN.ID FROM NN_NN.FUNCIONALIDAD AS FUN
+				WHERE  EXISTS (SELECT	ParamValues.Names.value('.','VARCHAR(255)')  
+				FROM @funcionalidad.nodes('/DocumentElement/Funcionalidad/Name') as ParamValues(Names) WHERE ParamValues.Names.value('.','VARCHAR(255)') = FUN.NOMBRE)
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			DECLARE @errorMessage NVARCHAR(4000);
+			DECLARE @errorSeverity INT;
+			DECLARE @errorState INT;
+			
+			ROLLBACK TRANSACTION
+			
+			SELECT 
+				@errorMessage = ERROR_MESSAGE(),
+				@errorSeverity = ERROR_SEVERITY(),
+				@errorState = ERROR_STATE();
+				
+			SET @errorMessage = 'Nombre: Ya existe un rol con ese nombre';
+			RAISERROR (@errorMessage, 
+				@errorSeverity, 
+				@errorState
+			);
+		END CATCH
+END
+GO
+CREATE PROCEDURE NN_NN.sp_modificar_rol
+	@nombre VARCHAR(255),
+	@Id VARCHAR(255),
+	@habilitado bit = 1,
+	@funcionalidad XML
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+	
+		UPDATE NN_NN.ROL SET NOMBRE = @nombre, HABILITADO = @habilitado WHERE ID = @Id
+		DELETE FROM NN_NN.ROL_FUNCIONALIDAD WHERE ID_ROL = @Id
+		INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD)
+			SELECT @Id, FUN.ID FROM NN_NN.FUNCIONALIDAD AS FUN
+				WHERE  EXISTS (SELECT	ParamValues.Names.value('.','VARCHAR(255)')  
+				FROM @funcionalidad.nodes('/DocumentElement/Funcionalidad/Name') as ParamValues(Names) WHERE ParamValues.Names.value('.','VARCHAR(255)') = FUN.NOMBRE)
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		DECLARE @errorMessage NVARCHAR(4000);
+		DECLARE @errorSeverity INT;
+		DECLARE @errorState INT;
+			
+		ROLLBACK TRANSACTION
+			
+		SELECT 
+			@errorMessage = ERROR_MESSAGE(),
+			@errorSeverity = ERROR_SEVERITY(),
+			@errorState = ERROR_STATE();
+				
+		SET @errorMessage = 'Nombre: Ya existe un rol con ese nombre';
+		RAISERROR (@errorMessage, 
+			@errorSeverity, 
+			@errorState
+		);
+	END CATCH
+END
+GO
+CREATE PROCEDURE NN_NN.sp_listar_rol_funcionalidad
+	@nombre VARCHAR(255) = NULL,
+	@funcionalidad VARCHAR(255) = NULL
+AS 
+BEGIN
+	SET NOCOUNT ON
+	Declare @chvQuery nvarchar(max), @chvWhere nvarchar(max);
+	Select @chvQuery = 'SET QUOTED_IDENTIFIER OFF SELECT R.ID AS ROL, R.NOMBRE AS NOMBRE, F.NOMBRE AS FUNCIONALIDAD, R.HABILITADO AS HABILITADO FROM NN_NN.FUNCIONALIDAD AS F, NN_NN.ROL AS R, NN_NN.ROL_FUNCIONALIDAD AS RF WHERE R.ID = RF.ID_ROL AND F.ID = RF.ID_FUNCIONALIDAD',
+	@chvWhere = ''
+	If @nombre is not null 
+		Set @chvWhere = @chvWhere + ' R.NOMBRE LIKE "%' + @nombre + '%" AND'
+	If @funcionalidad is not null 
+		Set @chvWhere = @chvWhere + ' F.NOMBRE LIKE "%' + @funcionalidad + '%" AND'
+	begin try
+		If Substring(@chvWhere, Len(@chvWhere) - 3, 4) = ' AND'
+			set @chvWhere = Substring(@chvWhere, 1, Len(@chvWhere) - 3)
+	end try
+	begin Catch
+		Raiserror ('Error Interno.', 16, 1)
+        return
+    end catch
+	
+	begin try	
+		If Len(@chvWhere) > 0
+			set @chvQuery = @chvQuery + ' AND' + @chvWhere
+		exec (@chvQuery)
+	end try
+    begin Catch
+		declare @s varchar(max)
+		set @s = 'No pudo realizar la consulta: ' + @chvQuery
+		Raiserror (@s, 16, 2)
+		return
+     end catch
+END
+
+/*************************************************************************************
+*                    TABLES                                                                                     *
+**************************************************************************************/
+
+CREATE TABLE NN_NN.AFILIADO
 (
 	numero [int] identity(1,1) not null,
 	apellido [varchar] (255) not null,
@@ -39,14 +210,14 @@ create table [CLINICA].[AFILIADO]
 )
 
 
-create table [CLINICA].[ESTADO_CIVIL]
+CREATE TABLE NN_NN.ESTADO_CIVIL
 (
 	codigo [int]identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
 
 
-create table [CLINICA].[CAMBIO_PLAN]
+CREATE TABLE NN_NN.CAMBIO_PLAN
 (
 	fecha_modificaion [datetime] not null,
 	motivo [varchar] (255) not null,
@@ -54,7 +225,7 @@ create table [CLINICA].[CAMBIO_PLAN]
 )
 
 
-create table [CLINICA].[PLAN]
+CREATE TABLE NN_NN.PLAN
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null,
@@ -63,7 +234,7 @@ create table [CLINICA].[PLAN]
 )
 
 
-create table [CLINICA].[BONO_CONSULTA]
+CREATE TABLE NN_NN.BONO_CONSULTA
 (
 	fecha_compra [datetime],
 	numero [int],
@@ -73,7 +244,7 @@ create table [CLINICA].[BONO_CONSULTA]
 )
 
 
-create table [CLINICA].[BONO_FARMACIA]
+CREATE TABLE NN_NN.BONO_FARMACIA
 (
 	fecha_compra [datetime],
 	numero [int],
@@ -83,7 +254,7 @@ create table [CLINICA].[BONO_FARMACIA]
 )
 
 
-create table [CLINICA].[MEDICAMENTO]
+CREATE TABLE NN_NN.MEDICAMENTO
 (
 	descripcion [varchar] (255) not null,
 	nro_bono_farmacia [int] not null
@@ -91,7 +262,7 @@ create table [CLINICA].[MEDICAMENTO]
 
 
 
-create table [CLINICA].[PROFESIONAL]
+CREATE TABLE NN_NN.PROFESIONAL
 (
 	numero [int] identity(1,1) not null,
 	apellido [varchar] (255) not null,
@@ -104,7 +275,7 @@ create table [CLINICA].[PROFESIONAL]
 	mail [varchar] (255) not null
 )
 
-create table [CLINICA].[AGENDA]
+CREATE TABLE NN_NN.AGENDA
 (
 	numero [int] identity(1,1) not null,
 	fecha_fin [date] not null,
@@ -112,7 +283,7 @@ create table [CLINICA].[AGENDA]
 	nro_profesional [int] not null
 )
 
-create table [CLINICA].[DIA_ATENCION]
+CREATE TABLE NN_NN.DIA_ATENCION
 (
 	codigo_dia [int] not null,
 	hora_fin [time] not null,
@@ -121,21 +292,21 @@ create table [CLINICA].[DIA_ATENCION]
 )
 
 
-create table [CLINICA].[DIA]
+CREATE TABLE NN_NN.DIA
 (
 	codigo [int] identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
 
 
-create table [CLINICA].[PROFESIONAL_ESPECIALIDAD]
+CREATE TABLE NN_NN.PROFESIONAL_ESPECIALIDAD
 (
 	nro_profesional [int] not null,
 	cod_especialidad [int] not null
 )
 
 
-create table [CLINICA].[ESPECIALIDAD]
+CREATE TABLE NN_NN.ESPECIALIDAD
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null,
@@ -143,14 +314,14 @@ create table [CLINICA].[ESPECIALIDAD]
 )
 
 
-create table [CLINICA].[TIPO_ESPECIALIDAD]
+CREATE TABLE NN_NN.TIPO_ESPECIALIDAD
 (
 	codigo [int] not null,
 	descripcion [varchar] (255) not null
 )
 
 
-create table [CLINICA].[TURNO]
+CREATE TABLE NN_NN.TURNO
 (
 	numero [int] not null,
 	fecha [datetime] not null,
@@ -161,7 +332,7 @@ create table [CLINICA].[TURNO]
 )
 
 
-create table [CLINICA].[CANCELACION_TURNO]
+CREATE TABLE NN_NN.CANCELACION_TURNO
 (
 	motivo [varchar] (255) not null,
 	nro_turno [int] not null,
@@ -170,7 +341,7 @@ create table [CLINICA].[CANCELACION_TURNO]
 
 
 
-create table [CLINICA].[CONSULTA]
+CREATE TABLE NN_NN.CONSULTA
 (
 	diagnostico [varchar] (255) not null,
 	sintomas [varchar] (255) not null,
@@ -180,7 +351,7 @@ create table [CLINICA].[CONSULTA]
 )
 
 
-create table [CLINICA].[CONSULTA_BONO_FARMACIA]
+CREATE TABLE NN_NN.CONSULTA_BONO_FARMACIA
 (
 	nro_bono_farmacia [int] not null,
 	nro_turno [int] not null,
@@ -193,8 +364,8 @@ create table [CLINICA].[CONSULTA_BONO_FARMACIA]
 *                    CONSTRAINT                                                          *
 **************************************************************************************/
 
---ALTER TABLE [CLINICA].[AFILIADO] ADD CONSTRAINT pk_nro_afiliado PRIMARY KEY(nro_afiliado);
---ALTER TABLE [CLINICA].[PLAN] ADD CONSTRAINT pk_codigo PRIMARY KEY(codigo);
+--ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT pk_nro_afiliado PRIMARY KEY(nro_afiliado);
+--ALTER TABLE NN_NN.PLAN ADD CONSTRAINT pk_codigo PRIMARY KEY(codigo);
 
 /*************************************************************************************
 *                    MIGRATION                                                          *
@@ -206,27 +377,27 @@ create table [CLINICA].[CONSULTA_BONO_FARMACIA]
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	NN_NN.ESTADO_CIVIL (descripcion)
 VALUES 
 	('single')
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	NN_NN.ESTADO_CIVIL (descripcion)
 VALUES 
 	('married')
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	NN_NN.ESTADO_CIVIL (descripcion)
 VALUES 
 	('widower')
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	NN_NN.ESTADO_CIVIL (descripcion)
 VALUES 
 	('concubinage')
 
 INSERT INTO 
-	[CLINICA].[ESTADO_CIVIL] (descripcion)
+	NN_NN.ESTADO_CIVIL (descripcion)
 VALUES 
 	('divorced')
 
@@ -235,37 +406,37 @@ VALUES
 *                    DIA                              *
 *******************************************************/
 INSERT INTO 
-	[CLINICA].[DIA] (descripcion)
+	NN_NN.DIA (descripcion)
 VALUES 
 	('sunday')
 	
 INSERT INTO 
-	[CLINICA].[DIA] (descripcion)
+	NN_NN.DIA (descripcion)
 VALUES 
 	('monday')
 
 INSERT INTO 
-	[CLINICA].[DIA] (descripcion)
+	NN_NN.DIA (descripcion)
 VALUES 
 	('tuesday')
 
 INSERT INTO 
-	[CLINICA].[DIA] (descripcion)
+	NN_NN.DIA (descripcion)
 VALUES 
 	('wednesday')
 
 INSERT INTO 
-	[CLINICA].[DIA] (descripcion)
+	NN_NN.DIA (descripcion)
 VALUES 
 	('thursday')
 
 INSERT INTO 
-	[CLINICA].[DIA] (descripcion)
+	NN_NN.DIA (descripcion)
 VALUES 
 	('friday')
 
 INSERT INTO 
-	[CLINICA].[DIA] (descripcion)
+	NN_NN.DIA (descripcion)
 VALUES 
 	('saturday')
 
@@ -275,7 +446,7 @@ VALUES
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, fecha_nac, telefono, mail,  cod_plan)
+	NN_NN.AFILIADO(apellido, nombre, dni, direccion, fecha_nac, telefono, mail,  cod_plan)
 SELECT DISTINCT 
 	Paciente_Apellido, Paciente_Nombre, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
 FROM 
@@ -291,14 +462,14 @@ FROM
 -- bonos consulta
 
 INSERT INTO 
-	[CLINICA].[BONO_CONSULTA](fecha_compra, numero, fecha_impresion, nro_afiliado)
+	NN_NN.BONO_CONSULTA(fecha_compra, numero, fecha_impresion, nro_afiliado)
 SELECT DISTINCT 
 	 M.Compra_Bono_Fecha, M.Bono_Consulta_Numero, M.Bono_Consulta_Fecha_Impresion, A.numero
 FROM 
 	gd_esquema.Maestra M
 --order by M.Bono_Consulta_Numero
 INNER JOIN
-	[CLINICA].[AFILIADO] A	
+	NN_NN.AFILIADO A	
 ON
 	M.Paciente_Dni=A.dni
 WHERE 
@@ -310,13 +481,13 @@ WHERE
 	
 -- bonos farmacia 
 INSERT INTO 
-	[CLINICA].[BONO_FARMACIA](fecha_compra, numero, fecha_impresion, nro_afiliado)
+	NN_NN.BONO_FARMACIA(fecha_compra, numero, fecha_impresion, nro_afiliado)
 SELECT DISTINCT 
 	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.numero
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
-	[CLINICA].[AFILIADO] A	
+	NN_NN.AFILIADO A	
 ON
 	M.Paciente_Dni=A.dni
 WHERE 
@@ -329,7 +500,7 @@ WHERE
 *                    CONSULTA                         *
 *******************************************************/
 INSERT INTO 
-	[CLINICA].[CONSULTA](nro_bono_consulta, diagnostico, sintomas, nro_turno)
+	NN_NN.CONSULTA(nro_bono_consulta, diagnostico, sintomas, nro_turno)
 SELECT DISTINCT 
 	 M.Bono_Consulta_Numero, M.Consulta_Enfermedades, M.Consulta_Sintomas, M.Turno_Numero 
 FROM 
@@ -344,7 +515,7 @@ where
 *                    CONSULTA_BONO_FARMACIA           *
 *******************************************************/
 INSERT INTO 
-	[CLINICA].[CONSULTA_BONO_FARMACIA](nro_bono_consulta, nro_bono_farmacia, nro_turno)
+	NN_NN.CONSULTA_BONO_FARMACIA(nro_bono_consulta, nro_bono_farmacia, nro_turno)
 SELECT DISTINCT 
 	 M.Bono_Consulta_Numero, M.Bono_Farmacia_Numero, M.Turno_Numero 
 FROM 
@@ -360,14 +531,14 @@ where
 *                    MEDICAMENTOS                     *
 *******************************************************/
 INSERT INTO 
-	[CLINICA].[MEDICAMENTO](descripcion, nro_bono_farmacia)
+	NN_NN.MEDICAMENTO(descripcion, nro_bono_farmacia)
 
 SELECT DISTINCT 
 	 M.Bono_Farmacia_Medicamento, M.Bono_Farmacia_Numero
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
-	[CLINICA].[AFILIADO] A	
+	NN_NN.AFILIADO A	
 ON
 	M.Paciente_Dni=A.dni
 WHERE 
@@ -379,7 +550,7 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[PLAN](codigo, descripcion, precio_bono_consulta, precio_bono_farmacia)
+	NN_NN.PLAN(codigo, descripcion, precio_bono_consulta, precio_bono_farmacia)
 SELECT DISTINCT  
 	Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
 FROM 
@@ -390,7 +561,7 @@ FROM
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[PROFESIONAL](apellido, nombre, dni, direccion, fecha_nac, telefono, mail)
+	NN_NN.PROFESIONAL(apellido, nombre, dni, direccion, fecha_nac, telefono, mail)
 SELECT DISTINCT 
 	Medico_Apellido, Medico_Nombre, Medico_Dni, Medico_Direccion, Medico_Fecha_Nac, Medico_Telefono, Medico_Mail 
 FROM 
@@ -410,7 +581,7 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[TIPO_ESPECIALIDAD](codigo, descripcion)
+	NN_NN.TIPO_ESPECIALIDAD(codigo, descripcion)
 SELECT DISTINCT 
 	M.Tipo_Especialidad_Codigo, M.Tipo_Especialidad_Descripcion
 FROM 
@@ -425,7 +596,7 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[ESPECIALIDAD](codigo, descripcion, cod_tipo_especialidad)
+	NN_NN.ESPECIALIDAD(codigo, descripcion, cod_tipo_especialidad)
 SELECT DISTINCT 
 	Especialidad_Codigo, Especialidad_Descripcion, Tipo_Especialidad_Codigo
 FROM 
@@ -441,7 +612,7 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	[CLINICA].[TURNO](numero, fecha, dni_profesional, dni_afiliado, nro_day)
+	NN_NN.TURNO(numero, fecha, dni_profesional, dni_afiliado, nro_day)
 SELECT DISTINCT   
 	Turno_Numero, Turno_Fecha, Medico_Dni, Paciente_Dni, datepart(dw,Turno_Fecha)
 FROM 
@@ -461,13 +632,13 @@ GO
 -- AGENDA MAX DATE MIN DATE BY PROFESIONAL
 
 INSERT INTO
-	[CLINICA].[AGENDA] (nro_profesional, fecha_fin, fecha_inicio )
+	NN_NN.AGENDA (nro_profesional, fecha_fin, fecha_inicio )
 SELECT 
 	P.numero, MAX(CONVERT(date,M.Turno_Fecha) ) as fecha_max, DATEADD(DAY, -120,MAX(CONVERT(date,M.Turno_Fecha))) as fecha_min
 FROM 
 	GD2C2013.gd_esquema.Maestra M
 JOIN
-	GD2C2013.CLINICA.PROFESIONAL P
+	NN_NN.PROFESIONAL P
 ON
 	M.Medico_Dni = P.dni
 GROUP BY P.numero
@@ -476,21 +647,21 @@ GROUP BY P.numero
 -- DAY IN AGENDA MAX TIME MIN TIME BY PROFESIONAL
 
 INSERT INTO
-	[CLINICA].[DIA_ATENCION] (codigo_dia, nro_agenda, hora_fin, hora_inicio)
-select 
+	NN_NN.DIA_ATENCION (codigo_dia, nro_agenda, hora_fin, hora_inicio)
+SELECT  
 	D.codigo as dia, A.numero as nro_agenda, MAX(CONVERT(time,M.Turno_Fecha) ) as hora_max, MIN(CONVERT(time,M.Turno_Fecha) ) as hora_min
 FROM 
 	GD2C2013.gd_esquema.Maestra M
 INNER JOIN
-	GD2C2013.CLINICA.PROFESIONAL P
+	NN_NN.PROFESIONAL P
 ON 
 	P.dni = M.Medico_Dni
 INNER JOIN
-	GD2C2013.CLINICA.AGENDA A
+	NN_NN.AGENDA A
 ON
 	A.nro_profesional = P.numero
 INNER JOIN
-	GD2C2013.CLINICA.DIA D
+	NN_NN.DIA D
 ON
 	datepart(dw,M.Turno_Fecha) = D.codigo
 	
@@ -538,13 +709,13 @@ GROUP BY
 *******************************************************/
 
 CREATE PROCEDURE 
-	[CLINICA].SP_ADD_AFILIADO (@apellido varchar(255), @nombre varchar(255), 
+	NN_NN.SP_ADD_AFILIADO (@apellido varchar(255), @nombre varchar(255), 
 	@dni int, @direccion varchar(255), @telefono int, @mail varchar(255),
 	@cod_plan int)
 AS
 BEGIN 
 	INSERT INTO 
-		[CLINICA].[AFILIADO](apellido, nombre, dni, direccion, telefono, mail,  cod_plan)
+		NN_NN.AFILIADO(apellido, nombre, dni, direccion, telefono, mail,  cod_plan)
 	VALUES 
 		(@nombre, @apellido, @dni, @direccion, @telefono, @mail, @cod_plan)
 END
@@ -555,13 +726,13 @@ GO
 *******************************************************/
 
 CREATE PROCEDURE 
-	[CLINICA].SP_ADD_PROFESIONAL (@apellido varchar(255), @nombre varchar(255), 
+	NN_NN.SP_ADD_PROFESIONAL (@apellido varchar(255), @nombre varchar(255), 
 	@dni int, @direccion varchar(255), @telefono int, @mail varchar(255),
 	@cod_plan int)
 AS
 BEGIN 
 	INSERT INTO 
-		[CLINICA].[PROFESIONAL](apellido, nombre, dni, direccion, telefono, mail)
+		NN_NN.PROFESIONAL(apellido, nombre, dni, direccion, telefono, mail)
 	VALUES 
 		(@nombre, @apellido, @dni, @direccion, @telefono, @mail)
 END
@@ -572,11 +743,11 @@ GO
 *******************************************************/
 
 CREATE PROCEDURE 
-	[CLINICA].SP_ADD_ESPECIALIDAD (@nro_profesional int, @cod_especialidad int)
+	NN_NN.SP_ADD_ESPECIALIDAD (@nro_profesional int, @cod_especialidad int)
 AS
 BEGIN 
 	INSERT INTO 
-		[CLINICA].[PROFESIONAL_ESPECIALIDAD](nro_profesional, cod_especialidad)
+		NN_NN.PROFESIONAL_ESPECIALIDAD(nro_profesional, cod_especialidad)
 	VALUES 
 		(@nro_profesional, @cod_especialidad)
 END
@@ -587,10 +758,10 @@ GO
 *******************************************************/
 /*
 CREATE PROCEDURE 
-	[CLINICA].SP_ADD_DIA_ATENCION (@codigo_dia int, @nro_profesional int) AS
+	NN_NN.SP_ADD_DIA_ATENCION (@codigo_dia int, @nro_profesional int) AS
 BEGIN 
 	INSERT INTO 
-		[CLINICA].[DIA_ATENCION](codigo_dia, nro_profesional)
+		NN_NN.DIA_ATENCION(codigo_dia, nro_profesional)
 	VALUES 
 		(@codigo_dia, @nro_profesional)
 END
@@ -601,13 +772,13 @@ GO
 *                    BONOS                            *
 *******************************************************/
 CREATE PROCEDURE 
-	[CLINICA].SP_ADD_BONO_CONSULTA AS
+	NN_NN.SP_ADD_BONO_CONSULTA AS
 BEGIN 
 	DECLARE @max_nro int = ( 
 		SELECT 
 			MAX(B.numero)
 		FROM
-			[CLINICA].[BONO_CONSULTA] B
+			NN_NN.BONO_CONSULTA B
 		WHERE
 			B.nro_afiliado IS NULL
 	)
@@ -616,20 +787,20 @@ BEGIN
 		set @max_nro = 0
 	end
 	INSERT INTO 
-		[CLINICA].[BONO_CONSULTA](numero ,fecha_impresion)
+		NN_NN.BONO_CONSULTA(numero ,fecha_impresion)
 	VALUES 
 		(@max_nro + 1, GETDATE())
 END
 GO
 
 CREATE PROCEDURE 
-	[CLINICA].SP_ADD_BONO_FARMACIA AS
+	NN_NN.SP_ADD_BONO_FARMACIA AS
 BEGIN
 	DECLARE @max_nro int = ( 
 		SELECT 
 			MAX(B.numero)
 		FROM
-			[CLINICA].[BONO_FARMACIA] B
+			NN_NN.BONO_FARMACIA B
 		WHERE
 			B.nro_afiliado IS NULL
 	)
@@ -638,26 +809,26 @@ BEGIN
 		set @max_nro = 0
 	end 
 	INSERT INTO 
-		[CLINICA].[BONO_FARMACIA](numero,fecha_impresion)
+		NN_NN.BONO_FARMACIA(numero,fecha_impresion)
 	VALUES 
 		(@max_nro + 1, GETDATE())
 END
 GO
 
 CREATE PROCEDURE 
-	[CLINICA].SP_BUY_BONO_CONSULTA (@nro_afiliado int) AS
+	NN_NN.SP_BUY_BONO_CONSULTA (@nro_afiliado int) AS
 BEGIN
 	DECLARE @nro int = ( 
 		SELECT TOP 1
 			B.numero
 		FROM
-			[CLINICA].[BONO_CONSULTA] B
+			NN_NN.BONO_CONSULTA B
 		WHERE
 			B.nro_afiliado IS NULL
 	)
 	IF (@nro IS NOT NULL)
 	BEGIN
-		UPDATE [CLINICA].[BONO_CONSULTA]
+		UPDATE NN_NN.BONO_CONSULTA
 		SET 
 			nro_afiliado = @nro_afiliado, 
 			fecha_compra = GETDATE()
@@ -668,20 +839,20 @@ END
 GO
 
 CREATE PROCEDURE 
-	[CLINICA].SP_BUY_BONO_FARMACIA (@nro_afiliado int)
+	NN_NN.SP_BUY_BONO_FARMACIA (@nro_afiliado int)
 AS
 BEGIN 
 	DECLARE @nro int = ( 
 		SELECT TOP 1
 			B.numero
 		FROM
-			[CLINICA].[BONO_FARMACIA] B
+			NN_NN.BONO_FARMACIA B
 		WHERE
 			B.nro_afiliado IS NULL
 	)
 	IF (@nro IS NOT NULL)
 	BEGIN
-		UPDATE [CLINICA].[BONO_FARMACIA]
+		UPDATE NN_NN.BONO_FARMACIA
 		SET 
 			nro_afiliado = @nro_afiliado, 
 			fecha_compra = GETDATE()
@@ -696,20 +867,20 @@ GO
 *******************************************************/
 /*
 CREATE PROCEDURE 
-	[CLINICA].SP_LLEGADA_ATENCION_MEDICA (@nro_afiliado int, @nro_profesional int)
+	NN_NN.SP_LLEGADA_ATENCION_MEDICA (@nro_afiliado int, @nro_profesional int)
 AS
 BEGIN 
 	DECLARE @nro int = ( 
 		SELECT TOP 1
 			B.numero
 		FROM
-			[CLINICA].[BONO_FARMACIA] B
+			NN_NN.BONO_FARMACIA B
 		WHERE
 			B.nro_afiliado IS NULL
 	)
 	IF (@nro IS NOT NULL)
 	BEGIN
-		UPDATE [CLINICA].[BONO_FARMACIA]
+		UPDATE NN_NN.BONO_FARMACIA
 		SET 
 			nro_afiliado = @nro_afiliado, 
 			fecha_compra = GETDATE()
