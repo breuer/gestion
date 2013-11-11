@@ -16,7 +16,7 @@ namespace Clinica_Frba.Base
         {
             InitializeComponent();
         }
-
+        protected StringBuilder stError = new StringBuilder();
        
 
         protected virtual void btLimpiar_Click(object sender, EventArgs e)
@@ -31,10 +31,14 @@ namespace Clinica_Frba.Base
 
         private void FormAlta_Load(object sender, EventArgs e)
         {
+            this.settingFrm();
             this.loadControls();
             this.setControlsTag();
         }
 
+        protected virtual void settingFrm()
+        {
+        }
         protected virtual void loadControls()
         {
         }

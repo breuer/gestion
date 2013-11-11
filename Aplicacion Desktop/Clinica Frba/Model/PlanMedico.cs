@@ -8,7 +8,7 @@ namespace Clinica_Frba.Model
 {
     public class PlanMedico
     {
-        private String codigo;
+        private int codigo;
         private String descripcion;
         private float precioBonoFarmacia;
         private float precioBonoConsulta;
@@ -16,7 +16,7 @@ namespace Clinica_Frba.Model
         private Boolean isHistorico;
         private static PlanMedicoRepository repository = new PlanMedicoRepository();
 
-        public String Codigo
+        public int Codigo
         {
             set { codigo = value; }
             get { return codigo; }

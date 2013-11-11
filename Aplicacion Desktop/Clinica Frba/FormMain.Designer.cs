@@ -80,6 +80,7 @@
             this.btSend = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
             this.gbEstadistico.SuspendLayout();
             this.gbPlan.SuspendLayout();
@@ -622,11 +623,24 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "Los campos marcados con     son obligatorios";
             // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.SystemColors.Desktop;
+            this.button5.ForeColor = System.Drawing.Color.Yellow;
+            this.button5.Location = new System.Drawing.Point(587, 333);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(269, 71);
+            this.button5.TabIndex = 10;
+            this.button5.Text = "PRUEBAS";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(902, 509);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.gbLogin);
             this.Controls.Add(this.gbAfiliado);
             this.Controls.Add(this.gbProfesional);
@@ -705,6 +719,7 @@
         private System.Windows.Forms.Button btSend;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button5;
 
     }
 }

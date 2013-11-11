@@ -6,7 +6,10 @@
       <Value Profile="(Default)">Data Source=localhost\SQLSERVER2008;Initial Catalog=GD2C2013;User ID=gd;Password=gd2013</Value>
     </Setting>
     <Setting Name="fechaConfig" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">2009/02/26 18:37:58</Value>
+      <Value Profile="(Default)">02/12/13 18:37:58</Value>
+    </Setting>
+    <Setting Name="fechaFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MM/dd/yy HH:mm:ss</Value>
     </Setting>
   </Settings>
 </SettingsFile>

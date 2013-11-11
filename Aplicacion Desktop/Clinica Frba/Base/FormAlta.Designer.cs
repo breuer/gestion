@@ -33,7 +33,6 @@
             this.Cancelar = new System.Windows.Forms.Button();
             this.btLimpiar = new System.Windows.Forms.Button();
             this.gbControl = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -76,15 +75,6 @@
             this.gbControl.TabIndex = 4;
             this.gbControl.TabStop = false;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(513, 347);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
@@ -94,7 +84,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(512, 469);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.gbControl);
             this.Controls.Add(this.btLimpiar);
             this.Controls.Add(this.Cancelar);
@@ -111,9 +100,8 @@
 
         private System.Windows.Forms.Button Cancelar;
         public System.Windows.Forms.GroupBox gbControl;
-        public System.Windows.Forms.Button button1;
         public System.Windows.Forms.Button btLimpiar;
-        private System.Windows.Forms.ErrorProvider errorProvider;
         public System.Windows.Forms.Button btAccion;
+        protected System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

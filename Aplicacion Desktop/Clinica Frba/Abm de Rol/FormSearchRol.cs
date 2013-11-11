@@ -67,5 +67,23 @@ namespace Clinica_Frba.Abm_de_Rol
             }
             dgvLista.DataSource = dtSource;
         }
+
+        protected override void dgvLista_DoubleClick(object sender, EventArgs e)
+        {
+            if (dgvLista.RowCount == 0)
+            {
+                return;
+            }
+            Rol rol = new Rol();
+            rol.Id = int.Parse(getValueDataGrit(dgvLista, "id"));
+            rol.Nombre = this.getValueDataGrit(dgvLista,"nombre");
+            rol.Habilitado = this.getValueDataGrit(dgvLista, "habilitado").Equals("true") ? true : false;
+            string[] funcionalidades = this.getValueDataGrit(dgvLista, "FUNCIONALIDAD").Split(';');
+            rol.Funcionaliadades = funcionalidades.ToList<string>();
+            FormAltaRol frm = new FormAltaRol();
+            frm.Accion = EActionSearch.MODIFICACION;
+            frm.Rol = rol;
+            frm.ShowDialog(this);
+        }
     }
 }

@@ -155,6 +155,7 @@
             this.Controls.Add(this.lbTituloMain);
             this.Name = "FormSearch";
             this.Text = "FormSearch";
+            this.Load += new System.EventHandler(this.FormSearch_Load);
             this.pBusqueda.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLista)).EndInit();
             this.gbFiltro.ResumeLayout(false);
@@ -171,11 +172,11 @@
         protected System.Windows.Forms.Panel pBusqueda;
         protected System.Windows.Forms.Button btVolver;
         public System.Windows.Forms.Button btAlta;
-        protected System.Windows.Forms.DataGridView dgvLista;
         protected System.Windows.Forms.Button btBuscar;
         protected System.Windows.Forms.Button btLimpiar;
         public System.Windows.Forms.GroupBox gbFiltro;
-        private System.Windows.Forms.GroupBox gbBaja;
-        private System.Windows.Forms.CheckBox ckBaja;
+        public System.Windows.Forms.DataGridView dgvLista;
+        public System.Windows.Forms.CheckBox ckBaja;
+        public System.Windows.Forms.GroupBox gbBaja;
     }
 }

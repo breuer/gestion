@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Globalization;
 
 namespace Clinica_Frba
 {
@@ -19,7 +20,7 @@ namespace Clinica_Frba
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            label1.Text = Properties.Settings.Default.fechaConfig;
+            //label1.Text = Properties.Settings.Default.fechaConfig;
         }
 
         private void btSearchPlanes_Click(object sender, EventArgs e)
@@ -54,5 +55,12 @@ namespace Clinica_Frba
                     break;
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+             tbFecha.Text =  Properties.Settings.Default.fechaFormat;
+             dpFecha.Value = DateTime.ParseExact("02/12/13 18:37:58", "MM/dd/yy HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+
     }
 }

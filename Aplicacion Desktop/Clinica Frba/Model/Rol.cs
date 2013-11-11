@@ -31,7 +31,6 @@ namespace Clinica_Frba.Model
             set { habilitado = value; }
             get { return habilitado; }
         }
-        
         public static RolRepository getRepository
         {
             get { return repository; }

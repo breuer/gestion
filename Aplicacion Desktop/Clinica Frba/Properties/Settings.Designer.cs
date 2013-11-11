@@ -35,10 +35,19 @@ namespace Clinica_Frba.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2009/02/26 18:37:58")]
+        [global::System.Configuration.DefaultSettingValueAttribute("02/12/13 18:37:58")]
         public string fechaConfig {
             get {
                 return ((string)(this["fechaConfig"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MM/dd/yy HH:mm:ss")]
+        public string fechaFormat {
+            get {
+                return ((string)(this["fechaFormat"]));
             }
         }
     }

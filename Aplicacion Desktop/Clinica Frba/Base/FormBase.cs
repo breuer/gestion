@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using System.Globalization;
 
 namespace Clinica_Frba.Base
 {
@@ -53,10 +54,11 @@ namespace Clinica_Frba.Base
         }
         protected void crearConsulta(GroupBox groupBox, List<SqlParameter> parametros)
         {
-            foreach (Object obj in groupBox.Controls)
+            foreach (Object oobj in groupBox.Controls)
             {
-                // Ignoro los controles que son visuales (text tooltip) 
-                if (!(obj is Label))
+                // Ignoro los controles que son visuales (text tooltip)
+                Control obj = oobj as Control;
+                if (!(obj is Label) && obj.Visible)
                 {
                     if (obj is GroupBox)
                     {
@@ -68,14 +70,17 @@ namespace Clinica_Frba.Base
                         SqlParameter param = cb.Tag as SqlParameter;
                         if (((ComboBox)obj).SelectedIndex != -1)
                         {
-                            param.Value = ((DataRowView)cb.SelectedItem)[param.ParameterName];
-                            System.Console.WriteLine(param.Value);
+                           param.Value = ((DataRowView)cb.SelectedItem)[param.ParameterName];
+                           System.Console.WriteLine(param.Value);
                         }
                         parametros.Add(param);
                     }
                     else if (obj is CheckBox)
                     {
-                        ((CheckBox)obj).Checked = false;
+                        CheckBox ck = obj as CheckBox;
+                        SqlParameter param = ck.Tag as SqlParameter;
+                        param.Value = ck.Checked;
+                        parametros.Add(param);
                     }
                     else if (obj is TextBox)
                     {
@@ -133,6 +138,66 @@ namespace Clinica_Frba.Base
             }
         }
 
+        protected void keyPresssDigit(KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else if (Char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+
+        protected DateTime getFechaConfig()
+        {
+            DateTime configTime = DateTime.ParseExact(
+                Properties.Settings.Default.fechaConfig,
+                Properties.Settings.Default.fechaFormat,
+                CultureInfo.InvariantCulture
+            );
+            try
+            {
+                DateTime fecha = new DateTime(
+                    configTime.Year,
+                    configTime.Month,
+                    configTime.Day,
+                    0,
+                    0,
+                    0
+                );
+                return fecha;
+            }
+            catch (Exception e)
+            {
+                DialogResult result = MessageBox.Show(
+                   "La fecha proporcionada por la configuracion no es valida o esta fuera del rango de la fecha de nacimiento. Si decea continuar?",
+                   Application.ProductName,
+                   MessageBoxButtons.YesNo,
+                   MessageBoxIcon.Error
+               );
+                if (result == DialogResult.No)
+                {
+                    Application.Exit();
+                }
+                DateTime now = new DateTime();
+                return new DateTime(
+                    now.Year,
+                    now.Month,
+                    now.Day,
+                    0,
+                    0,
+                    0
+                );
+            }
+        }
+
     }
+
 
 }

@@ -50,7 +50,7 @@ namespace Clinica_Frba
 
         private void btAltaAfiliado_Click(object sender, EventArgs e)
         {
-            Abm_de_Afiliado.FormAltaFamiliar frm = new Abm_de_Afiliado.FormAltaFamiliar();
+            Abm_de_Afiliado.FormAltaAfiliado frm = new Abm_de_Afiliado.FormAltaAfiliado();
             frm.ShowDialog();
         }
 
@@ -69,6 +69,15 @@ namespace Clinica_Frba
         private void btListarPlan_Click(object sender, EventArgs e)
         {
             Abm_de_Planes.FormSearchPlanes frm = new Clinica_Frba.Abm_de_Planes.FormSearchPlanes();
+            frm.ShowDialog();
+        }
+
+
+
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form1 frm = new Form1();
             frm.ShowDialog();
         }
 

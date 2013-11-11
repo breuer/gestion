@@ -15,12 +15,14 @@ namespace Clinica_Frba.Base
     public partial class FormSearch : FormBase
     {
         private String spName;
+        private Boolean ejecutar;
 
         List<SqlParameter> sqlParameterLst = new List<SqlParameter>();
         
         public FormSearch()
         {
             InitializeComponent();
+            this.Shown += new EventHandler(FormSearch_Shown);
         }
 
         public FormSearch(String text, String titulo)
@@ -33,6 +35,11 @@ namespace Clinica_Frba.Base
         {
             set { spName = value; }
             get { return spName; }
+        }
+        public Boolean Ejecutar
+        {
+            set { ejecutar = value; }
+            get { return ejecutar; }
         }
 
         protected virtual void btBuscar_Click(object sender, EventArgs e)
@@ -69,22 +76,33 @@ namespace Clinica_Frba.Base
             return "";
         }
 
-        private void dgvLista_DoubleClick(object sender, EventArgs e)
+        protected virtual void dgvLista_DoubleClick(object sender, EventArgs e)
         {
-            if (dgvLista.RowCount == 0)
-            {
-                return;
-            }
-            Rol rol = new Rol();
-            rol.Id = int.Parse(getValueDataGrit(dgvLista, "id"));
-            rol.Nombre = this.getValueDataGrit(dgvLista,"nombre");
-            rol.Habilitado = this.getValueDataGrit(dgvLista, "habilitado").Equals("true") ? true : false;
-            string[] funcionalidades = this.getValueDataGrit(dgvLista, "FUNCIONALIDAD").Split(';');
-            rol.Funcionaliadades = funcionalidades.ToList<string>();
-            FormAltaRol frm = new FormAltaRol();
-            frm.Accion = EActionSearch.MODIFICACION;
-            frm.Rol = rol;
-            frm.ShowDialog(this);
+            
         }
+        
+        protected virtual void settingFiltroInicial()
+        {
+
+        }
+
+        private void FormSearch_Load(object sender, EventArgs e)
+        {
+            if (Accion == EActionSearch.SELECCION)
+            {
+                settingFiltroInicial();
+            }
+           
+        }
+        protected void FormSearch_Shown(object sender, EventArgs e)
+        {
+            Application.DoEvents();
+            if (Ejecutar)
+            {
+                btBuscar_Click(sender, e);
+            }
+        }
+
+   
     }
 }

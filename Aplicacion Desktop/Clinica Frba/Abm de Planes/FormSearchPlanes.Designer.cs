@@ -34,10 +34,7 @@
             this.gbFiltro.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btBuscar
-            // 
-            // 
-            // btLimpiar
+            // pBusqueda
             // 
             // 
             // gbFiltro
