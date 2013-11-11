@@ -1,0 +1,20 @@
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\bin\Release\Clinica Frba.exe.config
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\bin\Release\Clinica Frba.exe
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\bin\Release\Clinica Frba.pdb
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\ResolveAssemblyReference.cache
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Afiliado.FormSearchAfiliado.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Especialidades_Medicas.FormSearchEspecialidad.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.NewFolder15.Form1.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Planes.FormSearchPlanes.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.NewFolder13.Form1.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Base.FormSearch.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Form1.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.FormMain.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Properties.Resources.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica Frba.csproj.GenerateResource.Cache
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica Frba.exe
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica Frba.pdb
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.FormAltaRol.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Base.FormAlta.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.FormSearchRol.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Afiliado.FormAltaAfiliado.resources

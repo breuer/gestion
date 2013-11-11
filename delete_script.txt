@@ -37,7 +37,7 @@ drop table NN_NN.PROFESIONAL_ESPECIALIDAD
 
 drop table NN_NN.AGENDA
 
-drop table NN_NN.PLAN1
+drop table NN_NN.PLAN_MEDICO
 
 drop table NN_NN.DIA
 

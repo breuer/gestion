@@ -170,7 +170,7 @@ GO
 /******************************************************
 *                    AGENDA PROFESIONAL               *
 *******************************************************/
-/*
+
 CREATE PROCEDURE 
 	NN_NN.SP_ADD_DIA_ATENCION (@codigo_dia int, @nro_profesional int) AS
 BEGIN 
@@ -180,7 +180,7 @@ BEGIN
 		(@codigo_dia, @nro_profesional)
 END
 GO
-*/
+
 
 /******************************************************
 *                    BONOS                            *
@@ -275,31 +275,3 @@ BEGIN
 	END
 END
 GO
-
-/******************************************************
-*                    ATENCION MEDICA                  *
-*******************************************************/
-/*
-CREATE PROCEDURE 
-	NN_NN.SP_LLEGADA_ATENCION_MEDICA (@nro_afiliado int, @nro_profesional int)
-AS
-BEGIN 
-	DECLARE @nro int = ( 
-		SELECT TOP 1
-			B.numero
-		FROM
-			NN_NN.BONO_FARMACIA B
-		WHERE
-			B.nro_afiliado IS NULL
-	)
-	IF (@nro IS NOT NULL)
-	BEGIN
-		UPDATE NN_NN.BONO_FARMACIA
-		SET 
-			nro_afiliado = @nro_afiliado, 
-			fecha_compra = GETDATE()
-		WHERE
-			numero = @nro
-	END
-END
-*/
