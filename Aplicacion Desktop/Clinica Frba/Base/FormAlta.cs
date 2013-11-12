@@ -22,6 +22,7 @@ namespace Clinica_Frba.Base
         protected virtual void btLimpiar_Click(object sender, EventArgs e)
         {
             this.limpiarGroupBox(this.gbControl);
+            this.loadControls();
         }
 
         private void Cancelar_Click(object sender, EventArgs e)

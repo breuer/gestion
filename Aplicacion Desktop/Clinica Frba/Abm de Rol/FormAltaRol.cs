@@ -28,13 +28,6 @@ namespace Clinica_Frba.Abm_de_Rol
             get { return rol; }
         }
 
-        protected override void btLimpiar_Click(object sender, EventArgs e)
-        {
-            base.btLimpiar_Click(sender, e);
-            this.loadControls();
-        }
-
- 
         protected override void loadControls()
         {
             DataTable dt = Rol.getRepository.getFuncionalidades();

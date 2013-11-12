@@ -249,6 +249,7 @@
             this.btAltaProfesional.TabIndex = 1;
             this.btAltaProfesional.Text = "Alta";
             this.btAltaProfesional.UseVisualStyleBackColor = true;
+            this.btAltaProfesional.Click += new System.EventHandler(this.btAltaProfesional_Click);
             // 
             // btBajaProfesional
             // 

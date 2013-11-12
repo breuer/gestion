@@ -9,7 +9,6 @@ C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Afi
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Especialidades_Medicas.FormSearchEspecialidad.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.NewFolder15.Form1.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Planes.FormSearchPlanes.resources
-C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.NewFolder13.Form1.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Rol.FormAltaRol.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Rol.FormSearchRol.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Base.FormAlta.resources
@@ -18,3 +17,4 @@ C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Form1.reso
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.FormMain.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Properties.Resources.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica Frba.csproj.GenerateResource.Cache
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.NewFolder13.FormAltaProfesional.resources

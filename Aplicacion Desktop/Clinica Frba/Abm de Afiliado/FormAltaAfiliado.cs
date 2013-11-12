@@ -67,7 +67,7 @@ namespace Clinica_Frba.Abm_de_Afiliado
         protected override void setControlsTag()
         {
             cbEstadoCivil.DataSource = Afiliado.getRepository.getEstadoCivil();
-            cbEstadoCivil.DisplayMember = "estadoCivi";
+            cbEstadoCivil.DisplayMember = "estadoCivil";
 
             cbEstadoCivil.Tag = new Tag("estadoCivil", "estadoCivil", SqlDbType.Text);
 

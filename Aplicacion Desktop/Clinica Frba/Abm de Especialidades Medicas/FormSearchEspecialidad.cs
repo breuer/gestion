@@ -36,6 +36,9 @@ namespace Clinica_Frba.Abm_de_Especialidades_Medicas
             tbDescripcion.Tag = sqlParam;
  
         }
+
+
+
         protected override void fill()
         {
             MessageBox.Show("HOLLLL");

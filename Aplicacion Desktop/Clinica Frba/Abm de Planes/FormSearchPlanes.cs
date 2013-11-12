@@ -32,7 +32,7 @@ namespace Clinica_Frba.Abm_de_Planes
 
         private void FormSearchPlanes_Load(object sender, EventArgs e)
         {
-            tbDescripcion.Tag = new SqlParameter("descripcion", SqlDbType.Text);
+            tbDescripcion.Tag = new Tag("descripcion", "descripcion", SqlDbType.Text);
         }
 
         protected override void dgvLista_DoubleClick(object sender, EventArgs e)

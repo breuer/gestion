@@ -55,6 +55,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btAdd = new System.Windows.Forms.Button();
+            this.tbMail = new System.Windows.Forms.TextBox();
+            this.lMail = new System.Windows.Forms.Label();
+            this.lDireccion = new System.Windows.Forms.Label();
+            this.tbDireccion = new System.Windows.Forms.TextBox();
             this.gbControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -65,6 +69,10 @@
             // 
             // gbControl
             // 
+            this.gbControl.Controls.Add(this.tbMail);
+            this.gbControl.Controls.Add(this.lMail);
+            this.gbControl.Controls.Add(this.lDireccion);
+            this.gbControl.Controls.Add(this.tbDireccion);
             this.gbControl.Controls.Add(this.btSearchPlan);
             this.gbControl.Controls.Add(this.cbPlan);
             this.gbControl.Controls.Add(this.lPlan);
@@ -83,7 +91,7 @@
             this.gbControl.Controls.Add(this.label3);
             this.gbControl.Controls.Add(this.label2);
             this.gbControl.Controls.Add(this.label1);
-            this.gbControl.Size = new System.Drawing.Size(331, 292);
+            this.gbControl.Size = new System.Drawing.Size(331, 326);
             // 
             // groupBox3
             // 
@@ -335,6 +343,38 @@
             this.btAdd.Visible = false;
             this.btAdd.Click += new System.EventHandler(this.btAdd_Click);
             // 
+            // tbMail
+            // 
+            this.tbMail.Location = new System.Drawing.Point(74, 303);
+            this.tbMail.Name = "tbMail";
+            this.tbMail.Size = new System.Drawing.Size(231, 20);
+            this.tbMail.TabIndex = 72;
+            // 
+            // lMail
+            // 
+            this.lMail.AutoSize = true;
+            this.lMail.Location = new System.Drawing.Point(6, 303);
+            this.lMail.Name = "lMail";
+            this.lMail.Size = new System.Drawing.Size(32, 13);
+            this.lMail.TabIndex = 71;
+            this.lMail.Text = "Mail: ";
+            // 
+            // lDireccion
+            // 
+            this.lDireccion.AutoSize = true;
+            this.lDireccion.Location = new System.Drawing.Point(6, 273);
+            this.lDireccion.Name = "lDireccion";
+            this.lDireccion.Size = new System.Drawing.Size(55, 13);
+            this.lDireccion.TabIndex = 70;
+            this.lDireccion.Text = "Direccion:";
+            // 
+            // tbDireccion
+            // 
+            this.tbDireccion.Location = new System.Drawing.Point(74, 273);
+            this.tbDireccion.Name = "tbDireccion";
+            this.tbDireccion.Size = new System.Drawing.Size(231, 20);
+            this.tbDireccion.TabIndex = 69;
+            // 
             // FormAltaAfiliado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -390,6 +430,10 @@
         private System.Windows.Forms.Button cbQuitarConyuge;
         private System.Windows.Forms.Button btAdd;
         public System.Windows.Forms.ComboBox cbEstadoCivil;
+        private System.Windows.Forms.TextBox tbMail;
+        private System.Windows.Forms.Label lMail;
+        private System.Windows.Forms.Label lDireccion;
+        private System.Windows.Forms.TextBox tbDireccion;
 
     }
 }

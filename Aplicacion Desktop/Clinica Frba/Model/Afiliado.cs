@@ -43,5 +43,6 @@ namespace Clinica_Frba.Model
         {
             get { return repository; }
         }
+
     }
 }

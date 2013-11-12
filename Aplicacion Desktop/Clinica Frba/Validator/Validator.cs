@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Clinica_Frba.Validator
 {
@@ -41,6 +42,38 @@ namespace Clinica_Frba.Validator
             if (clb.CheckedItems.Count == 0)
             {
                 //this.errorProvider.SetError(clb, "Campo obligatorio");
+                return false;
+            }
+            return true;
+        }
+
+        protected static bool TextBoxValidatedMail(GroupBox groupBox, string name, bool isNullAble)
+        {
+            TextBox tb = (TextBox)groupBox.Controls[name];
+            string msgError = "";
+            if ("".Equals(tb.Text) && isNullAble)
+            {
+                return true;
+            }
+            else if ("".Equals(tb.Text) && !isNullAble)
+            {
+                //this.errorProvider.SetError(tb, "Campo obligatorio");
+                return false;
+            }
+            if (tb.Text.Length > 50)
+            {
+                msgError = "error";
+            
+            }
+
+            if (!Regex.Match(tb.Text, mail).Success)
+            {
+                msgError = msgError + " " + "Error Mail";
+            }
+
+            if (!"".Equals(msgError))
+            {
+                //this.errorProvider.SetError(tb, msgError);
                 return false;
             }
             return true;

@@ -272,6 +272,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Validator\ValidatorFrmProfesional.cs" />
     <Compile Include="Validator\Validator.cs" />
     <Compile Include="Validator\ValidatorFrmAfiliado.cs" />
     <Compile Include="Validator\ValidatorFrmRol.cs" />

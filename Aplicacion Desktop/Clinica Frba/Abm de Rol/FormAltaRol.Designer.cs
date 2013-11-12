@@ -44,8 +44,7 @@
             // 
             // btLimpiar
             // 
-            this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
-            // 
+           // 
             // label2
             // 
             this.label2.AutoSize = true;
