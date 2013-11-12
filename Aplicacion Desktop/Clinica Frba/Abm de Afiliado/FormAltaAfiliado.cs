@@ -67,25 +67,25 @@ namespace Clinica_Frba.Abm_de_Afiliado
         protected override void setControlsTag()
         {
             cbEstadoCivil.DataSource = Afiliado.getRepository.getEstadoCivil();
-            cbEstadoCivil.DisplayMember = "descripcion";
-            
-            cbEstadoCivil.Tag = new SqlParameter("estadoCivil", SqlDbType.Text);
+            cbEstadoCivil.DisplayMember = "estadoCivi";
+
+            cbEstadoCivil.Tag = new Tag("estadoCivil", "estadoCivil", SqlDbType.Text);
 
             cbPlan.DataSource = PlanMedico.getRepository.getPlanes();
             cbPlan.DisplayMember = "descripcion";
-            cbPlan.Tag = new SqlParameter("plan", SqlDbType.Int);
+            cbPlan.Tag = new Tag("plan", "plan", SqlDbType.Int);
 
-            cbTipo.Tag = new SqlParameter("tipo", SqlDbType.Text);
+            cbTipo.Tag = new Tag("tipo", "tipo", SqlDbType.Text);
 
-            tbNombre.Tag = new SqlParameter("nombre", SqlDbType.Text);
-            
-            tbApellido.Tag = new SqlParameter("apellido", SqlDbType.Text);
+            tbNombre.Tag = new Tag("nombre", "nombre", SqlDbType.Text);
 
-            tbDni.Tag = new SqlParameter("dni", SqlDbType.Int);
+            tbApellido.Tag = new Tag("apellido", "apellido", SqlDbType.Text);
 
-            tbTelefono.Tag = new SqlParameter("telefono", SqlDbType.Int);
+            tbDni.Tag = new Tag("dni", "dni", SqlDbType.Int);
 
-            dtFechaNacimiento.Tag = new SqlParameter("fechaNacimiento", SqlDbType.DateTime);
+            tbTelefono.Tag = new Tag("telefono", "telefono", SqlDbType.Int);
+
+            dtFechaNacimiento.Tag = new Tag("fechaNacimiento", "fechaNacimiento", SqlDbType.DateTime);
         }
 
         

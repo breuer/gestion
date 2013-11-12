@@ -66,6 +66,12 @@
     <Compile Include="Abm de Planes\FormSearchPlanes.Designer.cs">
       <DependentUpon>FormSearchPlanes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm de Profesional\FormSearchProfesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\FormSearchProfesional.Designer.cs">
+      <DependentUpon>FormSearchProfesional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm de Rol\FormAltaRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,9 +116,11 @@
     <Compile Include="Model\EspecialidaMedica.cs" />
     <Compile Include="Model\Funcionalidad.cs" />
     <Compile Include="Model\PlanMedico.cs" />
+    <Compile Include="Model\Profesional.cs" />
     <Compile Include="Model\Repository\AfiliadoRepository.cs" />
     <Compile Include="Model\Repository\EspecialidadMedicaRepository.cs" />
     <Compile Include="Model\Repository\PlanMedicoRepository.cs" />
+    <Compile Include="Model\Repository\ProfesionalRepository.cs" />
     <Compile Include="Model\Repository\Repository.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

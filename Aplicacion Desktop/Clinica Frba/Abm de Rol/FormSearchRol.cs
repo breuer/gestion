@@ -24,10 +24,8 @@ namespace Clinica_Frba.Abm_de_Rol
             cbFuncionalidad.DataSource = Rol.getRepository.getFuncionalidades();
             cbFuncionalidad.DisplayMember = "funcionalidad";
             cbFuncionalidad.SelectedIndex = -1;
-            tbNombre.Tag = new SqlParameter("nombre", SqlDbType.Text);
-            cbFuncionalidad.Tag = new SqlParameter("funcionalidad", SqlDbType.Text);
-           
-
+            tbNombre.Tag = new Tag("nombre", "nombre", SqlDbType.Text);
+            cbFuncionalidad.Tag = new Tag("funcionalidad", "funcionalidad", SqlDbType.Text);
         }
         protected override void fill()
         {

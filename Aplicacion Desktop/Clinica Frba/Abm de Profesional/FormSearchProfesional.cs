@@ -8,14 +8,13 @@ using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.Base;
 
-namespace Clinica_Frba.NewFolder13
+namespace Clinica_Frba.Abm_de_Profesional
 {
-    public partial class FormAltaProfesional : FormAlta
+    public partial class FormSearchProfesional : FormSearch
     {
-        public FormAltaProfesional()
+        public FormSearchProfesional()
         {
             InitializeComponent();
         }
-
     }
 }
