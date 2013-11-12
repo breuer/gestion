@@ -93,8 +93,8 @@ CREATE TABLE NN_NN.AFILIADO
 	cantidad_hijos [int],
 	fecha_baja [datetime],
 	cod_plan [int] not null,
+	sexo [char] not null default ('I'),
 	enable [varchar] (1)
-	--tipo_afiliado [int] not null
 )
 
 CREATE TABLE NN_NN.TIPO_DOCUMENTO
@@ -153,12 +153,15 @@ CREATE TABLE NN_NN.PROFESIONAL
 	numero [int] identity(1,1) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
+	codigo_documento [int] not null,
 	dni [int] not null,
 	direccion [varchar] (255) not null,
 	fecha_nac [datetime],
 	telefono [int] not null,
 	enable [varchar] (1),
-	mail [varchar] (255) not null
+	mail [varchar] (255) not null,
+	sexo [char] not null default ('I'),
+	matricula [varchar] (255) null 
 )
 
 CREATE TABLE NN_NN.AGENDA
