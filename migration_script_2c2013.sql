@@ -80,32 +80,32 @@ GO
 
 CREATE TABLE NN_NN.AFILIADO
 (
-	numero [int] identity(1,1) not null,
+	numero [numeric](18, 0) identity(1,1) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
-	codigo_documento [int] not null,
-	documento [int] not null,
+	codigo_documento [numeric](18, 0) not null,
+	documento [numeric](18, 0) not null,
 	direccion [varchar] (255) not null,
-	cod_estado_civil [int],
+	cod_estado_civil [numeric](18, 0),
 	fecha_nac [datetime],
-	telefono [int] not null,
+	telefono [numeric](18, 0) not null,
 	mail [varchar] (255) not null,
-	cantidad_hijos [int],
+	cantidad_hijos [numeric](18, 0),
 	fecha_baja [datetime],
-	cod_plan [int] not null,
+	cod_plan [numeric](18, 0) not null,
 	sexo [char] not null default ('I'),
 	enable [varchar] (1)
 )
 
 CREATE TABLE NN_NN.TIPO_DOCUMENTO
 (
-	codigo [int]identity(1,1) not null,
+	codigo [numeric](18, 0)identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
 
 CREATE TABLE NN_NN.ESTADO_CIVIL
 (
-	codigo [int]identity(1,1) not null,
+	codigo [numeric](18, 0)identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
 
@@ -113,51 +113,51 @@ CREATE TABLE NN_NN.CAMBIO_PLAN
 (
 	fecha_modificaion [datetime] not null,
 	motivo [varchar] (255) not null,
-	nro_afiliado [int] not null
+	nro_afiliado [numeric](18, 0) not null
 )
 
 CREATE TABLE NN_NN.PLAN_MEDICO
 (
-	codigo [int] not null,
+	codigo [numeric](18, 0) not null,
 	descripcion [varchar] (255) not null,
-	precio_bono_consulta  [int] not null,
-	precio_bono_farmacia [int] not null
+	precio_bono_consulta  [numeric](18, 0) not null,
+	precio_bono_farmacia [numeric](18, 0) not null
 )
 
 CREATE TABLE NN_NN.BONO_CONSULTA
 (
 	fecha_compra [datetime],
-	numero [int],
-	--numero_consulta [int],
+	numero [numeric](18, 0),
+	--numero_consulta [numeric](18, 0),
 	fecha_impresion [datetime],
-	nro_afiliado [int]
+	nro_afiliado [numeric](18, 0)
 )
 
 CREATE TABLE NN_NN.BONO_FARMACIA
 (
 	fecha_compra [datetime],
-	numero [int],
+	numero [numeric](18, 0),
 	fecha_impresion [datetime],
 	fecha_vencimiento [datetime],
-	nro_afiliado [int]
+	nro_afiliado [numeric](18, 0)
 )
 
 CREATE TABLE NN_NN.MEDICAMENTO
 (
 	descripcion [varchar] (255) not null,
-	nro_bono_farmacia [int] not null
+	nro_bono_farmacia [numeric](18, 0) not null
 )
 
 CREATE TABLE NN_NN.PROFESIONAL
 (
-	numero [int] identity(1,1) not null,
+	numero [numeric](18, 0) identity(1,1) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
-	codigo_documento [int] not null,
-	dni [int] not null,
+	codigo_documento [numeric](18, 0) not null,
+	dni [numeric](18, 0) not null,
 	direccion [varchar] (255) not null,
 	fecha_nac [datetime],
-	telefono [int] not null,
+	telefono [numeric](18, 0) not null,
 	enable [varchar] (1),
 	mail [varchar] (255) not null,
 	sexo [char] not null default ('I'),
@@ -166,62 +166,62 @@ CREATE TABLE NN_NN.PROFESIONAL
 
 CREATE TABLE NN_NN.AGENDA
 (
-	numero [int] identity(1,1) not null,
+	numero [numeric](18, 0) identity(1,1) not null,
 	fecha_fin [date] not null,
 	fecha_inicio [date] not null,
-	nro_profesional [int] not null
+	nro_profesional [numeric](18, 0) not null
 )
 
 CREATE TABLE NN_NN.DIA_ATENCION
 (
-	codigo_dia [int] not null,
+	codigo_dia [numeric](18, 0) not null,
 	hora_fin [time] not null,
 	hora_inicio [time] not null,
-	nro_agenda [int] not null
+	nro_agenda [numeric](18, 0) not null
 )
 
 
 CREATE TABLE NN_NN.DIA
 (
-	codigo [int] identity(1,1) not null,
+	codigo [numeric](18, 0) identity(1,1) not null,
 	descripcion [varchar] (255) not null
 )
 
 
 CREATE TABLE NN_NN.PROFESIONAL_ESPECIALIDAD
 (
-	nro_profesional [int] not null,
-	cod_especialidad [int] not null
+	nro_profesional [numeric](18, 0) not null,
+	cod_especialidad [numeric](18, 0) not null
 )
 
 CREATE TABLE NN_NN.ESPECIALIDAD
 (
-	codigo [int] not null,
+	codigo [numeric](18, 0) not null,
 	descripcion [varchar] (255) not null,
-	cod_tipo_especialidad [int] not null
+	cod_tipo_especialidad [numeric](18, 0) not null
 )
 
 CREATE TABLE NN_NN.TIPO_ESPECIALIDAD
 (
-	codigo [int] not null,
+	codigo [numeric](18, 0) not null,
 	descripcion [varchar] (255) not null
 )
 
 CREATE TABLE NN_NN.TURNO
 (
-	numero [int] not null,
+	numero [numeric](18, 0) not null,
 	fecha [datetime] not null,
 	fecha_llegada [datetime],
-	dni_afiliado [int] not null,
-	dni_profesional [int] not null,
-	nro_day [int] not null
+	dni_afiliado [numeric](18, 0) not null,
+	dni_profesional [numeric](18, 0) not null,
+	nro_day [numeric](18, 0) not null
 )
 
 CREATE TABLE NN_NN.CANCELACION_TURNO
 (
 	motivo [varchar] (255) not null,
-	nro_turno [int] not null,
-	--tipo_cancelacion [int] not null
+	nro_turno [numeric](18, 0) not null,
+	--tipo_cancelacion [numeric](18, 0) not null
 )
 
 
@@ -231,16 +231,16 @@ CREATE TABLE NN_NN.CONSULTA
 	diagnostico [varchar] (255) not null,
 	sintomas [varchar] (255) not null,
 	fecha_atencion [datetime],
-	nro_bono_consulta [int] not null,
-	nro_turno [int] not null
+	nro_bono_consulta [numeric](18, 0) not null,
+	nro_turno [numeric](18, 0) not null
 )
 
 
 CREATE TABLE NN_NN.CONSULTA_BONO_FARMACIA
 (
-	nro_bono_farmacia [int] not null,
-	nro_turno [int] not null,
-	nro_bono_consulta [int] not null
+	nro_bono_farmacia [numeric](18, 0) not null,
+	nro_turno [numeric](18, 0) not null,
+	nro_bono_consulta [numeric](18, 0) not null
 )
 
 
@@ -451,9 +451,9 @@ FROM
 *******************************************************/
 
 INSERT INTO 
-	NN_NN.PROFESIONAL(apellido, nombre, dni, direccion, fecha_nac, telefono, mail)
+	NN_NN.PROFESIONAL(apellido, nombre, dni, direccion, fecha_nac, telefono, mail, codigo_documento)
 SELECT DISTINCT 
-	Medico_Apellido, Medico_Nombre, Medico_Dni, Medico_Direccion, Medico_Fecha_Nac, Medico_Telefono, Medico_Mail 
+	Medico_Apellido, Medico_Nombre, Medico_Dni, Medico_Direccion, Medico_Fecha_Nac, Medico_Telefono, Medico_Mail, 1 
 FROM 
 	gd_esquema.Maestra
 WHERE 
