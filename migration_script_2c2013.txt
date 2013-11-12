@@ -83,7 +83,8 @@ CREATE TABLE NN_NN.AFILIADO
 	numero [int] identity(1,1) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
-	dni [int] not null,
+	codigo_documento [int] not null,
+	documento [int] not null,
 	direccion [varchar] (255) not null,
 	cod_estado_civil [int],
 	fecha_nac [datetime],
@@ -94,6 +95,12 @@ CREATE TABLE NN_NN.AFILIADO
 	cod_plan [int] not null,
 	enable [varchar] (1)
 	--tipo_afiliado [int] not null
+)
+
+CREATE TABLE NN_NN.TIPO_DOCUMENTO
+(
+	codigo [int]identity(1,1) not null,
+	descripcion [varchar] (255) not null
 )
 
 CREATE TABLE NN_NN.ESTADO_CIVIL
@@ -244,6 +251,14 @@ CREATE TABLE NN_NN.CONSULTA_BONO_FARMACIA
 *                    MIGRATION                                                          *
 **************************************************************************************/
 
+/******************************************************
+*                    TIPO DOCUMENTO                         *
+*******************************************************/
+
+INSERT INTO 
+	NN_NN.TIPO_DOCUMENTO (descripcion)
+VALUES 
+	('dni')
 
 /******************************************************
 *                    ESTADO CIVIL                     *
@@ -319,9 +334,9 @@ VALUES
 *******************************************************/
 
 INSERT INTO 
-	NN_NN.AFILIADO(apellido, nombre, dni, direccion, fecha_nac, telefono, mail,  cod_plan)
+	NN_NN.AFILIADO(apellido, nombre, codigo_documento, documento, direccion, fecha_nac, telefono, mail,  cod_plan)
 SELECT DISTINCT 
-	Paciente_Apellido, Paciente_Nombre, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
+	Paciente_Apellido, Paciente_Nombre, 1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
 FROM 
 	gd_esquema.Maestra
 
@@ -344,7 +359,7 @@ FROM
 INNER JOIN
 	NN_NN.AFILIADO A	
 ON
-	M.Paciente_Dni=A.dni
+	M.Paciente_Dni=A.documento
 WHERE 
 	M.Compra_Bono_Fecha IS NOT NULL AND
 	M.Bono_Consulta_Fecha_Impresion IS NOT NULL 
@@ -362,7 +377,7 @@ FROM
 INNER JOIN
 	NN_NN.AFILIADO A	
 ON
-	M.Paciente_Dni=A.dni
+	M.Paciente_Dni=A.documento
 WHERE 
 	M.Compra_Bono_Fecha IS NOT NULL AND
 	M.Bono_Farmacia_Fecha_Impresion IS NOT NULL
@@ -412,7 +427,7 @@ FROM
 INNER JOIN
 	NN_NN.AFILIADO A	
 ON
-	M.Paciente_Dni=A.dni
+	M.Paciente_Dni=A.documento
 WHERE 
 	M.Bono_Farmacia_Medicamento IS NOT NULL 
 
