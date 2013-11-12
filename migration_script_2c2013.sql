@@ -161,7 +161,7 @@ CREATE TABLE NN_NN.PROFESIONAL
 	enable [varchar] (1),
 	mail [varchar] (255) not null,
 	sexo [char] not null default ('I'),
-	matricula [varchar] (255) null 
+	matricula numeric(18,0) null 
 )
 
 CREATE TABLE NN_NN.AGENDA
