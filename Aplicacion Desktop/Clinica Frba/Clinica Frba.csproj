@@ -97,6 +97,7 @@
     <Compile Include="Base\FormSearch.Designer.cs">
       <DependentUpon>FormSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\Tag.cs" />
     <Compile Include="Interface\IFInvocanteFaminliar.cs" />
     <Compile Include="Interface\IFInvocantePlan.cs" />
     <Compile Include="FormMain.cs">

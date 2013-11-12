@@ -56,7 +56,7 @@ namespace Clinica_Frba.Base
         {
             foreach (Object oobj in groupBox.Controls)
             {
-                // Ignoro los controles que son visuales (text tooltip)
+                // Ignoro los controles que son visuales (label tooltip)
                 Control obj = oobj as Control;
                 if (!(obj is Label) && obj.Visible)
                 {
@@ -67,47 +67,43 @@ namespace Clinica_Frba.Base
                     else if (obj is ComboBox)
                     {
                         ComboBox cb = obj as ComboBox;
-                        SqlParameter param = cb.Tag as SqlParameter;
-                        if (((ComboBox)obj).SelectedIndex != -1)
+                        Tag tag = cb.Tag as Tag;
+                        if (cb.SelectedIndex != -1)
                         {
-                           param.Value = ((DataRowView)cb.SelectedItem)[param.ParameterName];
-                           System.Console.WriteLine(param.Value);
+                           tag.Value = ((DataRowView)cb.SelectedItem)[tag.Name];
                         }
-                        parametros.Add(param);
+                        parametros.Add(tag.SQLParemeter);
                     }
                     else if (obj is CheckBox)
                     {
                         CheckBox ck = obj as CheckBox;
-                        SqlParameter param = ck.Tag as SqlParameter;
-                        param.Value = ck.Checked;
-                        parametros.Add(param);
+                        Tag tag = ck.Tag as Tag;
+                        tag.Value = ck.Checked;
+                        parametros.Add(tag.SQLParemeter);
                     }
                     else if (obj is TextBox)
                     {
-                        
                         TextBox tb = obj as TextBox;
-                        SqlParameter param = tb.Tag as SqlParameter;
-                        System.Console.WriteLine(tb.Text);
+                        Tag tag = tb.Tag as Tag;
                         if (tb.Text != null && !"".Equals(tb.Text))
                         {
-                            switch (param.SqlDbType)
+                            switch (tag.SQLDbType)
                             {
-
                                 case SqlDbType.Text:
-                                    param.Value = tb.Text;
+                                    tag.Value = tb.Text;
                                     break;
                                 case SqlDbType.Binary:
                                     MessageBox.Show("DATE TIME");
                                     break;
                                 case SqlDbType.Int:
-                                    param.Value = Int32.Parse(tb.Text);
+                                    tag.Value = Int32.Parse(tb.Text);
                                     break;
                                 case SqlDbType.DateTime:
                                     MessageBox.Show("DATE TIME");
                                     break;
                             }
                         }
-                        parametros.Add(param);
+                        parametros.Add(tag.SQLParemeter);
                     }
                     else if (obj is CheckedListBox)
                     {

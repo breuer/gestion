@@ -70,8 +70,8 @@ namespace Clinica_Frba.Abm_de_Rol
 
         protected override void setControlsTag()
         {
-            tbNombre.Tag = new SqlParameter("nombre", SqlDbType.Text);
-            ckListFuncionalidad.Tag = new SqlParameter("funcionalidad", SqlDbType.Text); ;
+            tbNombre.Tag = new Tag("nombre", "nombre", SqlDbType.Text);
+            ckListFuncionalidad.Tag = new Tag("funcionalidad", "funcionalidad", SqlDbType.Text);
         }
 
         protected override void ejecutarConsulta(List<SqlParameter> parametros)
@@ -98,21 +98,16 @@ namespace Clinica_Frba.Abm_de_Rol
                         break;
                 }
                 Rol.getRepository.addModificar(storeProcedure, parametros);
-                
-                
                 MessageBox.Show("Operacion con exito");
             } catch (SqlException ex)
             {
                 MessageBox.Show(ex.ToString());
-            }
-            
+            } 
         }
 
         protected override String ValidarControls()
         {
             return ValidatorFrmRol.Validador(this.gbControl);
-            
         }
-
     }
 }

@@ -62,5 +62,12 @@ namespace Clinica_Frba
              dpFecha.Value = DateTime.ParseExact("02/12/13 18:37:58", "MM/dd/yy HH:mm:ss", CultureInfo.InvariantCulture);
         }
 
+        private void btSacarPrefijo_Click(object sender, EventArgs e)
+        {
+            string[] words = tbInicial.Text.Split(':');
+            tbFinal.Text = words[0];
+            tbFinal2.Text = words[1];
+        }
+
     }
 }
