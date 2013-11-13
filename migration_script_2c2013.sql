@@ -73,7 +73,32 @@ INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD) VALUES (2, 1)
 ,  (2, 12)
 ,  (2, 13);
 GO
-
+-- END ROL-FUNCIONALIDAD
+GO
+CREATE TABLE NN_NN.USUARIO(
+	ID NUMERIC(18,0) IDENTITY PRIMARY KEY NOT NULL,
+	USER_NAME VARCHAR(255) NOT NULL UNIQUE,
+	PASSWORD VARCHAR(255) NOT NULL,
+	INTENTOS_FALLIDOS INT DEFAULT 0,
+	HABILITADO BIT DEFAULT 1
+)
+-- END USUARIO
+GO
+---------------------------------------------------
+-- TABLA ROL USUARIO-ROL
+---------------------------------------------------
+CREATE TABLE NN_NN.USUARIO_ROL(
+	ID_USUARIO NUMERIC(18,0) NOT NULL, 
+	ID_ROL NUMERIC(18,0) NOT NULL,
+	ID NUMERIC(18,0) NULL,	--Si es un admin no tiene cliente relacionado
+	CONSTRAINT PK_USURIO_ROL PRIMARY KEY (ID_USUARIO, ID_ROL),
+	CONSTRAINT FK_USUARIO_ROL FOREIGN KEY (ID_ROL) REFERENCES NN_NN.ROL(ID),
+	CONSTRAINT FK_USUARIO_USUARIO FOREIGN KEY (ID_USUARIO) REFERENCES NN_NN.USUARIO(ID)
+)
+GO
+--PASSWORD ADMIN
+INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD)VALUES('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
+INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
 /*************************************************************************************
 *                    TABLES                                                                                     *
 **************************************************************************************/
