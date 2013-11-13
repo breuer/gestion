@@ -117,6 +117,87 @@ BEGIN
      end catch
 END
 GO
+-----------------------------------------------------------------
+-- PROCEDURE PLANES
+-----------------------------------------------------------------
+CREATE PROCEDURE [NN_NN].[sp_listar_plan]
+	@descripcion VARCHAR(255) = NULL,
+	@codigo INT = 0
+AS 
+BEGIN
+	SET NOCOUNT ON
+	Declare @chvQuery nvarchar(max), @chvWhere nvarchar(max);
+	Select @chvQuery = 'SET QUOTED_IDENTIFIER OFF SELECT codigo, descripcion, precio_bono_consulta, precio_bono_farmacia FROM [NN_NN].[PLAN_MEDICO]',
+		   @chvWhere = ''
+	If (@descripcion is not null AND @descripcion != '') 
+		Set @chvWhere = @chvWhere + ' descripcion LIKE "%' + @descripcion + '%" AND'
+	If (@codigo > 0)
+		Set @chvWhere = @chvWhere + ' codigo = '+ CONVERT (VARCHAR,@codigo) +' AND'
+
+	begin try
+		If Substring(@chvWhere, Len(@chvWhere) - 3, 4) = ' AND'
+			set @chvWhere = Substring(@chvWhere, 1, Len(@chvWhere) - 3)
+	end try
+	begin Catch
+		Raiserror ('Error Interno.', 16, 1)
+        return
+    end catch
+	
+	begin try
+		If Len(@chvWhere) > 0
+			set @chvQuery = @chvQuery + ' WHERE ' + @chvWhere
+		exec (@chvQuery)
+	end try
+    begin Catch
+		declare @s varchar(max)
+		set @s = 'No pudo realizar la consulta: ' + @chvQuery
+		Raiserror (@s, 16, 2)
+		return
+     end catch
+END
+GO
+-----------------------------------------------------------------
+-- PROCEDURE ESPECIALIDAD_MEDICA
+-----------------------------------------------------------------
+CREATE PROCEDURE [NN_NN].[sp_listar_especialidad]
+	@descripcion VARCHAR(255) = NULL,
+	@codigoTipo INT = 0,
+	@codigo INT = 0
+AS 
+BEGIN
+	SET NOCOUNT ON
+	Declare @chvQuery nvarchar(max), @chvWhere nvarchar(max);
+	Select @chvQuery = 'SELECT P.codigo AS codigo, P.descripcion AS descripcion, T.codigo As codigo_tipo, T.descripcion AS descripcion_tipo FROM [NN_NN].[ESPECIALIDAD] AS P LEFT JOIN [NN_NN].[TIPO_ESPECIALIDAD_MEDICA] AS T ON P.codigo_tipo_especialidad_medica = T.codigo',
+		   @chvWhere = ''
+	If (@descripcion is not null AND @descripcion != '') 
+		Set @chvWhere = @chvWhere + ' P.descripcion LIKE "%' + @descripcion + '%" AND'
+	If (@codigo > 0)
+		Set @chvWhere = @chvWhere + ' P.codigo = '+ CONVERT (VARCHAR,@codigo) +' AND'
+	If (@codigoTipo > 0)
+		Set @chvWhere = @chvWhere + ' T.codigo = '+ CONVERT (VARCHAR,@codigoTipo) +' AND'
+
+	begin try
+		If Substring(@chvWhere, Len(@chvWhere) - 3, 4) = ' AND'
+			set @chvWhere = Substring(@chvWhere, 1, Len(@chvWhere) - 3)
+	end try
+	begin Catch
+		Raiserror ('Error Interno.', 16, 1)
+        return
+    end catch
+	
+	begin try
+		If Len(@chvWhere) > 0
+			set @chvQuery = @chvQuery + ' WHERE ' + @chvWhere
+		exec (@chvQuery)
+	end try
+    begin Catch
+		declare @s varchar(max)
+		set @s = 'No pudo realizar la consulta: ' + @chvQuery
+		Raiserror (@s, 16, 2)
+		return
+     end catch
+END
+GO
 
 /******************************************************
 *                    ADD AFILIADO                     *
@@ -139,9 +220,16 @@ GO
 *                    ADD PROFESIONAL                  *
 *******************************************************/
 
-CREATE PROCEDURE 
-	NN_NN.SP_ADD_PROFESIONAL (@apellido varchar(255), @nombre varchar(255), 
-	@dni int, @direccion varchar(255), @telefono int, @mail varchar(255),
+CREATE PROCEDURE NN_NN.SP_ADD_PROFESIONAL (
+	@apellido varchar(255), 
+	@nombre varchar(255), 
+	@tipo_documento NUMERIC(18,0),
+	@dni NUMERIC(18,0),
+	@telefono NUMERIC(18,0),
+	@sexo Bit,
+	@matricula NUMERIC(18,0),
+	@direccion varchar(255), 
+	@mail varchar(255),
 	@cod_plan int)
 AS
 BEGIN 

@@ -61,5 +61,7 @@ DROP PROCEDURE NN_NN.sp_modificar_rol
 DROP PROCEDURE NN_NN.sp_listar_rol_funcionalidad
 
 
+DROP PROCEDURE [NN_NN].[sp_listar_especialidad]
+DROP PROCEDURE [NN_NN].[sp_listar_plan]
 drop schema NN_NN
 
