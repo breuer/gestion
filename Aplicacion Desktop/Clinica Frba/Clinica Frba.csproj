@@ -104,6 +104,13 @@
       <DependentUpon>FormSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Base\Tag.cs" />
+    <Compile Include="DiaAgenda.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DiaAgenda.Designer.cs">
+      <DependentUpon>DiaAgenda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\IFInvocanteEspecialidad.cs" />
     <Compile Include="Interface\IFInvocanteFaminliar.cs" />
     <Compile Include="Interface\IFInvocantePlan.cs" />
     <Compile Include="FormMain.cs">
@@ -137,6 +144,12 @@
     <Compile Include="Model\Repository\RolRepository.cs" />
     <Compile Include="Model\Rol.cs" />
     <Compile Include="Model\TipoEspecialidadMedica.cs" />
+    <Compile Include="Registrar Agenda\FormSearchAgenda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registrar Agenda\FormSearchAgenda.Designer.cs">
+      <DependentUpon>FormSearchAgenda.cs</DependentUpon>
+    </Compile>
     <Compile Include="Registro de Usuario\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,23 +168,17 @@
     <Compile Include="Abm de Profesional\FormAltaProfesional.Designer.cs">
       <DependentUpon>FormAltaProfesional.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm de Especialidades Medicas\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm de Especialidades Medicas\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Abm de Planes\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Abm de Planes\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registrar Agenda\Form1.cs">
+    <Compile Include="Registrar Agenda\FormAgenda.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrar Agenda\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registrar Agenda\FormAgenda.Designer.cs">
+      <DependentUpon>FormAgenda.cs</DependentUpon>
     </Compile>
     <Compile Include="Compra de Bono\Form1.cs">
       <SubType>Form</SubType>
@@ -209,11 +216,11 @@
     <Compile Include="Generar Receta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Listados Estadisticos\Form1.cs">
+    <Compile Include="Listados Estadisticos\FormListados.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Listados Estadisticos\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Listados Estadisticos\FormListados.Designer.cs">
+      <DependentUpon>FormListados.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -247,16 +254,28 @@
     <EmbeddedResource Include="Base\FormSearch.resx">
       <DependentUpon>FormSearch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DiaAgenda.resx">
+      <DependentUpon>DiaAgenda.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Listados Estadisticos\FormListados.resx">
+      <DependentUpon>FormListados.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Agenda\FormAgenda.resx">
+      <DependentUpon>FormAgenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Agenda\FormSearchAgenda.resx">
+      <DependentUpon>FormSearchAgenda.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

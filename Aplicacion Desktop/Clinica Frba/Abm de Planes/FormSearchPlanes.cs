@@ -72,13 +72,7 @@ namespace Clinica_Frba.Abm_de_Planes
         }
 
 
-        protected Boolean filtroEnable = true;
-
-        public Boolean FiltroEnable
-        {
-            set { filtroEnable = value; }
-            get { return filtroEnable; }
-        }
+       
        
 
     }

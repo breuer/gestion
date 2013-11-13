@@ -40,5 +40,32 @@ namespace Clinica_Frba.Model
             get { return repository; }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            EspecialidaMedica ep = obj as EspecialidaMedica;
+            if ((System.Object)ep == null)
+            {
+                return false;
+            }
+
+            return codigo == ep.codigo;
+        }
+
+        public bool Equals(EspecialidaMedica ep)
+        {
+            if (ep == null)
+            {
+                return false;
+            }
+            return codigo == ep.codigo;
+        }
+        public override int GetHashCode()
+        {
+            return codigo;
+        }
     }
 }

@@ -6,12 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Clinica_Frba.Base;
 
-namespace Clinica_Frba.NewFolder14
+namespace Clinica_Frba.Registrar_Agenda
 {
-    public partial class Form1 : Form
+    public partial class FormSearchAgenda : FormSearch
     {
-        public Form1()
+        public FormSearchAgenda()
         {
             InitializeComponent();
         }

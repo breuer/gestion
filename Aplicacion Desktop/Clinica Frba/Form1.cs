@@ -69,5 +69,12 @@ namespace Clinica_Frba
             tbFinal2.Text = words[1];
         }
 
+        private void btTestTime_Click(object sender, EventArgs e)
+        {
+            // = new DateTimePicker();
+            this.dpFecha.Format = DateTimePickerFormat.Time;
+            this.dpFecha.ShowUpDown = true;
+         }
+
     }
 }

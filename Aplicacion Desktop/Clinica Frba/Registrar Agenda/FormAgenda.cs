@@ -9,11 +9,16 @@ using System.Windows.Forms;
 
 namespace Clinica_Frba.NewFolder2
 {
-    public partial class Form1 : Form
+    public partial class FormAgenda : Form
     {
-        public Form1()
+        public FormAgenda()
         {
             InitializeComponent();
+        }
+
+        private void diaAgenda4_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

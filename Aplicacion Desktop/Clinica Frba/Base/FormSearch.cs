@@ -16,6 +16,7 @@ namespace Clinica_Frba.Base
     {
         private String spName;
         private Boolean ejecutar;
+        protected Boolean filtroEnable = true;
 
         List<SqlParameter> sqlParameterLst = new List<SqlParameter>();
         
@@ -41,7 +42,13 @@ namespace Clinica_Frba.Base
             set { ejecutar = value; }
             get { return ejecutar; }
         }
+        
 
+        public Boolean FiltroEnable
+        {
+            set { filtroEnable = value; }
+            get { return filtroEnable; }
+        }
         protected virtual void btBuscar_Click(object sender, EventArgs e)
         {
             List<SqlParameter> parametros = new List<SqlParameter> ();
@@ -84,6 +91,9 @@ namespace Clinica_Frba.Base
         protected virtual void settingFiltroInicial()
         {
 
+        }
+        protected virtual void settingFiltroFinal()
+        {
         }
 
         private void FormSearch_Load(object sender, EventArgs e)

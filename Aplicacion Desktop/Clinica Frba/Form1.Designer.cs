@@ -42,6 +42,10 @@
             this.tbInicial = new System.Windows.Forms.TextBox();
             this.tbFinal = new System.Windows.Forms.TextBox();
             this.tbFinal2 = new System.Windows.Forms.TextBox();
+            this.btTestTime = new System.Windows.Forms.Button();
+            this.btTestFechas = new System.Windows.Forms.Button();
+            this.diaAgenda1 = new Clinica_Frba.DiaAgenda();
+            this.diaAgenda2 = new Clinica_Frba.DiaAgenda();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,7 +71,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(25, 114);
+            this.dataGridView1.Location = new System.Drawing.Point(-26, 38);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(240, 150);
             this.dataGridView1.TabIndex = 2;
@@ -111,22 +115,22 @@
             // 
             // dpFecha
             // 
-            this.dpFecha.Location = new System.Drawing.Point(423, 271);
+            this.dpFecha.Location = new System.Drawing.Point(361, 171);
             this.dpFecha.Name = "dpFecha";
             this.dpFecha.Size = new System.Drawing.Size(200, 20);
             this.dpFecha.TabIndex = 7;
             // 
             // tbFecha
             // 
-            this.tbFecha.Location = new System.Drawing.Point(423, 171);
+            this.tbFecha.Location = new System.Drawing.Point(361, 38);
             this.tbFecha.Multiline = true;
             this.tbFecha.Name = "tbFecha";
-            this.tbFecha.Size = new System.Drawing.Size(200, 82);
+            this.tbFecha.Size = new System.Drawing.Size(200, 68);
             this.tbFecha.TabIndex = 8;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(646, 272);
+            this.button4.Location = new System.Drawing.Point(573, 172);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 9;
@@ -165,11 +169,54 @@
             this.tbFinal2.Size = new System.Drawing.Size(100, 20);
             this.tbFinal2.TabIndex = 13;
             // 
+            // btTestTime
+            // 
+            this.btTestTime.Location = new System.Drawing.Point(665, 172);
+            this.btTestTime.Name = "btTestTime";
+            this.btTestTime.Size = new System.Drawing.Size(75, 23);
+            this.btTestTime.TabIndex = 15;
+            this.btTestTime.Text = "Time";
+            this.btTestTime.UseVisualStyleBackColor = true;
+            this.btTestTime.Click += new System.EventHandler(this.btTestTime_Click);
+            // 
+            // btTestFechas
+            // 
+            this.btTestFechas.Location = new System.Drawing.Point(573, 241);
+            this.btTestFechas.Name = "btTestFechas";
+            this.btTestFechas.Size = new System.Drawing.Size(75, 23);
+            this.btTestFechas.TabIndex = 18;
+            this.btTestFechas.Text = "Test Fechas";
+            this.btTestFechas.UseVisualStyleBackColor = true;
+            // 
+            // diaAgenda1
+            // 
+            this.diaAgenda1.ButtonText = "ButtonText";
+            this.diaAgenda1.Day = ((short)(2));
+            this.diaAgenda1.Location = new System.Drawing.Point(50, 222);
+            this.diaAgenda1.Name = "diaAgenda1";
+            this.diaAgenda1.Size = new System.Drawing.Size(164, 280);
+            this.diaAgenda1.TabIndex = 19;
+            this.diaAgenda1.Titulo = "HOla";
+            // 
+            // diaAgenda2
+            // 
+            this.diaAgenda2.ButtonText = "ButtonText";
+            this.diaAgenda2.Day = ((short)(2));
+            this.diaAgenda2.Location = new System.Drawing.Point(247, 222);
+            this.diaAgenda2.Name = "diaAgenda2";
+            this.diaAgenda2.Size = new System.Drawing.Size(164, 280);
+            this.diaAgenda2.TabIndex = 20;
+            this.diaAgenda2.Titulo = "titulo";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(805, 314);
+            this.ClientSize = new System.Drawing.Size(805, 514);
+            this.Controls.Add(this.diaAgenda2);
+            this.Controls.Add(this.diaAgenda1);
+            this.Controls.Add(this.btTestFechas);
+            this.Controls.Add(this.btTestTime);
             this.Controls.Add(this.tbFinal2);
             this.Controls.Add(this.tbFinal);
             this.Controls.Add(this.tbInicial);
@@ -209,6 +256,10 @@
         private System.Windows.Forms.TextBox tbInicial;
         private System.Windows.Forms.TextBox tbFinal;
         private System.Windows.Forms.TextBox tbFinal2;
+        private System.Windows.Forms.Button btTestTime;
+        private System.Windows.Forms.Button btTestFechas;
+        private DiaAgenda diaAgenda1;
+        private DiaAgenda diaAgenda2;
     }
 }
 

@@ -10,12 +10,15 @@ using Clinica_Frba.Base;
 using Clinica_Frba.Model;
 using Clinica_Frba.Validator;
 using Clinica_Frba.Abm_de_Planes;
+using Clinica_Frba.Abm_de_Especialidades_Medicas;
+using Clinica_Frba.Interface;
 
 namespace Clinica_Frba.NewFolder13
 {
-    public partial class FormAltaProfesional : FormAlta
+    public partial class FormAltaProfesional : FormAlta, IFInvocanteEspecialidad
     {
         private Profesional profesional;
+        private List<EspecialidaMedica> especialidadesSelected = new List<EspecialidaMedica>();
 
         public FormAltaProfesional()
         {
@@ -27,6 +30,9 @@ namespace Clinica_Frba.NewFolder13
             get { return profesional; }
             set { profesional = value; }
         }
+
+        
+        
 
         protected override void loadControls()
         {
@@ -119,11 +125,53 @@ namespace Clinica_Frba.NewFolder13
 
         private void btSeleccionar_Click(object sender, EventArgs e)
         {
-            FormSearchPlanes frm = new FormSearchPlanes();
+            FormSearchEspecialidad frm = new FormSearchEspecialidad();
             frm.Accion = EActionSearch.SELECCION;
             frm.Ejecutar = true;
-            frm.ShowDialog(this);
+
+            frm.Excluir = especialidadesSelected; frm.ShowDialog(this);
         }
 
+
+        #region Miembros de IFInvocanteEspecialidad
+
+        Boolean IFInvocanteEspecialidad.seleccionarEspecialidad(EspecialidaMedica selected)
+        {
+            if (especialidadesSelected.Contains(selected))
+            {
+                return false;
+            }
+            especialidadesSelected.Add(selected);
+            BingDataGridView();
+            return true;
+        }
+
+        #endregion
+
+        private void BingDataGridView()
+        {
+            this.dgvEspecialidadesMedicas.AutoGenerateColumns = false;
+            DataGridViewCell cell = new DataGridViewTextBoxCell();
+            DataGridViewTextBoxColumn collumn = new DataGridViewTextBoxColumn()
+            {
+                CellTemplate = cell,
+                HeaderText = "Codigo",
+                Name = "Codigo",
+                DataPropertyName = "Codigo" 
+            };
+            this.dgvEspecialidadesMedicas.Columns.Add(collumn);
+
+            collumn = new DataGridViewTextBoxColumn()
+            {
+                CellTemplate = cell,
+                HeaderText = "Descripcion",
+                Name = "Descripcion",
+                DataPropertyName = "Descripcion" 
+            };
+
+            this.dgvEspecialidadesMedicas.Columns.Add(collumn);
+            var list = new BindingList<EspecialidaMedica>(especialidadesSelected);
+            this.dgvEspecialidadesMedicas.DataSource = list;
+        }
     }
 }

@@ -37,6 +37,7 @@ namespace Clinica_Frba.Abm_de_Rol
                 "[NN_NN].[sp_listar_rol_funcionalidad]",
                 parametros
             );
+            //LINQ
             IEnumerable<IGrouping<string, DataRow>> query = from rol in dt.AsEnumerable()
                                                            group rol by rol["ROL"].ToString() into selected
                                                            select selected;
