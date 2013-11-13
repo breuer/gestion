@@ -44,8 +44,8 @@
             this.tbFinal2 = new System.Windows.Forms.TextBox();
             this.btTestTime = new System.Windows.Forms.Button();
             this.btTestFechas = new System.Windows.Forms.Button();
-            this.diaAgenda1 = new Clinica_Frba.DiaAgenda();
             this.diaAgenda2 = new Clinica_Frba.DiaAgenda();
+            this.diaAgenda1 = new Clinica_Frba.DiaAgenda();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +60,7 @@
             // 
             // btSearchPlanes
             // 
-            this.btSearchPlanes.Location = new System.Drawing.Point(205, 85);
+            this.btSearchPlanes.Location = new System.Drawing.Point(247, 85);
             this.btSearchPlanes.Name = "btSearchPlanes";
             this.btSearchPlanes.Size = new System.Drawing.Size(75, 23);
             this.btSearchPlanes.TabIndex = 1;
@@ -88,7 +88,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(124, 85);
+            this.button2.Location = new System.Drawing.Point(247, 83);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 4;
@@ -188,16 +188,6 @@
             this.btTestFechas.Text = "Test Fechas";
             this.btTestFechas.UseVisualStyleBackColor = true;
             // 
-            // diaAgenda1
-            // 
-            this.diaAgenda1.ButtonText = "ButtonText";
-            this.diaAgenda1.Day = ((short)(2));
-            this.diaAgenda1.Location = new System.Drawing.Point(50, 222);
-            this.diaAgenda1.Name = "diaAgenda1";
-            this.diaAgenda1.Size = new System.Drawing.Size(164, 280);
-            this.diaAgenda1.TabIndex = 19;
-            this.diaAgenda1.Titulo = "HOla";
-            // 
             // diaAgenda2
             // 
             this.diaAgenda2.ButtonText = "ButtonText";
@@ -207,6 +197,16 @@
             this.diaAgenda2.Size = new System.Drawing.Size(164, 280);
             this.diaAgenda2.TabIndex = 20;
             this.diaAgenda2.Titulo = "titulo";
+            // 
+            // diaAgenda1
+            // 
+            this.diaAgenda1.ButtonText = "ButtonText";
+            this.diaAgenda1.Day = ((short)(2));
+            this.diaAgenda1.Location = new System.Drawing.Point(50, 222);
+            this.diaAgenda1.Name = "diaAgenda1";
+            this.diaAgenda1.Size = new System.Drawing.Size(164, 280);
+            this.diaAgenda1.TabIndex = 19;
+            this.diaAgenda1.Titulo = "HOla";
             // 
             // Form1
             // 

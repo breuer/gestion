@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.gb = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbCantHoras = new System.Windows.Forms.Label();
+            this.lbCantTurnos = new System.Windows.Forms.Label();
             this.btReset = new System.Windows.Forms.Button();
             this.cbHoraFinal = new System.Windows.Forms.ComboBox();
             this.cbHoraInicial = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.lbCantTurnos = new System.Windows.Forms.Label();
+            this.lbCantTurnos11 = new System.Windows.Forms.Label();
             this.lbHorFin = new System.Windows.Forms.Label();
             this.lbHoraF0 = new System.Windows.Forms.Label();
             this.btDia = new System.Windows.Forms.Button();
@@ -45,13 +45,13 @@
             // gb
             // 
             this.gb.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gb.Controls.Add(this.label3);
-            this.gb.Controls.Add(this.label2);
+            this.gb.Controls.Add(this.lbCantHoras);
+            this.gb.Controls.Add(this.lbCantTurnos);
             this.gb.Controls.Add(this.btReset);
             this.gb.Controls.Add(this.cbHoraFinal);
             this.gb.Controls.Add(this.cbHoraInicial);
             this.gb.Controls.Add(this.label1);
-            this.gb.Controls.Add(this.lbCantTurnos);
+            this.gb.Controls.Add(this.lbCantTurnos11);
             this.gb.Controls.Add(this.lbHorFin);
             this.gb.Controls.Add(this.lbHoraF0);
             this.gb.Controls.Add(this.btDia);
@@ -62,23 +62,23 @@
             this.gb.TabStop = false;
             this.gb.Text = "titulo";
             // 
-            // label3
+            // lbCantHoras
             // 
-            this.label3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(73, 201);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 23);
-            this.label3.TabIndex = 12;
+            this.lbCantHoras.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lbCantHoras.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbCantHoras.Location = new System.Drawing.Point(73, 201);
+            this.lbCantHoras.Name = "lbCantHoras";
+            this.lbCantHoras.Size = new System.Drawing.Size(41, 23);
+            this.lbCantHoras.TabIndex = 12;
             // 
-            // label2
+            // lbCantTurnos
             // 
-            this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(10, 201);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 23);
-            this.label2.TabIndex = 11;
+            this.lbCantTurnos.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lbCantTurnos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbCantTurnos.Location = new System.Drawing.Point(10, 201);
+            this.lbCantTurnos.Name = "lbCantTurnos";
+            this.lbCantTurnos.Size = new System.Drawing.Size(40, 23);
+            this.lbCantTurnos.TabIndex = 11;
             // 
             // btReset
             // 
@@ -116,14 +116,14 @@
             this.label1.TabIndex = 8;
             this.label1.Text = "Horas";
             // 
-            // lbCantTurnos
+            // lbCantTurnos11
             // 
-            this.lbCantTurnos.AutoSize = true;
-            this.lbCantTurnos.Location = new System.Drawing.Point(7, 184);
-            this.lbCantTurnos.Name = "lbCantTurnos";
-            this.lbCantTurnos.Size = new System.Drawing.Size(40, 13);
-            this.lbCantTurnos.TabIndex = 6;
-            this.lbCantTurnos.Text = "Turnos";
+            this.lbCantTurnos11.AutoSize = true;
+            this.lbCantTurnos11.Location = new System.Drawing.Point(7, 184);
+            this.lbCantTurnos11.Name = "lbCantTurnos11";
+            this.lbCantTurnos11.Size = new System.Drawing.Size(40, 13);
+            this.lbCantTurnos11.TabIndex = 6;
+            this.lbCantTurnos11.Text = "Turnos";
             // 
             // lbHorFin
             // 
@@ -151,6 +151,7 @@
             this.btDia.TabIndex = 0;
             this.btDia.Text = "ButtonText";
             this.btDia.UseVisualStyleBackColor = true;
+            this.btDia.Click += new System.EventHandler(this.btDia_Click);
             // 
             // DiaAgenda
             // 
@@ -170,12 +171,12 @@
 
         private System.Windows.Forms.GroupBox gb;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lbCantTurnos;
+        private System.Windows.Forms.Label lbCantTurnos11;
         private System.Windows.Forms.Label lbHorFin;
         private System.Windows.Forms.Label lbHoraF0;
         private System.Windows.Forms.Button btDia;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbCantHoras;
+        private System.Windows.Forms.Label lbCantTurnos;
         private System.Windows.Forms.Button btReset;
         private System.Windows.Forms.ComboBox cbHoraFinal;
         private System.Windows.Forms.ComboBox cbHoraInicial;

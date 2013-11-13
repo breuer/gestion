@@ -84,6 +84,7 @@
     <Compile Include="Abm de Rol\FormSearchRol.Designer.cs">
       <DependentUpon>FormSearchRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\DataTimeWrapper.cs" />
     <Compile Include="Base\EAccionSearch.cs" />
     <Compile Include="Base\FormAlta.cs">
       <SubType>Form</SubType>
