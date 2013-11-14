@@ -153,7 +153,7 @@ CREATE TABLE NN_NN.CAMBIO_PLAN
 	fecha_modificaion [datetime] not null,
 	motivo [varchar] (255) not null,
 	nro_afiliado [numeric](18, 0) not null,
-	nro_tipo_afiliado [numeric](18, 0)
+	nro_tipo_afiliado [numeric](18, 0) not null
 )
 
 CREATE TABLE NN_NN.PLAN_MEDICO
@@ -255,8 +255,8 @@ CREATE TABLE NN_NN.TURNO
 	fecha [datetime] not null,
 	fecha_llegada [datetime],
 	nro_afiliado [numeric](18, 0),
-	nro_tipo_afiliado [numeric](18, 0),
-	nro_profesional [numeric](18, 0),	
+	nro_tipo_afiliado [numeric](18, 0) not null,
+	nro_profesional [numeric](18, 0) not null,
 	nro_day [numeric](18, 0) not null
 )
 
@@ -292,7 +292,7 @@ CREATE TABLE NN_NN.CONSULTA_BONO_FARMACIA
 )
 
 /*************************************************************************************
-*                    CONSTRAINT                                                      *
+*                    CONSTRAINT PK                                                   *
 **************************************************************************************/
 
 ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT PK_AFILIADO_numero PRIMARY KEY (numero, numero_tipo_afiliado);
@@ -310,48 +310,6 @@ ALTER TABLE NN_NN.TURNO ADD CONSTRAINT PK_TURNO_numero PRIMARY KEY (numero);
 ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRIMARY KEY (codigo);
 
 
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_estado_civil FOREIGN KEY (cod_estado_civil)
-	REFERENCES NN_NN.ESTADO_CIVIL (codigo);
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_plan FOREIGN KEY (cod_plan)
-	REFERENCES NN_NN.PLAN_MEDICO (codigo);
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_codigo_documento FOREIGN KEY (codigo_documento)
-	REFERENCES NN_NN.TIPO_DOCUMENTO (codigo);
-ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT FK_BONO_CONSULTA_nro_afiliado FOREIGN KEY (nro_afiliado, nro_tipo_afiliado)
-	REFERENCES NN_NN.AFILIADO (numero, numero_tipo_afiliado);	
-ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT FK_BONO_FARMACIA_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
-	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
-ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT FK_ESPECIALIDAD_cod_tipo_especialidad FOREIGN KEY (cod_tipo_especialidad)
-	REFERENCES NN_NN.TIPO_ESPECIALIDAD (codigo);
-ALTER TABLE NN_NN.PROFESIONAL_ESPECIALIDAD ADD CONSTRAINT FK_PROFESIONAL_ESPECIALIDAD_nro_profesional FOREIGN KEY (nro_profesional)
-	REFERENCES NN_NN.PROFESIONAL (numero);
-ALTER TABLE NN_NN.PROFESIONAL_ESPECIALIDAD ADD CONSTRAINT FK_PROFESIONAL_ESPECIALIDAD_cod_especialidad FOREIGN KEY (cod_especialidad)
-	REFERENCES NN_NN.ESPECIALIDAD (codigo);	
-ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT FK_AGENDA_nro_profesional FOREIGN KEY (nro_profesional)
-	REFERENCES NN_NN.PROFESIONAL (numero);
-ALTER TABLE NN_NN.DIA_ATENCION ADD CONSTRAINT FK_DIA_ATENCION_nro_agenda FOREIGN KEY (nro_agenda)
-	REFERENCES NN_NN.AGENDA (numero);
-ALTER TABLE NN_NN.DIA_ATENCION ADD CONSTRAINT FK_DIA_ATENCION_codigo_dia FOREIGN KEY (codigo_dia)
-	REFERENCES NN_NN.DIA (codigo);
-ALTER TABLE NN_NN.CAMBIO_PLAN ADD CONSTRAINT FK_CAMBIO_PLAN_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
-	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
-ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_bono_consulta FOREIGN KEY (nro_bono_consulta)
-	REFERENCES NN_NN.BONO_CONSULTA (numero);
-ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_turno FOREIGN KEY (nro_turno)
-	REFERENCES NN_NN.TURNO (numero);
-ALTER TABLE NN_NN.MEDICAMENTO ADD CONSTRAINT FK_MEDICAMENTO_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
-	REFERENCES NN_NN.BONO_FARMACIA (numero);
-ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_CANCELACION_TURNO_nro_turno FOREIGN KEY (nro_turno)
-	REFERENCES NN_NN.TURNO (numero);	
-ALTER TABLE NN_NN.CONSULTA_BONO_FARMACIA ADD CONSTRAINT FK_CONSULTA_BONO_FARMACIA_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
-	REFERENCES NN_NN.BONO_FARMACIA (numero);
-ALTER TABLE NN_NN.CONSULTA_BONO_FARMACIA ADD CONSTRAINT FK_CONSULTA_BONO_FARMACIA_nro_bono_consulta  FOREIGN KEY (nro_bono_consulta )
-	REFERENCES NN_NN.BONO_CONSULTA (numero);
-ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
-	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
-ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_profesional FOREIGN KEY (nro_profesional)
-	REFERENCES NN_NN.PROFESIONAL(numero);
-ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_TURNO_cod_tipo_cancelacion FOREIGN KEY (cod_tipo_cancelacion)
-	REFERENCES NN_NN.TIPO_CANCELACION(codigo);
 
 
 /*************************************************************************************
@@ -452,6 +410,17 @@ INSERT INTO
 	NN_NN.TIPO_CANCELACION (codigo, descripcion)
 VALUES 
 	(2, 'CANCELACION POR MEDICO')
+
+/******************************************************
+*                    PLAN                             *
+*******************************************************/
+
+INSERT INTO 
+	NN_NN.PLAN_MEDICO(codigo, descripcion, precio_bono_consulta, precio_bono_farmacia)
+SELECT DISTINCT  
+	Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
+FROM 
+	gd_esquema.Maestra
 
 
 /******************************************************
@@ -557,16 +526,6 @@ WHERE
 	M.Bono_Farmacia_Medicamento IS NOT NULL 
 
 
-/******************************************************
-*                    PLAN                             *
-*******************************************************/
-
-INSERT INTO 
-	NN_NN.PLAN_MEDICO(codigo, descripcion, precio_bono_consulta, precio_bono_farmacia)
-SELECT DISTINCT  
-	Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
-FROM 
-	gd_esquema.Maestra
 
 /******************************************************
 *                    PROFESIONAL                      *
@@ -646,6 +605,21 @@ WHERE
 GO
 
 /******************************************************
+*                    CANCELACION TURNO POR SISTEMA    *
+*******************************************************/
+
+INSERT INTO 
+	NN_NN.CANCELACION_TURNO(nro_turno, cod_tipo_cancelacion, motivo)
+SELECT DISTINCT   
+	T.numero, 0, 'cancelado por estar en día domingo'
+FROM
+	NN_NN.TURNO T
+WHERE
+	T.nro_day = 1
+GO
+
+
+/******************************************************
 *                    AGENDA MEDICA                    *
 *******************************************************/
 
@@ -695,11 +669,54 @@ GROUP BY
 	
 
 
-
-
-
-
 --PASSWORD ADMIN
 INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD)VALUES('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
 INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
 
+/*************************************************************************************
+*                    CONSTRAINT FK                                                   *
+**************************************************************************************/
+
+
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_estado_civil FOREIGN KEY (cod_estado_civil)
+	REFERENCES NN_NN.ESTADO_CIVIL (codigo);
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_plan FOREIGN KEY (cod_plan)
+	REFERENCES NN_NN.PLAN_MEDICO (codigo);
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_codigo_documento FOREIGN KEY (codigo_documento)
+	REFERENCES NN_NN.TIPO_DOCUMENTO (codigo);
+ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT FK_BONO_CONSULTA_nro_afiliado FOREIGN KEY (nro_afiliado, nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero, numero_tipo_afiliado);	
+ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT FK_BONO_FARMACIA_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
+ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT FK_ESPECIALIDAD_cod_tipo_especialidad FOREIGN KEY (cod_tipo_especialidad)
+	REFERENCES NN_NN.TIPO_ESPECIALIDAD (codigo);
+ALTER TABLE NN_NN.PROFESIONAL_ESPECIALIDAD ADD CONSTRAINT FK_PROFESIONAL_ESPECIALIDAD_nro_profesional FOREIGN KEY (nro_profesional)
+	REFERENCES NN_NN.PROFESIONAL (numero);
+ALTER TABLE NN_NN.PROFESIONAL_ESPECIALIDAD ADD CONSTRAINT FK_PROFESIONAL_ESPECIALIDAD_cod_especialidad FOREIGN KEY (cod_especialidad)
+	REFERENCES NN_NN.ESPECIALIDAD (codigo);	
+ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT FK_AGENDA_nro_profesional FOREIGN KEY (nro_profesional)
+	REFERENCES NN_NN.PROFESIONAL (numero);
+ALTER TABLE NN_NN.DIA_ATENCION ADD CONSTRAINT FK_DIA_ATENCION_nro_agenda FOREIGN KEY (nro_agenda)
+	REFERENCES NN_NN.AGENDA (numero);
+ALTER TABLE NN_NN.DIA_ATENCION ADD CONSTRAINT FK_DIA_ATENCION_codigo_dia FOREIGN KEY (codigo_dia)
+	REFERENCES NN_NN.DIA (codigo);
+ALTER TABLE NN_NN.CAMBIO_PLAN ADD CONSTRAINT FK_CAMBIO_PLAN_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
+ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_bono_consulta FOREIGN KEY (nro_bono_consulta)
+	REFERENCES NN_NN.BONO_CONSULTA (numero);
+ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_turno FOREIGN KEY (nro_turno)
+	REFERENCES NN_NN.TURNO (numero);
+ALTER TABLE NN_NN.MEDICAMENTO ADD CONSTRAINT FK_MEDICAMENTO_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
+	REFERENCES NN_NN.BONO_FARMACIA (numero);
+ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_CANCELACION_TURNO_nro_turno FOREIGN KEY (nro_turno)
+	REFERENCES NN_NN.TURNO (numero);	
+ALTER TABLE NN_NN.CONSULTA_BONO_FARMACIA ADD CONSTRAINT FK_CONSULTA_BONO_FARMACIA_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
+	REFERENCES NN_NN.BONO_FARMACIA (numero);
+ALTER TABLE NN_NN.CONSULTA_BONO_FARMACIA ADD CONSTRAINT FK_CONSULTA_BONO_FARMACIA_nro_bono_consulta  FOREIGN KEY (nro_bono_consulta )
+	REFERENCES NN_NN.BONO_CONSULTA (numero);
+ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
+ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_profesional FOREIGN KEY (nro_profesional)
+	REFERENCES NN_NN.PROFESIONAL(numero);
+ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_TURNO_cod_tipo_cancelacion FOREIGN KEY (cod_tipo_cancelacion)
+	REFERENCES NN_NN.TIPO_CANCELACION(codigo);
