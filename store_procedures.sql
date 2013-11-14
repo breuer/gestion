@@ -167,7 +167,7 @@ AS
 BEGIN
 	SET NOCOUNT ON
 	Declare @chvQuery nvarchar(max), @chvWhere nvarchar(max);
-	Select @chvQuery = 'SELECT P.codigo AS codigo, P.descripcion AS descripcion, T.codigo As codigo_tipo, T.descripcion AS descripcion_tipo FROM [NN_NN].[ESPECIALIDAD] AS P LEFT JOIN [NN_NN].[TIPO_ESPECIALIDAD_MEDICA] AS T ON P.codigo_tipo_especialidad_medica = T.codigo',
+	Select @chvQuery = 'SELECT P.codigo AS codigo, P.descripcion AS descripcion, T.codigo As codigo_tipo, T.descripcion AS descripcion_tipo FROM [NN_NN].[ESPECIALIDAD] AS P LEFT JOIN [NN_NN].[TIPO_ESPECIALIDAD] AS T ON P.cod_tipo_especialidad = T.codigo',
 		   @chvWhere = ''
 	If (@descripcion is not null AND @descripcion != '') 
 		Set @chvWhere = @chvWhere + ' P.descripcion LIKE "%' + @descripcion + '%" AND'
@@ -224,19 +224,18 @@ CREATE PROCEDURE NN_NN.SP_ADD_PROFESIONAL (
 	@apellido varchar(255), 
 	@nombre varchar(255), 
 	@tipo_documento NUMERIC(18,0),
-	@dni NUMERIC(18,0),
+	@documento NUMERIC(18,0),
 	@telefono NUMERIC(18,0),
-	@sexo Bit,
+	@sexo CHAR,
 	@matricula NUMERIC(18,0),
 	@direccion varchar(255), 
-	@mail varchar(255),
-	@cod_plan int)
+	@mail varchar(255)
+)
 AS
 BEGIN 
-	INSERT INTO 
-		NN_NN.PROFESIONAL(apellido, nombre, dni, direccion, telefono, mail)
+	INSERT INTO NN_NN.PROFESIONAL(apellido, nombre, documento, tipo_documento, direccion, telefono, mail, sexo)
 	VALUES 
-		(@nombre, @apellido, @dni, @direccion, @telefono, @mail)
+		(@nombre, @apellido, @documento, @tipo_documento, @direccion, @telefono, @mail, @sexo)
 END
 GO
 
@@ -244,8 +243,7 @@ GO
 *                    ADD ESPECIALIDAD TO PROFESIONAL  *
 *******************************************************/
 
-CREATE PROCEDURE 
-	NN_NN.SP_ADD_ESPECIALIDAD (@nro_profesional int, @cod_especialidad int)
+CREATE PROCEDURE NN_NN.SP_ADD_ESPECIALIDAD (@nro_profesional int, @cod_especialidad int)
 AS
 BEGIN 
 	INSERT INTO 
@@ -260,7 +258,7 @@ GO
 *******************************************************/
 
 CREATE PROCEDURE 
-	NN_NN.SP_ADD_DIA_ATENCION (@codigo_dia int, @nro_profesional int) AS
+NN_NN.SP_ADD_DIA_ATENCION (@codigo_dia int, @nro_profesional int) AS
 BEGIN 
 	INSERT INTO 
 		NN_NN.DIA_ATENCION(codigo_dia, nro_profesional)

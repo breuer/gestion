@@ -23,12 +23,22 @@ CREATE TABLE NN_NN.FUNCIONALIDAD(
 )
 -- END FUNCIONALIDAD
 GO
-INSERT INTO NN_NN.FUNCIONALIDAD VALUES ('ABM de Cliente'),('ABM de Rol')
-	, ('ABM de Usuario'), ('ABM de Auto'), ('ABM de Reloj')
-	, ('ABM de Chofer')
-	, ('ABM de Turno'), ('Asignación Chofer-Auto'), ('Registro de Viajes'),
-	('Rendición de cuenta del chofer'), ('Facturación a Cliente'), ('Listado Estadístico'),
-	('Correccion incosistencias migracion');
+INSERT INTO NN_NN.FUNCIONALIDAD VALUES 
+	('ABM de Rol'),
+	('Registro de Usuario'),
+	('ABM de Afiliado'), 
+	('ABM de Profesional'), 
+	('Abm Especialidades Médicas'),
+	('Abm de Planes'),
+	('Registrar agenda del médico'), 
+	('Compra de bonos'), 
+	('Pedir turno'),
+	('Registro de llegada para atención médica'), 
+	('Registrar resultado para atención médica'), 
+	('Cancelar atención médica por Medico'),
+	('Cancelar atención médica por Paciente'),
+	('Generar Receta'),
+	('Listado estadísta');
 GO
 ---------------------------------------------------
 -- TABLA ROL
@@ -51,28 +61,31 @@ CREATE TABLE NN_NN.ROL_FUNCIONALIDAD(
 	CONSTRAINT FK_FUNCIONALIDAD FOREIGN KEY(ID_FUNCIONALIDAD) REFERENCES NN_NN.FUNCIONALIDAD(ID)	
 )
 GO
-INSERT INTO NN_NN.ROL (NOMBRE )VALUES('Administrador');
-INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD) VALUES  (1, 1), (1, 2)
-, (1, 3), (1, 4), (1, 5), (1, 6)
-, (1, 7), (1, 8), (1, 9), (1, 10), (1, 11)
-, (1, 12), (1, 13)
+INSERT INTO NN_NN.ROL (NOMBRE )VALUES('Administrativo');
+INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD) VALUES
+	(1, 1),	-- Abm de Rol
+	(1, 2), -- Registro de Usuario
+	(1, 3), -- Abm Afiliado
+	(1, 4), -- Abm Profesional
+	(1, 5), -- Abm Especialidades Médicas
+	(1, 6), -- Abm de Planes
+	(1, 10), -- Registro de llegada para atención médica // Deberia ser otro tipo de administrador
+	(1, 15); -- Listado estadistico
 GO
-INSERT INTO NN_NN.ROL (NOMBRE )VALUES('Afiliando');
+INSERT INTO NN_NN.ROL (NOMBRE ) VALUES ('Afiliando');
 GO
-INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD) VALUES (2, 1)
-, (2, 2)
-, (2, 3)
-, (2, 4)
-,  (2, 5)
-,  (2, 6)
-,  (2, 7)
-,  (2, 8)
-,  (2, 9)
-,  (2, 10)
-,  (2, 11)
-,  (2, 12)
-,  (2, 13);
+INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD) VALUES 
+	(2, 8), -- Compra de bonos
+	(2, 9), -- Pedir Turno
+	(2, 13);-- Cancelar atención médica por Paciente
 GO
+INSERT INTO NN_NN.ROL (NOMBRE ) VALUES ('Profesional');
+GO
+INSERT INTO NN_NN.ROL_FUNCIONALIDAD (ID_ROL, ID_FUNCIONALIDAD) VALUES 
+	(3, 7), -- Registrar agenda del médico
+	(2, 11), -- Registrar resultado para atención médic
+	(2, 12), -- Cancelar atención médica por Medico
+	(2, 14); -- Generar Receta
 -- END ROL-FUNCIONALIDAD
 GO
 CREATE TABLE NN_NN.USUARIO(
@@ -80,7 +93,10 @@ CREATE TABLE NN_NN.USUARIO(
 	USER_NAME VARCHAR(255) NOT NULL UNIQUE,
 	PASSWORD VARCHAR(255) NOT NULL,
 	INTENTOS_FALLIDOS INT DEFAULT 0,
-	HABILITADO BIT DEFAULT 1
+	HABILITADO BIT DEFAULT 1,
+	ID_AFILIADO NUMERIC(18,0) NULL,
+	ID_AFILIADO_DISCRIMINADOR NUMERIC(18,0) NULL,
+	ID_PROFESIONAL NUMERIC(18,0) NULL,
 )
 -- END USUARIO
 GO
@@ -96,9 +112,6 @@ CREATE TABLE NN_NN.USUARIO_ROL(
 	CONSTRAINT FK_USUARIO_USUARIO FOREIGN KEY (ID_USUARIO) REFERENCES NN_NN.USUARIO(ID)
 )
 GO
---PASSWORD ADMIN
-INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD)VALUES('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
-INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
 /*************************************************************************************
 *                    TABLES                                                                                     *
 **************************************************************************************/
@@ -650,3 +663,8 @@ ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_afiliado FOREIGN KEY (nro_af
 ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_profesional FOREIGN KEY (nro_profesional)
 	REFERENCES NN_NN.PROFESIONAL(numero);
 
+
+
+--PASSWORD ADMIN
+INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD)VALUES('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
+INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
