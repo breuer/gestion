@@ -60,6 +60,13 @@ namespace Clinica_Frba.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Fondo {
+            get {
+                object obj = ResourceManager.GetObject("Fondo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Busca una cadena traducida similar a .
         /// </summary>

@@ -79,8 +79,8 @@ namespace Clinica_Frba.NewFolder13
             if (!"".Equals(tbDni.Text))
             {
                 this.errorProvider.Clear();
-                DataTable dt = Profesional.getRepository.existeP(tbDni.Text);
-
+                //DataTable dt = Profesional.getRepository.existeP(tbDni.Text);
+                /*
                 if (dt.Rows.Count != 0)
                 {
                     this.errorProvider.SetError(tbDni, "Ya se encuentra registrado el profesional");
@@ -91,6 +91,7 @@ namespace Clinica_Frba.NewFolder13
                 {
                     // ErrorPrevio = true;
                 }
+                 */
             }
         }
 

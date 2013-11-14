@@ -109,6 +109,7 @@
             this.gb.TabIndex = 0;
             this.gb.TabStop = false;
             this.gb.Text = "Menu administrativo";
+            this.gb.Visible = false;
             // 
             // gbEstadistico
             // 
@@ -453,12 +454,13 @@
             // 
             this.gbProfesional.Controls.Add(this.btRegistraAgenda);
             this.gbProfesional.Controls.Add(this.btVerAgenda);
-            this.gbProfesional.Location = new System.Drawing.Point(27, 178);
+            this.gbProfesional.Location = new System.Drawing.Point(18, 182);
             this.gbProfesional.Name = "gbProfesional";
             this.gbProfesional.Size = new System.Drawing.Size(200, 193);
             this.gbProfesional.TabIndex = 7;
             this.gbProfesional.TabStop = false;
             this.gbProfesional.Text = "Menu Profesional";
+            this.gbProfesional.Visible = false;
             // 
             // gbAfiliado
             // 
@@ -466,12 +468,13 @@
             this.gbAfiliado.Controls.Add(this.button7);
             this.gbAfiliado.Controls.Add(this.button2);
             this.gbAfiliado.Controls.Add(this.button3);
-            this.gbAfiliado.Location = new System.Drawing.Point(233, 178);
+            this.gbAfiliado.Location = new System.Drawing.Point(224, 182);
             this.gbAfiliado.Name = "gbAfiliado";
             this.gbAfiliado.Size = new System.Drawing.Size(200, 193);
             this.gbAfiliado.TabIndex = 8;
             this.gbAfiliado.TabStop = false;
             this.gbAfiliado.Text = "Menu Afiliado";
+            this.gbAfiliado.Visible = false;
             // 
             // button1
             // 
@@ -521,7 +524,7 @@
             this.gbLogin.Controls.Add(this.btSend);
             this.gbLogin.Controls.Add(this.label1);
             this.gbLogin.Controls.Add(this.label4);
-            this.gbLogin.Location = new System.Drawing.Point(502, 182);
+            this.gbLogin.Location = new System.Drawing.Point(586, 372);
             this.gbLogin.Name = "gbLogin";
             this.gbLogin.Size = new System.Drawing.Size(294, 125);
             this.gbLogin.TabIndex = 9;
@@ -628,18 +631,20 @@
             // 
             this.button5.BackColor = System.Drawing.SystemColors.Desktop;
             this.button5.ForeColor = System.Drawing.Color.Yellow;
-            this.button5.Location = new System.Drawing.Point(631, 426);
+            this.button5.Location = new System.Drawing.Point(67, 417);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(269, 71);
             this.button5.TabIndex = 10;
             this.button5.Text = "PRUEBAS";
             this.button5.UseVisualStyleBackColor = false;
+            this.button5.Visible = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::Clinica_Frba.Properties.Resources.Fondo;
             this.ClientSize = new System.Drawing.Size(902, 509);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.gbLogin);
