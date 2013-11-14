@@ -106,6 +106,7 @@ INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
 CREATE TABLE NN_NN.AFILIADO
 (
 	numero [numeric](18, 0) identity(1,1) not null,
+	numero_tipo_afiliado [numeric](18, 0) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
 	codigo_documento [numeric](18, 0) not null,
@@ -138,7 +139,8 @@ CREATE TABLE NN_NN.CAMBIO_PLAN
 (
 	fecha_modificaion [datetime] not null,
 	motivo [varchar] (255) not null,
-	nro_afiliado [numeric](18, 0) not null
+	nro_afiliado [numeric](18, 0) not null,
+	nro_tipo_afiliado [numeric](18, 0)
 )
 
 CREATE TABLE NN_NN.PLAN_MEDICO
@@ -155,7 +157,8 @@ CREATE TABLE NN_NN.BONO_CONSULTA
 	numero [numeric](18, 0) not null,
 	--numero_consulta [numeric](18, 0),
 	fecha_impresion [datetime],
-	nro_afiliado [numeric](18, 0)
+	nro_afiliado [numeric](18, 0),
+	nro_tipo_afiliado [numeric](18, 0)
 )
 
 CREATE TABLE NN_NN.BONO_FARMACIA
@@ -164,7 +167,8 @@ CREATE TABLE NN_NN.BONO_FARMACIA
 	numero [numeric](18, 0) not null,
 	fecha_impresion [datetime],
 	fecha_vencimiento [datetime],
-	nro_afiliado [numeric](18, 0)
+	nro_afiliado [numeric](18, 0),
+	nro_tipo_afiliado [numeric](18, 0)
 )
 
 CREATE TABLE NN_NN.MEDICAMENTO
@@ -237,7 +241,8 @@ CREATE TABLE NN_NN.TURNO
 	numero [numeric](18, 0) not null,
 	fecha [datetime] not null,
 	fecha_llegada [datetime],
-	nro_afiliado [numeric](18, 0) ,
+	nro_afiliado [numeric](18, 0),
+	nro_tipo_afiliado [numeric](18, 0),
 	nro_profesional [numeric](18, 0),	
 	nro_day [numeric](18, 0) not null
 )
@@ -246,9 +251,14 @@ CREATE TABLE NN_NN.CANCELACION_TURNO
 (
 	motivo [varchar] (255) not null,
 	nro_turno [numeric](18, 0) not null,
-	--tipo_cancelacion [numeric](18, 0) not null
+	cod_tipo_cancelacion [numeric](18, 0) not null
 )
 
+CREATE TABLE NN_NN.TIPO_CANCELACION
+(
+	codigo [numeric](18, 0) not null,
+	descripcion [varchar] (255) not null
+)
 
 
 CREATE TABLE NN_NN.CONSULTA
@@ -267,6 +277,68 @@ CREATE TABLE NN_NN.CONSULTA_BONO_FARMACIA
 	nro_turno [numeric](18, 0) not null,
 	nro_bono_consulta [numeric](18, 0) not null
 )
+
+/*************************************************************************************
+*                    CONSTRAINT                                                      *
+**************************************************************************************/
+
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT PK_AFILIADO_numero PRIMARY KEY (numero, numero_tipo_afiliado);
+ALTER TABLE NN_NN.ESTADO_CIVIL ADD CONSTRAINT PK_ESTADO_CIVIL_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.PLAN_MEDICO ADD CONSTRAINT PK_PLAN_MEDICO_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.TIPO_DOCUMENTO ADD CONSTRAINT PK_TIPO_DOCUMENTO_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT PK_BONO_CONSULTA_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT PK_BONO_FARMACIA_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.PROFESIONAL ADD CONSTRAINT PK_PROFESIONAL_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT PK_AGENDA_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.DIA ADD CONSTRAINT PK_DIA_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT PK_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.TIPO_ESPECIALIDAD ADD CONSTRAINT PK_TIPO_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.TURNO ADD CONSTRAINT PK_TURNO_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRIMARY KEY (codigo);
+
+
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_estado_civil FOREIGN KEY (cod_estado_civil)
+	REFERENCES NN_NN.ESTADO_CIVIL (codigo);
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_plan FOREIGN KEY (cod_plan)
+	REFERENCES NN_NN.PLAN_MEDICO (codigo);
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_codigo_documento FOREIGN KEY (codigo_documento)
+	REFERENCES NN_NN.TIPO_DOCUMENTO (codigo);
+ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT FK_BONO_CONSULTA_nro_afiliado FOREIGN KEY (nro_afiliado, nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero, numero_tipo_afiliado);	
+ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT FK_BONO_FARMACIA_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
+ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT FK_ESPECIALIDAD_cod_tipo_especialidad FOREIGN KEY (cod_tipo_especialidad)
+	REFERENCES NN_NN.TIPO_ESPECIALIDAD (codigo);
+ALTER TABLE NN_NN.PROFESIONAL_ESPECIALIDAD ADD CONSTRAINT FK_PROFESIONAL_ESPECIALIDAD_nro_profesional FOREIGN KEY (nro_profesional)
+	REFERENCES NN_NN.PROFESIONAL (numero);
+ALTER TABLE NN_NN.PROFESIONAL_ESPECIALIDAD ADD CONSTRAINT FK_PROFESIONAL_ESPECIALIDAD_cod_especialidad FOREIGN KEY (cod_especialidad)
+	REFERENCES NN_NN.ESPECIALIDAD (codigo);	
+ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT FK_AGENDA_nro_profesional FOREIGN KEY (nro_profesional)
+	REFERENCES NN_NN.PROFESIONAL (numero);
+ALTER TABLE NN_NN.DIA_ATENCION ADD CONSTRAINT FK_DIA_ATENCION_nro_agenda FOREIGN KEY (nro_agenda)
+	REFERENCES NN_NN.AGENDA (numero);
+ALTER TABLE NN_NN.DIA_ATENCION ADD CONSTRAINT FK_DIA_ATENCION_codigo_dia FOREIGN KEY (codigo_dia)
+	REFERENCES NN_NN.DIA (codigo);
+ALTER TABLE NN_NN.CAMBIO_PLAN ADD CONSTRAINT FK_CAMBIO_PLAN_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
+ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_bono_consulta FOREIGN KEY (nro_bono_consulta)
+	REFERENCES NN_NN.BONO_CONSULTA (numero);
+ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_turno FOREIGN KEY (nro_turno)
+	REFERENCES NN_NN.TURNO (numero);
+ALTER TABLE NN_NN.MEDICAMENTO ADD CONSTRAINT FK_MEDICAMENTO_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
+	REFERENCES NN_NN.BONO_FARMACIA (numero);
+ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_CANCELACION_TURNO_nro_turno FOREIGN KEY (nro_turno)
+	REFERENCES NN_NN.TURNO (numero);	
+ALTER TABLE NN_NN.CONSULTA_BONO_FARMACIA ADD CONSTRAINT FK_CONSULTA_BONO_FARMACIA_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
+	REFERENCES NN_NN.BONO_FARMACIA (numero);
+ALTER TABLE NN_NN.CONSULTA_BONO_FARMACIA ADD CONSTRAINT FK_CONSULTA_BONO_FARMACIA_nro_bono_consulta  FOREIGN KEY (nro_bono_consulta )
+	REFERENCES NN_NN.BONO_CONSULTA (numero);
+ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
+ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_profesional FOREIGN KEY (nro_profesional)
+	REFERENCES NN_NN.PROFESIONAL(numero);
+ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_TURNO_cod_tipo_cancelacion FOREIGN KEY (cod_tipo_cancelacion)
+	REFERENCES NN_NN.TIPO_CANCELACION(codigo);
 
 
 /*************************************************************************************
@@ -349,6 +421,24 @@ INSERT INTO
 	NN_NN.DIA (descripcion)
 VALUES 
 	('saturday')
+	
+/******************************************************
+*                    TIPO CANCELACION TURNO           *
+*******************************************************/
+INSERT INTO 
+	NN_NN.TIPO_CANCELACION (codigo, descripcion)
+VALUES 
+	(0, 'CANCELACION POR SISTEMA')
+	
+INSERT INTO 
+	NN_NN.TIPO_CANCELACION (codigo, descripcion)
+VALUES 
+	(1, 'CANCELACION POR AFILIADO')
+	
+INSERT INTO 
+	NN_NN.TIPO_CANCELACION (codigo, descripcion)
+VALUES 
+	(2, 'CANCELACION POR MEDICO')
 
 
 /******************************************************
@@ -356,9 +446,9 @@ VALUES
 *******************************************************/
 
 INSERT INTO 
-	NN_NN.AFILIADO(apellido, nombre, codigo_documento, documento, direccion, fecha_nac, telefono, mail,  cod_plan)
+	NN_NN.AFILIADO(numero_tipo_afiliado, apellido, nombre, codigo_documento, documento, direccion, fecha_nac, telefono, mail,  cod_plan)
 SELECT DISTINCT 
-	Paciente_Apellido, Paciente_Nombre, 1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
+	1, Paciente_Apellido, Paciente_Nombre, 1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
 FROM 
 	gd_esquema.Maestra
 
@@ -372,9 +462,9 @@ FROM
 -- bonos consulta
 
 INSERT INTO 
-	NN_NN.BONO_CONSULTA(fecha_compra, numero, fecha_impresion, nro_afiliado)
+	NN_NN.BONO_CONSULTA(fecha_compra, numero, fecha_impresion, nro_afiliado, nro_tipo_afiliado)
 SELECT DISTINCT 
-	 M.Compra_Bono_Fecha, M.Bono_Consulta_Numero, M.Bono_Consulta_Fecha_Impresion, A.numero
+	 M.Compra_Bono_Fecha, M.Bono_Consulta_Numero, M.Bono_Consulta_Fecha_Impresion, A.numero, A.numero_tipo_afiliado
 FROM 
 	gd_esquema.Maestra M
 --order by M.Bono_Consulta_Numero
@@ -391,9 +481,9 @@ WHERE
 	
 -- bonos farmacia 
 INSERT INTO 
-	NN_NN.BONO_FARMACIA(fecha_compra, numero, fecha_impresion, nro_afiliado)
+	NN_NN.BONO_FARMACIA(fecha_compra, numero, fecha_impresion, nro_afiliado, nro_tipo_afiliado)
 SELECT DISTINCT 
-	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.numero
+	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.numero, A.numero_tipo_afiliado
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
@@ -521,9 +611,9 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	NN_NN.TURNO(numero, fecha, nro_profesional, nro_afiliado, nro_day)
+	NN_NN.TURNO(numero, fecha, nro_profesional, nro_afiliado, nro_tipo_afiliado, nro_day)
 SELECT DISTINCT   
-	M.Turno_Numero, M.Turno_Fecha, P.numero, A.numero, datepart(dw,Turno_Fecha)
+	M.Turno_Numero, M.Turno_Fecha, P.numero, A.numero, A.numero_tipo_afiliado, datepart(dw,Turno_Fecha)
 FROM 
 	gd_esquema.Maestra M
 JOIN
@@ -591,62 +681,4 @@ GROUP BY
 --ORDER BY D.codigo, A.numero
 	
 
-
-/*************************************************************************************
-*                    CONSTRAINT                                                      *
-**************************************************************************************/
-
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT PK_AFILIADO_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.ESTADO_CIVIL ADD CONSTRAINT PK_ESTADO_CIVIL_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.PLAN_MEDICO ADD CONSTRAINT PK_PLAN_MEDICO_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TIPO_DOCUMENTO ADD CONSTRAINT PK_TIPO_DOCUMENTO_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT PK_BONO_CONSULTA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT PK_BONO_FARMACIA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.PROFESIONAL ADD CONSTRAINT PK_PROFESIONAL_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT PK_AGENDA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.DIA ADD CONSTRAINT PK_DIA_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT PK_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TIPO_ESPECIALIDAD ADD CONSTRAINT PK_TIPO_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TURNO ADD CONSTRAINT PK_TURNO_numero PRIMARY KEY (numero);
-
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_estado_civil FOREIGN KEY (cod_estado_civil)
-	REFERENCES NN_NN.ESTADO_CIVIL (codigo);
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_plan FOREIGN KEY (cod_plan)
-	REFERENCES NN_NN.PLAN_MEDICO (codigo);
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_codigo_documento FOREIGN KEY (codigo_documento)
-	REFERENCES NN_NN.TIPO_DOCUMENTO (codigo);
-ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_afiliado FOREIGN KEY (nro_afiliado)
-	REFERENCES NN_NN.AFILIADO (numero);	
-ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT FK_BONO_FARMACIA_nro_afiliado FOREIGN KEY (nro_afiliado)
-	REFERENCES NN_NN.AFILIADO (numero);
-ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT FK_ESPECIALIDAD_cod_tipo_especialidad FOREIGN KEY (cod_tipo_especialidad)
-	REFERENCES NN_NN.TIPO_ESPECIALIDAD (codigo);
-ALTER TABLE NN_NN.PROFESIONAL_ESPECIALIDAD ADD CONSTRAINT FK_PROFESIONAL_ESPECIALIDAD_nro_profesional FOREIGN KEY (nro_profesional)
-	REFERENCES NN_NN.PROFESIONAL (numero);
-ALTER TABLE NN_NN.PROFESIONAL_ESPECIALIDAD ADD CONSTRAINT FK_PROFESIONAL_ESPECIALIDAD_cod_especialidad FOREIGN KEY (cod_especialidad)
-	REFERENCES NN_NN.ESPECIALIDAD (codigo);	
-ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT FK_AGENDA_nro_profesional FOREIGN KEY (nro_profesional)
-	REFERENCES NN_NN.PROFESIONAL (numero);
-ALTER TABLE NN_NN.DIA_ATENCION ADD CONSTRAINT FK_DIA_ATENCION_nro_agenda FOREIGN KEY (nro_agenda)
-	REFERENCES NN_NN.AGENDA (numero);
-ALTER TABLE NN_NN.DIA_ATENCION ADD CONSTRAINT FK_DIA_ATENCION_codigo_dia FOREIGN KEY (codigo_dia)
-	REFERENCES NN_NN.DIA (codigo);
-ALTER TABLE NN_NN.CAMBIO_PLAN ADD CONSTRAINT FK_CAMBIO_PLAN_nro_afiliado FOREIGN KEY (nro_afiliado)
-	REFERENCES NN_NN.AFILIADO (numero);
-ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_bono_consulta FOREIGN KEY (nro_bono_consulta)
-	REFERENCES NN_NN.BONO_CONSULTA (numero);
-ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT FK_CONSULTA_nro_turno FOREIGN KEY (nro_turno)
-	REFERENCES NN_NN.TURNO (numero);
-ALTER TABLE NN_NN.MEDICAMENTO ADD CONSTRAINT FK_MEDICAMENTO_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
-	REFERENCES NN_NN.BONO_FARMACIA (numero);
-ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_CANCELACION_TURNO_nro_turno FOREIGN KEY (nro_turno)
-	REFERENCES NN_NN.TURNO (numero);	
-ALTER TABLE NN_NN.CONSULTA_BONO_FARMACIA ADD CONSTRAINT FK_CONSULTA_BONO_FARMACIA_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
-	REFERENCES NN_NN.BONO_FARMACIA (numero);
-ALTER TABLE NN_NN.CONSULTA_BONO_FARMACIA ADD CONSTRAINT FK_CONSULTA_BONO_FARMACIA_nro_bono_consulta  FOREIGN KEY (nro_bono_consulta )
-	REFERENCES NN_NN.BONO_CONSULTA (numero);
-ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_afiliado FOREIGN KEY (nro_afiliado)
-	REFERENCES NN_NN.AFILIADO (numero);
-ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_profesional FOREIGN KEY (nro_profesional)
-	REFERENCES NN_NN.PROFESIONAL(numero);
 
