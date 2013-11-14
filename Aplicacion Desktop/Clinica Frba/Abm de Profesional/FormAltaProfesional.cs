@@ -12,6 +12,7 @@ using Clinica_Frba.Validator;
 using Clinica_Frba.Abm_de_Planes;
 using Clinica_Frba.Abm_de_Especialidades_Medicas;
 using Clinica_Frba.Interface;
+using System.Data.SqlClient;
 
 namespace Clinica_Frba.NewFolder13
 {
@@ -44,7 +45,7 @@ namespace Clinica_Frba.NewFolder13
         {
             tbApellido.Tag = new Tag("apellido", "apellido", SqlDbType.Text);
             tbNombre.Tag = new Tag("nombre", "nombre", SqlDbType.Text);
-            cbTipo.Tag = new Tag("tipo_doc", "tipo", SqlDbType.Int);
+            cbTipo.Tag = new Tag("tipo_documento", "tipo_documento", SqlDbType.Int);
             tbDni.Tag = new Tag("dni", "dni", SqlDbType.Int);
             tbTelefono.Tag = new Tag("telefono", "telefono", SqlDbType.Int);
             dtFechaNacimiento.Tag = new Tag("fechaNacimiento", "fechaNacimiento", SqlDbType.DateTime);
@@ -59,7 +60,7 @@ namespace Clinica_Frba.NewFolder13
         {
             StringBuilder str = new StringBuilder();
             str.Append(ValidatorFrmProfesional.Validador(this.gbControl));
-            if (dgvEspecialidadesMedicas.RowCount != 0)
+            if (dgvEspecialidadesMedicas.RowCount == 0)
             {
                 str.Append("Especialidades: Debe elegir al menos una especialidad medica\n");
             }
@@ -78,7 +79,7 @@ namespace Clinica_Frba.NewFolder13
             if (!"".Equals(tbDni.Text))
             {
                 this.errorProvider.Clear();
-                DataTable dt = Afiliado.getRepository.existeAfiliado(tbDni.Text);
+                DataTable dt = Profesional.getRepository.existeP(tbDni.Text);
 
                 if (dt.Rows.Count != 0)
                 {
@@ -173,5 +174,38 @@ namespace Clinica_Frba.NewFolder13
             var list = new BindingList<EspecialidaMedica>(especialidadesSelected);
             this.dgvEspecialidadesMedicas.DataSource = list;
         }
+
+        protected override void ejecutarConsulta(List<SqlParameter> parametros)
+        {
+            // Aca voy hacer todo los errores creo
+            base.ejecutarConsulta(parametros);
+            try
+            {
+                String storeProcedure = String.Empty;
+                switch (Accion)
+                {
+                    case EActionSearch.ALTA:
+                        storeProcedure = "NN_NN.sp_add_profesional";
+                        break;
+                    case EActionSearch.SELECCION:
+                        break;
+                    case EActionSearch.MODIFICACION:
+                        //SqlParameter param_id = new SqlParameter(
+                        //    "id",
+                        //    rol.Id
+                        //);
+                        //parametros.Add(param_id);
+                        //storeProcedure = "NN_NN.sp_modificar_rol";
+                        break;
+                }
+                Profesional.getRepository.addModificar(storeProcedure, parametros);
+                MessageBox.Show("Operacion con exito");
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
     }
 }

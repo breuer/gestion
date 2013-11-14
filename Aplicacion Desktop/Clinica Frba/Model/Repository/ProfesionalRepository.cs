@@ -16,5 +16,11 @@ namespace Clinica_Frba.Model.Repository
         {
             return listar(queryExisteMatricula + matricula); ;
         }
+
+        // TODO mas tarde ver!!!
+        public DataTable existeProfesional(String matricula)
+        {
+            return listar(queryExisteMatricula + matricula); ;
+        }
     }
 }

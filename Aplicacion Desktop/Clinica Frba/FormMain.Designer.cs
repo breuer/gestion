@@ -103,7 +103,7 @@
             this.gb.Controls.Add(this.gbAbmAfiliado);
             this.gb.Controls.Add(this.gbAbmUser);
             this.gb.Controls.Add(this.gbAbmRol);
-            this.gb.Location = new System.Drawing.Point(27, 12);
+            this.gb.Location = new System.Drawing.Point(12, 12);
             this.gb.Name = "gb";
             this.gb.Size = new System.Drawing.Size(769, 160);
             this.gb.TabIndex = 0;
@@ -628,7 +628,7 @@
             // 
             this.button5.BackColor = System.Drawing.SystemColors.Desktop;
             this.button5.ForeColor = System.Drawing.Color.Yellow;
-            this.button5.Location = new System.Drawing.Point(587, 333);
+            this.button5.Location = new System.Drawing.Point(631, 426);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(269, 71);
             this.button5.TabIndex = 10;

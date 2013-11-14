@@ -84,6 +84,7 @@
     <Compile Include="Abm de Rol\FormSearchRol.Designer.cs">
       <DependentUpon>FormSearchRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\DataTimeWrapper.cs" />
     <Compile Include="Base\EAccionSearch.cs" />
     <Compile Include="Base\FormAlta.cs">
       <SubType>Form</SubType>
@@ -280,6 +281,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

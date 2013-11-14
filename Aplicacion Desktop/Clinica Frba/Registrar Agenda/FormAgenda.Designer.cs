@@ -35,12 +35,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tbHorasTotal = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.diaLunes = new Clinica_Frba.DiaAgenda();
-            this.diaMartes = new Clinica_Frba.DiaAgenda();
-            this.diaAgenda1 = new Clinica_Frba.DiaAgenda();
-            this.diaAgenda2 = new Clinica_Frba.DiaAgenda();
-            this.diaAgenda3 = new Clinica_Frba.DiaAgenda();
             this.diaAgenda4 = new Clinica_Frba.DiaAgenda();
+            this.diaAgenda3 = new Clinica_Frba.DiaAgenda();
+            this.diaAgenda2 = new Clinica_Frba.DiaAgenda();
+            this.diaAgenda1 = new Clinica_Frba.DiaAgenda();
+            this.diaMartes = new Clinica_Frba.DiaAgenda();
+            this.diaLunes = new Clinica_Frba.DiaAgenda();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbDias = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btGenerar = new System.Windows.Forms.Button();
             this.gbProfesionaDatos.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -63,14 +70,14 @@
             this.groupBox2.Controls.Add(this.btSeleccionarProfesional);
             this.groupBox2.Location = new System.Drawing.Point(19, 19);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(846, 82);
+            this.groupBox2.Size = new System.Drawing.Size(846, 53);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Profesional";
             // 
             // btSeleccionarProfesional
             // 
-            this.btSeleccionarProfesional.Location = new System.Drawing.Point(765, 53);
+            this.btSeleccionarProfesional.Location = new System.Drawing.Point(765, 16);
             this.btSeleccionarProfesional.Name = "btSeleccionarProfesional";
             this.btSeleccionarProfesional.Size = new System.Drawing.Size(75, 23);
             this.btSeleccionarProfesional.TabIndex = 0;
@@ -105,6 +112,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btGenerar);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.cbDias);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.diaAgenda4);
             this.groupBox1.Controls.Add(this.diaAgenda3);
             this.groupBox1.Controls.Add(this.diaAgenda2);
@@ -112,73 +126,141 @@
             this.groupBox1.Controls.Add(this.diaMartes);
             this.groupBox1.Controls.Add(this.diaLunes);
             this.groupBox1.Controls.Add(this.tbHorasTotal);
-            this.groupBox1.Location = new System.Drawing.Point(19, 107);
+            this.groupBox1.Location = new System.Drawing.Point(19, 78);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(846, 354);
+            this.groupBox1.Size = new System.Drawing.Size(846, 392);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
-            // 
-            // diaLunes
-            // 
-            this.diaLunes.ButtonText = "Add Lunes";
-            this.diaLunes.Day = ((short)(2));
-            this.diaLunes.Location = new System.Drawing.Point(9, 58);
-            this.diaLunes.Name = "diaLunes";
-            this.diaLunes.Size = new System.Drawing.Size(132, 280);
-            this.diaLunes.TabIndex = 3;
-            this.diaLunes.Titulo = "Lunes ";
-            // 
-            // diaMartes
-            // 
-            this.diaMartes.ButtonText = "Add Martes";
-            this.diaMartes.Day = ((short)(3));
-            this.diaMartes.Location = new System.Drawing.Point(147, 58);
-            this.diaMartes.Name = "diaMartes";
-            this.diaMartes.Size = new System.Drawing.Size(132, 280);
-            this.diaMartes.TabIndex = 4;
-            this.diaMartes.Titulo = "Martes";
-            // 
-            // diaAgenda1
-            // 
-            this.diaAgenda1.ButtonText = "Add Miercoles";
-            this.diaAgenda1.Day = ((short)(4));
-            this.diaAgenda1.Location = new System.Drawing.Point(285, 58);
-            this.diaAgenda1.Name = "diaAgenda1";
-            this.diaAgenda1.Size = new System.Drawing.Size(132, 280);
-            this.diaAgenda1.TabIndex = 5;
-            this.diaAgenda1.Titulo = "Miercoles";
-            // 
-            // diaAgenda2
-            // 
-            this.diaAgenda2.ButtonText = "Add Jueves";
-            this.diaAgenda2.Day = ((short)(5));
-            this.diaAgenda2.Location = new System.Drawing.Point(423, 58);
-            this.diaAgenda2.Name = "diaAgenda2";
-            this.diaAgenda2.Size = new System.Drawing.Size(132, 280);
-            this.diaAgenda2.TabIndex = 6;
-            this.diaAgenda2.Titulo = "Jueves";
-            // 
-            // diaAgenda3
-            // 
-            this.diaAgenda3.ButtonText = "Add Viernes";
-            this.diaAgenda3.Day = ((short)(6));
-            this.diaAgenda3.Location = new System.Drawing.Point(561, 58);
-            this.diaAgenda3.Name = "diaAgenda3";
-            this.diaAgenda3.Size = new System.Drawing.Size(132, 280);
-            this.diaAgenda3.TabIndex = 7;
-            this.diaAgenda3.Titulo = "Viernes";
+            this.groupBox1.Text = "Horas Semanles";
             // 
             // diaAgenda4
             // 
             this.diaAgenda4.ButtonText = "Add Savado";
             this.diaAgenda4.Day = ((short)(7));
-            this.diaAgenda4.Location = new System.Drawing.Point(699, 58);
+            this.diaAgenda4.Enabled = false;
+            this.diaAgenda4.Location = new System.Drawing.Point(699, 45);
             this.diaAgenda4.Name = "diaAgenda4";
             this.diaAgenda4.Size = new System.Drawing.Size(132, 280);
             this.diaAgenda4.TabIndex = 8;
             this.diaAgenda4.Titulo = "Savado";
             this.diaAgenda4.Load += new System.EventHandler(this.diaAgenda4_Load);
+            // 
+            // diaAgenda3
+            // 
+            this.diaAgenda3.ButtonText = "Add Viernes";
+            this.diaAgenda3.Day = ((short)(6));
+            this.diaAgenda3.Enabled = false;
+            this.diaAgenda3.Location = new System.Drawing.Point(561, 45);
+            this.diaAgenda3.Name = "diaAgenda3";
+            this.diaAgenda3.Size = new System.Drawing.Size(132, 280);
+            this.diaAgenda3.TabIndex = 7;
+            this.diaAgenda3.Titulo = "Viernes";
+            // 
+            // diaAgenda2
+            // 
+            this.diaAgenda2.ButtonText = "Add Jueves";
+            this.diaAgenda2.Day = ((short)(5));
+            this.diaAgenda2.Enabled = false;
+            this.diaAgenda2.Location = new System.Drawing.Point(423, 45);
+            this.diaAgenda2.Name = "diaAgenda2";
+            this.diaAgenda2.Size = new System.Drawing.Size(132, 280);
+            this.diaAgenda2.TabIndex = 6;
+            this.diaAgenda2.Titulo = "Jueves";
+            // 
+            // diaAgenda1
+            // 
+            this.diaAgenda1.ButtonText = "Add Miercoles";
+            this.diaAgenda1.Day = ((short)(4));
+            this.diaAgenda1.Enabled = false;
+            this.diaAgenda1.Location = new System.Drawing.Point(285, 45);
+            this.diaAgenda1.Name = "diaAgenda1";
+            this.diaAgenda1.Size = new System.Drawing.Size(132, 280);
+            this.diaAgenda1.TabIndex = 5;
+            this.diaAgenda1.Titulo = "Miercoles";
+            // 
+            // diaMartes
+            // 
+            this.diaMartes.ButtonText = "Add Martes";
+            this.diaMartes.Day = ((short)(3));
+            this.diaMartes.Enabled = false;
+            this.diaMartes.Location = new System.Drawing.Point(147, 45);
+            this.diaMartes.Name = "diaMartes";
+            this.diaMartes.Size = new System.Drawing.Size(132, 280);
+            this.diaMartes.TabIndex = 4;
+            this.diaMartes.Titulo = "Martes";
+            // 
+            // diaLunes
+            // 
+            this.diaLunes.ButtonText = "Add Lunes";
+            this.diaLunes.Day = ((short)(2));
+            this.diaLunes.Enabled = false;
+            this.diaLunes.Location = new System.Drawing.Point(9, 45);
+            this.diaLunes.Name = "diaLunes";
+            this.diaLunes.Size = new System.Drawing.Size(132, 280);
+            this.diaLunes.TabIndex = 3;
+            this.diaLunes.Titulo = "Lunes ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(18, 328);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(74, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Fecha Desde:";
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label3.Location = new System.Drawing.Point(98, 327);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(181, 23);
+            this.label3.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label4.Location = new System.Drawing.Point(98, 356);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(181, 23);
+            this.label4.TabIndex = 11;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(18, 356);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(71, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Fecha Hasta:";
+            // 
+            // cbDias
+            // 
+            this.cbDias.FormattingEnabled = true;
+            this.cbDias.Location = new System.Drawing.Point(423, 325);
+            this.cbDias.Name = "cbDias";
+            this.cbDias.Size = new System.Drawing.Size(121, 21);
+            this.cbDias.TabIndex = 13;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(314, 327);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(80, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Perido Agenda:";
+            // 
+            // btGenerar
+            // 
+            this.btGenerar.Location = new System.Drawing.Point(699, 346);
+            this.btGenerar.Name = "btGenerar";
+            this.btGenerar.Size = new System.Drawing.Size(132, 23);
+            this.btGenerar.TabIndex = 15;
+            this.btGenerar.Text = "Generar";
+            this.btGenerar.UseVisualStyleBackColor = true;
             // 
             // FormAgenda
             // 
@@ -212,5 +294,12 @@
         private DiaAgenda diaAgenda1;
         private DiaAgenda diaMartes;
         private DiaAgenda diaLunes;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btGenerar;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cbDias;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
     }
 }

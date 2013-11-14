@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Clinica_Frba.Base;
 
 namespace Clinica_Frba
 {
@@ -88,7 +89,7 @@ namespace Clinica_Frba
 
         private void generarCombo(ComboBox combo, Boolean final)
         {
-            List<DateTime> horasFraccion = new List<DateTime>();
+            List<DataTimeWrapper> horasFraccion = new List<DataTimeWrapper>();
             DateTime current;
             if (final)
             {
@@ -100,14 +101,15 @@ namespace Clinica_Frba
             }
             while (!(current.Hour == this.dtTimeF1.Hour && this.dtTimeF1.Minute == current.Minute))
             {
-                horasFraccion.Add(current);
+                horasFraccion.Add(new DataTimeWrapper(current));
                 current = current.AddMinutes(30);
             }
             if (!final)
             {
-                horasFraccion.Add(current);
+                horasFraccion.Add(new DataTimeWrapper(current));
             }
             combo.DataSource = horasFraccion;
+            combo.DisplayMember = "Time";
         }
 
         public const short LUNES = 2;
@@ -141,9 +143,20 @@ namespace Clinica_Frba
 
         private TimeSpan calcularHoras()
         {
-            TimeSpan tm = new TimeSpan();
+            DateTime f1 = ((DataTimeWrapper)this.cbHoraFinal.SelectedItem).Date;
+            DateTime f0 = ((DataTimeWrapper)this.cbHoraInicial.SelectedItem).Date;
+            return f1.Subtract(f0);
         }
 
-        
+        private void btDia_Click(object sender, EventArgs e)
+        {
+            int hr = calcularHoras().Hours;
+            int min = calcularHoras().Minutes;
+
+            lbCantHoras.Text = calcularHoras().Hours.ToString() + ((min == 30) ? (":30") : (""));
+            Double turnos =  calcularHoras().Hours / 0.5;
+            lbCantTurnos.Text = (min == 30) ? ((turnos + 1).ToString()) : (turnos.ToString());
+        }
+         
     }
 }

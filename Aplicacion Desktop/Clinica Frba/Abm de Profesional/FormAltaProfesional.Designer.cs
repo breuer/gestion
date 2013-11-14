@@ -81,6 +81,7 @@
             this.gbControl.Controls.Add(this.label2);
             this.gbControl.Controls.Add(this.label1);
             this.gbControl.Size = new System.Drawing.Size(353, 415);
+            this.gbControl.Text = "Datos Personales";
             // 
             // gbSexo
             // 
@@ -273,14 +274,14 @@
             this.gbEspecialidad.Controls.Add(this.dgvEspecialidadesMedicas);
             this.gbEspecialidad.Location = new System.Drawing.Point(410, 12);
             this.gbEspecialidad.Name = "gbEspecialidad";
-            this.gbEspecialidad.Size = new System.Drawing.Size(435, 260);
+            this.gbEspecialidad.Size = new System.Drawing.Size(435, 220);
             this.gbEspecialidad.TabIndex = 5;
             this.gbEspecialidad.TabStop = false;
             this.gbEspecialidad.Text = "Especialidades medicas";
             // 
             // btSeleccionar
             // 
-            this.btSeleccionar.Location = new System.Drawing.Point(309, 176);
+            this.btSeleccionar.Location = new System.Drawing.Point(309, 177);
             this.btSeleccionar.Name = "btSeleccionar";
             this.btSeleccionar.Size = new System.Drawing.Size(120, 23);
             this.btSeleccionar.TabIndex = 1;
