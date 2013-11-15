@@ -320,7 +320,170 @@ ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRI
 /*************************************************************************************
 *                    MIGRATION                                                          *
 **************************************************************************************/
-
+GO
+CREATE FUNCTION NN_NN.GENERA_USER_NAME(
+	@INICIAL_1 VARCHAR(2)=N,
+	@INICIAL_2 VARCHAR(2)=N,
+	@POS NUMERIC(18,0),
+	@POST VARCHAR(2)
+)
+returns varchar(18)
+begin
+	DECLARE @DateTimeString VARCHAR(18);
+	DECLARE @DateTime DATETIME;
+	
+	SELECT @DateTime = CURRENT_TIMESTAMP;
+	SELECT @DateTimeSTRING = @INICIAL_1 + @INICIAL_2 + @POST + convert(varchar(18), @POS); 
+	--convert(varchar,DATEPART(Ms, @DateTime));
+	return @DateTimeSTRING
+  end
+GO
+CREATE TRIGGER [NN_NN].[TRIGGER_TEMPORAL_PROFESIONAL] ON [NN_NN].[PROFESIONAL]
+FOR INSERT 
+AS
+	DECLARE @id_profesional NUMERIC(18,0)
+	-- Creo una tabla para usarla como vector con las password iniciales
+	DECLARE @PASS_TABLE TABLE (
+		IDs INT,
+		PASSWORD_DEFAULT VARCHAR(255) NOT NULL
+	);
+	INSERT INTO @PASS_TABLE VALUES
+		(0, 'b4abc8499ea7c87b0906a72299e6ee1eb54a45edb42e9676a7089cdf2cd5f466'), --P4Ss4sW0rd0_0
+		(1, '1610c5c6b8c42c3de4187a55fd1e7d7f7ccfb4444fa3ce350b1b449bab8a523f'), --P4Ss4sW0rd0_1
+		(2, '1f88ea8fdd8c467661d158927540fda0771ce4d8b8c007856e615de191465631'), --P4Ss4sW0rdA_0
+		(3, 'e6e35efa035d3c950f2a7392926c5f657784cbb19d7f463ffc5c62b6f44507b6'), --P4Ss4sW0rdA_E
+		(4, 'f4ad3d4c16f02d7a45508b6b11f8f5f11c1326df54f0beb2332d7394a4a37850'), --PASs4sW0rdA_X
+		(5, '7d2529f53023dbba3720eeda3e2d88b5bc25639cda9c3ac8d3a85d4485a27a36'), --PASs4sW0rd4_X
+		(6, '816d02f9968e170cca4a2aa6c7e81d572d77f052bb5d123a916ac3f48e2e1d940'), --PASs4sWOrd4_X
+		(7, 'de908722439886e996bbbf5fac506aa4e72e48f5b523d14fd1bb6ea4776a4b2e'), --PASs4sWOrds_X
+		(8, 'af9b7dad195f66aa22e81bad4223a50b11be517a228d1abe7a04a1786a040c97'), --PASs4SWOrds_X
+		(9, '89620a4132aaceeb69e89a3a80e7937839d6d464ba94e0355f421d93c24deb3c'), --PsXX4SWOrds_X
+		(10, 'bc2fb5a3ca93f4e48ac73dd5a8f7d15237962b1d6d39d3338e2720e84f30b7c7'), --PsXX4SWOrds_1
+		(11, '7cdf41714bb759707c6d8769ac37fcaa256199dc14052edd87e4da92276b99f5'), --PsXX4SWOrds_K
+		(12, '049e1cc062e3f799b2c7ad2ee1d9ec043a1d3659a992d6de486f668638cee7d5'), --PsXX4XWOrds_K
+		(13, '59a519408726557a3b8cd018567807afc3bf9faf95447a967063808e18192fd6'), --PsXX4XWOrds_A
+		(14, '44bd5381f890879b9562737403629a24f8c6d172c1ea6470f94d2bfd24ebe30d'), --CLAVE_KEYs_A
+		(15, '8d2a7d8966fcd8c51aecf2ce41c09b3eb9de0c245c0b54b37fa4316d865dbcab'), --CLAVX_KEYs_A 
+		(16, '52bc741cd808de182a893fc5b48518aded3aa36b0ce72b59cddb0b51a7fd312a'), --CLABX_KEYs_A
+		(17, 'ebec764c4afedd7c29280885897aa3a53ae78595ffc66d8f89b509c768d8cc71'), --TEMs_XXY-222
+		(18, 'c0bfb39f36ea0cca8f4303e2e750dcda5e32467a384d00735365e15ba752ca5b'), --TEMP_XXY-222
+		(19, '77ee0d9d9375068322f8f2adc44dc7916a5d33c0cde51f5ee840e88a2638ff6c'); --TEsMs_XXY-222
+	
+	DECLARE @post NUMERIC(18,0);
+	DECLARE @passwordDefault VARCHAR(255);
+	DECLARE @ids INT;
+	DECLARE @nombre VARCHAR(255);
+	DECLARE @apellido VARCHAR(255);
+	DECLARE @idPush NUMERIC(18,0);
+	
+	DECLARE cProfecional CURSOR FOR 
+		SELECT [numero], [nombre], [apellido] FROM inserted;
+		
+	SET @post = 0;
+	
+	OPEN cProfecional
+		FETCH NEXT FROM cProfecional
+			INTO @id_profesional, @nombre, @apellido
+		WHILE (@@FETCH_STATUS = 0)
+		BEGIN
+			SELECT @ids = (SELECT ROUND(((19) * RAND()), 0));
+			SELECT @passwordDefault = PASSWORD_DEFAULT 
+				FROM @PASS_TABLE 
+					WHERE  IDs = @ids;
+			INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD, ID_PROFESIONAL)	VALUES (
+				NN_NN.GENERA_USER_NAME(
+					Substring(@nombre, 1, 2), 
+					Substring(@apellido, 1, 2),
+					@id_profesional, 'p_'
+				), 
+				'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 
+				@id_profesional
+			)
+			SET @idPush =  SCOPE_IDENTITY();
+			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 2);
+			SET @post = @post + 1;
+			FETCH NEXT FROM cProfecional
+				INTO @id_profesional, @nombre, @apellido
+		END
+		CLOSE cProfecional
+		DEALLOCATE cProfecional
+	
+	
+GO
+CREATE TRIGGER [NN_NN].[TRIGGER_TEMPORAL_AFILIADO] ON [NN_NN].[AFILIADO]
+FOR INSERT 
+AS
+	DECLARE @id_afiliado NUMERIC(18,0)
+	-- Creo una tabla para usarla como vector con las password iniciales
+	DECLARE @PASS_TABLE TABLE (
+		IDs INT,
+		PASSWORD_DEFAULT VARCHAR(255) NOT NULL
+	);
+	INSERT INTO @PASS_TABLE VALUES
+		(0, 'b4abc8499ea7c87b0906a72299e6ee1eb54a45edb42e9676a7089cdf2cd5f466'), --P4Ss4sW0rd0_0
+		(1, '1610c5c6b8c42c3de4187a55fd1e7d7f7ccfb4444fa3ce350b1b449bab8a523f'), --P4Ss4sW0rd0_1
+		(2, '1f88ea8fdd8c467661d158927540fda0771ce4d8b8c007856e615de191465631'), --P4Ss4sW0rdA_0
+		(3, 'e6e35efa035d3c950f2a7392926c5f657784cbb19d7f463ffc5c62b6f44507b6'), --P4Ss4sW0rdA_E
+		(4, 'f4ad3d4c16f02d7a45508b6b11f8f5f11c1326df54f0beb2332d7394a4a37850'), --PASs4sW0rdA_X
+		(5, '7d2529f53023dbba3720eeda3e2d88b5bc25639cda9c3ac8d3a85d4485a27a36'), --PASs4sW0rd4_X
+		(6, '816d02f9968e170cca4a2aa6c7e81d572d77f052bb5d123a916ac3f48e2e1d940'), --PASs4sWOrd4_X
+		(7, 'de908722439886e996bbbf5fac506aa4e72e48f5b523d14fd1bb6ea4776a4b2e'), --PASs4sWOrds_X
+		(8, 'af9b7dad195f66aa22e81bad4223a50b11be517a228d1abe7a04a1786a040c97'), --PASs4SWOrds_X
+		(9, '89620a4132aaceeb69e89a3a80e7937839d6d464ba94e0355f421d93c24deb3c'), --PsXX4SWOrds_X
+		(10, 'bc2fb5a3ca93f4e48ac73dd5a8f7d15237962b1d6d39d3338e2720e84f30b7c7'), --PsXX4SWOrds_1
+		(11, '7cdf41714bb759707c6d8769ac37fcaa256199dc14052edd87e4da92276b99f5'), --PsXX4SWOrds_K
+		(12, '049e1cc062e3f799b2c7ad2ee1d9ec043a1d3659a992d6de486f668638cee7d5'), --PsXX4XWOrds_K
+		(13, '59a519408726557a3b8cd018567807afc3bf9faf95447a967063808e18192fd6'), --PsXX4XWOrds_A
+		(14, '44bd5381f890879b9562737403629a24f8c6d172c1ea6470f94d2bfd24ebe30d'), --CLAVE_KEYs_A
+		(15, '8d2a7d8966fcd8c51aecf2ce41c09b3eb9de0c245c0b54b37fa4316d865dbcab'), --CLAVX_KEYs_A 
+		(16, '52bc741cd808de182a893fc5b48518aded3aa36b0ce72b59cddb0b51a7fd312a'), --CLABX_KEYs_A
+		(17, 'ebec764c4afedd7c29280885897aa3a53ae78595ffc66d8f89b509c768d8cc71'), --TEMs_XXY-222
+		(18, 'c0bfb39f36ea0cca8f4303e2e750dcda5e32467a384d00735365e15ba752ca5b'), --TEMP_XXY-222
+		(19, '77ee0d9d9375068322f8f2adc44dc7916a5d33c0cde51f5ee840e88a2638ff6c'); --TEsMs_XXY-222
+	
+	DECLARE @post int;
+	DECLARE @passwordDefault VARCHAR(255);
+	DECLARE @ids INT;
+	DECLARE @nombre VARCHAR(255);
+	DECLARE @apellido VARCHAR(255);
+	DECLARE @idPush NUMERIC(18,0);
+	
+	DECLARE cAfiliado CURSOR FOR 
+		SELECT [numero], [nombre], [apellido] FROM inserted;
+		
+	SET @post = 0;
+	
+	OPEN cAfiliado
+		FETCH NEXT FROM cAfiliado
+			INTO @id_afiliado, @nombre, @apellido
+		WHILE (@@FETCH_STATUS = 0)
+		BEGIN
+			SELECT @ids = (SELECT ROUND(((19) * RAND()), 0));
+			SELECT @passwordDefault = PASSWORD_DEFAULT 
+				FROM @PASS_TABLE 
+					WHERE  IDs = @ids;
+			INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD, ID_AFILIADO, ID_AFILIADO_DISCRIMINADOR)	VALUES (
+				NN_NN.GENERA_USER_NAME(
+					Substring(@nombre, 1, 2), 
+					Substring(@apellido, 1, 2),
+					@id_afiliado,
+					'A_'
+				), 
+				'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 
+				@id_afiliado,
+				0
+			)
+			SET @idPush =  SCOPE_IDENTITY();
+			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 3);
+			SET @post = @post + 1;
+			FETCH NEXT FROM cAfiliado
+				INTO @id_afiliado, @nombre, @apellido
+		END
+		CLOSE cAfiliado
+		DEALLOCATE cAfiliado
+	
+	
+GO
 /******************************************************
 *                    TIPO DOCUMENTO                         *
 *******************************************************/
@@ -673,11 +836,6 @@ GROUP BY
 --ORDER BY D.codigo, A.numero
 	
 
-
---PASSWORD ADMIN
-INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD)VALUES('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
-INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
-
 /*************************************************************************************
 *                    CONSTRAINT FK                                                   *
 **************************************************************************************/
@@ -725,3 +883,7 @@ ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_profesional FOREIGN KEY (nro
 	REFERENCES NN_NN.PROFESIONAL(numero);
 ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_TURNO_cod_tipo_cancelacion FOREIGN KEY (cod_tipo_cancelacion)
 	REFERENCES NN_NN.TIPO_CANCELACION(codigo);
+	
+DROP FUNCTION NN_NN.GENERA_USER_NAME;
+DROP TRIGGER [NN_NN].[TRIGGER_TEMPORAL_PROFESIONAL];
+DROP TRIGGER [NN_NN].[TRIGGER_TEMPORAL_AFILIADO];
