@@ -97,7 +97,6 @@
             this.gb.TabIndex = 0;
             this.gb.TabStop = false;
             this.gb.Text = "Menu administrativo";
-            this.gb.Visible = false;
             // 
             // gbEstadistico
             // 
@@ -448,7 +447,6 @@
             this.gbProfesional.TabIndex = 7;
             this.gbProfesional.TabStop = false;
             this.gbProfesional.Text = "Menu Profesional";
-            this.gbProfesional.Visible = false;
             // 
             // gbAfiliado
             // 
@@ -462,7 +460,6 @@
             this.gbAfiliado.TabIndex = 8;
             this.gbAfiliado.TabStop = false;
             this.gbAfiliado.Text = "Menu Afiliado";
-            this.gbAfiliado.Visible = false;
             // 
             // button1
             // 
