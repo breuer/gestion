@@ -37,6 +37,7 @@ namespace Clinica_Frba
             foreach(SqlParameter s in rta){
                 st.Append(s.Value + "]");
             }
+            tbOutput.Text = st.ToString();
         }
     }
 }
