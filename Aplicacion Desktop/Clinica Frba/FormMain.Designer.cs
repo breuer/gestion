@@ -70,6 +70,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
             this.gbEstadistico.SuspendLayout();
             this.gbPlan.SuspendLayout();
@@ -501,7 +502,7 @@
             // 
             this.button5.BackColor = System.Drawing.SystemColors.Desktop;
             this.button5.ForeColor = System.Drawing.Color.Yellow;
-            this.button5.Location = new System.Drawing.Point(67, 417);
+            this.button5.Location = new System.Drawing.Point(587, 426);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(269, 71);
             this.button5.TabIndex = 10;
@@ -510,12 +511,26 @@
             this.button5.Visible = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.SystemColors.Desktop;
+            this.button6.ForeColor = System.Drawing.Color.Yellow;
+            this.button6.Location = new System.Drawing.Point(587, 349);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(269, 71);
+            this.button6.TabIndex = 11;
+            this.button6.Text = "Test STORE";
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Visible = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Clinica_Frba.Properties.Resources.Fondo;
             this.ClientSize = new System.Drawing.Size(902, 509);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.gbAfiliado);
             this.Controls.Add(this.gbProfesional);
@@ -582,6 +597,7 @@
         private System.Windows.Forms.GroupBox gbEstadistico;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
 
     }
 }

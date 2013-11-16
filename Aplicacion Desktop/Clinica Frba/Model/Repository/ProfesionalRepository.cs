@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Clinica_Frba.Model.Repository
 {
@@ -18,9 +19,19 @@ namespace Clinica_Frba.Model.Repository
         }
 
         // TODO mas tarde ver!!!
-        public DataTable existeProfesional(String matricula)
+        public DataTable existeProfesional(String docuemento, String tipo)
         {
-            return listar(queryExisteMatricula + matricula); ;
+            return listar(queryExisteMatricula + docuemento + " AND codigo_documento = " + tipo);
         }
+
+        
+        public int addProfesional(List<SqlParameter> parametros)
+        {
+            base.callProcedure("NN_NN.SP_ADD_PROFESIONAL", parametros);
+
+            return 1;
+        }
+
+   
     }
 }

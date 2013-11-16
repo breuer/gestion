@@ -79,8 +79,9 @@ namespace Clinica_Frba.NewFolder13
             if (!"".Equals(tbDni.Text))
             {
                 this.errorProvider.Clear();
-                //DataTable dt = Profesional.getRepository.existeP(tbDni.Text);
-                /*
+                DataRow dataRowTipoDocumento = (DataRow) cbTipo.SelectedItem;
+                DataTable dt = Profesional.getRepository.existeProfesional(tbDni.Text, dataRowTipoDocumento["codigo"].ToString());
+                
                 if (dt.Rows.Count != 0)
                 {
                     this.errorProvider.SetError(tbDni, "Ya se encuentra registrado el profesional");
@@ -91,7 +92,6 @@ namespace Clinica_Frba.NewFolder13
                 {
                     // ErrorPrevio = true;
                 }
-                 */
             }
         }
 
@@ -111,11 +111,10 @@ namespace Clinica_Frba.NewFolder13
             {
                 this.errorProvider.Clear();
                 DataTable dt = Profesional.getRepository.existeMatricula(tbMatricula.Text);
-
                 if (dt.Rows.Count != 0)
                 {
-                    this.errorProvider.SetError(tbDni, "Ya se encuentra registrado el profesional");
-                    stError.Append("Dni: Ya se encuentra registrado el profesional\n");
+                    this.errorProvider.SetError(tbMatricula, "Ya se encuentra registrado el profesional");
+                    stError.Append("Matricula: Ya se encuentra registrado el profesional\n");
                     this.btAccion.Enabled = false;
                 }
                 else
@@ -186,7 +185,7 @@ namespace Clinica_Frba.NewFolder13
                 switch (Accion)
                 {
                     case EActionSearch.ALTA:
-                        storeProcedure = "NN_NN.sp_add_profesional";
+                       // Profesional.getRepository.
                         break;
                     case EActionSearch.SELECCION:
                         break;

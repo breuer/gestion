@@ -487,126 +487,63 @@ GO
 /******************************************************
 *                    TIPO DOCUMENTO                         *
 *******************************************************/
-
-INSERT INTO 
-	NN_NN.TIPO_DOCUMENTO (descripcion)
-VALUES 
-	('dni')
-
+PRINT 'TIPO_DOCUMENTO'
+INSERT INTO NN_NN.TIPO_DOCUMENTO (descripcion)
+VALUES ('dni')
 /******************************************************
 *                    ESTADO CIVIL                     *
 *******************************************************/
-
-INSERT INTO 
-	NN_NN.ESTADO_CIVIL (descripcion)
-VALUES 
-	('single')
-
-INSERT INTO 
-	NN_NN.ESTADO_CIVIL (descripcion)
-VALUES 
-	('married')
-
-INSERT INTO 
-	NN_NN.ESTADO_CIVIL (descripcion)
-VALUES 
-	('widower')
-
-INSERT INTO 
-	NN_NN.ESTADO_CIVIL (descripcion)
-VALUES 
-	('concubinage')
-
-INSERT INTO 
-	NN_NN.ESTADO_CIVIL (descripcion)
-VALUES 
+PRINT 'ESTADO_CIVIL'
+INSERT INTO NN_NN.ESTADO_CIVIL (descripcion)
+VALUES ('single'),
+	('married'),
+	('widower'),
+	('concubinage'),
 	('divorced')
-
-
 /******************************************************
 *                    DIA                              *
 *******************************************************/
-INSERT INTO 
-	NN_NN.DIA (descripcion)
-VALUES 
-	('sunday')
-	
-INSERT INTO 
-	NN_NN.DIA (descripcion)
-VALUES 
-	('monday')
-
-INSERT INTO 
-	NN_NN.DIA (descripcion)
-VALUES 
-	('tuesday')
-
-INSERT INTO 
-	NN_NN.DIA (descripcion)
-VALUES 
-	('wednesday')
-
-INSERT INTO 
-	NN_NN.DIA (descripcion)
-VALUES 
-	('thursday')
-
-INSERT INTO 
-	NN_NN.DIA (descripcion)
-VALUES 
-	('friday')
-
-INSERT INTO 
-	NN_NN.DIA (descripcion)
-VALUES 
+PRINT 'DIA'
+INSERT INTO NN_NN.DIA (descripcion)
+VALUES ('sunday'),
+	('monday'),
+	('tuesday'),
+	('wednesday'),
+	('thursday'),
+	('friday'),
 	('saturday')
-	
 /******************************************************
 *                    TIPO CANCELACION TURNO           *
 *******************************************************/
-INSERT INTO 
-	NN_NN.TIPO_CANCELACION (codigo, descripcion)
-VALUES 
-	(0, 'CANCELACION POR SISTEMA')
-	
-INSERT INTO 
-	NN_NN.TIPO_CANCELACION (codigo, descripcion)
-VALUES 
-	(1, 'CANCELACION POR AFILIADO')
-	
-INSERT INTO 
-	NN_NN.TIPO_CANCELACION (codigo, descripcion)
-VALUES 
+PRINT 'TIPO_CANCELACION'
+INSERT INTO NN_NN.TIPO_CANCELACION (codigo, descripcion)
+VALUES (0, 'CANCELACION POR SISTEMA'),
+	(1, 'CANCELACION POR AFILIADO'),
 	(2, 'CANCELACION POR MEDICO')
-
 /******************************************************
 *                    PLAN                             *
 *******************************************************/
-
+PRINT 'PLAN_MEDICO'
 INSERT INTO 
 	NN_NN.PLAN_MEDICO(codigo, descripcion, precio_bono_consulta, precio_bono_farmacia)
 SELECT DISTINCT  
 	Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
 FROM 
 	gd_esquema.Maestra
-
-
 /******************************************************
 *                    AFILIADO                         *
 *******************************************************/
-
+PRINT 'AFILIADO'
 INSERT INTO 
 	NN_NN.AFILIADO(numero_tipo_afiliado, apellido, nombre, codigo_documento, documento, direccion, fecha_nac, telefono, mail,  cod_plan)
 SELECT DISTINCT 
 	1, Paciente_Apellido, Paciente_Nombre, 1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
 FROM 
 	gd_esquema.Maestra
-
-
 /******************************************************
 *                    BONOS                            *
 *******************************************************/
-
+PRINT 'BONO_CONSULTA'
 -- turno -> compra bono consulta ó compra bono farmacia -> medicamento
 
 -- bonos consulta
