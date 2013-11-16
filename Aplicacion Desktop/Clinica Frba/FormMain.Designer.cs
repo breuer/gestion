@@ -69,17 +69,6 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.gbLogin = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lbPassword = new System.Windows.Forms.Label();
-            this.lbNombreUsuario = new System.Windows.Forms.Label();
-            this.tbPassword = new System.Windows.Forms.TextBox();
-            this.btCancel = new System.Windows.Forms.Button();
-            this.tbNombreUsuario = new System.Windows.Forms.TextBox();
-            this.btSend = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
             this.gbEstadistico.SuspendLayout();
@@ -91,7 +80,6 @@
             this.gbAbmRol.SuspendLayout();
             this.gbProfesional.SuspendLayout();
             this.gbAfiliado.SuspendLayout();
-            this.gbLogin.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb
@@ -512,121 +500,6 @@
             this.button3.Text = "Pedido turno";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // gbLogin
-            // 
-            this.gbLogin.Controls.Add(this.label3);
-            this.gbLogin.Controls.Add(this.label2);
-            this.gbLogin.Controls.Add(this.lbPassword);
-            this.gbLogin.Controls.Add(this.lbNombreUsuario);
-            this.gbLogin.Controls.Add(this.tbPassword);
-            this.gbLogin.Controls.Add(this.btCancel);
-            this.gbLogin.Controls.Add(this.tbNombreUsuario);
-            this.gbLogin.Controls.Add(this.btSend);
-            this.gbLogin.Controls.Add(this.label1);
-            this.gbLogin.Controls.Add(this.label4);
-            this.gbLogin.Location = new System.Drawing.Point(586, 372);
-            this.gbLogin.Name = "gbLogin";
-            this.gbLogin.Size = new System.Drawing.Size(294, 125);
-            this.gbLogin.TabIndex = 9;
-            this.gbLogin.TabStop = false;
-            // 
-            // label3
-            // 
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(139, 68);
-            this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(13, 20);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "*";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(6, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(20, 25);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "*";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbPassword
-            // 
-            this.lbPassword.AutoSize = true;
-            this.lbPassword.Location = new System.Drawing.Point(22, 45);
-            this.lbPassword.Name = "lbPassword";
-            this.lbPassword.Size = new System.Drawing.Size(56, 13);
-            this.lbPassword.TabIndex = 2;
-            this.lbPassword.Text = "Password:";
-            // 
-            // lbNombreUsuario
-            // 
-            this.lbNombreUsuario.AutoSize = true;
-            this.lbNombreUsuario.Location = new System.Drawing.Point(22, 22);
-            this.lbNombreUsuario.Name = "lbNombreUsuario";
-            this.lbNombreUsuario.Size = new System.Drawing.Size(101, 13);
-            this.lbNombreUsuario.TabIndex = 1;
-            this.lbNombreUsuario.Text = "Nombre de Usuario:";
-            // 
-            // tbPassword
-            // 
-            this.tbPassword.Location = new System.Drawing.Point(129, 42);
-            this.tbPassword.Name = "tbPassword";
-            this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(138, 20);
-            this.tbPassword.TabIndex = 4;
-            // 
-            // btCancel
-            // 
-            this.btCancel.Location = new System.Drawing.Point(111, 96);
-            this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(75, 23);
-            this.btCancel.TabIndex = 5;
-            this.btCancel.Text = "&Cancelar";
-            this.btCancel.UseVisualStyleBackColor = true;
-            // 
-            // tbNombreUsuario
-            // 
-            this.tbNombreUsuario.Location = new System.Drawing.Point(129, 19);
-            this.tbNombreUsuario.Multiline = true;
-            this.tbNombreUsuario.Name = "tbNombreUsuario";
-            this.tbNombreUsuario.Size = new System.Drawing.Size(138, 20);
-            this.tbNombreUsuario.TabIndex = 3;
-            // 
-            // btSend
-            // 
-            this.btSend.Location = new System.Drawing.Point(192, 96);
-            this.btSend.Name = "btSend";
-            this.btSend.Size = new System.Drawing.Size(75, 23);
-            this.btSend.TabIndex = 0;
-            this.btSend.Text = "&Enviar";
-            this.btSend.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(6, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(20, 25);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "*";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 68);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(222, 13);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Los campos marcados con     son obligatorios";
-            // 
             // button5
             // 
             this.button5.BackColor = System.Drawing.SystemColors.Desktop;
@@ -647,7 +520,6 @@
             this.BackgroundImage = global::Clinica_Frba.Properties.Resources.Fondo;
             this.ClientSize = new System.Drawing.Size(902, 509);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.gbLogin);
             this.Controls.Add(this.gbAfiliado);
             this.Controls.Add(this.gbProfesional);
             this.Controls.Add(this.gb);
@@ -665,8 +537,6 @@
             this.gbAbmRol.ResumeLayout(false);
             this.gbProfesional.ResumeLayout(false);
             this.gbAfiliado.ResumeLayout(false);
-            this.gbLogin.ResumeLayout(false);
-            this.gbLogin.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -714,17 +584,6 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.GroupBox gbEstadistico;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.GroupBox gbLogin;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lbPassword;
-        private System.Windows.Forms.Label lbNombreUsuario;
-        private System.Windows.Forms.TextBox tbPassword;
-        private System.Windows.Forms.Button btCancel;
-        private System.Windows.Forms.TextBox tbNombreUsuario;
-        private System.Windows.Forms.Button btSend;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button5;
 
     }

@@ -15,7 +15,13 @@ namespace Clinica_Frba
         public FormMain()
         {
             InitializeComponent();
-            this.WindowState = FormWindowState.Maximized;
+            //this.WindowState = FormWindowState.Maximized;
+
+            this.gbAbmAfiliado.Visible = true;
+            this.gbAbmEspecialidad.Visible = true;
+            this.gbAbmProfesional.Visible = true;
+            this.gbAbmAfiliado.Visible = true;
+
             this.enableGroupBox(this.gbAbmRol, false);
             this.enableGroupBox(this.gbAbmUser, false);
             this.enableGroupBox(this.gbAbmAfiliado, false);
@@ -26,6 +32,7 @@ namespace Clinica_Frba
             this.enableGroupBox(this.gbEstadistico, false);
             this.enableGroupBox(this.gbAfiliado, false);
             this.enableGroupBox(this.gbProfesional, false);
+
 
         }
 
