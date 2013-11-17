@@ -189,6 +189,16 @@ CREATE TABLE NN_NN.BONO_FARMACIA
 	nro_tipo_afiliado [numeric](18, 0)
 )
 
+CREATE TABLE NN_NN.REGISTRO_COMPRA_BONO
+(
+	fecha_compra [datetime],
+	nro_afiliado [numeric](18, 0),
+	nro_tipo_afiliado [numeric](18, 0),
+	cantidad_bonos_farmacia [numeric](18, 0),
+	cantidad_bonos_consulta [numeric](18, 0)
+)
+
+
 CREATE TABLE NN_NN.MEDICAMENTO
 (
 	descripcion [varchar] (255) not null,
@@ -883,6 +893,8 @@ ALTER TABLE NN_NN.TURNO ADD CONSTRAINT FK_TURNO_nro_profesional FOREIGN KEY (nro
 	REFERENCES NN_NN.PROFESIONAL(numero);
 ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_TURNO_cod_tipo_cancelacion FOREIGN KEY (cod_tipo_cancelacion)
 	REFERENCES NN_NN.TIPO_CANCELACION(codigo);
+ALTER TABLE NN_NN.REGISTRO_COMPRA ADD CONSTRAINT FK_REGISTRO_COMPRA_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
+	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
 	
 DROP FUNCTION NN_NN.GENERA_USER_NAME;
 DROP TRIGGER [NN_NN].[TRIGGER_TEMPORAL_PROFESIONAL];
