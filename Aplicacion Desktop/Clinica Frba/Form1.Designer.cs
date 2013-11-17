@@ -44,8 +44,8 @@
             this.tbFinal2 = new System.Windows.Forms.TextBox();
             this.btTestTime = new System.Windows.Forms.Button();
             this.btTestFechas = new System.Windows.Forms.Button();
-            this.diaAgenda2 = new Clinica_Frba.DiaAgenda();
             this.diaAgenda1 = new Clinica_Frba.DiaAgenda();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -181,22 +181,12 @@
             // 
             // btTestFechas
             // 
-            this.btTestFechas.Location = new System.Drawing.Point(573, 241);
+            this.btTestFechas.Location = new System.Drawing.Point(573, 41);
             this.btTestFechas.Name = "btTestFechas";
             this.btTestFechas.Size = new System.Drawing.Size(75, 23);
             this.btTestFechas.TabIndex = 18;
             this.btTestFechas.Text = "Test Fechas";
             this.btTestFechas.UseVisualStyleBackColor = true;
-            // 
-            // diaAgenda2
-            // 
-            this.diaAgenda2.ButtonText = "ButtonText";
-            this.diaAgenda2.Day = ((short)(2));
-            this.diaAgenda2.Location = new System.Drawing.Point(247, 222);
-            this.diaAgenda2.Name = "diaAgenda2";
-            this.diaAgenda2.Size = new System.Drawing.Size(164, 280);
-            this.diaAgenda2.TabIndex = 20;
-            this.diaAgenda2.Titulo = "titulo";
             // 
             // diaAgenda1
             // 
@@ -208,12 +198,21 @@
             this.diaAgenda1.TabIndex = 19;
             this.diaAgenda1.Titulo = "HOla";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(583, 403);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 20;
+            this.button5.Text = "button5";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(805, 514);
-            this.Controls.Add(this.diaAgenda2);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.diaAgenda1);
             this.Controls.Add(this.btTestFechas);
             this.Controls.Add(this.btTestTime);
@@ -259,7 +258,7 @@
         private System.Windows.Forms.Button btTestTime;
         private System.Windows.Forms.Button btTestFechas;
         private DiaAgenda diaAgenda1;
-        private DiaAgenda diaAgenda2;
+        private System.Windows.Forms.Button button5;
     }
 }
 

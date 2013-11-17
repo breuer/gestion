@@ -97,6 +97,12 @@ namespace Clinica_Frba
             frm.Show();
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            FormTestStoreProcedure frm = new FormTestStoreProcedure();
+            frm.Show();
+        }
+
       
     }
 }

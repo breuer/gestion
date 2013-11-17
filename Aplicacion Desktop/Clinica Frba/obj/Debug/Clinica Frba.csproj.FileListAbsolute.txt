@@ -46,3 +46,4 @@ C:\Users\nn\tp\ClinicaDesktop\Clinica Frba\obj\Debug\Clinica_Frba.Registrar_Agen
 C:\Users\nn\tp\ClinicaDesktop\Clinica Frba\obj\Debug\Clinica Frba.csproj.GenerateResource.Cache
 C:\Users\nn\tp\ClinicaDesktop\Clinica Frba\obj\Debug\Clinica Frba.exe
 C:\Users\nn\tp\ClinicaDesktop\Clinica Frba\obj\Debug\Clinica Frba.pdb
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.FormTestStoreProcedure.resources

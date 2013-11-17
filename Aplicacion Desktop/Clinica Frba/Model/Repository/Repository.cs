@@ -18,7 +18,10 @@ namespace Clinica_Frba.Model.Repository
         {
             using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.dbConnectionString))
             {
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand(
+                    query, 
+                    sqlConnection
+                );
                 try
                 {
                     SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
@@ -28,7 +31,12 @@ namespace Clinica_Frba.Model.Repository
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        e.Message, 
+                        Application.ProductName, 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error
+                    );
                     Application.Exit();
                     return null;
                 }
@@ -45,7 +53,10 @@ namespace Clinica_Frba.Model.Repository
         {
             using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.dbConnectionString))
             {
-                SqlCommand sqlCommand = new SqlCommand(spName, sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand(
+                    spName, 
+                    sqlConnection
+                );
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 if (parametros.Count != 0)
                 {
@@ -60,7 +71,12 @@ namespace Clinica_Frba.Model.Repository
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        e.Message, 
+                        Application.ProductName, 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error
+                    );
                     Application.Exit();
                     return null;
                 }
@@ -77,7 +93,10 @@ namespace Clinica_Frba.Model.Repository
         {
             using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.dbConnectionString))
             {
-                SqlCommand sqlCommand = new SqlCommand(spName, sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand(
+                    spName, 
+                    sqlConnection
+                );
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 if (parametros.Count != 0)
                 {
@@ -87,6 +106,46 @@ namespace Clinica_Frba.Model.Repository
                 {
                     sqlConnection.Open();
                     sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+                finally
+                {
+                    sqlCommand.Parameters.Clear();
+                    sqlConnection.Dispose();
+                    sqlCommand.Dispose();
+                }
+            }
+        }
+
+        public List<SqlParameter> callProcedure(String spName, List<SqlParameter> parametros)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.dbConnectionString))
+            {
+                SqlCommand sqlCommand = new SqlCommand(
+                    spName, 
+                    sqlConnection
+                );
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (parametros.Count != 0)
+                {
+                    sqlCommand.Parameters.AddRange(parametros.ToArray());
+                }
+                try
+                {
+                    sqlConnection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                    List<SqlParameter> listReturn = new List<SqlParameter>();
+                    foreach (SqlParameter param in sqlCommand.Parameters)
+                    {
+                        if (param.Direction == ParameterDirection.ReturnValue)
+                        {
+                            listReturn.Add(param);
+                        }
+                    }
+                    return listReturn;
                 }
                 catch (Exception e)
                 {

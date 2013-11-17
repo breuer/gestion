@@ -126,6 +126,12 @@
     <Compile Include="DiaAgenda.Designer.cs">
       <DependentUpon>DiaAgenda.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTestStoreProcedure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTestStoreProcedure.Designer.cs">
+      <DependentUpon>FormTestStoreProcedure.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\IFInvocanteEspecialidad.cs" />
     <Compile Include="Interface\IFInvocanteFaminliar.cs" />
     <Compile Include="Interface\IFInvocantePlan.cs" />
@@ -158,6 +164,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Repository\RolRepository.cs" />
+    <Compile Include="Model\Repository\TransactionSQLParam.cs" />
     <Compile Include="Model\Rol.cs" />
     <Compile Include="Model\TipoEspecialidadMedica.cs" />
     <Compile Include="Registrar Agenda\FormSearchAgenda.cs">
@@ -278,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTestStoreProcedure.resx">
+      <DependentUpon>FormTestStoreProcedure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Listados Estadisticos\FormListados.resx">
       <DependentUpon>FormListados.cs</DependentUpon>

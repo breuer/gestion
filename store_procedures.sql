@@ -361,3 +361,22 @@ BEGIN
 	END
 END
 GO
+
+
+
+
+
+
+
+
+
+DROP PROCEDURE NN_NN.SP_TEST_RETURN;
+GO
+
+CREATE PROCEDURE NN_NN.SP_TEST_RETURN (
+	@param1 varchar(255)
+)
+AS
+BEGIN 
+	return @param1 + '_HOLA';
+END
