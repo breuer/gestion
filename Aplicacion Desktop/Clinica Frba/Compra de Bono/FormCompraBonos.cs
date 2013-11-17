@@ -50,5 +50,10 @@ namespace Clinica_Frba.Compra_de_Bono
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

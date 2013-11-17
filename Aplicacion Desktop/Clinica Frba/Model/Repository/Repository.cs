@@ -144,6 +144,10 @@ namespace Clinica_Frba.Model.Repository
                         {
                             listReturn.Add(param);
                         }
+                        else if (param.Direction == ParameterDirection.Output || param.Direction == ParameterDirection.InputOutput)
+                        {
+                            listReturn.Add(param);
+                        }
                     }
                     return listReturn;
                 }
