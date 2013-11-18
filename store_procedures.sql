@@ -223,33 +223,38 @@ GO
 CREATE PROCEDURE NN_NN.SP_ADD_PROFESIONAL (
 	@apellido varchar(255), 
 	@nombre varchar(255), 
-	@tipo_documento NUMERIC(18,0),
-	@documento NUMERIC(18,0),
+	@codigo_documento NUMERIC(18,0),
+	@dni NUMERIC(18,0),
+	@direccion varchar(255),
+	@fecha_nac DATETIME,
 	@telefono NUMERIC(18,0),
+	@mail varchar(255),
 	@sexo CHAR,
-	@matricula NUMERIC(18,0),
-	@direccion varchar(255), 
-	@mail varchar(255)
+	@matricula NUMERIC(18,0)
 )
 AS
-BEGIN 
-	INSERT INTO NN_NN.PROFESIONAL(apellido, nombre, documento, tipo_documento, direccion, telefono, mail, sexo)
+BEGIN
+	DECLARE @ID NUMERIC(18,0);
+	INSERT INTO NN_NN.PROFESIONAL (apellido, nombre, documento, codigo_documento, direccion, fecha_nac, telefono, mail, sexo, @matricula)
 	VALUES 
-		(@nombre, @apellido, @documento, @tipo_documento, @direccion, @telefono, @mail, @sexo)
+		(@nombre, @apellido, @codigo_documento, @dni, @direccion, @fecha_nac, @telefono, @mail, @sexo, @matricula)
+	SET @ID = SCOPE_IDENTITY();
+	return 
 END
 GO
-
 /******************************************************
 *                    ADD ESPECIALIDAD TO PROFESIONAL  *
 *******************************************************/
 
-CREATE PROCEDURE NN_NN.SP_ADD_ESPECIALIDAD (@nro_profesional int, @cod_especialidad int)
+CREATE PROCEDURE NN_NN.SP_ADD_ESPECIALIDAD (
+	@codigo int, 
+	@cod_especialidad int
+)
 AS
 BEGIN 
-	INSERT INTO 
-		NN_NN.PROFESIONAL_ESPECIALIDAD(nro_profesional, cod_especialidad)
+	INSERT INTO NN_NN.PROFESIONAL_ESPECIALIDAD(codigo, cod_especialidad)
 	VALUES 
-		(@nro_profesional, @cod_especialidad)
+		(@codigo, @cod_especialidad)
 END
 GO
 
@@ -361,22 +366,3 @@ BEGIN
 	END
 END
 GO
-
-
-
-
-
-
-
-
-
-DROP PROCEDURE NN_NN.SP_TEST_RETURN;
-GO
-
-CREATE PROCEDURE NN_NN.SP_TEST_RETURN (
-	@param1 varchar(255)
-)
-AS
-BEGIN 
-	return @param1 + '_HOLA';
-END
