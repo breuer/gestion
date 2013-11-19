@@ -120,6 +120,12 @@
       <DependentUpon>FormSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Base\Tag.cs" />
+    <Compile Include="Compra de Bono\FormCompraBonos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compra de Bono\FormCompraBonos.Designer.cs">
+      <DependentUpon>FormCompraBonos.cs</DependentUpon>
+    </Compile>
     <Compile Include="DiaAgenda.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -276,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Base\FormSearch.resx">
       <DependentUpon>FormSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra de Bono\FormCompraBonos.resx">
+      <DependentUpon>FormCompraBonos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DiaAgenda.resx">
       <DependentUpon>DiaAgenda.cs</DependentUpon>

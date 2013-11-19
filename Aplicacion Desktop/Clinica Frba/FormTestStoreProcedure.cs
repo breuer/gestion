@@ -39,5 +39,29 @@ namespace Clinica_Frba
             }
             tbOutput.Text = st.ToString();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            StringBuilder st = new StringBuilder();
+            st.Append("Prueba store procedure con valor de parametros de retorno:[");
+
+
+            Repository repo = new Repository();
+
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("param1", "Esto es una prueba"));
+            SqlParameter Param = new SqlParameter("paramOut", SqlDbType.Text);
+            Param.Direction = ParameterDirection.Output;
+            
+            parametros.Add(Param);
+
+            List<SqlParameter> rta = repo.callProcedure("NN_NN.SP_TEST_PARAM", parametros);
+
+            foreach (SqlParameter s in rta)
+            {
+                st.Append(s.Value + "]");
+            }
+            tbOutput.Text = st.ToString();
+        }
     }
 }
