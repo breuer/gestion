@@ -132,6 +132,12 @@
     <Compile Include="DiaAgenda.Designer.cs">
       <DependentUpon>DiaAgenda.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormLinq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLinq.Designer.cs">
+      <DependentUpon>FormLinq.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTestStoreProcedure.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -278,6 +284,9 @@
     <EmbeddedResource Include="Abm de Profesional\FormAltaProfesional.resx">
       <DependentUpon>FormAltaProfesional.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\FormSearchProfesional.resx">
+      <DependentUpon>FormSearchProfesional.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Abm de Rol\FormAltaRol.resx">
       <DependentUpon>FormAltaRol.cs</DependentUpon>
     </EmbeddedResource>
@@ -298,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLinq.resx">
+      <DependentUpon>FormLinq.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

@@ -10,7 +10,7 @@ namespace Clinica_Frba.Model
     {
         private int codigo;
         private String descripcion;
-        private TipoEspecialidadMedica tipo;
+        private TipoEspecialidadMedica tipo = new TipoEspecialidadMedica();
         private Boolean enable;
 
         private static EspecialidadMedicaRepository repository = new EspecialidadMedicaRepository();

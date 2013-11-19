@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.NewFolder13;
+using Clinica_Frba.Abm_de_Profesional;
 
 namespace Clinica_Frba
 {
@@ -53,6 +54,7 @@ namespace Clinica_Frba
             btListarPlan.Enabled = true;
             btListarRol.Enabled = true;
             btAltaAfiliado.Enabled = true;
+            btListarProfesional.Enabled = true;
 
             btAltaProfesional.Enabled = true;
             
@@ -100,6 +102,18 @@ namespace Clinica_Frba
         private void button6_Click(object sender, EventArgs e)
         {
             FormTestStoreProcedure frm = new FormTestStoreProcedure();
+            frm.Show();
+        }
+
+        private void btListarProfesional_Click(object sender, EventArgs e)
+        {
+            FormSearchProfesional frm = new FormSearchProfesional();
+            frm.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            FormLinq frm = new FormLinq();
             frm.Show();
         }
 

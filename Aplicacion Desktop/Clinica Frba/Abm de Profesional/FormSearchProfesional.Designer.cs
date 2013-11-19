@@ -28,11 +28,198 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btLimpiarCombo = new System.Windows.Forms.Button();
+            this.cbTipoEspecialidad = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbEspecialidad = new System.Windows.Forms.ComboBox();
+            this.pBusqueda.SuspendLayout();
+            this.gbFiltro.SuspendLayout();
+            this.gbBaja.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // pBusqueda
+            // 
+            this.pBusqueda.Size = new System.Drawing.Size(913, 475);
+            // 
+            // btVolver
+            // 
+            this.btVolver.Location = new System.Drawing.Point(3, 447);
+            // 
+            // btAlta
+            // 
+            this.btAlta.Location = new System.Drawing.Point(828, 447);
+            // 
+            // gbFiltro
+            // 
+            this.gbFiltro.Controls.Add(this.groupBox1);
+            this.gbFiltro.Controls.Add(this.textBox3);
+            this.gbFiltro.Controls.Add(this.textBox2);
+            this.gbFiltro.Controls.Add(this.label3);
+            this.gbFiltro.Controls.Add(this.label2);
+            this.gbFiltro.Controls.Add(this.label1);
+            this.gbFiltro.Controls.Add(this.textBox1);
+            this.gbFiltro.Controls.SetChildIndex(this.textBox1, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.label1, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.gbBaja, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.label2, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.label3, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.textBox2, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.textBox3, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.groupBox1, 0);
+            // 
+            // gbBaja
+            // 
+            this.gbBaja.Location = new System.Drawing.Point(659, 77);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Nombre:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(69, 16);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(151, 20);
+            this.textBox1.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Apellido:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 67);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Matricula:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(69, 42);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(151, 20);
+            this.textBox2.TabIndex = 9;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(69, 68);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(151, 20);
+            this.textBox3.TabIndex = 10;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btLimpiarCombo);
+            this.groupBox1.Controls.Add(this.cbTipoEspecialidad);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.cbEspecialidad);
+            this.groupBox1.Location = new System.Drawing.Point(239, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(321, 100);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            // 
+            // btLimpiarCombo
+            // 
+            this.btLimpiarCombo.Location = new System.Drawing.Point(216, 71);
+            this.btLimpiarCombo.Name = "btLimpiarCombo";
+            this.btLimpiarCombo.Size = new System.Drawing.Size(75, 23);
+            this.btLimpiarCombo.TabIndex = 18;
+            this.btLimpiarCombo.Text = "Limpiar";
+            this.btLimpiarCombo.UseVisualStyleBackColor = true;
+            this.btLimpiarCombo.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // cbTipoEspecialidad
+            // 
+            this.cbTipoEspecialidad.FormattingEnabled = true;
+            this.cbTipoEspecialidad.Location = new System.Drawing.Point(106, 19);
+            this.cbTipoEspecialidad.Name = "cbTipoEspecialidad";
+            this.cbTipoEspecialidad.Size = new System.Drawing.Size(184, 21);
+            this.cbTipoEspecialidad.TabIndex = 17;
+            this.cbTipoEspecialidad.SelectionChangeCommitted += new System.EventHandler(this.cbTipoEspecialidad_SelectionChangeCommitted);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 23);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(94, 13);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "Tipo Especialidad:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 50);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Especialidad:";
+            // 
+            // cbEspecialidad
+            // 
+            this.cbEspecialidad.FormattingEnabled = true;
+            this.cbEspecialidad.Location = new System.Drawing.Point(106, 50);
+            this.cbEspecialidad.Name = "cbEspecialidad";
+            this.cbEspecialidad.Size = new System.Drawing.Size(184, 21);
+            this.cbEspecialidad.TabIndex = 14;
+            this.cbEspecialidad.SelectionChangeCommitted += new System.EventHandler(this.cbEspecialidad_SelectionChangeCommitted);
+            // 
+            // FormSearchProfesional
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(917, 509);
+            this.Name = "FormSearchProfesional";
             this.Text = "FormSearchProfesional";
+            this.Load += new System.EventHandler(this.FormSearchProfesional_Load);
+            this.pBusqueda.ResumeLayout(false);
+            this.gbFiltro.ResumeLayout(false);
+            this.gbFiltro.PerformLayout();
+            this.gbBaja.ResumeLayout(false);
+            this.gbBaja.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox cbTipoEspecialidad;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbEspecialidad;
+        private System.Windows.Forms.Button btLimpiarCombo;
     }
 }

@@ -76,7 +76,6 @@ namespace Clinica_Frba.Abm_de_Especialidades_Medicas
             
         }
 
-
         protected override void dgvLista_DoubleClick(object sender, EventArgs e)
         {
             EspecialidaMedica especialidad = new EspecialidaMedica();

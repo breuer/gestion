@@ -71,6 +71,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
             this.gbEstadistico.SuspendLayout();
             this.gbPlan.SuspendLayout();
@@ -257,6 +258,7 @@
             this.btListarProfesional.TabIndex = 4;
             this.btListarProfesional.Text = "Listar";
             this.btListarProfesional.UseVisualStyleBackColor = true;
+            this.btListarProfesional.Click += new System.EventHandler(this.btListarProfesional_Click);
             // 
             // btModifcacionProfesional
             // 
@@ -522,12 +524,25 @@
             this.button6.UseVisualStyleBackColor = false;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button8
+            // 
+            this.button8.BackColor = System.Drawing.SystemColors.Desktop;
+            this.button8.ForeColor = System.Drawing.Color.Yellow;
+            this.button8.Location = new System.Drawing.Point(587, 272);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(269, 71);
+            this.button8.TabIndex = 12;
+            this.button8.Text = "Test LINQ";
+            this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Clinica_Frba.Properties.Resources.Fondo;
             this.ClientSize = new System.Drawing.Size(902, 509);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.gbAfiliado);
@@ -596,6 +611,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button8;
 
     }
 }
