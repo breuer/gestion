@@ -138,6 +138,13 @@
     <Compile Include="FormTestStoreProcedure.Designer.cs">
       <DependentUpon>FormTestStoreProcedure.cs</DependentUpon>
     </Compile>
+    <Compile Include="generales\FormIngresarFullCalle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="generales\FormIngresarFullCalle.Designer.cs">
+      <DependentUpon>FormIngresarFullCalle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\IFInvocanteFullCalle.cs" />
     <Compile Include="Interface\IFInvocanteEspecialidad.cs" />
     <Compile Include="Interface\IFInvocanteFaminliar.cs" />
     <Compile Include="Interface\IFInvocantePlan.cs" />
@@ -297,6 +304,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormTestStoreProcedure.resx">
       <DependentUpon>FormTestStoreProcedure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="generales\FormIngresarFullCalle.resx">
+      <DependentUpon>FormIngresarFullCalle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Listados Estadisticos\FormListados.resx">
       <DependentUpon>FormListados.cs</DependentUpon>

@@ -45,16 +45,15 @@ namespace Clinica_Frba.NewFolder13
         {
             tbApellido.Tag = new Tag("apellido", "apellido", SqlDbType.Text);
             tbNombre.Tag = new Tag("nombre", "nombre", SqlDbType.Text);
-            cbTipo.Tag = new Tag("tipo_documento", "tipo_documento", SqlDbType.Int);
+            cbTipo.Tag = new Tag("codigo_documento", "codigo_documento", SqlDbType.Int);
             tbDni.Tag = new Tag("dni", "dni", SqlDbType.Int);
-            tbTelefono.Tag = new Tag("telefono", "telefono", SqlDbType.Int);
-            dtFechaNacimiento.Tag = new Tag("fechaNacimiento", "fechaNacimiento", SqlDbType.DateTime);
-            gbSexo.Tag = new Tag("sexo", "sexo", SqlDbType.Bit);
-            tbMatricula.Tag = new Tag("matricula", "matricula", SqlDbType.Int);
             tbDireccion.Tag = new Tag("direccion", "direccion", SqlDbType.Text);
+            dtFechaNacimiento.Tag = new Tag("fecha_nac", "fecha_nac", SqlDbType.DateTime);
+            tbTelefono.Tag = new Tag("telefono", "telefono", SqlDbType.Int);
             tbMail.Tag = new Tag("mail", "mail", SqlDbType.Text);
+            gbSexo.Tag = new Tag("sexo", "sexo", SqlDbType.Char);
+            tbMatricula.Tag = new Tag("matricula", "matricula", SqlDbType.Int);
         }
-
 
         protected override String ValidarControls()
         {
@@ -79,8 +78,8 @@ namespace Clinica_Frba.NewFolder13
             if (!"".Equals(tbDni.Text))
             {
                 this.errorProvider.Clear();
-                DataRow dataRowTipoDocumento = (DataRow) cbTipo.SelectedItem;
-                DataTable dt = Profesional.getRepository.existeProfesional(tbDni.Text, dataRowTipoDocumento["codigo"].ToString());
+                DataRowView dataRowTipoDocumento = (DataRowView) cbTipo.SelectedItem;
+                DataTable dt = Profesional.getRepository.existeProfesional(tbDni.Text, dataRowTipoDocumento["codigo_documento"].ToString());
                 
                 if (dt.Rows.Count != 0)
                 {
@@ -119,6 +118,7 @@ namespace Clinica_Frba.NewFolder13
                 }
                 else
                 {
+                    this.btAccion.Enabled = true;
                     // ErrorPrevio = true;
                 }
             }
@@ -185,7 +185,29 @@ namespace Clinica_Frba.NewFolder13
                 switch (Accion)
                 {
                     case EActionSearch.ALTA:
-                       // Profesional.getRepository.
+                        SqlParameter paramReturn = new SqlParameter(
+                            "return", 
+                            SqlDbType.Decimal
+                        );
+                        paramReturn.Direction = ParameterDirection.ReturnValue;
+                        parametros.Add(paramReturn);
+                        List<SqlParameter> paramOut = Profesional.getRepository.callProcedure(
+                            "NN_NN.SP_ADD_PROFESIONAL", 
+                            parametros
+                        );
+                        // Registro las especialidades
+
+                        Int32 id = (Int32)paramOut[0].Value;
+                        foreach (EspecialidaMedica es in especialidadesSelected)
+                        {
+                            parametros = new List<SqlParameter>();
+                            parametros.Add(new SqlParameter("codigo", id));
+                            parametros.Add(new SqlParameter("cod_especialidad", es.Codigo));
+                            Profesional.getRepository.callProcedure(
+                                "NN_NN.SP_ADD_ESPECIALIDAD",
+                                parametros
+                            );
+                        }
                         break;
                     case EActionSearch.SELECCION:
                         break;
@@ -198,7 +220,6 @@ namespace Clinica_Frba.NewFolder13
                         //storeProcedure = "NN_NN.sp_modificar_rol";
                         break;
                 }
-                Profesional.getRepository.addModificar(storeProcedure, parametros);
                 MessageBox.Show("Operacion con exito");
             }
             catch (SqlException ex)

@@ -235,11 +235,11 @@ CREATE PROCEDURE NN_NN.SP_ADD_PROFESIONAL (
 AS
 BEGIN
 	DECLARE @ID NUMERIC(18,0);
-	INSERT INTO NN_NN.PROFESIONAL (apellido, nombre, documento, codigo_documento, direccion, fecha_nac, telefono, mail, sexo, @matricula)
+	INSERT INTO NN_NN.PROFESIONAL (apellido, nombre, codigo_documento, dni, direccion, fecha_nac, telefono, mail, sexo, matricula)
 	VALUES 
 		(@nombre, @apellido, @codigo_documento, @dni, @direccion, @fecha_nac, @telefono, @mail, @sexo, @matricula)
 	SET @ID = SCOPE_IDENTITY();
-	return 
+	return @ID;
 END
 GO
 /******************************************************
@@ -252,7 +252,7 @@ CREATE PROCEDURE NN_NN.SP_ADD_ESPECIALIDAD (
 )
 AS
 BEGIN 
-	INSERT INTO NN_NN.PROFESIONAL_ESPECIALIDAD(codigo, cod_especialidad)
+	INSERT INTO NN_NN.PROFESIONAL_ESPECIALIDAD(nro_profesional, cod_especialidad)
 	VALUES 
 		(@codigo, @cod_especialidad)
 END

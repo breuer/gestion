@@ -47,3 +47,5 @@ C:\Users\nn\tp\ClinicaDesktop\Clinica Frba\obj\Debug\Clinica Frba.csproj.Generat
 C:\Users\nn\tp\ClinicaDesktop\Clinica Frba\obj\Debug\Clinica Frba.exe
 C:\Users\nn\tp\ClinicaDesktop\Clinica Frba\obj\Debug\Clinica Frba.pdb
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.FormTestStoreProcedure.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Compra_de_Bono.FormCompraBonos.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.generales.FormIngresarFullCalle.resources

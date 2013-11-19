@@ -49,8 +49,8 @@ namespace Clinica_Frba
             Repository repo = new Repository();
 
             List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(new SqlParameter("param1", "Esto es una prueba"));
-            SqlParameter Param = new SqlParameter("paramOut", SqlDbType.Text);
+            parametros.Add(new SqlParameter("@param1", "Esto es una prueba"));
+            SqlParameter Param = new SqlParameter("@paramOut", SqlDbType.Text);
             Param.Direction = ParameterDirection.Output;
             
             parametros.Add(Param);

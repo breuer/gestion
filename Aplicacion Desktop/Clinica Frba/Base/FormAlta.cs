@@ -16,6 +16,7 @@ namespace Clinica_Frba.Base
         {
             InitializeComponent();
         }
+
         protected StringBuilder stError = new StringBuilder();
        
 

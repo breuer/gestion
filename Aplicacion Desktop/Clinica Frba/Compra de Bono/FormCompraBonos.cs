@@ -55,5 +55,10 @@ namespace Clinica_Frba.Compra_de_Bono
         {
 
         }
+
+        private void textBox2_Leave(object sender, EventArgs e)
+        {
+
+        }
     }
 }

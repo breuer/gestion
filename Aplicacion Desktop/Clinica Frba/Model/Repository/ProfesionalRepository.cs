@@ -11,7 +11,7 @@ namespace Clinica_Frba.Model.Repository
     {
         
         private String queryExisteMatricula = "SELECT matricula FROM [NN_NN].[PROFESIONAL] WHERE matricula = ";
-
+        private String queryExisteProfesional = "SELECT dni FROM [NN_NN].[PROFESIONAL] WHERE dni = ";
         // TODO mas tarde ver!!!
         public DataTable existeMatricula(String matricula)
         {
@@ -21,7 +21,7 @@ namespace Clinica_Frba.Model.Repository
         // TODO mas tarde ver!!!
         public DataTable existeProfesional(String docuemento, String tipo)
         {
-            return listar(queryExisteMatricula + docuemento + " AND codigo_documento = " + tipo);
+            return listar(queryExisteProfesional + docuemento + " AND codigo_documento = " + tipo);
         }
 
         

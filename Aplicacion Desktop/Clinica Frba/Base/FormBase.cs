@@ -62,7 +62,24 @@ namespace Clinica_Frba.Base
                 {
                     if (obj is GroupBox)
                     {
+                        GroupBox gb = obj as GroupBox;
+                        if (gb.Name.Equals("gbSexo"))
+                        {   
+                            RadioButton rbFemenino = gb.Controls["rbFemenino"] as RadioButton;
+                            Tag tag = gb.Tag as Tag;
+                            if (rbFemenino.Checked)
+                            {
+                                tag.Value = 'F';
+                            }
+                            else
+                            {
+                                tag.Value = 'M';
+                            }
+                            parametros.Add(tag.SQLParemeter);
+                        }
+
                         //  limpiarGroupBox((GroupBox)obj);
+
                     }
                     else if (obj is ComboBox)
                     {
@@ -103,6 +120,12 @@ namespace Clinica_Frba.Base
                                     break;
                             }
                         }
+                        parametros.Add(tag.SQLParemeter);
+                    } else if (obj is DateTimePicker)
+                    {
+                        DateTimePicker dt = obj as DateTimePicker;
+                        Tag tag = dt.Tag as Tag;
+                        tag.Value = dt.Value;
                         parametros.Add(tag.SQLParemeter);
                     }
                     else if (obj is CheckedListBox)
