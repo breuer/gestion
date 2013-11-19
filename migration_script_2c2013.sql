@@ -692,6 +692,24 @@ WHERE
 	Especialidad_Descripcion IS NOT NULL AND
 	Tipo_Especialidad_Codigo IS NOT NULL
 
+/******************************************************
+*                    PROFESIONAL_ESPECIALIDAD              *
+*******************************************************/
+
+INSERT INTO 
+	NN_NN.PROFESIONAL_ESPECIALIDAD(cod_especialidad, nro_profesional)
+SELECT DISTINCT 
+	M.Especialidad_Codigo, P.numero
+FROM 
+	gd_esquema.Maestra M
+JOIN
+	NN_NN.PROFESIONAL P
+ON
+	P.dni = M.Medico_Dni
+
+WHERE
+	Especialidad_Codigo IS NOT NULL
+
 	
 /******************************************************
 *                    TURNO                            *
