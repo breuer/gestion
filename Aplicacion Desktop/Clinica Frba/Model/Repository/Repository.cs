@@ -163,5 +163,55 @@ namespace Clinica_Frba.Model.Repository
                 }
             }
         }
+        public SqlConnection OpenConnection()
+        {
+            return  new SqlConnection(Properties.Settings.Default.dbConnectionString);
+        }
+
+        public List<SqlParameter> callProcedure(
+            String spName, 
+            List<SqlParameter> parametros, 
+            SqlConnection sqlConnection, 
+            SqlTransaction transaccion
+        )
+        {
+            SqlCommand sqlCommand = new SqlCommand(
+                spName,
+                sqlConnection
+            );
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.Transaction = transaccion;
+            if (parametros.Count != 0)
+            {
+                sqlCommand.Parameters.AddRange(parametros.ToArray());
+            }
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                List<SqlParameter> listReturn = new List<SqlParameter>();
+                foreach (SqlParameter param in sqlCommand.Parameters)
+                {
+                    if (param.Direction == ParameterDirection.ReturnValue)
+                    {
+                        listReturn.Add(param);
+                    }
+                    else if (param.Direction == ParameterDirection.Output || param.Direction == ParameterDirection.InputOutput)
+                    {
+                        listReturn.Add(param);
+                    }
+                }
+                return listReturn;
+           }
+           catch (Exception e)
+           {
+               transaccion.Rollback();
+                throw new Exception(e.Message);
+           }
+           finally
+           {
+                sqlCommand.Parameters.Clear();
+                sqlCommand.Dispose();
+           }
+       }
     }
 }

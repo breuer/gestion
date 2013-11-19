@@ -191,42 +191,52 @@ namespace Clinica_Frba.NewFolder13
                         );
                         paramReturn.Direction = ParameterDirection.ReturnValue;
                         parametros.Add(paramReturn);
-                        List<SqlParameter> paramOut = Profesional.getRepository.callProcedure(
-                            "NN_NN.SP_ADD_PROFESIONAL", 
-                            parametros
-                        );
-                        // Registro las especialidades
-
-                        Int32 id = (Int32)paramOut[0].Value;
-                        foreach (EspecialidaMedica es in especialidadesSelected)
+                        using (SqlConnection sqlConnection = Profesional.getRepository.OpenConnection())
                         {
-                            parametros = new List<SqlParameter>();
-                            parametros.Add(new SqlParameter("codigo", id));
-                            parametros.Add(new SqlParameter("cod_especialidad", es.Codigo));
-                            Profesional.getRepository.callProcedure(
-                                "NN_NN.SP_ADD_ESPECIALIDAD",
-                                parametros
+                            sqlConnection.Open();
+                            SqlTransaction transaccion = sqlConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+                            List<SqlParameter> paramOut = Profesional.getRepository.callProcedure(
+                                "NN_NN.SP_ADD_PROFESIONAL",
+                                parametros,
+                                sqlConnection,
+                                transaccion
                             );
+                            // Registro las especialidades
+                            Int32 id = (Int32)paramOut[0].Value;
+                            foreach (EspecialidaMedica es in especialidadesSelected)
+                            {
+                                parametros = new List<SqlParameter>();
+                                parametros.Add(new SqlParameter("codigo", id));
+                                parametros.Add(new SqlParameter("cod_especialidad", es.Codigo));
+                                Profesional.getRepository.callProcedure(
+                                    "NN_NN.SP_ADD_ESPECIALIDAD",
+                                    parametros,
+                                    sqlConnection,
+                                    transaccion
+                                );
+                            }
+                            transaccion.Commit();
+                            // TODO el roolback deberia ponerlo aca
                         }
                         break;
-                    case EActionSearch.SELECCION:
-                        break;
-                    case EActionSearch.MODIFICACION:
-                        //SqlParameter param_id = new SqlParameter(
-                        //    "id",
-                        //    rol.Id
-                        //);
-                        //parametros.Add(param_id);
-                        //storeProcedure = "NN_NN.sp_modificar_rol";
-                        break;
+                        case EActionSearch.SELECCION:
+                            break;
+                        case EActionSearch.MODIFICACION:
+                            //SqlParameter param_id = new SqlParameter(
+                            //    "id",
+                            //    rol.Id
+                            //);
+                            //parametros.Add(param_id);
+                            //storeProcedure = "NN_NN.sp_modificar_rol";
+                           break;
+                    }
+                    MessageBox.Show("Operacion con exito");
                 }
-                MessageBox.Show("Operacion con exito");
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
 
-    }
+        }
 }
