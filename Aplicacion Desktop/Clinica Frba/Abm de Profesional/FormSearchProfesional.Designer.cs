@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbNombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbApellido = new System.Windows.Forms.TextBox();
+            this.tbMatricula = new System.Windows.Forms.TextBox();
+            this.gbTipoEspecialidad = new System.Windows.Forms.GroupBox();
             this.btLimpiarCombo = new System.Windows.Forms.Button();
             this.cbTipoEspecialidad = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -43,7 +43,7 @@
             this.pBusqueda.SuspendLayout();
             this.gbFiltro.SuspendLayout();
             this.gbBaja.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gbTipoEspecialidad.SuspendLayout();
             this.SuspendLayout();
             // 
             // pBusqueda
@@ -60,25 +60,25 @@
             // 
             // gbFiltro
             // 
-            this.gbFiltro.Controls.Add(this.groupBox1);
-            this.gbFiltro.Controls.Add(this.textBox3);
-            this.gbFiltro.Controls.Add(this.textBox2);
+            this.gbFiltro.Controls.Add(this.gbTipoEspecialidad);
+            this.gbFiltro.Controls.Add(this.tbMatricula);
+            this.gbFiltro.Controls.Add(this.tbApellido);
             this.gbFiltro.Controls.Add(this.label3);
             this.gbFiltro.Controls.Add(this.label2);
             this.gbFiltro.Controls.Add(this.label1);
-            this.gbFiltro.Controls.Add(this.textBox1);
-            this.gbFiltro.Controls.SetChildIndex(this.textBox1, 0);
+            this.gbFiltro.Controls.Add(this.tbNombre);
+            this.gbFiltro.Controls.SetChildIndex(this.tbNombre, 0);
             this.gbFiltro.Controls.SetChildIndex(this.label1, 0);
             this.gbFiltro.Controls.SetChildIndex(this.gbBaja, 0);
             this.gbFiltro.Controls.SetChildIndex(this.label2, 0);
             this.gbFiltro.Controls.SetChildIndex(this.label3, 0);
-            this.gbFiltro.Controls.SetChildIndex(this.textBox2, 0);
-            this.gbFiltro.Controls.SetChildIndex(this.textBox3, 0);
-            this.gbFiltro.Controls.SetChildIndex(this.groupBox1, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.tbApellido, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.tbMatricula, 0);
+            this.gbFiltro.Controls.SetChildIndex(this.gbTipoEspecialidad, 0);
             // 
             // gbBaja
             // 
-            this.gbBaja.Location = new System.Drawing.Point(659, 77);
+            this.gbBaja.Location = new System.Drawing.Point(661, 19);
             // 
             // label1
             // 
@@ -89,12 +89,12 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Nombre:";
             // 
-            // textBox1
+            // tbNombre
             // 
-            this.textBox1.Location = new System.Drawing.Point(69, 16);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(151, 20);
-            this.textBox1.TabIndex = 6;
+            this.tbNombre.Location = new System.Drawing.Point(69, 16);
+            this.tbNombre.Name = "tbNombre";
+            this.tbNombre.Size = new System.Drawing.Size(151, 20);
+            this.tbNombre.TabIndex = 6;
             // 
             // label2
             // 
@@ -114,32 +114,32 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Matricula:";
             // 
-            // textBox2
+            // tbApellido
             // 
-            this.textBox2.Location = new System.Drawing.Point(69, 42);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(151, 20);
-            this.textBox2.TabIndex = 9;
+            this.tbApellido.Location = new System.Drawing.Point(69, 42);
+            this.tbApellido.Name = "tbApellido";
+            this.tbApellido.Size = new System.Drawing.Size(151, 20);
+            this.tbApellido.TabIndex = 9;
             // 
-            // textBox3
+            // tbMatricula
             // 
-            this.textBox3.Location = new System.Drawing.Point(69, 68);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(151, 20);
-            this.textBox3.TabIndex = 10;
+            this.tbMatricula.Location = new System.Drawing.Point(69, 68);
+            this.tbMatricula.Name = "tbMatricula";
+            this.tbMatricula.Size = new System.Drawing.Size(151, 20);
+            this.tbMatricula.TabIndex = 10;
             // 
-            // groupBox1
+            // gbTipoEspecialidad
             // 
-            this.groupBox1.Controls.Add(this.btLimpiarCombo);
-            this.groupBox1.Controls.Add(this.cbTipoEspecialidad);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.cbEspecialidad);
-            this.groupBox1.Location = new System.Drawing.Point(239, 13);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(321, 100);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
+            this.gbTipoEspecialidad.Controls.Add(this.btLimpiarCombo);
+            this.gbTipoEspecialidad.Controls.Add(this.cbTipoEspecialidad);
+            this.gbTipoEspecialidad.Controls.Add(this.label5);
+            this.gbTipoEspecialidad.Controls.Add(this.label4);
+            this.gbTipoEspecialidad.Controls.Add(this.cbEspecialidad);
+            this.gbTipoEspecialidad.Location = new System.Drawing.Point(239, 13);
+            this.gbTipoEspecialidad.Name = "gbTipoEspecialidad";
+            this.gbTipoEspecialidad.Size = new System.Drawing.Size(321, 100);
+            this.gbTipoEspecialidad.TabIndex = 11;
+            this.gbTipoEspecialidad.TabStop = false;
             // 
             // btLimpiarCombo
             // 
@@ -149,7 +149,7 @@
             this.btLimpiarCombo.TabIndex = 18;
             this.btLimpiarCombo.Text = "Limpiar";
             this.btLimpiarCombo.UseVisualStyleBackColor = true;
-            this.btLimpiarCombo.Click += new System.EventHandler(this.button1_Click);
+            this.btLimpiarCombo.Click += new System.EventHandler(this.btLimpiarCombo_Click);
             // 
             // cbTipoEspecialidad
             // 
@@ -200,8 +200,8 @@
             this.gbFiltro.PerformLayout();
             this.gbBaja.ResumeLayout(false);
             this.gbBaja.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbTipoEspecialidad.ResumeLayout(false);
+            this.gbTipoEspecialidad.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,10 +212,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox tbNombre;
+        private System.Windows.Forms.TextBox tbMatricula;
+        private System.Windows.Forms.TextBox tbApellido;
+        private System.Windows.Forms.GroupBox gbTipoEspecialidad;
         private System.Windows.Forms.ComboBox cbTipoEspecialidad;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;

@@ -35,5 +35,8 @@
     <Setting Name="duracionAgendaMax" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">120</Value>
     </Setting>
+    <Setting Name="duracionAgendaMin" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

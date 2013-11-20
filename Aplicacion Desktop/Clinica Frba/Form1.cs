@@ -76,5 +76,20 @@ namespace Clinica_Frba
             this.dpFecha.ShowUpDown = true;
          }
 
+        private void btTestFechas_Click(object sender, EventArgs e)
+        {
+            int hrAcu = 4;
+            int minAcu = 30;
+            int aux = 0;
+
+            hrAcu += 13;
+            minAcu += 30;
+            aux = minAcu / 60;
+            if (aux == 1)
+            {
+                
+            }
+        }
+
     }
 }

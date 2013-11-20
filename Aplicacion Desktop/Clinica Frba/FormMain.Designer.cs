@@ -430,6 +430,7 @@
             this.btRegistraAgenda.TabIndex = 5;
             this.btRegistraAgenda.Text = "Registra Agenda";
             this.btRegistraAgenda.UseVisualStyleBackColor = true;
+            this.btRegistraAgenda.Click += new System.EventHandler(this.btRegistraAgenda_Click);
             // 
             // btVerAgenda
             // 

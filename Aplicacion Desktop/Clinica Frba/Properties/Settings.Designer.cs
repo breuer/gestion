@@ -122,5 +122,14 @@ namespace Clinica_Frba.Properties {
                 return ((int)(this["duracionAgendaMax"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int duracionAgendaMin {
+            get {
+                return ((int)(this["duracionAgendaMin"]));
+            }
+        }
     }
 }

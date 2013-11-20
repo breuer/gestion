@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.gb = new System.Windows.Forms.GroupBox();
+            this.btSubtract = new System.Windows.Forms.Button();
             this.lbCantHoras = new System.Windows.Forms.Label();
             this.lbCantTurnos = new System.Windows.Forms.Label();
             this.btReset = new System.Windows.Forms.Button();
@@ -45,6 +46,7 @@
             // gb
             // 
             this.gb.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.gb.Controls.Add(this.btSubtract);
             this.gb.Controls.Add(this.lbCantHoras);
             this.gb.Controls.Add(this.lbCantTurnos);
             this.gb.Controls.Add(this.btReset);
@@ -61,6 +63,18 @@
             this.gb.TabIndex = 0;
             this.gb.TabStop = false;
             this.gb.Text = "titulo";
+            // 
+            // btSubtract
+            // 
+            this.btSubtract.BackColor = System.Drawing.Color.Cyan;
+            this.btSubtract.Location = new System.Drawing.Point(6, 19);
+            this.btSubtract.Name = "btSubtract";
+            this.btSubtract.Size = new System.Drawing.Size(111, 71);
+            this.btSubtract.TabIndex = 13;
+            this.btSubtract.Text = "ButtonSubtractText";
+            this.btSubtract.UseVisualStyleBackColor = false;
+            this.btSubtract.Visible = false;
+            this.btSubtract.Click += new System.EventHandler(this.btSubtract_Click);
             // 
             // lbCantHoras
             // 
@@ -97,6 +111,7 @@
             this.cbHoraFinal.Name = "cbHoraFinal";
             this.cbHoraFinal.Size = new System.Drawing.Size(107, 21);
             this.cbHoraFinal.TabIndex = 10;
+            this.cbHoraFinal.SelectionChangeCommitted += new System.EventHandler(this.cbHoraFinal_SelectionChangeCommitted);
             // 
             // cbHoraInicial
             // 
@@ -105,7 +120,7 @@
             this.cbHoraInicial.Name = "cbHoraInicial";
             this.cbHoraInicial.Size = new System.Drawing.Size(107, 21);
             this.cbHoraInicial.TabIndex = 1;
-            this.cbHoraInicial.Leave += new System.EventHandler(this.cbHoraInicial_Leave);
+            this.cbHoraInicial.SelectionChangeCommitted += new System.EventHandler(this.cbHoraInicial_SelectionChangeCommitted);
             // 
             // label1
             // 
@@ -180,5 +195,6 @@
         private System.Windows.Forms.Button btReset;
         private System.Windows.Forms.ComboBox cbHoraFinal;
         private System.Windows.Forms.ComboBox cbHoraInicial;
+        private System.Windows.Forms.Button btSubtract;
     }
 }

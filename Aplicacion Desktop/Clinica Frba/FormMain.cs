@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.NewFolder13;
 using Clinica_Frba.Abm_de_Profesional;
+using Clinica_Frba.NewFolder2;
 
 namespace Clinica_Frba
 {
@@ -57,6 +58,7 @@ namespace Clinica_Frba
             btListarProfesional.Enabled = true;
 
             btAltaProfesional.Enabled = true;
+            btRegistraAgenda.Enabled = true;
             
         }
 
@@ -114,6 +116,12 @@ namespace Clinica_Frba
         private void button8_Click(object sender, EventArgs e)
         {
             FormLinq frm = new FormLinq();
+            frm.Show();
+        }
+
+        private void btRegistraAgenda_Click(object sender, EventArgs e)
+        {
+            FormAgenda frm = new FormAgenda();
             frm.Show();
         }
 

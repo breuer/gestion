@@ -55,7 +55,7 @@ namespace Clinica_Frba.NewFolder9
 
             // Tomo la fecha definida en el config. Si esta fecha esta 
             // Mal definda se toma la fecha actual
-            now = getFechaConfig();
+            now = GetFechaConfig();
             
             for (int i = 0; i < (now.Year - Properties.Settings.Default.yearF0) + 1; i++)
             {

@@ -16,10 +16,21 @@ namespace Clinica_Frba.Model
         private int telefono;
         private DateTime fechaNacimiento;
         private String mail;
+        private int? matricula;
         private Boolean enable;
 
         private static ProfesionalRepository repository = new ProfesionalRepository();
 
+        public Profesional() { }
+
+        public Profesional(int numero, String apellido, String nombre, String email, int ?matricula)
+        {
+            this.numero = numero;
+            this.apellido = apellido;
+            this.nombre = nombre;
+            this.matricula = matricula;
+            this.mail = email;
+        }
 
         public int Numero 
         {
@@ -50,6 +61,12 @@ namespace Clinica_Frba.Model
         {
             set { telefono = value; }
             get { return telefono; }
+        }
+
+        public int? Matricula
+        {
+            set { matricula = value; }
+            get { return matricula; }
         }
 
         public DateTime FechaNacimiento 

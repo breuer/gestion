@@ -96,7 +96,7 @@ namespace Clinica_Frba.Abm_de_Afiliado
                 case EActionSearch.ALTA:
                     btAddConyuge.Enabled = true;
                     btAddFamiliar.Enabled = true;
-                    DateTime today = this.getFechaConfig();
+                    DateTime today = this.GetFechaConfig();
                     this.dtFechaNacimiento.Value = today;
                     this.dtFechaNacimiento.MaxDate = today.AddYears(-18);
                     
@@ -106,8 +106,8 @@ namespace Clinica_Frba.Abm_de_Afiliado
                     cbPlan.Visible = false;
                     btSearchPlan.Visible = false;
                     lPlan.Visible = false;
-                    dtFechaNacimiento.MaxDate = this.getFechaConfig();
-                    dtFechaNacimiento.Value = this.getFechaConfig();
+                    dtFechaNacimiento.MaxDate = this.GetFechaConfig();
+                    dtFechaNacimiento.Value = this.GetFechaConfig();
                     btAdd.Visible = true;
 
                     break;

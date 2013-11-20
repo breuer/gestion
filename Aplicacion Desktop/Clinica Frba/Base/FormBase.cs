@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
 using System.Globalization;
+using Clinica_Frba.Model;
 
 namespace Clinica_Frba.Base
 {
@@ -64,7 +65,7 @@ namespace Clinica_Frba.Base
                     {
                         GroupBox gb = obj as GroupBox;
                         if (gb.Name.Equals("gbSexo"))
-                        {   
+                        {
                             RadioButton rbFemenino = gb.Controls["rbFemenino"] as RadioButton;
                             Tag tag = gb.Tag as Tag;
                             if (rbFemenino.Checked)
@@ -77,7 +78,23 @@ namespace Clinica_Frba.Base
                             }
                             parametros.Add(tag.SQLParemeter);
                         }
-
+                        else if (gb.Name.Equals("gbTipoEspecialidad"))
+                        {
+                            ComboBox cb = gb.Controls["cbTipoEspecialidad"] as ComboBox;
+                            if (cb.SelectedIndex > -1)
+                            {
+                                TipoEspecialidadMedica tipo = cb.SelectedItem as TipoEspecialidadMedica;
+                                SqlParameter sql = new SqlParameter("cod_tipo", tipo.Codigo);
+                                parametros.Add(sql);
+                            }
+                            cb = gb.Controls["cbEspecialidad"] as ComboBox;
+                            if (cb.SelectedIndex > -1)
+                            {
+                                EspecialidaMedica espe = cb.SelectedItem as EspecialidaMedica;
+                                SqlParameter sql = new SqlParameter("cod_especialidad", espe.Codigo);
+                                parametros.Add(sql);
+                            }
+                        }
                         //  limpiarGroupBox((GroupBox)obj);
 
                     }
@@ -172,8 +189,11 @@ namespace Clinica_Frba.Base
                 e.Handled = true;
             }
         }
-
-        protected DateTime getFechaConfig()
+        /// <summary>
+        /// Retorna solo el dia mes año de la fecha de configuracion
+        /// </summary>
+        /// <returns>DateTime</returns>
+        protected DateTime GetFechaConfig()
         {
             DateTime configTime = DateTime.ParseExact(
                 Properties.Settings.Default.fechaConfig,
@@ -195,7 +215,7 @@ namespace Clinica_Frba.Base
             catch (Exception e)
             {
                 DialogResult result = MessageBox.Show(
-                   "La fecha proporcionada por la configuracion no es valida o esta fuera del rango de la fecha de nacimiento. Si decea continuar?",
+                   "La fecha proporcionada por la configuracion no es valida. Si decea continuar?",
                    Application.ProductName,
                    MessageBoxButtons.YesNo,
                    MessageBoxIcon.Error

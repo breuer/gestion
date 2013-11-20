@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.Base;
+using Clinica_Frba.NewFolder2;
 
 namespace Clinica_Frba
 {
@@ -16,11 +17,18 @@ namespace Clinica_Frba
         private DateTime dtTimeF0;
         private DateTime dtTimeF1 = new DateTime(2012,12,12,0,0,0); 
         private short day = LUNES;
+        private Form formAnfitrion;
 
         public DiaAgenda()
         {
             InitializeComponent();
             
+        }
+
+        public Form FormAnfitrion
+        {
+            set { formAnfitrion = value; }
+            get { return formAnfitrion; }
         }
 
         public String Titulo
@@ -33,6 +41,12 @@ namespace Clinica_Frba
         {
             set { this.btDia.Text = value; }
             get { return this.btDia.Text; } 
+        }
+        public String ButtonSubtractText
+        {
+            set { this.btSubtract.Text = value; }
+            get { return this.btSubtract.Text; }
+
         }
 
         public short Day
@@ -124,17 +138,9 @@ namespace Clinica_Frba
             this.Day = day;
         }
 
-        private void cbHoraInicial_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           
-        }
+        
 
-        private void cbHoraInicial_Leave(object sender, EventArgs e)
-        {
-            this.dtTimeF0 = (DateTime)this.cbHoraInicial.SelectedItem;
-            this.generarCombo(this.cbHoraFinal, false);
-            
-        }
+        
 
         private void btReset_Click(object sender, EventArgs e)
         {
@@ -148,14 +154,52 @@ namespace Clinica_Frba
             return f1.Subtract(f0);
         }
 
+        private void actualizar()
+        {
+            int hr = calcularHoras().Hours;
+            int min = calcularHoras().Minutes;
+            lbCantHoras.Text = calcularHoras().Hours.ToString() + ((min == 30) ? (":30") : (""));
+            Double turnos = calcularHoras().Hours / 0.5;
+            lbCantTurnos.Text = (min == 30) ? ((turnos + 1).ToString()) : (turnos.ToString());
+        }
         private void btDia_Click(object sender, EventArgs e)
         {
             int hr = calcularHoras().Hours;
             int min = calcularHoras().Minutes;
-
             lbCantHoras.Text = calcularHoras().Hours.ToString() + ((min == 30) ? (":30") : (""));
             Double turnos =  calcularHoras().Hours / 0.5;
             lbCantTurnos.Text = (min == 30) ? ((turnos + 1).ToString()) : (turnos.ToString());
+
+            FormAgenda formAgenda = formAnfitrion as FormAgenda;
+            if (formAgenda.AddDia(hr, min))
+            {
+                this.btDia.Visible = false;
+                this.btSubtract.Visible = true;
+                this.btReset.Visible = false;
+            }
+        }
+
+        private void btSubtract_Click(object sender, EventArgs e)
+        {
+            FormAgenda formAgenda = formAnfitrion as FormAgenda;
+            int hr = calcularHoras().Hours;
+            int min = calcularHoras().Minutes;
+            formAgenda.SubtractDia(hr, min);
+            this.btDia.Visible = true;
+            this.btReset.Visible = true;
+            this.btSubtract.Visible = false;
+        }
+
+        private void cbHoraInicial_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            this.dtTimeF0 = ((DataTimeWrapper)this.cbHoraInicial.SelectedItem).Date;
+            this.generarCombo(this.cbHoraFinal, false);
+            actualizar();
+        }
+
+        private void cbHoraFinal_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            actualizar();
         }
          
     }

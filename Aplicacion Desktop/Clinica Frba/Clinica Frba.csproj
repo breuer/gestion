@@ -150,6 +150,7 @@
     <Compile Include="generales\FormIngresarFullCalle.Designer.cs">
       <DependentUpon>FormIngresarFullCalle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interface\IFInvocanteProfesional.cs" />
     <Compile Include="Interface\IFInvocanteFullCalle.cs" />
     <Compile Include="Interface\IFInvocanteEspecialidad.cs" />
     <Compile Include="Interface\IFInvocanteFaminliar.cs" />
@@ -161,11 +162,13 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Afiliado.cs" />
+    <Compile Include="Model\Agenda.cs" />
     <Compile Include="Model\EspecialidaMedica.cs" />
     <Compile Include="Model\Funcionalidad.cs" />
     <Compile Include="Model\PlanMedico.cs" />
     <Compile Include="Model\Profesional.cs" />
     <Compile Include="Model\Repository\AfiliadoRepository.cs" />
+    <Compile Include="Model\Repository\AgendaRepository.cs" />
     <Compile Include="Model\Repository\EspecialidadMedicaRepository.cs" />
     <Compile Include="Model\Repository\PlanMedicoRepository.cs" />
     <Compile Include="Model\Repository\ProfesionalRepository.cs" />

@@ -40,6 +40,10 @@ namespace Clinica_Frba.Abm_de_Profesional
             //tbNombre.Tag = new Tag("nombre", "nombre", SqlDbType.Text);
             //cbFuncionalidad.Tag = new Tag("funcionalidad", "funcionalidad", SqlDbType.Text);
             actualizarCombos();
+
+            tbApellido.Tag = new Tag("apellido", "apellido", SqlDbType.Text);
+            tbNombre.Tag = new Tag("nombre", "nombre", SqlDbType.Text);
+            tbMatricula.Tag = new Tag("matricula", "matricula", SqlDbType.Int);
         }
 
         private void actualizarCombos()
@@ -54,10 +58,7 @@ namespace Clinica_Frba.Abm_de_Profesional
             cbEspecialidad.SelectedIndex = -1;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            actualizarCombos();
-        }
+      
 
         private void cbTipoEspecialidad_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -74,6 +75,11 @@ namespace Clinica_Frba.Abm_de_Profesional
                                                      where c.Codigo == es.Tipo.Codigo
                                                      select c;
             cbTipoEspecialidad.DataSource = ls.ToList<TipoEspecialidadMedica>();
+        }
+
+        private void btLimpiarCombo_Click(object sender, EventArgs e)
+        {
+            actualizarCombos();
         }
        
         

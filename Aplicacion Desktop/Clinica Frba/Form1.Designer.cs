@@ -78,7 +78,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(204, 41);
+            this.button1.Location = new System.Drawing.Point(247, 54);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -187,6 +187,7 @@
             this.btTestFechas.TabIndex = 18;
             this.btTestFechas.Text = "Test Fechas";
             this.btTestFechas.UseVisualStyleBackColor = true;
+            this.btTestFechas.Click += new System.EventHandler(this.btTestFechas_Click);
             // 
             // diaAgenda1
             // 
