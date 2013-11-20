@@ -104,12 +104,14 @@
             // 
             // btGenerar
             // 
+            this.btGenerar.Enabled = false;
             this.btGenerar.Location = new System.Drawing.Point(699, 346);
             this.btGenerar.Name = "btGenerar";
             this.btGenerar.Size = new System.Drawing.Size(132, 23);
             this.btGenerar.TabIndex = 15;
             this.btGenerar.Text = "Generar";
             this.btGenerar.UseVisualStyleBackColor = true;
+            this.btGenerar.Click += new System.EventHandler(this.btGenerar_Click);
             // 
             // label6
             // 

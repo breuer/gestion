@@ -202,6 +202,85 @@ GO
 /******************************************************
 *                    ADD AFILIADO                     *
 *******************************************************/
+CREATE PROCEDURE [NN_NN].[sp_listar_profesional]
+	@apellido VARCHAR(255) = NULL,
+	@nombre VARCHAR(255) = NULL,
+	@matricula INT = 0,
+	@cod_tipo INT = 0,
+	@cod_especialidad INT = 0,
+	@enable BIT = 1
+AS 
+BEGIN
+	SET NOCOUNT ON
+	Declare @chvQuery nvarchar(max), 
+			@chvWhere nvarchar(max), 
+			@chvSubQuery nvarchar(max),
+			@chvSubWhere nvarchar(max);
+	Select @chvQuery = 'SELECT numero, apellido, nombre, matricula, fecha_nac, enable ',
+		@chvWhere = ''
+	set @chvQuery += 'FROM [NN_NN].[PROFESIONAL] ';
+	
+	If (@apellido is not null AND @apellido != '') 
+		Set @chvWhere = @chvWhere + ' apellido LIKE "%' + @apellido + '%" AND'
+	If (@nombre is not null AND @nombre != '') 
+		Set @chvWhere = @chvWhere + ' nombre LIKE "%' + @nombre + '%" AND'
+	If (@matricula > 0)
+		Set @chvWhere = @chvWhere + ' matricula = '+ CONVERT (VARCHAR, @matricula) +' AND'
+	
+	Set @chvWhere = @chvWhere + ' enable = '+ CONVERT (VARCHAR, @enable) +' AND'
+	
+	If (@cod_tipo > 0 OR @cod_especialidad > 0)
+	BEGIN
+		SELECT @chvSubQuery = 'SELECT p.numero FROM [NN_NN].[PROFESIONAL] ',
+			   @chvSubWhere = '';
+		SET @chvSubQuery += 'AS P LEFT JOIN [NN_NN].[PROFESIONAL_ESPECIALIDAD] AS PE ';
+		SET @chvSubQuery += 'ON P.numero = PE.nro_profesional  LEFT JOIN [NN_NN].[ESPECIALIDAD] '
+		SET @chvSubQuery += 'AS E ON PE.cod_especialidad =  E.codigo LEFT JOIN [NN_NN].[TIPO_ESPECIALIDAD] '
+		SET @chvSubQuery += 'AS TE ON E.cod_tipo_especialidad = TE.codigo'
+		if (@cod_especialidad > 0)
+			Set @chvSubWhere = @chvSubWhere + ' E.codigo = '+ CONVERT (VARCHAR, @cod_especialidad) +' AND'
+		if (@cod_tipo > 0)
+			Set @chvSubWhere = @chvSubWhere + ' TE.codigo = '+ CONVERT (VARCHAR, @cod_tipo) +' AND'
+		begin try
+			If Substring(@chvSubWhere, Len(@chvSubWhere) - 3, 4) = ' AND'
+				set @chvSubWhere = Substring(@chvSubWhere, 1, Len(@chvSubWhere) - 3)
+		end try
+		begin Catch
+			Raiserror ('Error Interno.', 16, 1)
+			return
+		end catch
+		
+		If Len(@chvSubWhere) > 0
+			set @chvSubQuery = @chvSubQuery + ' WHERE ' + @chvSubWhere
+		Set @chvWhere += 'numero IN (' + @chvSubQuery + ') AND' 
+	END
+		
+	begin try
+		If Substring(@chvWhere, Len(@chvWhere) - 3, 4) = ' AND'
+			set @chvWhere = Substring(@chvWhere, 1, Len(@chvWhere) - 3)
+	end try
+	begin Catch
+		Raiserror ('Error Interno.', 16, 1)
+        return
+    end catch
+	
+	begin try
+		If Len(@chvWhere) > 0
+			set @chvQuery = @chvQuery + ' WHERE ' + @chvWhere
+			Raiserror (@chvQuery, 16, 1)
+		exec (@chvQuery)
+	end try
+    begin Catch
+		declare @s varchar(max)
+		set @s = 'No pudo realizar la consulta: ' + @chvQuery
+		Raiserror (@s, 16, 2)
+		return
+     end catch
+END
+GO
+/******************************************************
+*                    ADD AFILIADO                     *
+*******************************************************/
 
 CREATE PROCEDURE 
 	NN_NN.SP_ADD_AFILIADO (@apellido varchar(255), @nombre varchar(255), 
@@ -261,14 +340,47 @@ GO
 /******************************************************
 *                    AGENDA PROFESIONAL               *
 *******************************************************/
-
-CREATE PROCEDURE 
-NN_NN.SP_ADD_DIA_ATENCION (@codigo_dia int, @nro_profesional int) AS
+CREATE PROCEDURE NN_NN.SP_ADD_AGENDA (
+	@nro_profesional int, 
+	@fecha_inicio VARCHAR(255),  
+	@fecha_fin VARCHAR(255)
+)
+AS
 BEGIN 
-	INSERT INTO 
-		NN_NN.DIA_ATENCION(codigo_dia, nro_profesional)
+	DECLARE @AuxTable table( nro_agenda int);
+	
+	DECLARE @FECHA_F0 DATETIME;
+	DECLARE @FECHA_F1 DATETIME;
+	
+	SELECT @FECHA_F0 = convert(datetime, @fecha_inicio, 120);
+	SELECT @FECHA_F1 = convert(datetime, @fecha_fin, 120);
+	
+	
+	INSERT  INTO NN_NN.AGENDA (nro_profesional, fecha_inicio, fecha_fin)
+		OUTPUT INSERTED.numero INTO @AuxTable
 	VALUES 
-		(@codigo_dia, @nro_profesional)
+		(@nro_profesional, @FECHA_F1, @FECHA_F0)	
+	DECLARE @nro int = (SELECT T.nro_agenda FROM @AuxTable T)
+	RETURN @nro
+END
+GO
+
+CREATE PROCEDURE NN_NN.SP_ADD_DIA_ATENCION (
+	@nro_agenda int, 
+	@codigo_dia int, 
+	@hora_fin VARCHAR(255), 
+	@hora_inicio VARCHAR(255)
+)
+AS
+BEGIN 
+	DECLARE @HORA_F0 DATETIME;
+	DECLARE @HORA_F1 DATETIME;
+	
+	SELECT @HORA_F0 = convert(datetime, @hora_inicio, 120);
+	SELECT @HORA_F1 = convert(datetime, @hora_fin, 120);
+	
+	INSERT INTO NN_NN.DIA_ATENCION (nro_agenda, codigo_dia, hora_fin, hora_inicio)
+	VALUES (@nro_agenda, @codigo_dia, @HORA_F1, @HORA_F0)
 END
 GO
 

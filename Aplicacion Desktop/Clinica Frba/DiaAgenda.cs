@@ -19,6 +19,58 @@ namespace Clinica_Frba
         private short day = LUNES;
         private Form formAnfitrion;
 
+        private static short lunes;
+        private static short martes;
+        private static short sabado;
+        private static short miercoles;
+        private static short jueves;
+        private static short viernes;
+        private static short domingo;
+        private Boolean activo = false;
+
+
+        public Boolean Activo
+        {
+            set { activo = value; }
+            get { return activo; }
+        }
+
+        public static short LUNES
+        {
+            set { lunes = value; }
+            get { return lunes; }
+        }
+
+        public static short MARTES
+        {
+            set { martes = value; }
+            get { return martes; }
+        }
+
+        public static short MIERCOLES
+        {
+            set { miercoles = value; }
+            get { return miercoles; }
+        }
+
+        public static short JUEVES
+        {
+            set { jueves = value; }
+            get { return jueves; }
+        }
+
+        public static short VIERNES
+        {
+            set { viernes = value; }
+            get { return viernes; }
+        }
+
+        public static short SABADO
+        {
+            set { sabado = value; }
+            get { return sabado; }
+        }
+
         public DiaAgenda()
         {
             InitializeComponent();
@@ -126,12 +178,7 @@ namespace Clinica_Frba
             combo.DisplayMember = "Time";
         }
 
-        public const short LUNES = 2;
-        public const short MARTES = 3;
-        public const short MIERCOLES = 4;
-        public const short JUEVES = 5;
-        public const short VIERNES = 6;
-        public const short SABADO = 7;
+      
 
         private void DiaAgenda_Load(object sender, EventArgs e)
         {
@@ -176,6 +223,7 @@ namespace Clinica_Frba
                 this.btDia.Visible = false;
                 this.btSubtract.Visible = true;
                 this.btReset.Visible = false;
+                activo = true;
             }
         }
 
@@ -188,6 +236,7 @@ namespace Clinica_Frba
             this.btDia.Visible = true;
             this.btReset.Visible = true;
             this.btSubtract.Visible = false;
+            activo = false;
         }
 
         private void cbHoraInicial_SelectionChangeCommitted(object sender, EventArgs e)
@@ -201,6 +250,14 @@ namespace Clinica_Frba
         {
             actualizar();
         }
-         
+
+        public String HoraFinalToString()
+        {
+            return dtTimeF1.ToString(Properties.Settings.Default.fechaFormat);
+        }
+        public String HoraInicialToString()
+        {
+            return dtTimeF0.ToString(Properties.Settings.Default.fechaFormat);
+        }
     }
 }

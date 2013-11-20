@@ -8,25 +8,12 @@ namespace Clinica_Frba.Model.Repository
 {
     public class AgendaRepository : Repository
     {
-        private String queryComboEstadoCivil = "SELECT [codigo], [descripcion] As estadoCivil FROM [GD2C2013].[NN_NN].[ESTADO_CIVIL]";
-        private String queryComboTipoDocumento = "SELECT [codigo] AS codigo_documento, [descripcion] As tipo FROM [GD2C2013].[NN_NN].[TIPO_DOCUMENTO]";
-
-        private String queryExisteAfiliado = "SELECT dni FROM [NN_NN].[AFILIADO] WHERE dni = ";
+        private String queryDias = "SELECT [codigo], [descripcion] FROM [GD2C2013].[NN_NN].[DIA]";
         
-        public DataTable getEstadoCivil()
+        public DataTable getDias()
         {
-            return listar(queryComboEstadoCivil);
+            return listar(queryDias);
         }
 
-        public DataTable getTipoDocumento()
-        {
-            return listar(queryComboTipoDocumento);
-        }
-
-        // TODO mas tarde ver!!!
-        public DataTable existeAfiliado(String dni)
-        {
-            return listar(queryExisteAfiliado + dni); ;
-        }
-    }
+      }
 }

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Clinica_Frba.Interface;
 using Clinica_Frba.Base;
 using Clinica_Frba.Model;
+using System.Data.SqlClient;
 
 namespace Clinica_Frba.NewFolder2
 {
@@ -17,7 +18,7 @@ namespace Clinica_Frba.NewFolder2
         private Profesional pro;
         private int horas = 0;
         private int minutos = 0;
-
+        
         public Profesional Pro
         {
             set { pro = value; }
@@ -77,6 +78,14 @@ namespace Clinica_Frba.NewFolder2
 
         private void habilitarDias()
         {
+            DataTable dt = Agenda.getRepository.getDias();
+            DiaAgenda.LUNES = short.Parse(dt.Rows[1][0].ToString());
+            DiaAgenda.MARTES = short.Parse(dt.Rows[2][0].ToString());
+            DiaAgenda.MIERCOLES = short.Parse(dt.Rows[3][0].ToString());
+            DiaAgenda.JUEVES = short.Parse(dt.Rows[4][0].ToString());
+            DiaAgenda.VIERNES = short.Parse(dt.Rows[5][0].ToString());
+            DiaAgenda.SABADO = short.Parse(dt.Rows[6][0].ToString());
+
             this.diaLunes.Enabled = true;
             this.diaLunes.FormAnfitrion = this;
             this.diaMartes.Enabled = true;
@@ -89,6 +98,7 @@ namespace Clinica_Frba.NewFolder2
             this.diaViernes.FormAnfitrion = this;
             this.diaSabado.Enabled = true;
             this.diaSabado.FormAnfitrion = this;
+
         }
 
         private void btSeleccionarProfesional_Click(object sender, EventArgs e)
@@ -156,6 +166,14 @@ namespace Clinica_Frba.NewFolder2
             horas = hrAcu;
             minutos = minAcu;
             tbHorasTotal.Text = horas.ToString() + ":" + minutos.ToString();
+            if (horas <= 0 && minutos <= 0)
+            {
+                btGenerar.Enabled = false;
+            }
+            else
+            {
+                btGenerar.Enabled = true;
+            }
             return true;
         }
 
@@ -170,12 +188,80 @@ namespace Clinica_Frba.NewFolder2
                 horas -= 1;
             }
             tbHorasTotal.Text = horas.ToString() + ":" + minutos.ToString();
+
+            if (horas <= 0 && minutos <= 0)
+            {
+                btGenerar.Enabled = false;
+            }
+            else
+            {
+                btGenerar.Enabled = true;
+            }
             return true;
         }
 
         private void dtFechaDesde_Leave(object sender, EventArgs e)
         {
             this.FillFechaFinal((Int32)this.cbDias.SelectedItem);
+        }
+
+        private void btGenerar_Click(object sender, EventArgs e)
+        {
+            String fecha_f0 = dtFechaDesde.Value.ToString(Properties.Settings.Default.fechaFormat);
+            String fecha_f1 = dtFechaFinal.Value.ToString(Properties.Settings.Default.fechaFormat);
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("nro_profesional", Pro.Numero));
+            parametros.Add(new SqlParameter("fecha_inicio", fecha_f0));
+            parametros.Add(new SqlParameter("fecha_fin", fecha_f1));
+            SqlParameter paramReturn = new SqlParameter(
+                "return",
+                SqlDbType.Decimal
+            );
+            paramReturn.Direction = ParameterDirection.ReturnValue;
+            parametros.Add(paramReturn);
+            using (SqlConnection sqlConnection = Agenda.getRepository.OpenConnection())
+            {
+                sqlConnection.Open();
+                SqlTransaction transaccion = sqlConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+                List<SqlParameter> paramOut = Agenda.getRepository.callProcedure(
+                    "NN_NN.SP_ADD_AGENDA",
+                    parametros,
+                    sqlConnection,
+                    transaccion
+                );
+                // Registro las especialidades
+                Int32 id = (Int32)paramOut[0].Value;
+                
+                // TODO Quedo feo
+                List<DiaAgenda> lstDias = new List<DiaAgenda>();
+                lstDias.Add(diaLunes);
+                lstDias.Add(diaMartes);
+                lstDias.Add(diaMiercoles);
+                lstDias.Add(diaJueves);
+                lstDias.Add(diaViernes);
+                lstDias.Add(diaSabado);
+
+                foreach (DiaAgenda date in lstDias)
+                {
+                    if (date.Activo)
+                    {
+                        parametros = new List<SqlParameter>();
+                        parametros.Add(new SqlParameter("nro_agenda", id));
+                        parametros.Add(new SqlParameter("codigo_dia", date.Day));
+                        parametros.Add(new SqlParameter("hora_fin", date.HoraFinalToString()));
+                        parametros.Add(new SqlParameter("hora_inicio", date.HoraInicialToString()));
+                        Agenda.getRepository.callProcedure(
+                            "NN_NN.SP_ADD_DIA_ATENCION",
+                            parametros,
+                            sqlConnection,
+                            transaccion
+                        );
+                    }
+                    
+                }
+                transaccion.Commit();
+                // TODO el roolback deberia ponerlo aca
+            }
         }
     }
 }
