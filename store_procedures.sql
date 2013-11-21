@@ -202,13 +202,14 @@ GO
 /******************************************************
 *                    ADD AFILIADO                     *
 *******************************************************/
-CREATE PROCEDURE [NN_NN].[sp_listar_profesional]
+CREATE PROCEDURE [NN_NN].[sp_listar_profesional](
 	@apellido VARCHAR(255) = NULL,
 	@nombre VARCHAR(255) = NULL,
 	@matricula INT = 0,
 	@cod_tipo INT = 0,
 	@cod_especialidad INT = 0,
-	@enable BIT = 1
+	@enable CHAR = '1'
+)
 AS 
 BEGIN
 	SET NOCOUNT ON
@@ -221,13 +222,14 @@ BEGIN
 	set @chvQuery += 'FROM [NN_NN].[PROFESIONAL] ';
 	
 	If (@apellido is not null AND @apellido != '') 
-		Set @chvWhere = @chvWhere + ' apellido LIKE "%' + @apellido + '%" AND'
+		Set @chvWhere = @chvWhere + ' apellido LIKE ''%' + @apellido + '%'' AND'
 	If (@nombre is not null AND @nombre != '') 
-		Set @chvWhere = @chvWhere + ' nombre LIKE "%' + @nombre + '%" AND'
+		Set @chvWhere = @chvWhere + ' nombre LIKE ''%' + @nombre + '%'' AND'
 	If (@matricula > 0)
 		Set @chvWhere = @chvWhere + ' matricula = '+ CONVERT (VARCHAR, @matricula) +' AND'
-	
+	PRINT @chvWhere
 	Set @chvWhere = @chvWhere + ' enable = '+ CONVERT (VARCHAR, @enable) +' AND'
+	PRINT @chvWhere
 	
 	If (@cod_tipo > 0 OR @cod_especialidad > 0)
 	BEGIN
@@ -252,9 +254,8 @@ BEGIN
 		
 		If Len(@chvSubWhere) > 0
 			set @chvSubQuery = @chvSubQuery + ' WHERE ' + @chvSubWhere
-		Set @chvWhere += 'numero IN (' + @chvSubQuery + ') AND' 
+		Set @chvWhere += ' numero IN (' + @chvSubQuery + ') AND' 
 	END
-		
 	begin try
 		If Substring(@chvWhere, Len(@chvWhere) - 3, 4) = ' AND'
 			set @chvWhere = Substring(@chvWhere, 1, Len(@chvWhere) - 3)
@@ -267,7 +268,8 @@ BEGIN
 	begin try
 		If Len(@chvWhere) > 0
 			set @chvQuery = @chvQuery + ' WHERE ' + @chvWhere
-			Raiserror (@chvQuery, 16, 1)
+		print @chvQuery
+		print @chvWhere
 		exec (@chvQuery)
 	end try
     begin Catch
@@ -383,8 +385,90 @@ BEGIN
 	VALUES (@nro_agenda, @codigo_dia, @HORA_F1, @HORA_F0)
 END
 GO
+CREATE PROCEDURE [NN_NN].[sp_generar_agenda](
+	@nro_agenda INT,
+	@duracionTurno INT,
+	@rango INT,  
+	@nro_profesional INT
+)
+AS
+BEGIN  
+  
+  DECLARE @codigo_dia INT;
+  DECLARE @fecha_f0_agenda DATETIME;
+  DECLARE @fecha_f1_agenda DATETIME;
+  DECLARE @i INT
+  
+  SET @i = 0;
+  
+  SELECT @fecha_f0_agenda = fecha_fin, @fecha_f1_agenda = fecha_inicio FROM
+	[NN_NN].[AGENDA]WHERE numero = @nro_agenda
 
-
+  SET @rango = DATEDIFF(dd, @fecha_f0_agenda, @fecha_f1_agenda)
+  
+  WHILE (@i < @rango)
+  BEGIN
+	DECLARE @fechaCurrent DATETIME;
+	DECLARE @dayOfWeek INT;
+	DECLARE @hora_fin DATETIME;
+	DECLARE @hora_inicio DATETIME;
+	
+	SET @fechaCurrent = DATEADD (dy , @i, @fecha_f0_agenda);
+	SET @dayOfWeek = DATEPART(dw , @fechaCurrent)
+	SET @hora_fin = null;
+	SELECT @hora_fin = hora_fin, @hora_inicio = hora_inicio FROM [NN_NN].[DIA_ATENCION] 
+				WHERE nro_agenda = @nro_agenda AND codigo_dia = @dayOfWeek;
+	
+	if @hora_fin is not null
+	BEGIN
+		DECLARE @turnos INT;
+		SET @turnos = DATEDIFF(mi, @hora_inicio, @hora_fin)
+		DECLARE @j INT;
+		SET @j = 0;
+		-- A la @fechaCurrent tengo que agregarle la hora y los minutos del turno
+		DECLARE @now DATETIME;
+		-- Primero las horas
+		SET @now = DATEADD (
+			hh, 
+			DATEPART(
+				hh, 
+				@hora_inicio
+			), 
+			@fechaCurrent
+		);
+		-- Segundo los minutos
+		SET @now = DATEADD (
+			mi, 
+			DATEPART(
+				mi, 
+				@hora_inicio
+			), 
+			@now
+		);
+		WHILE @j < @turnos
+		BEGIN
+			DECLARE @numero INT;
+			SELECT @numero = MAX(numero) + 1 FROM [NN_NN].[TURNO];
+			
+			INSERT INTO [GD2C2013].[NN_NN].[TURNO]([numero],
+				[fecha],
+				[nro_profesional],
+				[nro_day]
+			)
+			VALUES (
+				@numero,
+				@now,
+				@nro_profesional,
+				@dayOfWeek
+			)
+			SET @now = DATEADD (mi , @duracionTurno, @now);
+			SET @j += @duracionTurno;
+		END
+	END
+	SET @i += 1;
+  END
+END 
+GO
 /******************************************************
 *                    BONOS                            *
 *******************************************************/

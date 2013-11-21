@@ -270,7 +270,7 @@ CREATE TABLE NN_NN.TURNO
 	fecha [datetime] not null,
 	fecha_llegada [datetime],
 	nro_afiliado [numeric](18, 0),
-	nro_tipo_afiliado [numeric](18, 0) not null,
+	nro_tipo_afiliado [numeric](18, 0) null,
 	nro_profesional [numeric](18, 0) not null,
 	nro_day [numeric](18, 0) not null
 )
@@ -854,3 +854,10 @@ ALTER TABLE NN_NN.REGISTRO_COMPRA ADD CONSTRAINT FK_REGISTRO_COMPRA_nro_afiliado
 DROP FUNCTION NN_NN.GENERA_USER_NAME;
 DROP TRIGGER [NN_NN].[TRIGGER_TEMPORAL_PROFESIONAL];
 DROP TRIGGER [NN_NN].[TRIGGER_TEMPORAL_AFILIADO];
+
+
+DECLARE @max INTEGER;
+SELECT @max = max(numero) FROM [NN_NN].[TURNO]
+
+ALTER TABLE [NN_NN].[TURNO] ADD numero INT IDENTITY (1 ,1)
+DBCC CHECKIDENT ([NTURNO], RESEED,NuevoValor)

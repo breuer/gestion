@@ -248,12 +248,14 @@ namespace Clinica_Frba
 
         private void cbHoraFinal_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            this.dtTimeF1 = ((DataTimeWrapper)this.cbHoraFinal.SelectedItem).Date;
             actualizar();
         }
 
         public String HoraFinalToString()
         {
-            return dtTimeF1.ToString(Properties.Settings.Default.fechaFormat);
+            //return dtTimeF1.ToString(Properties.Settings.Default.fechaFormat);
+            return ((DataTimeWrapper)this.cbHoraFinal.SelectedItem).Date.ToString(Properties.Settings.Default.fechaFormat);
         }
         public String HoraInicialToString()
         {
