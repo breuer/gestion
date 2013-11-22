@@ -300,7 +300,6 @@ GO
 /******************************************************
 *                    ADD PROFESIONAL                  *
 *******************************************************/
-
 CREATE PROCEDURE NN_NN.SP_ADD_PROFESIONAL (
 	@apellido varchar(255), 
 	@nombre varchar(255), 
@@ -326,7 +325,6 @@ GO
 /******************************************************
 *                    ADD ESPECIALIDAD TO PROFESIONAL  *
 *******************************************************/
-
 CREATE PROCEDURE NN_NN.SP_ADD_ESPECIALIDAD (
 	@codigo int, 
 	@cod_especialidad int
@@ -338,7 +336,6 @@ BEGIN
 		(@codigo, @cod_especialidad)
 END
 GO
-
 /******************************************************
 *                    AGENDA PROFESIONAL               *
 *******************************************************/
@@ -562,3 +559,29 @@ BEGIN
 	END
 END
 GO
+/******************************************************
+*                    AGENDA                           *
+*******************************************************/
+CREATE PROCEDURE 
+	NN_NN.SP_ADD_AGENDA (@nro_profesional int, @fecha_inicio date, @fecha_fin date)
+AS
+BEGIN 
+	DECLARE @AuxTable table( nro_agenda int);
+	INSERT  INTO NN_NN.AGENDA (nro_profesional, fecha_inicio, fecha_fin)
+		OUTPUT INSERTED.numero INTO @AuxTable
+	VALUES 
+		(@nro_profesional, @fecha_inicio, @fecha_fin)	
+	DECLARE @nro int = (SELECT T.nro_agenda FROM @AuxTable T)
+	RETURN @nro
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_ADD_DIA_ATENCION (@nro_agenda int, @codigo_dia int, @hora_fin time, @hora_inicio time)
+AS
+BEGIN 
+INSERT INTO 
+	NN_NN.DIA_ATENCION (nro_agenda, codigo_dia, hora_fin, hora_inicio)
+VALUES 
+	(@nro_agenda, @codigo_dia, @hora_fin, @hora_inicio)
+END
