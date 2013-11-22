@@ -1,6 +1,6 @@
 ﻿namespace Clinica_Frba.NewFolder4
 {
-    partial class Form1
+    partial class FormPedirTurno
     {
         /// <summary>
         /// Required designer variable.
@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dgvTurnosByDia = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dgvFechas = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvProfesional = new System.Windows.Forms.DataGridView();
             this.btSeleccionarProfesional = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dgvFechas = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dgvTurnosByDia = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTurnosByDia)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFechas)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProfesional)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFechas)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTurnosByDia)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -55,6 +55,56 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.dgvTurnosByDia);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.dgvFechas);
+            this.groupBox3.Location = new System.Drawing.Point(6, 99);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(984, 362);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "groupBox3";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(554, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(95, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Turnos disponibles";
+            // 
+            // dgvTurnosByDia
+            // 
+            this.dgvTurnosByDia.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTurnosByDia.Enabled = false;
+            this.dgvTurnosByDia.Location = new System.Drawing.Point(557, 38);
+            this.dgvTurnosByDia.Name = "dgvTurnosByDia";
+            this.dgvTurnosByDia.Size = new System.Drawing.Size(421, 273);
+            this.dgvTurnosByDia.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Fechas disponibles:";
+            // 
+            // dgvFechas
+            // 
+            this.dgvFechas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFechas.Enabled = false;
+            this.dgvFechas.Location = new System.Drawing.Point(16, 38);
+            this.dgvFechas.Name = "dgvFechas";
+            this.dgvFechas.Size = new System.Drawing.Size(535, 273);
+            this.dgvFechas.TabIndex = 0;
+            this.dgvFechas.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvFechas_DataBindingComplete);
             // 
             // groupBox2
             // 
@@ -86,68 +136,21 @@
             this.btSeleccionarProfesional.UseVisualStyleBackColor = true;
             this.btSeleccionarProfesional.Click += new System.EventHandler(this.btSeleccionarProfesional_Click);
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.dgvTurnosByDia);
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.dgvFechas);
-            this.groupBox3.Location = new System.Drawing.Point(6, 99);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(984, 362);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "groupBox3";
-            // 
-            // dgvFechas
-            // 
-            this.dgvFechas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFechas.Location = new System.Drawing.Point(16, 38);
-            this.dgvFechas.Name = "dgvFechas";
-            this.dgvFechas.Size = new System.Drawing.Size(535, 273);
-            this.dgvFechas.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Fechas disponibles:";
-            // 
-            // dgvTurnosByDia
-            // 
-            this.dgvTurnosByDia.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTurnosByDia.Location = new System.Drawing.Point(557, 38);
-            this.dgvTurnosByDia.Name = "dgvTurnosByDia";
-            this.dgvTurnosByDia.Size = new System.Drawing.Size(421, 273);
-            this.dgvTurnosByDia.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(554, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Turnos disponibles";
-            // 
-            // Form1
+            // FormPedirTurno
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1033, 491);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
+            this.Name = "FormPedirTurno";
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProfesional)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFechas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnosByDia)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFechas)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProfesional)).EndInit();
             this.ResumeLayout(false);
 
         }

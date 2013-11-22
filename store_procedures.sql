@@ -382,29 +382,38 @@ BEGIN
 	VALUES (@nro_agenda, @codigo_dia, @HORA_F1, @HORA_F0)
 END
 GO
+
+EXEC [NN_NN].[sp_generar_agenda] @nro_agenda=53, @duracionTurno=30, @nro_profesional=26
+DROP PROCEDURE [NN_NN].[sp_generar_agenda];
 CREATE PROCEDURE [NN_NN].[sp_generar_agenda](
 	@nro_agenda INT,
 	@duracionTurno INT,
-	@rango INT,  
 	@nro_profesional INT
 )
 AS
 BEGIN  
+  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('Tutno',CONVERT(VARCHAR,@duracionTurno));
+  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('prodfesion',CONVERT(VARCHAR,@nro_profesional));
+  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('agenda',CONVERT(VARCHAR,@nro_agenda));
   
   DECLARE @codigo_dia INT;
+  DECLARE @rango INT;
   DECLARE @fecha_f0_agenda DATETIME;
   DECLARE @fecha_f1_agenda DATETIME;
   DECLARE @i INT
   
   SET @i = 0;
   
-  SELECT @fecha_f0_agenda = fecha_fin, @fecha_f1_agenda = fecha_inicio FROM
+  SELECT @fecha_f0_agenda = fecha_inicio, @fecha_f1_agenda = fecha_fin FROM
 	[NN_NN].[AGENDA]WHERE numero = @nro_agenda
 
   SET @rango = DATEDIFF(dd, @fecha_f0_agenda, @fecha_f1_agenda)
-  
+  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('rango',CONVERT(VARCHAR,@rango));
   WHILE (@i < @rango)
   BEGIN
+  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('Dentro de wile',CONVERT(VARCHAR,@rango));
+  print @rango
+  print @i
 	DECLARE @fechaCurrent DATETIME;
 	DECLARE @dayOfWeek INT;
 	DECLARE @hora_fin DATETIME;
@@ -413,13 +422,22 @@ BEGIN
 	SET @fechaCurrent = DATEADD (dy , @i, @fecha_f0_agenda);
 	SET @dayOfWeek = DATEPART(dw , @fechaCurrent)
 	SET @hora_fin = null;
+	SET @hora_inicio = null;
 	SELECT @hora_fin = hora_fin, @hora_inicio = hora_inicio FROM [NN_NN].[DIA_ATENCION] 
 				WHERE nro_agenda = @nro_agenda AND codigo_dia = @dayOfWeek;
 	
+	
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('@hora_fin',CONVERT(VARCHAR,@hora_fin));
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('@hora_inicio',CONVERT(VARCHAR,@hora_inicio));
+ 
 	if @hora_fin is not null
 	BEGIN
+	PRINT 'a'
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('dentro del IF','ssssssssssssssssssssssssssssssssssssssssssssss');
+	
 		DECLARE @turnos INT;
-		SET @turnos = DATEDIFF(mi, @hora_inicio, @hora_fin)
+		--PRINT @hora_inicio +' ' + @hora_fin + ' '  +@dayOfWeek
+		SET @turnos = DATEDIFF(mi, @hora_fin, @hora_inicio)
 		DECLARE @j INT;
 		SET @j = 0;
 		-- A la @fechaCurrent tengo que agregarle la hora y los minutos del turno
@@ -442,6 +460,8 @@ BEGIN
 			), 
 			@now
 		);
+		INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('TURNOS',CONVERT(VARCHAR,@turnos));
+	
 		WHILE @j < @turnos
 		BEGIN
 			DECLARE @numero INT;
@@ -465,6 +485,28 @@ BEGIN
 	SET @i += 1;
   END
 END 
+GO
+CREATE PROCEDURE NN_NN.SP_LISTAR_AGENDA_DIAS(
+	@fecha VARCHAR(255),
+	@nroProfesional INT
+)
+AS 
+BEGIN
+	SELECT CONVERT(DATE, c.fecha), c.nro_profesional, c.nro_day, 
+		CASE (
+			SELECT COUNT (*)
+				FROM [NN_NN].[TURNO] AS P 
+				WHERE P.nro_profesional = c.nro_profesional 
+				AND CONVERT(DATE, p.fecha) = CONVERT(DATE, c.fecha) AND p.nro_afiliado is null
+		) WHEN 0 THEN 'NO DISPONIBLE'
+		ELSE 'DISPONIBLE' END, 
+		a.fecha_fin, a.fecha_inicio
+	FROM [NN_NN].[TURNO] AS c LEFT JOIN [NN_NN].[AGENDA] AS a 
+		ON (CONVERT(DATE, c.fecha) BETWEEN (CONVERT(DATE, a.fecha_inicio)) AND (CONVERT(DATE, a.fecha_fin))) 
+	WHERE c.nro_profesional = @nroProfesional AND CONVERT(DATE, c.fecha) >= CONVERT(DATE, @fecha,105)
+	GROUP BY CONVERT(DATE, c.fecha), c.nro_profesional,[nro_day], a.fecha_fin, a.fecha_inicio
+	ORDER BY CONVERT(DATE, c.fecha)
+END
 GO
 /******************************************************
 *                    BONOS                            *

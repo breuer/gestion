@@ -230,7 +230,7 @@ namespace Clinica_Frba.NewFolder2
                     transaccion
                 );
                 // Registro las especialidades
-                Int32 id = (Int32)paramOut[0].Value;
+                Int32 idAgenda = (Int32)paramOut[0].Value;
                 
                 // TODO Quedo feo
                 List<DiaAgenda> lstDias = new List<DiaAgenda>();
@@ -246,7 +246,7 @@ namespace Clinica_Frba.NewFolder2
                     if (date.Activo)
                     {
                         parametros = new List<SqlParameter>();
-                        parametros.Add(new SqlParameter("nro_agenda", id));
+                        parametros.Add(new SqlParameter("nro_agenda", idAgenda));
                         parametros.Add(new SqlParameter("codigo_dia", date.Day));
                         parametros.Add(new SqlParameter("hora_fin", date.HoraFinalToString()));
                         parametros.Add(new SqlParameter("hora_inicio", date.HoraInicialToString()));
@@ -259,9 +259,19 @@ namespace Clinica_Frba.NewFolder2
                     }
                     
                 }
+                parametros = new List<SqlParameter>();
+                parametros.Add(new SqlParameter("nro_agenda", idAgenda));
+                parametros.Add(new SqlParameter("duracionTurno", Properties.Settings.Default.duracionTurno));
+                parametros.Add(new SqlParameter("nro_profesional", Pro.Numero));
 
+                Agenda.getRepository.callProcedure(
+                    "NN_NN.sp_generar_agenda",
+                    parametros,
+                    sqlConnection,
+                    transaccion
+                );
                 transaccion.Commit();
-                // TODO el roolback deberia ponerlo aca
+                // TODO el roolback deberia ponerlo aca en ves de hacer la llamada e callProcedure
             }
         }
     }

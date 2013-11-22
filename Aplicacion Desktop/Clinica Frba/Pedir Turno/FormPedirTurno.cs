@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.Model;
+using Clinica_Frba.Base;
+using System.Data.SqlClient;
 
 namespace Clinica_Frba.NewFolder4
 {
-    public partial class Form1 : Form
+    public partial class FormPedirTurno : FormBase
     {
         private Profesional pro;
 
@@ -20,7 +22,7 @@ namespace Clinica_Frba.NewFolder4
             get { return pro; }
         }
 
-        public Form1()
+        public FormPedirTurno()
         {
             InitializeComponent();
         }
@@ -55,10 +57,22 @@ namespace Clinica_Frba.NewFolder4
             this.dgvProfesional.DataSource = dt;
             this.FillDvgFechas();
         }
-
+        /// <summary>
+        /// Completa el Data grip view de la izquierda con los dias que tiene en la agenda el usuarios
+        /// </summary>
         public void FillDvgFechas()
         {
+            String fechaCurrent = this.GetFechaConfig().ToString("dd-mm-yyyy");
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("nro_profesional", Pro.Numero));
+            parametros.Add(new SqlParameter("fecha", fechaCurrent));
+            
+            DataTable dt = Turno.getRepository.listar("NN_NN.SP_LISTAR_AGENDA_DIAS", parametros);
+            }
 
+        private void dgvFechas_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            MessageBox.Show("HOLA");
         }
     }
 }

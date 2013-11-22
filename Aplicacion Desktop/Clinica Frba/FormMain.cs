@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Clinica_Frba.NewFolder13;
 using Clinica_Frba.Abm_de_Profesional;
 using Clinica_Frba.NewFolder2;
+using Clinica_Frba.NewFolder4;
 
 namespace Clinica_Frba
 {
@@ -124,6 +125,14 @@ namespace Clinica_Frba
             FormAgenda frm = new FormAgenda();
             frm.Show();
         }
+
+        private void btPedirTunro_Click(object sender, EventArgs e)
+        {
+            FormPedirTurno frm = new FormPedirTurno();
+            frm.Show();
+        }
+
+        
 
       
     }

@@ -68,7 +68,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btPedirTunro = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
@@ -457,7 +457,7 @@
             this.gbAfiliado.Controls.Add(this.button1);
             this.gbAfiliado.Controls.Add(this.button7);
             this.gbAfiliado.Controls.Add(this.button2);
-            this.gbAfiliado.Controls.Add(this.button3);
+            this.gbAfiliado.Controls.Add(this.btPedirTunro);
             this.gbAfiliado.Location = new System.Drawing.Point(224, 182);
             this.gbAfiliado.Name = "gbAfiliado";
             this.gbAfiliado.Size = new System.Drawing.Size(200, 193);
@@ -492,14 +492,15 @@
             this.button2.Text = "Comprar Bono Consula";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btPedirTunro
             // 
-            this.button3.Location = new System.Drawing.Point(6, 77);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(182, 23);
-            this.button3.TabIndex = 11;
-            this.button3.Text = "Pedido turno";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btPedirTunro.Location = new System.Drawing.Point(6, 77);
+            this.btPedirTunro.Name = "btPedirTunro";
+            this.btPedirTunro.Size = new System.Drawing.Size(182, 23);
+            this.btPedirTunro.TabIndex = 11;
+            this.btPedirTunro.Text = "Pedido turno";
+            this.btPedirTunro.UseVisualStyleBackColor = true;
+            this.btPedirTunro.Click += new System.EventHandler(this.btPedirTunro_Click);
             // 
             // button5
             // 
@@ -606,7 +607,7 @@
         private System.Windows.Forms.GroupBox gbAfiliado;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btPedirTunro;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.GroupBox gbEstadistico;
         private System.Windows.Forms.Button button4;

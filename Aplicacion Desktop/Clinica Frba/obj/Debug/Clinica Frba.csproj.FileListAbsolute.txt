@@ -51,4 +51,4 @@ C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Compra_de_
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.generales.FormIngresarFullCalle.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Profesional.FormSearchProfesional.resources
 C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.FormLinq.resources
-C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.NewFolder4.Form1.resources
+C:\Users\nn\tp\Aplicacion Desktop\Clinica Frba\obj\Debug\Clinica_Frba.NewFolder4.FormPedirTurno.resources
