@@ -361,7 +361,7 @@ BEGIN
 	INSERT  INTO NN_NN.AGENDA (nro_profesional, fecha_inicio, fecha_fin)
 		OUTPUT INSERTED.numero INTO @AuxTable
 	VALUES 
-		(@nro_profesional, @FECHA_F1, @FECHA_F0)	
+		(@nro_profesional, @FECHA_F0, @FECHA_F1)	
 	DECLARE @nro int = (SELECT T.nro_agenda FROM @AuxTable T)
 	RETURN @nro
 END

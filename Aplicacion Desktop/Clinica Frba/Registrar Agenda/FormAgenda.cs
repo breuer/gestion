@@ -259,6 +259,7 @@ namespace Clinica_Frba.NewFolder2
                     }
                     
                 }
+
                 transaccion.Commit();
                 // TODO el roolback deberia ponerlo aca
             }

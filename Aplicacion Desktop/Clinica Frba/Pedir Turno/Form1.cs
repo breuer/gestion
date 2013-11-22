@@ -53,6 +53,12 @@ namespace Clinica_Frba.NewFolder4
             dt.Rows.Add(row);
 
             this.dgvProfesional.DataSource = dt;
+            this.FillDvgFechas();
+        }
+
+        public void FillDvgFechas()
+        {
+
         }
     }
 }
