@@ -99,12 +99,12 @@
             // dgvFechas
             // 
             this.dgvFechas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFechas.Enabled = false;
             this.dgvFechas.Location = new System.Drawing.Point(16, 38);
             this.dgvFechas.Name = "dgvFechas";
             this.dgvFechas.Size = new System.Drawing.Size(535, 273);
             this.dgvFechas.TabIndex = 0;
-            this.dgvFechas.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvFechas_DataBindingComplete);
+            this.dgvFechas.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvFechas_RowPrePaint);
+            this.dgvFechas.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvFechas_RowPostPaint);
             // 
             // groupBox2
             // 

@@ -60,6 +60,7 @@ namespace Clinica_Frba
 
             btAltaProfesional.Enabled = true;
             btRegistraAgenda.Enabled = true;
+            btPedirTunro.Enabled = true;
             
         }
 

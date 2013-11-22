@@ -437,7 +437,7 @@ BEGIN
 	
 		DECLARE @turnos INT;
 		--PRINT @hora_inicio +' ' + @hora_fin + ' '  +@dayOfWeek
-		SET @turnos = DATEDIFF(mi, @hora_fin, @hora_inicio)
+		SET @turnos = DATEDIFF(mi, @hora_inicio, @hora_fin)
 		DECLARE @j INT;
 		SET @j = 0;
 		-- A la @fechaCurrent tengo que agregarle la hora y los minutos del turno
@@ -486,20 +486,21 @@ BEGIN
   END
 END 
 GO
+
 CREATE PROCEDURE NN_NN.SP_LISTAR_AGENDA_DIAS(
 	@fecha VARCHAR(255),
 	@nroProfesional INT
 )
 AS 
 BEGIN
-	SELECT CONVERT(DATE, c.fecha), c.nro_profesional, c.nro_day, 
+	SELECT CONVERT(DATE, c.fecha), c.nro_day, 
 		CASE (
 			SELECT COUNT (*)
 				FROM [NN_NN].[TURNO] AS P 
 				WHERE P.nro_profesional = c.nro_profesional 
 				AND CONVERT(DATE, p.fecha) = CONVERT(DATE, c.fecha) AND p.nro_afiliado is null
 		) WHEN 0 THEN 'NO DISPONIBLE'
-		ELSE 'DISPONIBLE' END, 
+		ELSE 'DISPONIBLE' END AS ESTADO, 
 		a.fecha_fin, a.fecha_inicio
 	FROM [NN_NN].[TURNO] AS c LEFT JOIN [NN_NN].[AGENDA] AS a 
 		ON (CONVERT(DATE, c.fecha) BETWEEN (CONVERT(DATE, a.fecha_inicio)) AND (CONVERT(DATE, a.fecha_fin))) 

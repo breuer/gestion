@@ -62,17 +62,42 @@ namespace Clinica_Frba.NewFolder4
         /// </summary>
         public void FillDvgFechas()
         {
-            String fechaCurrent = this.GetFechaConfig().ToString("dd-mm-yyyy");
+            String fechaCurrent = this.GetFechaConfig().ToString("dd-MM-yyyy");
             List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(new SqlParameter("nro_profesional", Pro.Numero));
+            parametros.Add(new SqlParameter("@nroProfesional", Pro.Numero));
             parametros.Add(new SqlParameter("fecha", fechaCurrent));
-            
             DataTable dt = Turno.getRepository.listar("NN_NN.SP_LISTAR_AGENDA_DIAS", parametros);
-            }
+            dgvFechas.DataSource = dt;
+        }
 
-        private void dgvFechas_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+      
+
+        private void dgvFechas_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
-            MessageBox.Show("HOLA");
+            
+        }
+
+        private void dgvFechas_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            DataGridViewRow row = dgvFechas.Rows[e.RowIndex];
+            try
+            {
+                // TODO La conversion de 0 al "disponibles" tendria que estar aca pero lo deje en la db
+                // para usar el CASE de T_SQL
+                if (row.Cells["ESTADO"].Value.ToString().Equals("DISPONIBLE"))
+                {
+                    row.DefaultCellStyle.BackColor = System.Drawing.Color.LightGreen;
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = System.Drawing.Color.Red;
+                }
+
+            }
+            catch (Exception xe)
+            {
+                System.Console.WriteLine("Ignoro expecion " + xe.ToString());
+            }
         }
     }
 }

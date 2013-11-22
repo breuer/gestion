@@ -214,6 +214,7 @@ namespace Clinica_Frba.Base
             }
             catch (Exception e)
             {
+                System.Console.WriteLine("Ignoro expecion " + e.ToString());
                 DialogResult result = MessageBox.Show(
                    "La fecha proporcionada por la configuracion no es valida. Si decea continuar?",
                    Application.ProductName,
