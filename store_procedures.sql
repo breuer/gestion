@@ -382,9 +382,6 @@ BEGIN
 	VALUES (@nro_agenda, @codigo_dia, @HORA_F1, @HORA_F0)
 END
 GO
-
-EXEC [NN_NN].[sp_generar_agenda] @nro_agenda=53, @duracionTurno=30, @nro_profesional=26
-DROP PROCEDURE [NN_NN].[sp_generar_agenda];
 CREATE PROCEDURE [NN_NN].[sp_generar_agenda](
 	@nro_agenda INT,
 	@duracionTurno INT,
@@ -392,10 +389,6 @@ CREATE PROCEDURE [NN_NN].[sp_generar_agenda](
 )
 AS
 BEGIN  
-  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('Tutno',CONVERT(VARCHAR,@duracionTurno));
-  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('prodfesion',CONVERT(VARCHAR,@nro_profesional));
-  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('agenda',CONVERT(VARCHAR,@nro_agenda));
-  
   DECLARE @codigo_dia INT;
   DECLARE @rango INT;
   DECLARE @fecha_f0_agenda DATETIME;
@@ -408,13 +401,9 @@ BEGIN
 	[NN_NN].[AGENDA]WHERE numero = @nro_agenda
 
   SET @rango = DATEDIFF(dd, @fecha_f0_agenda, @fecha_f1_agenda)
-  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('rango',CONVERT(VARCHAR,@rango));
   WHILE (@i < @rango)
   BEGIN
-  INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('Dentro de wile',CONVERT(VARCHAR,@rango));
-  print @rango
-  print @i
-	DECLARE @fechaCurrent DATETIME;
+ 	DECLARE @fechaCurrent DATETIME;
 	DECLARE @dayOfWeek INT;
 	DECLARE @hora_fin DATETIME;
 	DECLARE @hora_inicio DATETIME;
@@ -424,19 +413,13 @@ BEGIN
 	SET @hora_fin = null;
 	SET @hora_inicio = null;
 	SELECT @hora_fin = hora_fin, @hora_inicio = hora_inicio FROM [NN_NN].[DIA_ATENCION] 
-				WHERE nro_agenda = @nro_agenda AND codigo_dia = @dayOfWeek;
+		WHERE nro_agenda = @nro_agenda AND codigo_dia = @dayOfWeek;
 	
-	
-	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('@hora_fin',CONVERT(VARCHAR,@hora_fin));
-	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('@hora_inicio',CONVERT(VARCHAR,@hora_inicio));
- 
 	if @hora_fin is not null
 	BEGIN
-	PRINT 'a'
 	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('dentro del IF','ssssssssssssssssssssssssssssssssssssssssssssss');
 	
 		DECLARE @turnos INT;
-		--PRINT @hora_inicio +' ' + @hora_fin + ' '  +@dayOfWeek
 		SET @turnos = DATEDIFF(mi, @hora_inicio, @hora_fin)
 		DECLARE @j INT;
 		SET @j = 0;
@@ -460,14 +443,13 @@ BEGIN
 			), 
 			@now
 		);
-		INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('TURNOS',CONVERT(VARCHAR,@turnos));
 	
 		WHILE @j < @turnos
 		BEGIN
 			DECLARE @numero INT;
 			SELECT @numero = MAX(numero) + 1 FROM [NN_NN].[TURNO];
 			
-			INSERT INTO [GD2C2013].[NN_NN].[TURNO]([numero],
+			INSERT INTO [NN_NN].[TURNO]([numero],
 				[fecha],
 				[nro_profesional],
 				[nro_day]
@@ -486,14 +468,14 @@ BEGIN
   END
 END 
 GO
-
+--
 CREATE PROCEDURE NN_NN.SP_LISTAR_AGENDA_DIAS(
 	@fecha VARCHAR(255),
 	@nroProfesional INT
 )
 AS 
 BEGIN
-	SELECT CONVERT(DATE, c.fecha), c.nro_day, 
+	SELECT CONVERT(DATE, c.fecha) AS fecha, c.nro_day AS DIA, 
 		CASE (
 			SELECT COUNT (*)
 				FROM [NN_NN].[TURNO] AS P 
@@ -501,7 +483,7 @@ BEGIN
 				AND CONVERT(DATE, p.fecha) = CONVERT(DATE, c.fecha) AND p.nro_afiliado is null
 		) WHEN 0 THEN 'NO DISPONIBLE'
 		ELSE 'DISPONIBLE' END AS ESTADO, 
-		a.fecha_fin, a.fecha_inicio
+		a.fecha_fin AS fechaFin, a.fecha_inicio AS fechaInicio
 	FROM [NN_NN].[TURNO] AS c LEFT JOIN [NN_NN].[AGENDA] AS a 
 		ON (CONVERT(DATE, c.fecha) BETWEEN (CONVERT(DATE, a.fecha_inicio)) AND (CONVERT(DATE, a.fecha_fin))) 
 	WHERE c.nro_profesional = @nroProfesional AND CONVERT(DATE, c.fecha) >= CONVERT(DATE, @fecha,105)
@@ -605,26 +587,3 @@ GO
 /******************************************************
 *                    AGENDA                           *
 *******************************************************/
-CREATE PROCEDURE 
-	NN_NN.SP_ADD_AGENDA (@nro_profesional int, @fecha_inicio date, @fecha_fin date)
-AS
-BEGIN 
-	DECLARE @AuxTable table( nro_agenda int);
-	INSERT  INTO NN_NN.AGENDA (nro_profesional, fecha_inicio, fecha_fin)
-		OUTPUT INSERTED.numero INTO @AuxTable
-	VALUES 
-		(@nro_profesional, @fecha_inicio, @fecha_fin)	
-	DECLARE @nro int = (SELECT T.nro_agenda FROM @AuxTable T)
-	RETURN @nro
-END
-GO
-
-CREATE PROCEDURE 
-	NN_NN.SP_ADD_DIA_ATENCION (@nro_agenda int, @codigo_dia int, @hora_fin time, @hora_inicio time)
-AS
-BEGIN 
-INSERT INTO 
-	NN_NN.DIA_ATENCION (nro_agenda, codigo_dia, hora_fin, hora_inicio)
-VALUES 
-	(@nro_agenda, @codigo_dia, @hora_fin, @hora_inicio)
-END
