@@ -85,6 +85,7 @@
             this.dgvTurnosByDia.Name = "dgvTurnosByDia";
             this.dgvTurnosByDia.Size = new System.Drawing.Size(421, 273);
             this.dgvTurnosByDia.TabIndex = 2;
+            this.dgvTurnosByDia.DoubleClick += new System.EventHandler(this.dgvTurnosByDia_DoubleClick);
             this.dgvTurnosByDia.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvTurnosByDia_RowPostPaint);
             // 
             // label1

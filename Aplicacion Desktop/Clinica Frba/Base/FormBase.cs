@@ -16,6 +16,10 @@ namespace Clinica_Frba.Base
     public partial class FormBase : Form
     {
 
+        private Profesional profesionalCurrent;
+
+        private Afiliado afiliadoCurrent;
+
         private EActionSearch accion;
         
         public FormBase()
@@ -27,7 +31,16 @@ namespace Clinica_Frba.Base
             set { accion = value; }
             get { return accion; }
         }
-        
+        public Profesional ProfesionalCurrent
+        {
+            get { return this.profesionalCurrent; }
+            set { this.profesionalCurrent = value; }
+        }
+        public Afiliado AfiliadoCurrent
+        {
+            get { return this.afiliadoCurrent; }
+            set { this.afiliadoCurrent = value; }
+        }
         protected void limpiarGroupBox(GroupBox groupBox)
         {
             foreach (Object obj in groupBox.Controls)

@@ -123,5 +123,10 @@ namespace Clinica_Frba.NewFolder4
             DataGridViewRow row = dgvTurnosByDia.Rows[e.RowIndex];
             row.DefaultCellStyle.BackColor = (e.RowIndex % 2 == 0) ? (System.Drawing.Color.LightGray) : (System.Drawing.Color.DarkGray);
         }
+
+        private void dgvTurnosByDia_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }
