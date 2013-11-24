@@ -237,6 +237,30 @@ namespace Clinica_Frba.Base
             }
         }
 
+        protected string getValueDataGrit(DataGridView dgvLista, string nameColumn)
+        {
+            bool bEncontro = false;
+            for (int i = 0; i < dgvLista.Columns.Count; i++)
+            {
+                bEncontro = dgvLista.Columns[dgvLista.CurrentRow.Cells[i].ColumnIndex].HeaderText.ToUpper().Equals(nameColumn.ToUpper());
+                if (bEncontro)
+                    return dgvLista.CurrentRow.Cells[i].Value.ToString();
+            }
+            return "";
+        }
+
+        protected Object getObjectValueDataGrit(DataGridView dgvLista, string nameColumn)
+        {
+            bool bEncontro = false;
+            for (int i = 0; i < dgvLista.Columns.Count; i++)
+            {
+                bEncontro = dgvLista.Columns[dgvLista.CurrentRow.Cells[i].ColumnIndex].HeaderText.ToUpper().Equals(nameColumn.ToUpper());
+                if (bEncontro)
+                    return dgvLista.CurrentRow.Cells[i].Value;
+            }
+            return "";
+        }
+
     }
 
 

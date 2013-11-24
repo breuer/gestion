@@ -131,5 +131,14 @@ namespace Clinica_Frba.Properties {
                 return ((int)(this["duracionAgendaMin"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dd-MM-yyyy")]
+        public string SoloFechaFormat {
+            get {
+                return ((string)(this["SoloFechaFormat"]));
+            }
+        }
     }
 }

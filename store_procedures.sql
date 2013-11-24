@@ -417,7 +417,6 @@ BEGIN
 	
 	if @hora_fin is not null
 	BEGIN
-	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('dentro del IF','ssssssssssssssssssssssssssssssssssssssssssssss');
 	
 		DECLARE @turnos INT;
 		SET @turnos = DATEDIFF(mi, @hora_inicio, @hora_fin)
@@ -490,6 +489,21 @@ BEGIN
 	GROUP BY CONVERT(DATE, c.fecha), c.nro_profesional,[nro_day], a.fecha_fin, a.fecha_inicio
 	ORDER BY CONVERT(DATE, c.fecha)
 END
+GO
+/******************************************************
+*                    TURNOS                           *
+*******************************************************/
+CREATE PROCEDURE [NN_NN].[SP_LISTA_TURNOS_LIBRE] (
+	@nro_profesional INT,
+	@fecha VARCHAR(255)
+)
+AS
+	SELECT  T.fecha, T.nro_day, T.numero, CT.motivo
+	FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT
+		ON (T.numero = CT.nro_turno)
+	WHERE CT.motivo IS NULL AND T.nro_tipo_afiliado IS NULL 
+		AND T.nro_profesional = @nro_profesional 
+		AND CONVERT(DATE, T.fecha) = CONVERT(DATE, @fecha, 105)
 GO
 /******************************************************
 *                    BONOS                            *

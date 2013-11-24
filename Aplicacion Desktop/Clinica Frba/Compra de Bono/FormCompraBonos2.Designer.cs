@@ -75,21 +75,21 @@
             // 
             // inCantBonosConsulta
             // 
-            this.inCantBonosConsulta.Location = new System.Drawing.Point(160, 124);
+            this.inCantBonosConsulta.Location = new System.Drawing.Point(161, 124);
             this.inCantBonosConsulta.Name = "inCantBonosConsulta";
             this.inCantBonosConsulta.Size = new System.Drawing.Size(100, 20);
             this.inCantBonosConsulta.TabIndex = 4;
             // 
             // inNroTipoAfiliado
             // 
-            this.inNroTipoAfiliado.Location = new System.Drawing.Point(160, 76);
+            this.inNroTipoAfiliado.Location = new System.Drawing.Point(160, 80);
             this.inNroTipoAfiliado.Name = "inNroTipoAfiliado";
             this.inNroTipoAfiliado.Size = new System.Drawing.Size(100, 20);
             this.inNroTipoAfiliado.TabIndex = 5;
             // 
             // inputCompra
             // 
-            this.inputCompra.Location = new System.Drawing.Point(160, 227);
+            this.inputCompra.Location = new System.Drawing.Point(239, 249);
             this.inputCompra.Name = "inputCompra";
             this.inputCompra.Size = new System.Drawing.Size(75, 23);
             this.inputCompra.TabIndex = 6;
@@ -108,7 +108,7 @@
             // 
             // inCantBonosFarmacia
             // 
-            this.inCantBonosFarmacia.Location = new System.Drawing.Point(160, 167);
+            this.inCantBonosFarmacia.Location = new System.Drawing.Point(160, 164);
             this.inCantBonosFarmacia.Name = "inCantBonosFarmacia";
             this.inCantBonosFarmacia.Size = new System.Drawing.Size(100, 20);
             this.inCantBonosFarmacia.TabIndex = 8;
@@ -117,7 +117,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 262);
+            this.ClientSize = new System.Drawing.Size(326, 284);
             this.Controls.Add(this.inCantBonosFarmacia);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.inputCompra);

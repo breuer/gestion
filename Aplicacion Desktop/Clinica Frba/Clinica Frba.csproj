@@ -126,6 +126,12 @@
     <Compile Include="Compra de Bono\FormCompraBonos.Designer.cs">
       <DependentUpon>FormCompraBonos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Compra de Bono\FormCompraBonos2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compra de Bono\FormCompraBonos2.Designer.cs">
+      <DependentUpon>FormCompraBonos2.cs</DependentUpon>
+    </Compile>
     <Compile Include="DiaAgenda.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -306,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Compra de Bono\FormCompraBonos.resx">
       <DependentUpon>FormCompraBonos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra de Bono\FormCompraBonos2.resx">
+      <DependentUpon>FormCompraBonos2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DiaAgenda.resx">
       <DependentUpon>DiaAgenda.cs</DependentUpon>
