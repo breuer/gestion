@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Clinica_Frba.Base;
+
 
 namespace Clinica_Frba
 {
-    static class Program
+    static class Program 
     {
         /// <summary>
         /// The main entry point for the application.
@@ -13,9 +15,14 @@ namespace Clinica_Frba
         [STAThread]
         static void Main()
         {
+            int idRolSeleccionado =0;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+            FormLogin frmLogin = new FormLogin();
+            if (frmLogin.ShowDialog() == DialogResult.OK)
+            {
+                Application.Run(new FormMain());
+            }
         }
     }
 }
