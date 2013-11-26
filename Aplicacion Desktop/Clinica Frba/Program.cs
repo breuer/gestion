@@ -14,15 +14,23 @@ namespace Clinica_Frba
         /// </summary>
         [STAThread]
         static void Main()
-        {
-            int idRolSeleccionado =0;
+        {       
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
             FormLogin frmLogin = new FormLogin();
             if (frmLogin.ShowDialog() == DialogResult.OK)
             {
                 Application.Run(new FormMain());
             }
+            
+            /*
+            DataSession.idRol = 1;
+            DataSession.nroAfiliado = "1";
+            DataSession.nroDiscriminadorAfiliado = "1";
+            Application.Run(new FormMain());
+            */
+
         }
     }
 }

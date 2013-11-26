@@ -12,6 +12,7 @@ using Clinica_Frba.NewFolder2;
 using Clinica_Frba.NewFolder4;
 using Clinica_Frba.Model;
 using Clinica_Frba.Base;
+using Clinica_Frba.Compra_de_Bono;
 
 namespace Clinica_Frba
 {
@@ -80,6 +81,8 @@ namespace Clinica_Frba
             btAltaProfesional.Enabled = true;
             btRegistraAgenda.Enabled = true;
             btPedirTunro.Enabled = true;
+            btCompraBonoFarmacia.Enabled = true;
+            btCompraBonoConsulta.Enabled = true;
             
         }
 
@@ -151,6 +154,20 @@ namespace Clinica_Frba
             FormPedirTurno frm = new FormPedirTurno();
             frm.Show();
         }
+
+        private void btCompraBonoFarmacia_Click(object sender, EventArgs e)
+        {
+            FormCompraBonoFarmacia frm = new FormCompraBonoFarmacia();
+            frm.Show();
+        }
+
+        private void btCompraBonoConsulta_Click(object sender, EventArgs e)
+        {
+            FormCompraBonoConsulta frm = new FormCompraBonoConsulta();
+            frm.Show();
+        }
+
+
 
         
 

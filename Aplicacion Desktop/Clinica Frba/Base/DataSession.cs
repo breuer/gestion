@@ -8,6 +8,8 @@ namespace Clinica_Frba
     public static class DataSession
     {
         public static int idRol;
-        public static string idUsuario;
+        public static string nroAfiliado;
+        public static string nroDiscriminadorAfiliado;
+        public static string nroProfesional;
     }
 }

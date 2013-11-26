@@ -32,31 +32,34 @@ namespace Clinica_Frba
             if (username.Text != "" & password.Text != "")
             {
                 Repository repo = new Repository();
-                string query = 
-                    "SELECT TOP 1 ID_AFILIADO " +
-                    "FROM NN_NN.USUARIO U " +
-                    "WHERE U.USER_NAME = '" + username.Text + "' AND PASSWORD = '" + password.Text + "'";
-                DataTable data = repo.listar(query);               
-                if(data.Rows.Count != 0)               
+                string query = "SELECT TOP 1 ID_AFILIADO, ID_AFILIADO_DISCRIMINADOR, ID_PROFESIONAL " +
+                    "FROM NN_NN.USUARIO " +
+                    "WHERE USER_NAME = '" + username.Text + "' AND PASSWORD = '" + password.Text + "'";
+                DataTable dataUsuario = repo.listar(query);
+                if (dataUsuario.Rows.Count != 0)               
                 {
-                    String idUsuario = Convert.ToString(data.Rows[0][0]);             
+                    string idAfiliado = Convert.ToString(dataUsuario.Rows[0][0]);
+                    string idDiscriminadorAfiliado = Convert.ToString(dataUsuario.Rows[0][1]);
+                    string idProfesional = Convert.ToString(dataUsuario.Rows[0][2]);
                     query = 
                         "SELECT  R.ID, R.NOMBRE " +
                         "FROM NN_NN.USUARIO_ROL UR " +
                         "JOIN NN_NN.ROL R " +
                         "ON UR.ID_ROL = R.ID " +
-                        "WHERE UR.ID_USUARIO = " + idUsuario;
-                    data = repo.listar(query);
-                    if (data.Rows.Count > 1)
+                        "WHERE UR.ID_USUARIO = " + idAfiliado;
+                    DataTable dataRol = repo.listar(query);
+                    if (dataRol.Rows.Count > 1)
                     {
-                        FormRol frmRol = new FormRol(data);
+                        FormRol frmRol = new FormRol(dataRol);
                         frmRol.ShowDialog(this);
                     }
-                    if (data.Rows.Count == 1)
+                    if (dataUsuario.Rows.Count == 1)
                     {
-                        idRolSeleccionado = Convert.ToInt32(data.Rows[0][0]);
+                        idRolSeleccionado = Convert.ToInt32(dataRol.Rows[0][0]);
                     }
-                    DataSession.idUsuario = idUsuario;
+                    DataSession.nroAfiliado = idAfiliado;
+                    DataSession.nroDiscriminadorAfiliado = idDiscriminadorAfiliado;
+                    DataSession.nroProfesional = idProfesional;
                     DataSession.idRol = idRolSeleccionado;
                     this.DialogResult = DialogResult.OK;
                     this.Close();
