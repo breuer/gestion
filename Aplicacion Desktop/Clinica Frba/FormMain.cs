@@ -56,43 +56,7 @@ namespace Clinica_Frba
         }
 
         
-        public FormMain(int idRol)
-        {
-            InitializeComponent();
-            //this.WindowState = FormWindowState.Maximized;
-
-            this.gbAbmAfiliado.Visible = true;
-            this.gbAbmEspecialidad.Visible = true;
-            this.gbAbmProfesional.Visible = true;
-            this.gbAbmAfiliado.Visible = true;
-
-            this.enableGroupBox(this.gbAbmRol, false);
-            this.enableGroupBox(this.gbAbmUser, false);
-            this.enableGroupBox(this.gbAbmAfiliado, false);
-            this.enableGroupBox(this.gbAbmEspecialidad, false);
-            this.enableGroupBox(this.gbAbmProfesional, false);
-            this.enableGroupBox(this.gbPlan, false);
-
-            this.enableGroupBox(this.gbEstadistico, false);
-            this.enableGroupBox(this.gbAfiliado, false);
-            this.enableGroupBox(this.gbProfesional, false);
-
-            switch (idRol)
-            {
-                case 0:
-                    this.gbProfesional.Visible = false;
-                    this.gbAfiliado.Visible = false;
-                    break;
-                case 1:
-                    this.gbProfesional.Visible = false;
-                    this.gb.Visible = false;
-                    break;
-                case 2:
-                    this.gbAfiliado.Visible = false;
-                    this.gb.Visible = false;
-                    break;
-            }
-        }
+      
 
         private void enableGroupBox(GroupBox groupBox, Boolean enable)
         {

@@ -417,7 +417,6 @@ BEGIN
 	
 	if @hora_fin is not null
 	BEGIN
-	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('dentro del IF','ssssssssssssssssssssssssssssssssssssssssssssss');
 	
 		DECLARE @turnos INT;
 		SET @turnos = DATEDIFF(mi, @hora_inicio, @hora_fin)
@@ -492,6 +491,35 @@ BEGIN
 END
 GO
 
+/******************************************************
+*                    TURNOS                           *
+*******************************************************/
+CREATE PROCEDURE [NN_NN].[SP_LISTA_TURNOS_LIBRE] (
+	@nro_profesional INT,
+	@fecha VARCHAR(255)
+)
+AS
+BEGIN
+	SELECT  T.fecha, T.nro_day, T.numero, CT.motivo
+	FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT
+		ON (T.numero = CT.nro_turno)
+	WHERE CT.motivo IS NULL AND T.nro_tipo_afiliado IS NULL 
+		AND T.nro_profesional = @nro_profesional 
+		AND CONVERT(DATE, T.fecha) = CONVERT(DATE, @fecha, 105)
+END
+GO
+CREATE PROCEDURE [NN_NN].[SP_RESERVAR_TURNO]
+	@nro_afiliado INT,
+	@nro_tipo_afiliado INT,
+	@numero INT
+AS
+BEGIN
+	UPDATE [NN_NN].[TURNO]
+		SET [nro_afiliado] = @nro_afiliado,
+			[nro_tipo_afiliado] = @nro_tipo_afiliado 
+		WHERE numero = @numero;
+END
+GO
 /******************************************************
 *                    BONOS                            *
 *******************************************************/
