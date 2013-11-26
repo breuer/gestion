@@ -7,13 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Clinica_Frba.NewFolder7
+namespace Clinica_Frba.Cancelar_Atencion
 {
-    public partial class Form1 : Form
+    public partial class FormCancelarAtencion : Form
     {
-        public Form1()
+        public FormCancelarAtencion()
         {
             InitializeComponent();
+        }
+
+        private void gbAfiliado_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

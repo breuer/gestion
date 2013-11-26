@@ -39,6 +39,11 @@ namespace Clinica_Frba.Model
         public int CodigoPlan{ set { codigoPlan = value;} get { return codigoPlan;}}
         public Boolean Habilitado { set { habilitado = value; } get { return habilitado; } }
 
+        public String ApellidoNombre
+        {
+            get {return Apellido + ", " + Nombre;}
+        }
+
         public static AfiliadoRepository getRepository
         {
             get { return repository; }

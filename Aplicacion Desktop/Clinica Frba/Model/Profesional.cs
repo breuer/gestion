@@ -92,5 +92,9 @@ namespace Clinica_Frba.Model
             get { return repository; }
         }
 
+        public String ApellidoNombre
+        {
+            get { return Apellido + ", " + Nombre; }
+        }
     }
 }

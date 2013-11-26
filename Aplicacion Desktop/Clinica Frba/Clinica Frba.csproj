@@ -120,6 +120,12 @@
       <DependentUpon>FormSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Base\Tag.cs" />
+    <Compile Include="Cancelar Atencion\FormCancelarAtencion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\FormCancelarAtencion.Designer.cs">
+      <DependentUpon>FormCancelarAtencion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Compra de Bono\FormCompraBonos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,12 +156,13 @@
     <Compile Include="FormTestStoreProcedure.Designer.cs">
       <DependentUpon>FormTestStoreProcedure.cs</DependentUpon>
     </Compile>
-    <Compile Include="generales\FormIngresarFullCalle.cs">
+    <Compile Include="Generales\FormIngresarFullCalle.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="generales\FormIngresarFullCalle.Designer.cs">
+    <Compile Include="Generales\FormIngresarFullCalle.Designer.cs">
       <DependentUpon>FormIngresarFullCalle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interface\IFInvocanteCalle.cs" />
     <Compile Include="Interface\IFInvocanteProfesional.cs" />
     <Compile Include="Interface\IFInvocanteFullCalle.cs" />
     <Compile Include="Interface\IFInvocanteEspecialidad.cs" />
@@ -197,6 +204,12 @@
     <Compile Include="Model\Repository\TransactionSQLParam.cs" />
     <Compile Include="Model\Rol.cs" />
     <Compile Include="Model\TipoEspecialidadMedica.cs" />
+    <Compile Include="Pedir Turno\FormSearchTurno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pedir Turno\FormSearchTurno.Designer.cs">
+      <DependentUpon>FormSearchTurno.cs</DependentUpon>
+    </Compile>
     <Compile Include="Registrar Agenda\FormSearchAgenda.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,12 +270,6 @@
     <Compile Include="Registro Resultado Atencion\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cancelar Atencion\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Cancelar Atencion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Generar Receta\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -310,6 +317,9 @@
     <EmbeddedResource Include="Base\FormSearch.resx">
       <DependentUpon>FormSearch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\FormCancelarAtencion.resx">
+      <DependentUpon>FormCancelarAtencion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Compra de Bono\FormCompraBonos.resx">
       <DependentUpon>FormCompraBonos.cs</DependentUpon>
     </EmbeddedResource>
@@ -331,7 +341,7 @@
     <EmbeddedResource Include="FormTestStoreProcedure.resx">
       <DependentUpon>FormTestStoreProcedure.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="generales\FormIngresarFullCalle.resx">
+    <EmbeddedResource Include="Generales\FormIngresarFullCalle.resx">
       <DependentUpon>FormIngresarFullCalle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Listados Estadisticos\FormListados.resx">
@@ -339,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pedir Turno\FormPedirTurno.resx">
       <DependentUpon>FormPedirTurno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pedir Turno\FormSearchTurno.resx">
+      <DependentUpon>FormSearchTurno.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -366,6 +379,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Validator\ValidatorFrmFullCalle.cs" />
     <Compile Include="Validator\ValidatorFrmProfesional.cs" />
     <Compile Include="Validator\Validator.cs" />
     <Compile Include="Validator\ValidatorFrmAfiliado.cs" />

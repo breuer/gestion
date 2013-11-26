@@ -13,16 +13,17 @@ using System.Globalization;
 using Clinica_Frba.Validator;
 using Clinica_Frba.Interface;
 using Clinica_Frba.Abm_de_Planes;
+using Clinica_Frba.Generales;
 
 namespace Clinica_Frba.Abm_de_Afiliado
 {
-    public partial class FormAltaAfiliado : FormAlta, IFInvocantePlan, IFInvocanteFamiliar
+    public partial class FormAltaAfiliado : FormAlta, IFInvocantePlan, IFInvocanteFamiliar, IFInvocanteCalle
     {
         private Afiliado afiliado;
         private List<SqlParameter> conyuge;
         private List<List<SqlParameter>> familiar = new List<List<SqlParameter>>();
 
-        private PlanMedico planSeleccionado;
+        private PlanMedico planSeleccionado = new PlanMedico();
 
         private Boolean isFamiliar;
 
@@ -66,26 +67,33 @@ namespace Clinica_Frba.Abm_de_Afiliado
         }
         protected override void setControlsTag()
         {
+            tbNombre.Tag = new Tag("nombre", "Nombre", SqlDbType.Text);
+            
+            tbApellido.Tag = new Tag("apellido", "Apellido", SqlDbType.Text);
+
             cbEstadoCivil.DataSource = Afiliado.getRepository.getEstadoCivil();
             cbEstadoCivil.DisplayMember = "estadoCivil";
-
-            cbEstadoCivil.Tag = new Tag("estadoCivil", "estadoCivil", SqlDbType.Text);
-
+            cbEstadoCivil.Tag = new Tag("estadoCivil", "Estado Civil", SqlDbType.Text);
+            
             cbPlan.DataSource = PlanMedico.getRepository.getPlanes();
             cbPlan.DisplayMember = "descripcion";
-            cbPlan.Tag = new Tag("plan", "plan", SqlDbType.Int);
+            cbPlan.Tag = new Tag("plan", "Plan", SqlDbType.Int);
 
-            cbTipo.Tag = new Tag("tipo", "tipo", SqlDbType.Text);
+            cbTipo.DataSource = Afiliado.getRepository.getTipoDocumento();
+            cbTipo.DisplayMember = "tipo";
+            cbTipo.Tag = new Tag("tipoDocumento", "Tipo Documento", SqlDbType.Int);
 
-            tbNombre.Tag = new Tag("nombre", "nombre", SqlDbType.Text);
+            tbDni.Tag = new Tag("documento", "Documento", SqlDbType.Int);
 
-            tbApellido.Tag = new Tag("apellido", "apellido", SqlDbType.Text);
+            tbTelefono.Tag = new Tag("telefono", "Telefono", SqlDbType.Int);
 
-            tbDni.Tag = new Tag("dni", "dni", SqlDbType.Int);
+            tbDireccion.Tag = new Tag("direccion", "Direccion", SqlDbType.Text);
 
-            tbTelefono.Tag = new Tag("telefono", "telefono", SqlDbType.Int);
+            dtFechaNacimiento.Tag = new Tag("fecha", "Fecha", SqlDbType.DateTime);
 
-            dtFechaNacimiento.Tag = new Tag("fechaNacimiento", "fechaNacimiento", SqlDbType.DateTime);
+            tbMail.Tag = new Tag("email", "Email", SqlDbType.Text);
+
+            gbSexo.Tag = new Tag("sexo", "Sexo", SqlDbType.Text);
         }
 
         
@@ -109,7 +117,8 @@ namespace Clinica_Frba.Abm_de_Afiliado
                     dtFechaNacimiento.MaxDate = this.GetFechaConfig();
                     dtFechaNacimiento.Value = this.GetFechaConfig();
                     btAdd.Visible = true;
-
+                    cbPlan.Enabled = false;
+                    cbPlan.SelectedIndex = PlanSeleccionado.Codigo - 1;                   
                     break;
                 case EActionSearch.MODIFICACION:
                     /*tbNombre.Text = rol.Nombre;
@@ -185,7 +194,8 @@ namespace Clinica_Frba.Abm_de_Afiliado
             if (!"".Equals(tbDni.Text))
             {
                 this.errorProvider.Clear();
-                DataTable dt = Afiliado.getRepository.existeAfiliado(tbDni.Text);
+                int i = int.Parse(((DataRowView)cbTipo.SelectedItem)["tipoDocumento"].ToString());
+                DataTable dt = Afiliado.getRepository.existeAfiliado(tbDni.Text, i);
                 
                 if (dt.Rows.Count != 0)
                 {
@@ -217,21 +227,27 @@ namespace Clinica_Frba.Abm_de_Afiliado
             this.Conyuge = conyuge;
             DataTable dt = new DataTable();
 
-            dt.Columns.Add("descripcion");
-            dt.Columns.Add("nombre");
-            dt.Columns.Add("apellido");
-            dt.Columns.Add("estadoCivil");
-            dt.Columns.Add("fechaNacimiento");
-            dt.Columns.Add("dni");
-            dt.Columns.Add("telefono");
 
+            dt.Columns.Add("Apellido");
+            dt.Columns.Add("Nombre");
+            dt.Columns.Add("Estado Civil");
+            dt.Columns.Add("Plan");
+            dt.Columns.Add("Tipo documento");
+            dt.Columns.Add("Documento");
+            dt.Columns.Add("Telefono");
+            dt.Columns.Add("Direccion");
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Email");
+            dt.Columns.Add("Sexo");
+            DataRow row = dt.NewRow();
+                
             foreach (SqlParameter param in conyuge)
             {
-                DataRow row = dt.NewRow();
                 row[param.ParameterName] = param.Value.ToString();
             }
-            this.dgvConyuge.DataSource = dt;
-             
+            dt.Rows.Add(row);
+            
+            this.dgvConyuge.DataSource = dt; 
         }
 
         public void seleccionarFamiliar(List<SqlParameter> familiar)
@@ -259,7 +275,8 @@ namespace Clinica_Frba.Abm_de_Afiliado
             frm.btAdd.Text = addConyugeText;
             frm.Accion = EActionSearch.SELECCION;
             frm.ShowDialog(this);
-
+            frm.PlanSeleccionado.Codigo = cbPlan.SelectedIndex;
+            this.btQuitarConyuge.Enabled = true;
         }
        
         
@@ -298,6 +315,42 @@ namespace Clinica_Frba.Abm_de_Afiliado
         private const String addConyugeText = "Agregar conyuge";
         private const String addFamiliarText = "Agregar familiar";
 
-       
+
+
+        #region Miembros de IFInvocanteCalle
+
+        public void seleccionar(string calleFull)
+        {
+            this.tbDireccion.Text = calleFull;
+        }
+
+        #endregion
+
+        private void tbDireccion_Enter(object sender, EventArgs e)
+        {
+            FormIngresarFullCalle frm = new FormIngresarFullCalle();
+            frm.ShowDialog(this);
+        }
+
+        private void tbDireccion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void btAddFamiliar_Click(object sender, EventArgs e)
+        {
+            FormAltaAfiliado frm = new FormAltaAfiliado();
+            frm.Width = 354;
+            frm.Height = 490;
+            frm.isFamiliar = true;
+            frm.btAdd.Text = addFamiliarText;
+            frm.Accion = EActionSearch.SELECCION;
+            frm.ShowDialog(this);
+        }
+
+        private void cbQuitarConyuge_Click(object sender, EventArgs e)
+        {
+            this.dgvConyuge.ClearSelection();
+        }
     }
 }

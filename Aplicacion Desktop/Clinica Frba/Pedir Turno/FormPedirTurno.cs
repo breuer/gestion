@@ -14,14 +14,6 @@ namespace Clinica_Frba.NewFolder4
 {
     public partial class FormPedirTurno : FormBase
     {
-        private Profesional pro;
-
-        public Profesional Pro
-        {
-            set { pro = value; }
-            get { return pro; }
-        }
-
         public FormPedirTurno()
         {
             InitializeComponent();
@@ -30,7 +22,7 @@ namespace Clinica_Frba.NewFolder4
         private void btSeleccionarProfesional_Click(object sender, EventArgs e)
         {
             //TODO DEBERIA LLAMAR AL SELECTOR DE P
-            Pro = new Profesional(
+            ProfesionalCurrent = new Profesional(
                 26,
                 "Vera",
                 "FORTUNATA",
@@ -47,11 +39,11 @@ namespace Clinica_Frba.NewFolder4
             dt.Columns.Add("matricula");
 
             DataRow row = dt.NewRow();
-            row["numero"] = Pro.Numero;
-            row["nombre"] = Pro.Nombre;
-            row["apellido"] = Pro.Apellido;
-            row["mail"] = Pro.Mail;
-            row["matricula"] = Pro.Matricula;
+            row["numero"] = ProfesionalCurrent.Numero;
+            row["nombre"] = ProfesionalCurrent.Nombre;
+            row["apellido"] = ProfesionalCurrent.Apellido;
+            row["mail"] = ProfesionalCurrent.Mail;
+            row["matricula"] = ProfesionalCurrent.Matricula;
             dt.Rows.Add(row);
 
             this.dgvProfesional.DataSource = dt;
@@ -64,7 +56,7 @@ namespace Clinica_Frba.NewFolder4
         {
             String fechaCurrent = this.GetFechaConfig().ToString("dd-MM-yyyy");
             List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(new SqlParameter("@nroProfesional", Pro.Numero));
+            parametros.Add(new SqlParameter("@nroProfesional", ProfesionalCurrent.Numero));
             parametros.Add(new SqlParameter("fecha", fechaCurrent));
             DataTable dt = Turno.getRepository.listar("NN_NN.SP_LISTAR_AGENDA_DIAS", parametros);
             dgvFechas.DataSource = dt;
@@ -112,7 +104,7 @@ namespace Clinica_Frba.NewFolder4
             DateTime fecha = (DateTime)this.getObjectValueDataGrit(dgvFechas, "fecha");
             String fechaString = fecha.ToString("dd-MM-yyyy");
             List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(new SqlParameter("nro_profesional", Pro.Numero));
+            parametros.Add(new SqlParameter("nro_profesional", ProfesionalCurrent.Numero));
             parametros.Add(new SqlParameter("fecha", fechaString));
 
             this.dgvTurnosByDia.DataSource = Turno.getRepository.listar("NN_NN.SP_LISTA_TURNOS_LIBRE", parametros);
@@ -126,6 +118,13 @@ namespace Clinica_Frba.NewFolder4
 
         private void dgvTurnosByDia_DoubleClick(object sender, EventArgs e)
         {
+            // Aca se llama al profesion
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            Int32 numero = (Int32) this.getObjectValueDataGrit(this.dgvTurnosByDia, "numero");
+            parametros.Add(new SqlParameter("numero", numero));
+            parametros.Add(new SqlParameter("@numero", ProfesionalCurrent.Numero));
+
+            Turno.getRepository.addModificar("[NN_NN].[SP_RESERVAR_TURNO]", parametros);
 
         }
     }
