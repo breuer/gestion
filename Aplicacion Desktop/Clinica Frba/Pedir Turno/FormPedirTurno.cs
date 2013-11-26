@@ -99,5 +99,34 @@ namespace Clinica_Frba.NewFolder4
                 System.Console.WriteLine("Ignoro expecion " + xe.ToString());
             }
         }
+
+        private void dgvFechas_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            //TODO creo que no hacen falta estas columnas
+            this.dgvFechas.Columns["fechaInicio"].Visible = false;
+            this.dgvFechas.Columns["fechaFin"].Visible = false;
+        }
+
+        private void dgvFechas_DoubleClick(object sender, EventArgs e)
+        {
+            DateTime fecha = (DateTime)this.getObjectValueDataGrit(dgvFechas, "fecha");
+            String fechaString = fecha.ToString("dd-MM-yyyy");
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("nro_profesional", Pro.Numero));
+            parametros.Add(new SqlParameter("fecha", fechaString));
+
+            this.dgvTurnosByDia.DataSource = Turno.getRepository.listar("NN_NN.SP_LISTA_TURNOS_LIBRE", parametros);
+        }
+
+        private void dgvTurnosByDia_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            DataGridViewRow row = dgvTurnosByDia.Rows[e.RowIndex];
+            row.DefaultCellStyle.BackColor = (e.RowIndex % 2 == 0) ? (System.Drawing.Color.LightGray) : (System.Drawing.Color.DarkGray);
+        }
+
+        private void dgvTurnosByDia_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }

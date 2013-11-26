@@ -341,6 +341,9 @@
     <EmbeddedResource Include="Compra de Bono\FormCompraBonos2.resx">
       <DependentUpon>FormCompraBonos2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Compra de Bono\FormCompraBonos2.resx">
+      <DependentUpon>FormCompraBonos2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DiaAgenda.resx">
       <DependentUpon>DiaAgenda.cs</DependentUpon>
       <SubType>Designer</SubType>

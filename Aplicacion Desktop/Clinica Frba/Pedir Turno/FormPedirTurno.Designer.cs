@@ -81,11 +81,12 @@
             // dgvTurnosByDia
             // 
             this.dgvTurnosByDia.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTurnosByDia.Enabled = false;
             this.dgvTurnosByDia.Location = new System.Drawing.Point(557, 38);
             this.dgvTurnosByDia.Name = "dgvTurnosByDia";
             this.dgvTurnosByDia.Size = new System.Drawing.Size(421, 273);
             this.dgvTurnosByDia.TabIndex = 2;
+            this.dgvTurnosByDia.DoubleClick += new System.EventHandler(this.dgvTurnosByDia_DoubleClick);
+            this.dgvTurnosByDia.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvTurnosByDia_RowPostPaint);
             // 
             // label1
             // 
@@ -103,8 +104,10 @@
             this.dgvFechas.Name = "dgvFechas";
             this.dgvFechas.Size = new System.Drawing.Size(535, 273);
             this.dgvFechas.TabIndex = 0;
+            this.dgvFechas.DoubleClick += new System.EventHandler(this.dgvFechas_DoubleClick);
             this.dgvFechas.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvFechas_RowPrePaint);
             this.dgvFechas.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvFechas_RowPostPaint);
+            this.dgvFechas.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvFechas_DataBindingComplete);
             // 
             // groupBox2
             // 
