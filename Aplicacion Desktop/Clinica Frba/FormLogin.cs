@@ -10,6 +10,7 @@ using Clinica_Frba.Model.Repository;
 using System.Data.SqlClient;
 using Clinica_Frba.Model;
 using Clinica_Frba.Base;
+using System.Security.Cryptography;
 
 namespace Clinica_Frba
 {
@@ -26,40 +27,44 @@ namespace Clinica_Frba
         {
             idRolSeleccionado = idRol;
         }
+        public static string GenerarSHA256(string texto)
+        {
+            SHA256 sha256 = SHA256CryptoServiceProvider.Create();
+            Byte[] hash = sha256.ComputeHash(ASCIIEncoding.Default.GetBytes(texto));
+            StringBuilder cadena = new StringBuilder();
+            foreach (byte xD in hash)
+            {
+                cadena.AppendFormat("{0:x2}", xD);
+            }
+            return cadena.ToString();
+        }
 
         private void btLogin_Click(object sender, EventArgs e)
         {
             if (username.Text != "" & password.Text != "")
             {
                 Repository repo = new Repository();
-                string query = "SELECT TOP 1 ID_AFILIADO, ID_AFILIADO_DISCRIMINADOR, ID_PROFESIONAL " +
-                    "FROM NN_NN.USUARIO " +
-                    "WHERE USER_NAME = '" + username.Text + "' AND PASSWORD = '" + password.Text + "'";
-                DataTable dataUsuario = repo.listar(query);
+                List<SqlParameter> parametros = new List<SqlParameter>();
+                parametros.Add(new SqlParameter("username", username.Text));
+                parametros.Add(new SqlParameter("password", GenerarSHA256(password.Text)));       
+                DataTable dataUsuario = repo.listar("NN_NN.SP_LOGIN", parametros);                         
                 if (dataUsuario.Rows.Count != 0)               
-                {
-                    string idAfiliado = Convert.ToString(dataUsuario.Rows[0][0]);
-                    string idDiscriminadorAfiliado = Convert.ToString(dataUsuario.Rows[0][1]);
-                    string idProfesional = Convert.ToString(dataUsuario.Rows[0][2]);
-                    query = 
-                        "SELECT  R.ID, R.NOMBRE " +
-                        "FROM NN_NN.USUARIO_ROL UR " +
-                        "JOIN NN_NN.ROL R " +
-                        "ON UR.ID_ROL = R.ID " +
-                        "WHERE UR.ID_USUARIO = " + idAfiliado;
-                    DataTable dataRol = repo.listar(query);
+                {           
+                    parametros.Clear();
+                    parametros.Add(new SqlParameter("id_usuario", Convert.ToInt32(dataUsuario.Rows[0][0])));
+                    DataTable dataRol = repo.listar("NN_NN.SP_ROLES", parametros);
                     if (dataRol.Rows.Count > 1)
                     {
                         FormRol frmRol = new FormRol(dataRol);
                         frmRol.ShowDialog(this);
                     }
-                    if (dataUsuario.Rows.Count == 1)
+                    if (dataRol.Rows.Count == 1)
                     {
                         idRolSeleccionado = Convert.ToInt32(dataRol.Rows[0][0]);
                     }
-                    DataSession.nroAfiliado = idAfiliado;
-                    DataSession.nroDiscriminadorAfiliado = idDiscriminadorAfiliado;
-                    DataSession.nroProfesional = idProfesional;
+                    DataSession.nroAfiliado = Convert.ToString(dataUsuario.Rows[0][1]);
+                    DataSession.nroDiscriminadorAfiliado = Convert.ToString(dataUsuario.Rows[0][2]);
+                    DataSession.nroProfesional = Convert.ToString(dataUsuario.Rows[0][3]);
                     DataSession.idRol = idRolSeleccionado;
                     this.DialogResult = DialogResult.OK;
                     this.Close();
