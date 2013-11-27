@@ -515,6 +515,36 @@ BEGIN
 	ORDER BY CONVERT(DATE, c.fecha)
 END
 GO
+
+/******************************************************
+*                    TURNOS                           *
+*******************************************************/
+CREATE PROCEDURE [NN_NN].[SP_LISTA_TURNOS_LIBRE] (
+	@nro_profesional INT,
+	@fecha VARCHAR(255)
+)
+AS
+BEGIN
+	SELECT  T.fecha, T.nro_day, T.numero, CT.motivo
+	FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT
+		ON (T.numero = CT.nro_turno)
+	WHERE CT.motivo IS NULL AND T.nro_tipo_afiliado IS NULL 
+		AND T.nro_profesional = @nro_profesional 
+		AND CONVERT(DATE, T.fecha) = CONVERT(DATE, @fecha, 105)
+END
+GO
+CREATE PROCEDURE [NN_NN].[SP_RESERVAR_TURNO]
+	@nro_afiliado INT,
+	@nro_tipo_afiliado INT,
+	@numero INT
+AS
+BEGIN
+	UPDATE [NN_NN].[TURNO]
+		SET [nro_afiliado] = @nro_afiliado,
+			[nro_tipo_afiliado] = @nro_tipo_afiliado 
+		WHERE numero = @numero;
+END
+GO
 /******************************************************
 *                    TURNOS                           *
 *******************************************************/
@@ -547,96 +577,58 @@ GO
 /******************************************************
 *                    BONOS                            *
 *******************************************************/
-CREATE PROCEDURE 
-	NN_NN.SP_ADD_BONO_CONSULTA AS
-BEGIN 
-	DECLARE @max_nro int = ( 
-		SELECT 
-			MAX(B.numero)
-		FROM
-			NN_NN.BONO_CONSULTA B
-		WHERE
-			B.nro_afiliado IS NULL
-	)
-	IF (@max_nro is null)
-	begin
-		set @max_nro = 0
-	end
-	INSERT INTO 
-		NN_NN.BONO_CONSULTA(numero ,fecha_impresion)
-	VALUES 
-		(@max_nro + 1, GETDATE())
-END
-GO
+
 
 CREATE PROCEDURE 
-	NN_NN.SP_ADD_BONO_FARMACIA AS
+	NN_NN.SP_BUY_CANT_BONO_FARMACIA (@cant int, @nro_afiliado int, @nro_tipo_afiliado int) AS
 BEGIN
 	DECLARE @max_nro int = ( 
 		SELECT 
 			MAX(B.numero)
 		FROM
 			NN_NN.BONO_FARMACIA B
-		WHERE
-			B.nro_afiliado IS NULL
 	)
 	IF (@max_nro is null)
 	begin
 		set @max_nro = 0
 	end 
-	INSERT INTO 
-		NN_NN.BONO_FARMACIA(numero,fecha_impresion)
-	VALUES 
-		(@max_nro + 1, GETDATE())
+	DECLARE @i int = 1
+	WHILE @i <= @cant 
+	BEGIN	
+		--SET @max_nro = @max_nro + @i
+		INSERT INTO 
+			NN_NN.BONO_FARMACIA (numero, fecha_impresion, fecha_compra, nro_afiliado, nro_tipo_afiliado)
+		VALUES 
+			(@max_nro + @i, GETDATE(), GETDATE(), @nro_afiliado, @nro_tipo_afiliado)
+		SET @i = @i + 1
+	END
 END
 GO
 
 CREATE PROCEDURE 
-	NN_NN.SP_BUY_BONO_CONSULTA (@nro_afiliado int) AS
+	NN_NN.SP_BUY_CANT_BONO_CONSULTA (@cant int, @nro_afiliado int, @nro_tipo_afiliado int) AS
 BEGIN
-	DECLARE @nro int = ( 
-		SELECT TOP 1
-			B.numero
+	DECLARE @max_nro int = ( 
+		SELECT 
+			MAX(B.numero)
 		FROM
 			NN_NN.BONO_CONSULTA B
-		WHERE
-			B.nro_afiliado IS NULL
 	)
-	IF (@nro IS NOT NULL)
-	BEGIN
-		UPDATE NN_NN.BONO_CONSULTA
-		SET 
-			nro_afiliado = @nro_afiliado, 
-			fecha_compra = GETDATE()
-		WHERE
-			numero = @nro
+	IF (@max_nro is null)
+	begin
+		set @max_nro = 0
+	end 
+	DECLARE @i int = 1
+	WHILE @i <= @cant 
+	BEGIN	
+		INSERT INTO 
+			NN_NN.BONO_CONSULTA (numero, fecha_impresion, fecha_compra, nro_afiliado, nro_tipo_afiliado)
+		VALUES 
+			(@max_nro + @i, GETDATE(), GETDATE(), @nro_afiliado, @nro_tipo_afiliado)
+		SET @i = @i + 1
 	END
 END
-GO
 
-CREATE PROCEDURE 
-	NN_NN.SP_BUY_BONO_FARMACIA (@nro_afiliado int)
-AS
-BEGIN 
-	DECLARE @nro int = ( 
-		SELECT TOP 1
-			B.numero
-		FROM
-			NN_NN.BONO_FARMACIA B
-		WHERE
-			B.nro_afiliado IS NULL
-	)
-	IF (@nro IS NOT NULL)
-	BEGIN
-		UPDATE NN_NN.BONO_FARMACIA
-		SET 
-			nro_afiliado = @nro_afiliado, 
-			fecha_compra = GETDATE()
-		WHERE
-			numero = @nro
-	END
-END
-GO
 /******************************************************
 *                    AGENDA                           *
 *******************************************************/

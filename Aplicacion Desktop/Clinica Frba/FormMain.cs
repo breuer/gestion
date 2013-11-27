@@ -10,6 +10,9 @@ using Clinica_Frba.NewFolder13;
 using Clinica_Frba.Abm_de_Profesional;
 using Clinica_Frba.NewFolder2;
 using Clinica_Frba.NewFolder4;
+using Clinica_Frba.Model;
+using Clinica_Frba.Base;
+using Clinica_Frba.Compra_de_Bono;
 
 namespace Clinica_Frba
 {
@@ -36,8 +39,25 @@ namespace Clinica_Frba
             this.enableGroupBox(this.gbAfiliado, false);
             this.enableGroupBox(this.gbProfesional, false);
 
-
+            switch (DataSession.idRol)
+            {
+                case 0:
+                    this.gbProfesional.Visible = false;
+                    this.gbAfiliado.Visible = false;
+                    break;
+                case 1:
+                    this.gbProfesional.Visible = false;
+                    this.gb.Visible = false;
+                    break;
+                case 2:
+                    this.gbAfiliado.Visible = false;
+                    this.gb.Visible = false;
+                    break;
+            }
         }
+
+        
+      
 
         private void enableGroupBox(GroupBox groupBox, Boolean enable)
         {
@@ -61,6 +81,8 @@ namespace Clinica_Frba
             btAltaProfesional.Enabled = true;
             btRegistraAgenda.Enabled = true;
             btPedirTunro.Enabled = true;
+            btCompraBonoFarmacia.Enabled = true;
+            btCompraBonoConsulta.Enabled = true;
             
         }
 
@@ -132,6 +154,20 @@ namespace Clinica_Frba
             FormPedirTurno frm = new FormPedirTurno();
             frm.Show();
         }
+
+        private void btCompraBonoFarmacia_Click(object sender, EventArgs e)
+        {
+            FormCompraBonoFarmacia frm = new FormCompraBonoFarmacia();
+            frm.Show();
+        }
+
+        private void btCompraBonoConsulta_Click(object sender, EventArgs e)
+        {
+            FormCompraBonoConsulta frm = new FormCompraBonoConsulta();
+            frm.Show();
+        }
+
+
 
         
 
