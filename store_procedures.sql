@@ -296,6 +296,9 @@ BEGIN
 	 
 END
 GO
+
+
+
 CREATE PROCEDURE NN_NN.SP_ADD_AFILIADO (
 	@apellido VARCHAR(255), 
 	@nombre VARCHAR(255),
@@ -305,10 +308,10 @@ CREATE PROCEDURE NN_NN.SP_ADD_AFILIADO (
 	@documento INT,
 	@telefono INT,
 	@direccion VARCHAR(255), 
-	@fecha VARCHAR(255),
+	@fecha VARCHAR(255) = null,
 	@email VARCHAR(255),
 	@sexo CHAR,
-	@discriminador INT,
+	@discriminador INT = 0,
 	@numero INT
 )
 AS
@@ -317,8 +320,8 @@ BEGIN
 		(apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
 		telefono, direccion, fecha_nac, mail, sexo, numero_tipo_afiliado, numero)
 	VALUES 
-		(@apellido, @nombre, @estadoCivil, @plan, @tipo_documento, @documento,
-		@telefono, @direccion, @fecha_nac, @mail, @sexo, @discriminador, @numero);
+		(@apellido, @nombre, @estadoCivil, @plan, @tipoDocumento, @documento,
+		@telefono, @direccion, @fecha, @email, @sexo, @discriminador, @numero);
 END
 GO
 

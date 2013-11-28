@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Clinica_Frba.Model.Repository;
+using System.Data.SqlClient;
 
 namespace Clinica_Frba.Model
 {
@@ -23,7 +24,31 @@ namespace Clinica_Frba.Model
         private int codigoPlan;
         private Boolean habilitado;
         private static AfiliadoRepository repository = new AfiliadoRepository();
-       
+
+        public Afiliado()
+        {
+        }
+
+        public Afiliado(List<SqlParameter> parametros, Int32 numero, Int32 discriminador)
+        {
+            this.NroAfiliado = numero;
+            this.NroDiscriminador = discriminador;
+            foreach (SqlParameter sql in parametros)
+            {
+                switch (sql.ParameterName)
+                {
+                    // Deberia usar refelxion pero no llego
+                    case "apellido":
+                        this.apellido = sql.Value.ToString();
+                        break;
+                    case "nombre":
+                        this.nombre = sql.Value.ToString();
+                        break;  
+                }
+            }
+        }
+
+
         public int NroAfiliado{ set { nroAfiliado = value;} get { return nroAfiliado;}}
         public int NroDiscriminador{ set { nroDiscriminador = value;} get { return nroDiscriminador;}}
         public String Apellido{ set { apellido = value;} get { return apellido;}}
@@ -44,7 +69,12 @@ namespace Clinica_Frba.Model
             get {return Apellido + ", " + Nombre;}
         }
 
-        
+        public override string ToString()
+        {
+            long id = this.NroAfiliado * 100;
+            id += id + this.NroDiscriminador;
+            return ApellidoNombre + " => " + id.ToString();
+        }
         
         public static AfiliadoRepository getRepository
         {

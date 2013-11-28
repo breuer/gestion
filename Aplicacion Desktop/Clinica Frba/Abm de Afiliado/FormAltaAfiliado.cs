@@ -409,6 +409,7 @@ namespace Clinica_Frba.Abm_de_Afiliado
         }
         private void alta(List<SqlParameter> parametros)
         {
+            List<Afiliado> afiliados = new List<Afiliado>();
             if (conyuge == null || conyuge.Count == 0)
             {
                 DialogResult result = MessageBox.Show(
@@ -436,11 +437,14 @@ namespace Clinica_Frba.Abm_de_Afiliado
                     return;
                 }
             }
-
+            List<SqlParameter> parametroAux = new List<SqlParameter>();
             SqlParameter sql = new SqlParameter("out", SqlDbType.Int);
             sql.Direction = ParameterDirection.ReturnValue;
-
-            parametros.Add(sql);
+            parametroAux.Add(sql);
+            SqlParameter sql1 = new SqlParameter("@id_afiliado", SqlDbType.Int);
+            sql1.Direction = ParameterDirection.Output;
+            parametroAux.Add(sql1);
+            long plan = long.Parse(((DataRowView)cbPlan.SelectedItem)["codigo"].ToString());
             using (SqlConnection sqlConnection = Agenda.getRepository.OpenConnection())
             {
                 sqlConnection.Open();
@@ -448,15 +452,56 @@ namespace Clinica_Frba.Abm_de_Afiliado
 
                 // agrego el usuario  
                 List<SqlParameter> result = Agenda.getRepository.callProcedure(
+                    "[NN_NN].FN_RETURN_ID_AFILIADO",
+                    parametroAux,
+                    sqlConnection,
+                    transaccion
+                );
+                Int32 idAfiliado = (Int32)result[0].Value;
+                parametros.Add(new SqlParameter("numero", idAfiliado));
+                Agenda.getRepository.callProcedure(
                     "NN_NN.SP_ADD_AFILIADO",
                     parametros,
                     sqlConnection,
                     transaccion
                 );
-                Int32 idAfiliado = (Int32)result[0].Value;
-                MessageBox.Show(idAfiliado.ToString());
-                transaccion.Commit();
+                afiliados.Add(new Afiliado(parametros, idAfiliado, 0));
+                // Si hay conyuge lo creo
+                if (conyuge != null && conyuge.Count != 0)
+                {
+                    conyuge.Add(new SqlParameter("@numero", idAfiliado));
+                    conyuge.Add(new SqlParameter("@discriminador", 1));
+                    conyuge.Add(new SqlParameter("@plan", plan));
+                    Agenda.getRepository.callProcedure(
+                        "NN_NN.SP_ADD_AFILIADO",
+                        conyuge,
+                        sqlConnection,
+                        transaccion
+                    );
+                    afiliados.Add(new Afiliado(conyuge, idAfiliado, 1));
+                }
+                // Si hay 
+                if (Familiares.Count != 0)
+                {
+                    int i = 2; 
+                    foreach (List<SqlParameter> familiar in Familiares)
+                    {
+                        familiar.Add(new SqlParameter("@numero", idAfiliado));
+                        familiar.Add(new SqlParameter("@discriminador", i));
+                        familiar.Add(new SqlParameter("@plan", i));
+                        Agenda.getRepository.callProcedure(
+                            "NN_NN.SP_ADD_AFILIADO",
+                            familiar,
+                            sqlConnection,
+                            transaccion
+                        );
+                        afiliados.Add(new Afiliado(conyuge, idAfiliado, i));
+                        i++;
+                    }
+                }
                 // TODO el roolback deberia ponerlo aca en ves de hacer la llamada e callProcedure
+                transaccion.Commit();
+                
             }
         }
     }
