@@ -628,7 +628,36 @@ BEGIN
 		SET @i = @i + 1
 	END
 END
+GO
 
+/******************************************************
+*                    LOGIN                            *
+*******************************************************/
+CREATE PROCEDURE 
+	NN_NN.SP_LOGIN (@username VARCHAR(255), @password VARCHAR(255)) AS
+BEGIN
+	SELECT TOP 1 
+		U.ID, U.ID_AFILIADO, U.ID_AFILIADO_DISCRIMINADOR, U.ID_PROFESIONAL
+	FROM 
+		NN_NN.USUARIO U
+    WHERE USER_NAME = @username AND PASSWORD = @password
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_ROLES (@id_usuario int) AS
+BEGIN
+	SELECT  
+		R.ID, R.NOMBRE 
+    FROM 
+		NN_NN.USUARIO_ROL UR 
+    JOIN 
+		NN_NN.ROL R 
+    ON 
+		UR.ID_ROL = R.ID 
+    WHERE 
+		UR.ID_USUARIO = @id_usuario
+END
 /******************************************************
 *                    AGENDA                           *
 *******************************************************/

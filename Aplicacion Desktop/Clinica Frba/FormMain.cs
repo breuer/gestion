@@ -41,15 +41,15 @@ namespace Clinica_Frba
 
             switch (DataSession.idRol)
             {
-                case 0:
+                case 1:
                     this.gbProfesional.Visible = false;
                     this.gbAfiliado.Visible = false;
                     break;
-                case 1:
+                case 2:
                     this.gbProfesional.Visible = false;
                     this.gb.Visible = false;
                     break;
-                case 2:
+                case 3:
                     this.gbAfiliado.Visible = false;
                     this.gb.Visible = false;
                     break;

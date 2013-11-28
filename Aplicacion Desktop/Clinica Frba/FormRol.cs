@@ -18,16 +18,17 @@ namespace Clinica_Frba
             InitializeComponent();
             cbRol.DataSource = data;
             cbRol.DisplayMember = "NOMBRE";
-
+            cbRol.ValueMember = "ID";           
         }
 
         private void btSeleccionar_Click(object sender, EventArgs e)
         {
-            int rol = cbRol.SelectedIndex;
+            int rol = Convert.ToInt32(cbRol.SelectedValue);
             IFormLogin iDestino = this.Owner as IFormLogin;
             if (iDestino != null)
             {
                 iDestino.seleccionarRol(rol);
+                string s = Convert.ToString(rol);
                 this.Close();
             }
         }
