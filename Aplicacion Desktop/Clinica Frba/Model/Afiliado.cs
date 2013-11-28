@@ -44,6 +44,8 @@ namespace Clinica_Frba.Model
             get {return Apellido + ", " + Nombre;}
         }
 
+        
+        
         public static AfiliadoRepository getRepository
         {
             get { return repository; }

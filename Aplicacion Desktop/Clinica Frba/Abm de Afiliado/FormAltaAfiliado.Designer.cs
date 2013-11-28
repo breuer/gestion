@@ -93,6 +93,9 @@
             this.gbControl.Controls.Add(this.label1);
             this.gbControl.Size = new System.Drawing.Size(331, 383);
             // 
+            // btAccion
+            // 
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.btQuitarConyuge);
@@ -102,7 +105,7 @@
             this.groupBox3.Controls.Add(this.dgvConyuge);
             this.groupBox3.Location = new System.Drawing.Point(349, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(630, 383);
+            this.groupBox3.Size = new System.Drawing.Size(824, 383);
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Dependientes";
@@ -110,7 +113,7 @@
             // btQuitarConyuge
             // 
             this.btQuitarConyuge.Enabled = false;
-            this.btQuitarConyuge.Location = new System.Drawing.Point(338, 100);
+            this.btQuitarConyuge.Location = new System.Drawing.Point(532, 100);
             this.btQuitarConyuge.Name = "btQuitarConyuge";
             this.btQuitarConyuge.Size = new System.Drawing.Size(140, 23);
             this.btQuitarConyuge.TabIndex = 4;
@@ -121,7 +124,7 @@
             // btAddFamiliar
             // 
             this.btAddFamiliar.Enabled = false;
-            this.btAddFamiliar.Location = new System.Drawing.Point(484, 354);
+            this.btAddFamiliar.Location = new System.Drawing.Point(678, 354);
             this.btAddFamiliar.Name = "btAddFamiliar";
             this.btAddFamiliar.Size = new System.Drawing.Size(140, 23);
             this.btAddFamiliar.TabIndex = 3;
@@ -134,13 +137,13 @@
             this.dgvFamiliares.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFamiliares.Location = new System.Drawing.Point(6, 155);
             this.dgvFamiliares.Name = "dgvFamiliares";
-            this.dgvFamiliares.Size = new System.Drawing.Size(618, 193);
+            this.dgvFamiliares.Size = new System.Drawing.Size(812, 193);
             this.dgvFamiliares.TabIndex = 2;
             // 
             // btAddConyuge
             // 
             this.btAddConyuge.Enabled = false;
-            this.btAddConyuge.Location = new System.Drawing.Point(484, 100);
+            this.btAddConyuge.Location = new System.Drawing.Point(678, 100);
             this.btAddConyuge.Name = "btAddConyuge";
             this.btAddConyuge.Size = new System.Drawing.Size(140, 23);
             this.btAddConyuge.TabIndex = 1;
@@ -150,10 +153,11 @@
             // 
             // dgvConyuge
             // 
+            this.dgvConyuge.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvConyuge.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvConyuge.Location = new System.Drawing.Point(7, 19);
             this.dgvConyuge.Name = "dgvConyuge";
-            this.dgvConyuge.Size = new System.Drawing.Size(617, 75);
+            this.dgvConyuge.Size = new System.Drawing.Size(811, 75);
             this.dgvConyuge.TabIndex = 0;
             // 
             // btSearchPlan
@@ -381,7 +385,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(989, 463);
+            this.ClientSize = new System.Drawing.Size(1185, 463);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btAdd);
             this.Name = "FormAltaAfiliado";

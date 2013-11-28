@@ -152,7 +152,7 @@ namespace Clinica_Frba.Base
                         Tag tag = cb.Tag as Tag;
                         if (cb.SelectedIndex != -1)
                         {
-                           tag.Value = ((DataRowView)cb.SelectedItem)[tag.Name];
+                           tag.Value = ((DataRowView)cb.SelectedItem)[tag.ParamColumn];
                         }
                         parametros.Add(tag.SQLParemeter);
                     }
