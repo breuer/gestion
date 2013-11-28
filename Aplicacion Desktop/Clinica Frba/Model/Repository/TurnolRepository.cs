@@ -10,18 +10,17 @@ namespace Clinica_Frba.Model.Repository
     public class TurnoRepository : Repository
     {
         
-        private String queryExisteMatricula = "SELECT matricula FROM [NN_NN].[PROFESIONAL] WHERE matricula = ";
-        private String queryExisteProfesional = "SELECT dni FROM [NN_NN].[PROFESIONAL] WHERE dni = ";
+        private String queryTipoCancelacion = "SELECT codigo AS tipoCancelacion, descripcion FROM [NN_NN].[TIPO_CANCELACION]";
         // TODO mas tarde ver!!!
-        public DataTable existeMatricula(String matricula)
+        public DataTable fillCombo()
         {
-            return listar(queryExisteMatricula + matricula); ;
+            return listar(queryTipoCancelacion); ;
         }
 
         // TODO mas tarde ver!!!
         public DataTable existeProfesional(String docuemento, String tipo)
         {
-            return listar(queryExisteProfesional + docuemento + " AND codigo_documento = " + tipo);
+            return listar(queryTipoCancelacion + docuemento + " AND codigo_documento = " + tipo);
         }
 
         

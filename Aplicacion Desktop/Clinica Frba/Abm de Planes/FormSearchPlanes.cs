@@ -20,10 +20,8 @@ namespace Clinica_Frba.Abm_de_Planes
             InitializeComponent();
         }
 
-        
         protected override void search(List<SqlParameter> parametros)
         {
-
             dgvLista.DataSource = PlanMedico.getRepository.listar(
                 "[NN_NN].[sp_listar_plan]", 
                 parametros

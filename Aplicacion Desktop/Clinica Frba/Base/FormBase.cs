@@ -108,6 +108,41 @@ namespace Clinica_Frba.Base
                                 parametros.Add(sql);
                             }
                         }
+                        else if (gb.Name.Equals("gbTurno"))
+                        {
+                            int rol = 1;
+                            parametros.Add(
+                                new SqlParameter(
+                                    "rol", 
+                                    rol
+                                )
+                            );
+                            
+                            if (ProfesionalCurrent != null)
+                            {
+                                parametros.Add(
+                                    new SqlParameter(
+                                        "idProfesional",
+                                        ProfesionalCurrent.Numero
+                                    )
+                                );
+                            }
+                            if (AfiliadoCurrent != null)
+                            {
+                                parametros.Add(
+                                    new SqlParameter(
+                                        "idAfiliado",
+                                        AfiliadoCurrent.NroAfiliado
+                                    )
+                                );
+                                parametros.Add(
+                                    new SqlParameter(
+                                        "tipoAfiliado",
+                                        AfiliadoCurrent.NroDiscriminador
+                                    )
+                                );
+                            }
+                        }
                         //  limpiarGroupBox((GroupBox)obj);
 
                     }
@@ -227,7 +262,6 @@ namespace Clinica_Frba.Base
             }
             catch (Exception e)
             {
-                System.Console.WriteLine("Ignoro expecion " + e.ToString());
                 DialogResult result = MessageBox.Show(
                    "La fecha proporcionada por la configuracion no es valida. Si decea continuar?",
                    Application.ProductName,

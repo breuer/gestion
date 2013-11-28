@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbQuitarConyuge = new System.Windows.Forms.Button();
+            this.btQuitarConyuge = new System.Windows.Forms.Button();
             this.btAddFamiliar = new System.Windows.Forms.Button();
             this.dgvFamiliares = new System.Windows.Forms.DataGridView();
             this.btAddConyuge = new System.Windows.Forms.Button();
@@ -38,7 +38,7 @@
             this.cbPlan = new System.Windows.Forms.ComboBox();
             this.lPlan = new System.Windows.Forms.Label();
             this.cbEstadoCivil = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbSexo = new System.Windows.Forms.GroupBox();
             this.rbFemenino = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.dtFechaNacimiento = new System.Windows.Forms.DateTimePicker();
@@ -64,7 +64,7 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFamiliares)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConyuge)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.gbSexo.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbControl
@@ -77,7 +77,7 @@
             this.gbControl.Controls.Add(this.cbPlan);
             this.gbControl.Controls.Add(this.lPlan);
             this.gbControl.Controls.Add(this.cbEstadoCivil);
-            this.gbControl.Controls.Add(this.groupBox2);
+            this.gbControl.Controls.Add(this.gbSexo);
             this.gbControl.Controls.Add(this.dtFechaNacimiento);
             this.gbControl.Controls.Add(this.tbTelefono);
             this.gbControl.Controls.Add(this.tbDni);
@@ -91,54 +91,56 @@
             this.gbControl.Controls.Add(this.label3);
             this.gbControl.Controls.Add(this.label2);
             this.gbControl.Controls.Add(this.label1);
-            this.gbControl.Size = new System.Drawing.Size(331, 326);
+            this.gbControl.Size = new System.Drawing.Size(331, 383);
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.cbQuitarConyuge);
+            this.groupBox3.Controls.Add(this.btQuitarConyuge);
             this.groupBox3.Controls.Add(this.btAddFamiliar);
             this.groupBox3.Controls.Add(this.dgvFamiliares);
             this.groupBox3.Controls.Add(this.btAddConyuge);
             this.groupBox3.Controls.Add(this.dgvConyuge);
             this.groupBox3.Location = new System.Drawing.Point(349, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(459, 292);
+            this.groupBox3.Size = new System.Drawing.Size(630, 383);
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Dependientes";
             // 
-            // cbQuitarConyuge
+            // btQuitarConyuge
             // 
-            this.cbQuitarConyuge.Enabled = false;
-            this.cbQuitarConyuge.Location = new System.Drawing.Point(167, 58);
-            this.cbQuitarConyuge.Name = "cbQuitarConyuge";
-            this.cbQuitarConyuge.Size = new System.Drawing.Size(140, 23);
-            this.cbQuitarConyuge.TabIndex = 4;
-            this.cbQuitarConyuge.Text = "Quitar conyuge";
-            this.cbQuitarConyuge.UseVisualStyleBackColor = true;
+            this.btQuitarConyuge.Enabled = false;
+            this.btQuitarConyuge.Location = new System.Drawing.Point(338, 100);
+            this.btQuitarConyuge.Name = "btQuitarConyuge";
+            this.btQuitarConyuge.Size = new System.Drawing.Size(140, 23);
+            this.btQuitarConyuge.TabIndex = 4;
+            this.btQuitarConyuge.Text = "Quitar conyuge";
+            this.btQuitarConyuge.UseVisualStyleBackColor = true;
+            this.btQuitarConyuge.Click += new System.EventHandler(this.cbQuitarConyuge_Click);
             // 
             // btAddFamiliar
             // 
             this.btAddFamiliar.Enabled = false;
-            this.btAddFamiliar.Location = new System.Drawing.Point(313, 263);
+            this.btAddFamiliar.Location = new System.Drawing.Point(484, 354);
             this.btAddFamiliar.Name = "btAddFamiliar";
             this.btAddFamiliar.Size = new System.Drawing.Size(140, 23);
             this.btAddFamiliar.TabIndex = 3;
             this.btAddFamiliar.Text = "Agregar familiar";
             this.btAddFamiliar.UseVisualStyleBackColor = true;
+            this.btAddFamiliar.Click += new System.EventHandler(this.btAddFamiliar_Click);
             // 
             // dgvFamiliares
             // 
             this.dgvFamiliares.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFamiliares.Location = new System.Drawing.Point(7, 94);
+            this.dgvFamiliares.Location = new System.Drawing.Point(6, 155);
             this.dgvFamiliares.Name = "dgvFamiliares";
-            this.dgvFamiliares.Size = new System.Drawing.Size(446, 166);
+            this.dgvFamiliares.Size = new System.Drawing.Size(618, 193);
             this.dgvFamiliares.TabIndex = 2;
             // 
             // btAddConyuge
             // 
             this.btAddConyuge.Enabled = false;
-            this.btAddConyuge.Location = new System.Drawing.Point(313, 58);
+            this.btAddConyuge.Location = new System.Drawing.Point(484, 100);
             this.btAddConyuge.Name = "btAddConyuge";
             this.btAddConyuge.Size = new System.Drawing.Size(140, 23);
             this.btAddConyuge.TabIndex = 1;
@@ -151,7 +153,7 @@
             this.dgvConyuge.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvConyuge.Location = new System.Drawing.Point(7, 19);
             this.dgvConyuge.Name = "dgvConyuge";
-            this.dgvConyuge.Size = new System.Drawing.Size(446, 33);
+            this.dgvConyuge.Size = new System.Drawing.Size(617, 75);
             this.dgvConyuge.TabIndex = 0;
             // 
             // btSearchPlan
@@ -189,16 +191,16 @@
             this.cbEstadoCivil.Size = new System.Drawing.Size(231, 21);
             this.cbEstadoCivil.TabIndex = 41;
             // 
-            // groupBox2
+            // gbSexo
             // 
-            this.groupBox2.Controls.Add(this.rbFemenino);
-            this.groupBox2.Controls.Add(this.radioButton1);
-            this.groupBox2.Location = new System.Drawing.Point(9, 160);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(172, 43);
-            this.groupBox2.TabIndex = 40;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Sexo";
+            this.gbSexo.Controls.Add(this.rbFemenino);
+            this.gbSexo.Controls.Add(this.radioButton1);
+            this.gbSexo.Location = new System.Drawing.Point(9, 160);
+            this.gbSexo.Name = "gbSexo";
+            this.gbSexo.Size = new System.Drawing.Size(172, 43);
+            this.gbSexo.TabIndex = 40;
+            this.gbSexo.TabStop = false;
+            this.gbSexo.Text = "Sexo";
             // 
             // rbFemenino
             // 
@@ -249,8 +251,6 @@
             // cbTipo
             // 
             this.cbTipo.FormattingEnabled = true;
-            this.cbTipo.Items.AddRange(new object[] {
-            "DNI"});
             this.cbTipo.Location = new System.Drawing.Point(59, 78);
             this.cbTipo.Name = "cbTipo";
             this.cbTipo.Size = new System.Drawing.Size(45, 21);
@@ -374,12 +374,14 @@
             this.tbDireccion.Name = "tbDireccion";
             this.tbDireccion.Size = new System.Drawing.Size(231, 20);
             this.tbDireccion.TabIndex = 69;
+            this.tbDireccion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbDireccion_KeyPress);
+            this.tbDireccion.Enter += new System.EventHandler(this.tbDireccion_Enter);
             // 
             // FormAltaAfiliado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(817, 463);
+            this.ClientSize = new System.Drawing.Size(989, 463);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btAdd);
             this.Name = "FormAltaAfiliado";
@@ -395,8 +397,8 @@
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFamiliares)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvConyuge)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gbSexo.ResumeLayout(false);
+            this.gbSexo.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -411,7 +413,7 @@
         private System.Windows.Forms.Button btSearchPlan;
         private System.Windows.Forms.ComboBox cbPlan;
         private System.Windows.Forms.Label lPlan;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbSexo;
         private System.Windows.Forms.RadioButton rbFemenino;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.DateTimePicker dtFechaNacimiento;
@@ -427,7 +429,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button cbQuitarConyuge;
+        private System.Windows.Forms.Button btQuitarConyuge;
         private System.Windows.Forms.Button btAdd;
         public System.Windows.Forms.ComboBox cbEstadoCivil;
         private System.Windows.Forms.TextBox tbMail;

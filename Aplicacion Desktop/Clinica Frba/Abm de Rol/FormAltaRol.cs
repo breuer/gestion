@@ -73,6 +73,7 @@ namespace Clinica_Frba.Abm_de_Rol
             base.ejecutarConsulta(parametros);
             try
             {
+                
                 String storeProcedure = String.Empty;
                 switch (Accion)
                 {

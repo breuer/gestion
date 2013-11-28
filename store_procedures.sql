@@ -284,16 +284,41 @@ GO
 *                    ADD AFILIADO                     *
 *******************************************************/
 
-CREATE PROCEDURE 
-	NN_NN.SP_ADD_AFILIADO (@apellido varchar(255), @nombre varchar(255), 
-	@dni int, @direccion varchar(255), @telefono int, @mail varchar(255),
-	@cod_plan int)
+CREATE FUNCTION [NN_NN].FN_RETURN_ID_AFILIADO (
+)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @id INT;
+	SET @id = 0;
+	SELECT @id = MAX(numero) FROM [NN_NN].AFILIADO;
+	RETURN @id; 
+	 
+END
+GO
+CREATE PROCEDURE NN_NN.SP_ADD_AFILIADO (
+	@apellido VARCHAR(255), 
+	@nombre VARCHAR(255),
+	@estadoCivil INT,
+	@plan INT,
+	@tipoDocumento INT,
+	@documento INT,
+	@telefono INT,
+	@direccion VARCHAR(255), 
+	@fecha VARCHAR(255),
+	@email VARCHAR(255),
+	@sexo CHAR,
+	@discriminador INT,
+	@numero INT
+)
 AS
 BEGIN 
-	INSERT INTO 
-		NN_NN.AFILIADO(apellido, nombre, dni, direccion, telefono, mail, cod_plan)
+	INSERT INTO [NN_NN].[AFILIADO]
+		(apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
+		telefono, direccion, fecha_nac, mail, sexo, numero_tipo_afiliado, numero)
 	VALUES 
-		(@nombre, @apellido, @dni, @direccion, @telefono, @mail, @cod_plan)
+		(@apellido, @nombre, @estadoCivil, @plan, @tipo_documento, @documento,
+		@telefono, @direccion, @fecha_nac, @mail, @sexo, @discriminador, @numero);
 END
 GO
 

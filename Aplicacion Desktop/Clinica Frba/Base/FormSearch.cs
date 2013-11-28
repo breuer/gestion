@@ -16,14 +16,18 @@ namespace Clinica_Frba.Base
     {
         private String spName;
         private Boolean ejecutar;
+
         protected Boolean filtroEnable = true;
 
         List<SqlParameter> sqlParameterLst = new List<SqlParameter>();
-        
+
         public FormSearch()
         {
             InitializeComponent();
-            this.Shown += new EventHandler(FormSearch_Shown);
+            if (ejecutar)
+            {
+                this.Shown += new EventHandler(FormSearch_Shown);
+            }
         }
 
         public FormSearch(String text, String titulo)
@@ -49,6 +53,7 @@ namespace Clinica_Frba.Base
             set { filtroEnable = value; }
             get { return filtroEnable; }
         }
+
         protected virtual void btBuscar_Click(object sender, EventArgs e)
         {
             List<SqlParameter> parametros = new List<SqlParameter> ();
@@ -56,8 +61,6 @@ namespace Clinica_Frba.Base
             this.search(parametros);
             this.fill();
         }
-
-       
 
         protected virtual void btLimpiar_Click(object sender, EventArgs e)
         {
