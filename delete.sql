@@ -68,3 +68,7 @@ DROP PROCEDURE NN_NN.sp_listar_rol_funcionalidad
 
 drop schema NN_NN
 
+
+DECLARE @id_afiliado NUMERIC(18,0)
+			exec [NN_NN].FN_RETURN_ID_AFILIADO @id_afiliado OUTPUT;
+SELECT @id_afiliado
