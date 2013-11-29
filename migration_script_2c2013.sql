@@ -99,7 +99,7 @@ CREATE TABLE NN_NN.USUARIO(
 	HABILITADO BIT DEFAULT 1,
 	CAMBIO_PASSWORD BIT DEFAULT 0
 )
--- END USUARIO
+-- END ROL-FUNCIONALIDAD
 GO
 ---------------------------------------------------
 -- TABLA ROL USUARIO-ROL
@@ -118,7 +118,7 @@ INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD)VALUES('admin', 'e6b87050bfcb8143
 INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
 GO
 /*************************************************************************************
-*                    TABLES                                                                                     *
+*                    TABLAS                                                                                     *
 **************************************************************************************/
 -- Para el generar el numero de Afiliado utilizo un tabla con una primari key identiti
 CREATE TABLE NN_NN.SECUENCIA_NUMERO_AFILIADO
@@ -126,7 +126,7 @@ CREATE TABLE NN_NN.SECUENCIA_NUMERO_AFILIADO
 	id [numeric](18,0) IDENTITY PRIMARY KEY,
 	used CHAR
 )
-
+GO
 CREATE TABLE NN_NN.AFILIADO
 (
 	numero [numeric](18, 0) null,
@@ -144,7 +144,7 @@ CREATE TABLE NN_NN.AFILIADO
 	fecha_baja [datetime],
 	cod_plan [numeric](18, 0) not null,
 	sexo [char] not null default ('I'),
-	enable [varchar] (1)
+	habilitado [char]not null default ('1')
 )
 
 CREATE TABLE NN_NN.TIPO_DOCUMENTO
@@ -164,7 +164,8 @@ CREATE TABLE NN_NN.CAMBIO_PLAN
 	fecha_modificaion [datetime] not null,
 	motivo [varchar] (255) not null,
 	nro_afiliado [numeric](18, 0) not null,
-	nro_tipo_afiliado [numeric](18, 0) not null
+	nro_tipo_afiliado [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.PLAN_MEDICO
@@ -172,7 +173,8 @@ CREATE TABLE NN_NN.PLAN_MEDICO
 	codigo [numeric](18, 0) not null,
 	descripcion [varchar] (255) not null,
 	precio_bono_consulta  [numeric](18, 0) not null,
-	precio_bono_farmacia [numeric](18, 0) not null
+	precio_bono_farmacia [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.BONO_CONSULTA
@@ -192,7 +194,8 @@ CREATE TABLE NN_NN.BONO_FARMACIA
 	fecha_impresion [datetime],
 	fecha_vencimiento [datetime],
 	nro_afiliado [numeric](18, 0),
-	nro_tipo_afiliado [numeric](18, 0)
+	nro_tipo_afiliado [numeric](18, 0),
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.REGISTRO_COMPRA_BONO
@@ -224,7 +227,8 @@ CREATE TABLE NN_NN.PROFESIONAL
 	enable [varchar] (1),
 	mail [varchar] (255) not null,
 	sexo [char] not null default ('I'),
-	matricula numeric(18,0) null 
+	matricula numeric(18,0) null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.AGENDA
@@ -232,7 +236,8 @@ CREATE TABLE NN_NN.AGENDA
 	numero [numeric](18, 0) identity(1,1) not null,
 	fecha_fin [date] not null,
 	fecha_inicio [date] not null,
-	nro_profesional [numeric](18, 0) not null
+	nro_profesional [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.DIA_ATENCION
@@ -240,7 +245,8 @@ CREATE TABLE NN_NN.DIA_ATENCION
 	codigo_dia [numeric](18, 0) not null,
 	hora_fin [time] not null,
 	hora_inicio [time] not null,
-	nro_agenda [numeric](18, 0) not null
+	nro_agenda [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 
@@ -261,13 +267,15 @@ CREATE TABLE NN_NN.ESPECIALIDAD
 (
 	codigo [numeric](18, 0) not null,
 	descripcion [varchar] (255) not null,
-	cod_tipo_especialidad [numeric](18, 0) not null
+	cod_tipo_especialidad [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.TIPO_ESPECIALIDAD
 (
 	codigo [numeric](18, 0) not null,
-	descripcion [varchar] (255) not null
+	descripcion [varchar] (255) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.TURNO
@@ -278,7 +286,8 @@ CREATE TABLE NN_NN.TURNO
 	nro_afiliado [numeric](18, 0),
 	nro_tipo_afiliado [numeric](18, 0) null,
 	nro_profesional [numeric](18, 0) not null,
-	nro_day [numeric](18, 0) not null
+	nro_day [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.CANCELACION_TURNO
@@ -291,7 +300,8 @@ CREATE TABLE NN_NN.CANCELACION_TURNO
 CREATE TABLE NN_NN.TIPO_CANCELACION
 (
 	codigo [numeric](18, 0) not null,
-	descripcion [varchar] (255) not null
+	descripcion [varchar] (255) not null,
+	habilitado [char] not null default ('1')
 )
 
 
@@ -311,14 +321,6 @@ CREATE TABLE NN_NN.CONSULTA_BONO_FARMACIA
 	nro_turno [numeric](18, 0) not null,
 	nro_bono_consulta [numeric](18, 0) not null
 )
-
-/*************************************************************************************
-*                    CONSTRAINT PK                                                   *
-**************************************************************************************/
-
-
-
-
 
 /*************************************************************************************
 *                    MIGRATION                                                          *
