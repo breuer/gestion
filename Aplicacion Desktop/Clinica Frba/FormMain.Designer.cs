@@ -309,6 +309,7 @@
             this.btListarAfiliado.TabIndex = 4;
             this.btListarAfiliado.Text = "Listar";
             this.btListarAfiliado.UseVisualStyleBackColor = true;
+            this.btListarAfiliado.Click += new System.EventHandler(this.btListarAfiliado_Click);
             // 
             // btModificacionAfiliado
             // 

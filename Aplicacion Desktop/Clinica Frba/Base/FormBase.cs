@@ -68,6 +68,7 @@ namespace Clinica_Frba.Base
         }
         protected void crearConsulta(GroupBox groupBox, List<SqlParameter> parametros)
         {
+            parametros.Clear();
             foreach (Object oobj in groupBox.Controls)
             {
                 // Ignoro los controles que son visuales (label tooltip)
@@ -283,7 +284,43 @@ namespace Clinica_Frba.Base
                 );
             }
         }
+        /// <summary>
+        /// Compara 2 fechas sin tener en cuenta la horas y las fehas
+        /// </summary>
+        /// <returns></returns>
+        protected int compararFechas(DateTime date1, DateTime date2)
+        {
+            DateTime fecha1 = new DateTime(
+                date1.Year,
+                date1.Month,
+                date1.Day,
+                0,
+                0,
+                0
+            );
+            DateTime fecha2 = new DateTime(
+                date2.Year,
+                date2.Month,
+                date2.Day,
+                0,
+                0,
+                0
+             );
+             return DateTime.Compare(fecha1, fecha2);
+        }
 
+        protected DateTime getFechaSinTiempo(DateTime datetime)
+        {
+            DateTime fecha1 = new DateTime(
+               datetime.Year,
+               datetime.Month,
+               datetime.Day,
+               0,
+               0,
+               0
+            );
+            return fecha1;
+        }
         protected string getValueDataGrit(DataGridView dgvLista, string nameColumn)
         {
             bool bEncontro = false;

@@ -69,8 +69,8 @@ namespace Clinica_Frba.Base
                 if (sqlparameter == null)
                 {
                     sqlparameter = new SqlParameter(ParamName, SQLDbType);
-                    sqlparameter.Value = Value;
                 }
+                sqlparameter.Value = Value;
                 return sqlparameter; 
             }
         }
