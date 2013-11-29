@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{71DE9239-635F-437B-BF7D-1D898AB408DD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -203,6 +203,8 @@
     </Compile>
     <Compile Include="Model\Afiliado.cs" />
     <Compile Include="Model\Agenda.cs" />
+    <Compile Include="Model\BonoFarmacia.cs" />
+    <Compile Include="Model\Medicamento.cs" />
     <Compile Include="Model\Repository\TurnolRepository.cs" />
     <Compile Include="Model\Turnol.cs" />
     <Compile Include="Model\EspecialidaMedica.cs" />
@@ -283,12 +285,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Registro Resultado Atencion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Generar Receta\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Generar Receta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Listados Estadisticos\FormListados.cs">
@@ -414,6 +410,10 @@
       <DependentUpon>FormSearchAgenda.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Registro Resultado Atencion\FormReceta.resx">
+      <DependentUpon>FormReceta.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -428,6 +428,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\FormReceta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\FormReceta.Designer.cs">
+      <DependentUpon>FormReceta.cs</DependentUpon>
     </Compile>
     <Compile Include="Validator\ValidatorFrmFullCalle.cs" />
     <Compile Include="Validator\ValidatorFrmProfesional.cs" />

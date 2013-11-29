@@ -46,7 +46,7 @@ namespace Clinica_Frba
                 Repository repo = new Repository();
                 List<SqlParameter> parametros = new List<SqlParameter>();
                 parametros.Add(new SqlParameter("username", username.Text));
-                parametros.Add(new SqlParameter("password", GenerarSHA256(password.Text)));       
+                parametros.Add(new SqlParameter("password", GenerarSHA256(password.Text)));             
                 DataTable dataUsuario = repo.listar("NN_NN.SP_LOGIN", parametros);                         
                 if (dataUsuario.Rows.Count != 0)               
                 {           

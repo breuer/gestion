@@ -13,6 +13,7 @@ using Clinica_Frba.NewFolder4;
 using Clinica_Frba.Model;
 using Clinica_Frba.Base;
 using Clinica_Frba.Compra_de_Bono;
+using Clinica_Frba.Registro_Resultado_Atencion;
 
 namespace Clinica_Frba
 {
@@ -83,6 +84,7 @@ namespace Clinica_Frba
             btPedirTunro.Enabled = true;
             btCompraBonoFarmacia.Enabled = true;
             btCompraBonoConsulta.Enabled = true;
+            btGenerarReceta.Enabled = true;
             
         }
 
@@ -164,6 +166,12 @@ namespace Clinica_Frba
         private void btCompraBonoConsulta_Click(object sender, EventArgs e)
         {
             FormCompraBonoConsulta frm = new FormCompraBonoConsulta();
+            frm.Show();
+        }
+
+        private void btGenerarReceta_Click(object sender, EventArgs e)
+        {
+            FormReceta frm = new FormReceta();
             frm.Show();
         }
 

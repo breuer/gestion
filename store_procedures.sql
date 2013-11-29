@@ -597,9 +597,9 @@ BEGIN
 	BEGIN	
 		--SET @max_nro = @max_nro + @i
 		INSERT INTO 
-			NN_NN.BONO_FARMACIA (numero, fecha_impresion, fecha_compra, nro_afiliado, nro_tipo_afiliado)
+			NN_NN.BONO_FARMACIA (numero, fecha_impresion, fecha_compra, nro_afiliado, nro_tipo_afiliado, fecha_vencimiento)
 		VALUES 
-			(@max_nro + @i, GETDATE(), GETDATE(), @nro_afiliado, @nro_tipo_afiliado)
+			(@max_nro + @i, GETDATE(), GETDATE(), @nro_afiliado, @nro_tipo_afiliado, DATEADD(day, 60, GETDATE()))
 		SET @i = @i + 1
 	END
 END
@@ -658,6 +658,57 @@ BEGIN
     WHERE 
 		UR.ID_USUARIO = @id_usuario
 END
+GO
+/******************************************************
+*                    RECETA                           *
+*******************************************************/
+CREATE PROCEDURE 
+	NN_NN.SP_CHEQUEAR_EXISTENCIA_BONO_FARMACIA (@nro_bono int) AS
+BEGIN
+
+	SELECT  
+		B.numero
+    FROM 
+		NN_NN.BONO_FARMACIA B
+    WHERE 
+		B.numero = @nro_bono
+END
+GO
+
+
+
+CREATE PROCEDURE 
+	NN_NN.SP_CHEQUEAR_PERTENENCIA_BONO_FARMACIA (@nro_bono int, @nro_usuario int) AS
+BEGIN
+
+	SELECT  
+		B.numero
+    FROM 
+		NN_NN.AFILIADO A
+    JOIN 
+		NN_NN.BONO_FARMACIA B
+    ON 
+		B.nro_afiliado = A.numero 
+    WHERE 
+		B.numero = @nro_bono
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_CHEQUEAR_VENCIMIENTO_BONO_FARMACIA (@nro_bono int) AS
+BEGIN
+	SELECT  
+		B.numero
+    FROM 
+		NN_NN.BONO_FARMACIA B
+    WHERE 
+		B.numero = @nro_bono 
+	AND
+		B.fecha_vencimiento < GETDATE ()		
+END
+
+
+
 /******************************************************
 *                    AGENDA                           *
 *******************************************************/

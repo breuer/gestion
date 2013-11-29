@@ -11,5 +11,8 @@ namespace Clinica_Frba
         public static string nroAfiliado;
         public static string nroDiscriminadorAfiliado;
         public static string nroProfesional;
+
+        //para pruebas:
+        public static int nroAfiliadoReceta;
     }
 }
