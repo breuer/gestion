@@ -101,6 +101,7 @@ namespace Clinica_Frba
 
         }
 
+
         public short Day
         {
             set { 
@@ -152,6 +153,7 @@ namespace Clinica_Frba
             }
         }
 
+        
 
         private void generarCombo(ComboBox combo, Boolean final)
         {
@@ -184,10 +186,6 @@ namespace Clinica_Frba
         {
             this.Day = day;
         }
-
-        
-
-        
 
         private void btReset_Click(object sender, EventArgs e)
         {
@@ -260,6 +258,11 @@ namespace Clinica_Frba
         public String HoraInicialToString()
         {
             return dtTimeF0.ToString(Properties.Settings.Default.fechaFormat);
+        }
+
+        private void gb_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

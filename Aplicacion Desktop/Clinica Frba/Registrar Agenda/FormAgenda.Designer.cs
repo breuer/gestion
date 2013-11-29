@@ -79,9 +79,9 @@
             this.groupBox1.Controls.Add(this.diaMartes);
             this.groupBox1.Controls.Add(this.diaLunes);
             this.groupBox1.Controls.Add(this.tbHorasTotal);
-            this.groupBox1.Location = new System.Drawing.Point(25, 93);
+            this.groupBox1.Location = new System.Drawing.Point(19, 93);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(846, 392);
+            this.groupBox1.Size = new System.Drawing.Size(852, 392);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Horas Semanles";
@@ -151,6 +151,7 @@
             // 
             // diaSabado
             // 
+            this.diaSabado.Activo = false;
             this.diaSabado.ButtonSubtractText = "ButtonSubtractText";
             this.diaSabado.ButtonText = "Add Sabado";
             this.diaSabado.Day = ((short)(7));
@@ -164,6 +165,7 @@
             // 
             // diaViernes
             // 
+            this.diaViernes.Activo = false;
             this.diaViernes.ButtonSubtractText = "ButtonSubtractText";
             this.diaViernes.ButtonText = "Add Viernes";
             this.diaViernes.Day = ((short)(6));
@@ -177,6 +179,7 @@
             // 
             // diaJueves
             // 
+            this.diaJueves.Activo = false;
             this.diaJueves.ButtonSubtractText = "ButtonSubtractText";
             this.diaJueves.ButtonText = "Add Jueves";
             this.diaJueves.Day = ((short)(5));
@@ -190,6 +193,7 @@
             // 
             // diaMiercoles
             // 
+            this.diaMiercoles.Activo = false;
             this.diaMiercoles.ButtonSubtractText = "ButtonSubtractText";
             this.diaMiercoles.ButtonText = "Add Miercoles";
             this.diaMiercoles.Day = ((short)(4));
@@ -203,6 +207,7 @@
             // 
             // diaMartes
             // 
+            this.diaMartes.Activo = false;
             this.diaMartes.ButtonSubtractText = "ButtonSubtractText";
             this.diaMartes.ButtonText = "Add Martes";
             this.diaMartes.Day = ((short)(3));
@@ -216,6 +221,7 @@
             // 
             // diaLunes
             // 
+            this.diaLunes.Activo = false;
             this.diaLunes.ButtonSubtractText = "ButtonSubtractText";
             this.diaLunes.ButtonText = "Add Lunes";
             this.diaLunes.Day = ((short)(2));
@@ -230,7 +236,7 @@
             // tbHorasTotal
             // 
             this.tbHorasTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbHorasTotal.Location = new System.Drawing.Point(6, 19);
+            this.tbHorasTotal.Location = new System.Drawing.Point(12, 19);
             this.tbHorasTotal.Name = "tbHorasTotal";
             this.tbHorasTotal.Size = new System.Drawing.Size(825, 20);
             this.tbHorasTotal.TabIndex = 2;

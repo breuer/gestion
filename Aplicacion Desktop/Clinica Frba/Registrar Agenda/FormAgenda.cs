@@ -10,6 +10,7 @@ using Clinica_Frba.Interface;
 using Clinica_Frba.Base;
 using Clinica_Frba.Model;
 using System.Data.SqlClient;
+using Clinica_Frba.Model.Repository;
 
 namespace Clinica_Frba.NewFolder2
 {
@@ -64,11 +65,42 @@ namespace Clinica_Frba.NewFolder2
             dtFechaFinal.Value = dateFinal;
         }
 
+       
+
         private void FormAgenda_Load(object sender, EventArgs e)
         {
-            dtFechaDesde.Value = this.GetFechaConfig();
-            this.FillFechaFinal(this.FillComboDias());
+            if (DataSession.profesionalSession != null)
+            {
+                Pro = DataSession.profesionalSession;
 
+                // Busco la ultima agenda del usuario
+                List<SqlParameter> param = new List<SqlParameter>();
+                param.Add(new SqlParameter("@nroProfesional", DataSession.profesionalSession.Numero));
+                DataTable dt = Agenda.getRepository.listar("NN_NN.SP_RETORNA_ULTIMA_AGENDA", param);
+                if (dt != null)
+                {
+                    DateTime fecha = (DateTime)dt.Rows[0]["fechaFin"];
+                    DateTime fechaSetting = this.GetFechaConfig();
+                    if (compararFechas(fecha, fechaSetting) < 1)
+                    {
+                        dtFechaDesde.Value = fechaSetting;
+                    }
+                    else
+                    {
+                        dtFechaDesde.Value = fecha.AddDays(1);
+                    }
+                    habilitarDias();
+                    this.FillFechaFinal(this.FillComboDias());
+                    btSeleccionarProfesional.Enabled = false;
+                }
+                else
+                {
+                    dtFechaDesde.Value = this.GetFechaConfig();
+                }
+                
+            }
+             
+      
         }
 
         private void cbDias_SelectionChangeCommitted(object sender, EventArgs e)
@@ -129,6 +161,31 @@ namespace Clinica_Frba.NewFolder2
             dt.Rows.Add(row);
 
             this.dgvProfesional.DataSource = dt;
+
+            List<SqlParameter> param = new List<SqlParameter>();
+            param.Add(new SqlParameter("@nroProfesional", DataSession.profesionalSession.Numero));
+            dt = null;
+            dt = Agenda.getRepository.listar("NN_NN.SP_RETORNA_ULTIMA_AGENDA", param);
+            if (dt != null)
+            {
+                DateTime fecha = (DateTime)dt.Rows[0]["fechaFin"];
+                DateTime fechaSetting = this.GetFechaConfig();
+                if (compararFechas(fecha, fechaSetting) < 1)
+                {
+                    dtFechaDesde.Value = fechaSetting;
+                }
+                else
+                {
+                    dtFechaDesde.Value = fecha.AddDays(1);
+                }
+                habilitarDias();
+                this.FillFechaFinal(this.FillComboDias());
+                btSeleccionarProfesional.Enabled = false;
+            }
+            else
+            {
+                dtFechaDesde.Value = this.GetFechaConfig();
+            }
             habilitarDias();
         }
 

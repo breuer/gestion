@@ -34,12 +34,12 @@
             this.lbCantTurnos = new System.Windows.Forms.Label();
             this.btReset = new System.Windows.Forms.Button();
             this.cbHoraFinal = new System.Windows.Forms.ComboBox();
-            this.cbHoraInicial = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lbCantTurnos11 = new System.Windows.Forms.Label();
-            this.lbHorFin = new System.Windows.Forms.Label();
-            this.lbHoraF0 = new System.Windows.Forms.Label();
             this.btDia = new System.Windows.Forms.Button();
+            this.lbHoraF0 = new System.Windows.Forms.Label();
+            this.lbHorFin = new System.Windows.Forms.Label();
+            this.cbHoraInicial = new System.Windows.Forms.ComboBox();
             this.gb.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,15 +113,6 @@
             this.cbHoraFinal.TabIndex = 10;
             this.cbHoraFinal.SelectionChangeCommitted += new System.EventHandler(this.cbHoraFinal_SelectionChangeCommitted);
             // 
-            // cbHoraInicial
-            // 
-            this.cbHoraInicial.FormattingEnabled = true;
-            this.cbHoraInicial.Location = new System.Drawing.Point(10, 117);
-            this.cbHoraInicial.Name = "cbHoraInicial";
-            this.cbHoraInicial.Size = new System.Drawing.Size(107, 21);
-            this.cbHoraInicial.TabIndex = 1;
-            this.cbHoraInicial.SelectionChangeCommitted += new System.EventHandler(this.cbHoraInicial_SelectionChangeCommitted);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -140,14 +131,15 @@
             this.lbCantTurnos11.TabIndex = 6;
             this.lbCantTurnos11.Text = "Turnos";
             // 
-            // lbHorFin
+            // btDia
             // 
-            this.lbHorFin.AutoSize = true;
-            this.lbHorFin.Location = new System.Drawing.Point(7, 141);
-            this.lbHorFin.Name = "lbHorFin";
-            this.lbHorFin.Size = new System.Drawing.Size(50, 13);
-            this.lbHorFin.TabIndex = 4;
-            this.lbHorFin.Text = "Hora Fin:";
+            this.btDia.Location = new System.Drawing.Point(6, 19);
+            this.btDia.Name = "btDia";
+            this.btDia.Size = new System.Drawing.Size(111, 71);
+            this.btDia.TabIndex = 0;
+            this.btDia.Text = "ButtonText";
+            this.btDia.UseVisualStyleBackColor = true;
+            this.btDia.Click += new System.EventHandler(this.btDia_Click);
             // 
             // lbHoraF0
             // 
@@ -158,15 +150,23 @@
             this.lbHoraF0.TabIndex = 3;
             this.lbHoraF0.Text = "Hora Inicio:";
             // 
-            // btDia
+            // lbHorFin
             // 
-            this.btDia.Location = new System.Drawing.Point(6, 19);
-            this.btDia.Name = "btDia";
-            this.btDia.Size = new System.Drawing.Size(111, 71);
-            this.btDia.TabIndex = 0;
-            this.btDia.Text = "ButtonText";
-            this.btDia.UseVisualStyleBackColor = true;
-            this.btDia.Click += new System.EventHandler(this.btDia_Click);
+            this.lbHorFin.AutoSize = true;
+            this.lbHorFin.Location = new System.Drawing.Point(7, 141);
+            this.lbHorFin.Name = "lbHorFin";
+            this.lbHorFin.Size = new System.Drawing.Size(50, 13);
+            this.lbHorFin.TabIndex = 4;
+            this.lbHorFin.Text = "Hora Fin:";
+            // 
+            // cbHoraInicial
+            // 
+            this.cbHoraInicial.FormattingEnabled = true;
+            this.cbHoraInicial.Location = new System.Drawing.Point(10, 117);
+            this.cbHoraInicial.Name = "cbHoraInicial";
+            this.cbHoraInicial.Size = new System.Drawing.Size(107, 21);
+            this.cbHoraInicial.TabIndex = 1;
+            this.cbHoraInicial.SelectionChangeCommitted += new System.EventHandler(this.cbHoraInicial_SelectionChangeCommitted);
             // 
             // DiaAgenda
             // 
@@ -187,14 +187,14 @@
         private System.Windows.Forms.GroupBox gb;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbCantTurnos11;
-        private System.Windows.Forms.Label lbHorFin;
-        private System.Windows.Forms.Label lbHoraF0;
         private System.Windows.Forms.Button btDia;
         private System.Windows.Forms.Label lbCantHoras;
         private System.Windows.Forms.Label lbCantTurnos;
         private System.Windows.Forms.Button btReset;
         private System.Windows.Forms.ComboBox cbHoraFinal;
-        private System.Windows.Forms.ComboBox cbHoraInicial;
         private System.Windows.Forms.Button btSubtract;
+        private System.Windows.Forms.ComboBox cbHoraInicial;
+        private System.Windows.Forms.Label lbHorFin;
+        private System.Windows.Forms.Label lbHoraF0;
     }
 }

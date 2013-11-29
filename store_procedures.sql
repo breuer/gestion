@@ -296,6 +296,7 @@ BEGIN
 	 
 END
 GO
+
 CREATE PROCEDURE NN_NN.SP_ADD_AFILIADO (
 	@apellido VARCHAR(255), 
 	@nombre VARCHAR(255),
@@ -305,10 +306,10 @@ CREATE PROCEDURE NN_NN.SP_ADD_AFILIADO (
 	@documento INT,
 	@telefono INT,
 	@direccion VARCHAR(255), 
-	@fecha VARCHAR(255),
+	@fecha VARCHAR(255) = null,
 	@email VARCHAR(255),
 	@sexo CHAR,
-	@discriminador INT,
+	@discriminador INT = 0,
 	@numero INT
 )
 AS
@@ -317,11 +318,78 @@ BEGIN
 		(apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
 		telefono, direccion, fecha_nac, mail, sexo, numero_tipo_afiliado, numero)
 	VALUES 
-		(@apellido, @nombre, @estadoCivil, @plan, @tipo_documento, @documento,
-		@telefono, @direccion, @fecha_nac, @mail, @sexo, @discriminador, @numero);
+		(@apellido, @nombre, @estadoCivil, @plan, @tipoDocumento, @documento,
+		@telefono, @direccion, @fecha, @email, @sexo, @discriminador, @numero);
+END
+CREATE PROCEDURE [NN_NN].[sp_listar_afiliado](
+	@apellido VARCHAR(255) = NULL,
+	@nombre VARCHAR(255) = NULL,
+	@plan INT = 0,
+	@tipo INT = 0,
+	@documento INT = 0,
+	@numero INT = 0,
+	@discriminador INT = 0,
+	@enable CHAR = '1'
+)
+AS 
+BEGIN
+	SET NOCOUNT ON
+	
+	Declare @chvQuery nvarchar(max), 
+			@chvWhere nvarchar(max), 
+			@chvSubQuery nvarchar(max),
+			@chvSubWhere nvarchar(max);
+	Select @chvQuery = 'SELECT A.numero As numero, A.numero_tipo_afiliado As discriminador, A.apellido As apellido, ',
+		@chvWhere = ''
+	set @chvQuery += 'A.nombre AS nombre, TD.descripcion As tipoDocumento, A.documento As documento, ';
+	set @chvQuery += 'A.direccion As direccion, EC.descripcion As estadoCivil, A.fecha_nac, A.telefono, A.mail, A.cantidad_hijos, ';
+	set @chvQuery += 'A.fecha_baja, PM.descripcion, A.habilitado ';
+	set @chvQuery += 'FROM [NN_NN].[AFILIADO] AS A ';
+	set @chvQuery += 'LEFT JOIN [NN_NN].[TIPO_DOCUMENTO] AS TD ON (A.codigo_documento = TD.codigo) ';
+	set @chvQuery += 'LEFT JOIN [NN_NN].[ESTADO_CIVIL] AS EC ON (A.cod_estado_civil = EC.codigo) ';
+	set @chvQuery += 'LEFT JOIN [NN_NN].[PLAN_MEDICO] AS PM ON (A.cod_plan = PM.codigo) ';
+	
+	
+	If (@apellido is not null AND @apellido != '') 
+		Set @chvWhere = @chvWhere + ' A.apellido LIKE ''%' + @apellido + '%'' AND'
+	If (@nombre is not null AND @nombre != '') 
+		Set @chvWhere = @chvWhere + ' A.nombre LIKE ''%' + @nombre + '%'' AND'
+	If (@plan > 0)
+		Set @chvWhere = @chvWhere + ' A.cod_plan = '+ CONVERT (VARCHAR, @plan) +' AND'
+	If (@tipo  > 0)
+		Set @chvWhere = @chvWhere + ' A.codigo_documento = '+ CONVERT (VARCHAR, @tipo) +' AND'
+	If (@documento  > 0)
+		Set @chvWhere = @chvWhere + ' A.documento = '+ CONVERT (VARCHAR, @documento) +' AND'
+	If (@numero  > 0)
+		Set @chvWhere = @chvWhere + ' A.numero = '+ CONVERT (VARCHAR, @numero) +' AND'
+	If (@discriminador  > 0)
+		Set @chvWhere = @chvWhere + ' A.numero_tipo_afiliado = '+ CONVERT (VARCHAR, @discriminador) +' AND'
+	
+
+	Set @chvWhere = @chvWhere + ' A.habilitado = ' + @enable +' AND'
+	
+	begin try
+		If Substring(@chvWhere, Len(@chvWhere) - 3, 4) = ' AND'
+			set @chvWhere = Substring(@chvWhere, 1, Len(@chvWhere) - 3)
+	end try
+	begin Catch
+		Raiserror ('Error Interno.', 16, 1)
+        return
+    end catch
+	
+	begin try
+		If Len(@chvWhere) > 0
+			set @chvQuery = @chvQuery + ' WHERE ' + @chvWhere
+		exec (@chvQuery)
+	end try
+    begin Catch
+		declare @s varchar(max)
+		set @s = 'No pudo realizar la consulta: ' + @chvQuery
+		Raiserror (@s, 16, 2)
+		return
+     end catch
 END
 GO
-
 /******************************************************
 *                    ADD PROFESIONAL                  *
 *******************************************************/

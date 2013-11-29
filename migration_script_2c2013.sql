@@ -99,7 +99,7 @@ CREATE TABLE NN_NN.USUARIO(
 	HABILITADO BIT DEFAULT 1,
 	CAMBIO_PASSWORD BIT DEFAULT 0
 )
--- END USUARIO
+-- END ROL-FUNCIONALIDAD
 GO
 ---------------------------------------------------
 -- TABLA ROL USUARIO-ROL
@@ -118,12 +118,18 @@ INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD)VALUES('admin', 'e6b87050bfcb8143
 INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
 GO
 /*************************************************************************************
-*                    TABLES                                                                                     *
+*                    TABLAS                                                                                     *
 **************************************************************************************/
-
+-- Para el generar el numero de Afiliado utilizo un tabla con una primari key identiti
+CREATE TABLE NN_NN.SECUENCIA_NUMERO_AFILIADO
+(
+	id [numeric](18,0) IDENTITY PRIMARY KEY,
+	used CHAR
+)
+GO
 CREATE TABLE NN_NN.AFILIADO
 (
-	numero [numeric](18, 0) identity(1,1) not null,
+	numero [numeric](18, 0) null,
 	numero_tipo_afiliado [numeric](18, 0) not null,
 	apellido [varchar] (255) not null,
 	nombre [varchar] (255) not null,
@@ -138,7 +144,8 @@ CREATE TABLE NN_NN.AFILIADO
 	fecha_baja [datetime],
 	cod_plan [numeric](18, 0) not null,
 	sexo [char] not null default ('I'),
-	enable [varchar] (1)
+	verificado [datetime] null,
+	habilitado [char]not null default ('1'),
 )
 
 CREATE TABLE NN_NN.TIPO_DOCUMENTO
@@ -158,7 +165,8 @@ CREATE TABLE NN_NN.CAMBIO_PLAN
 	fecha_modificaion [datetime] not null,
 	motivo [varchar] (255) not null,
 	nro_afiliado [numeric](18, 0) not null,
-	nro_tipo_afiliado [numeric](18, 0) not null
+	nro_tipo_afiliado [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.PLAN_MEDICO
@@ -166,7 +174,8 @@ CREATE TABLE NN_NN.PLAN_MEDICO
 	codigo [numeric](18, 0) not null,
 	descripcion [varchar] (255) not null,
 	precio_bono_consulta  [numeric](18, 0) not null,
-	precio_bono_farmacia [numeric](18, 0) not null
+	precio_bono_farmacia [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.BONO_CONSULTA
@@ -186,7 +195,8 @@ CREATE TABLE NN_NN.BONO_FARMACIA
 	fecha_impresion [datetime],
 	fecha_vencimiento [datetime],
 	nro_afiliado [numeric](18, 0),
-	nro_tipo_afiliado [numeric](18, 0)
+	nro_tipo_afiliado [numeric](18, 0),
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.REGISTRO_COMPRA_BONO
@@ -219,7 +229,9 @@ CREATE TABLE NN_NN.PROFESIONAL
 	enable [varchar] (1),
 	mail [varchar] (255) not null,
 	sexo [char] not null default ('I'),
-	matricula numeric(18,0) null 
+	matricula numeric(18,0) null,
+	verificado [datetime] null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.AGENDA
@@ -227,7 +239,8 @@ CREATE TABLE NN_NN.AGENDA
 	numero [numeric](18, 0) identity(1,1) not null,
 	fecha_fin [date] not null,
 	fecha_inicio [date] not null,
-	nro_profesional [numeric](18, 0) not null
+	nro_profesional [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.DIA_ATENCION
@@ -235,7 +248,8 @@ CREATE TABLE NN_NN.DIA_ATENCION
 	codigo_dia [numeric](18, 0) not null,
 	hora_fin [time] not null,
 	hora_inicio [time] not null,
-	nro_agenda [numeric](18, 0) not null
+	nro_agenda [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 
@@ -256,13 +270,15 @@ CREATE TABLE NN_NN.ESPECIALIDAD
 (
 	codigo [numeric](18, 0) not null,
 	descripcion [varchar] (255) not null,
-	cod_tipo_especialidad [numeric](18, 0) not null
+	cod_tipo_especialidad [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.TIPO_ESPECIALIDAD
 (
 	codigo [numeric](18, 0) not null,
-	descripcion [varchar] (255) not null
+	descripcion [varchar] (255) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.TURNO
@@ -273,7 +289,8 @@ CREATE TABLE NN_NN.TURNO
 	nro_afiliado [numeric](18, 0),
 	nro_tipo_afiliado [numeric](18, 0) null,
 	nro_profesional [numeric](18, 0) not null,
-	nro_day [numeric](18, 0) not null
+	nro_day [numeric](18, 0) not null,
+	habilitado [char] not null default ('1')
 )
 
 CREATE TABLE NN_NN.CANCELACION_TURNO
@@ -286,7 +303,8 @@ CREATE TABLE NN_NN.CANCELACION_TURNO
 CREATE TABLE NN_NN.TIPO_CANCELACION
 (
 	codigo [numeric](18, 0) not null,
-	descripcion [varchar] (255) not null
+	descripcion [varchar] (255) not null,
+	habilitado [char] not null default ('1')
 )
 
 
@@ -345,7 +363,7 @@ ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT PK_CONSULTA_numero PRIMARY KEY (numero
 
 
 /*************************************************************************************
-*                    MIGRATION                                                          *
+*                    MIGRATION                                                       *
 **************************************************************************************/
 GO
 CREATE FUNCTION NN_NN.GENERA_USER_NAME(
@@ -437,8 +455,20 @@ AS
 	
 	
 GO
+-- Funcion que simula una secuencia para generar el id
+-- del afiliado
+CREATE PROCEDURE [NN_NN].FN_RETURN_ID_AFILIADO (
+	@id_afiliado NUMERIC OUTPUT
+)
+AS 
+BEGIN
+	INSERT INTO NN_NN.SECUENCIA_NUMERO_AFILIADO (used) VALUES ('1'); 
+	SET @id_afiliado = SCOPE_IDENTITY();
+	RETURN @id_afiliado; 
+END
+GO
 CREATE TRIGGER [NN_NN].[TRIGGER_TEMPORAL_AFILIADO] ON [NN_NN].[AFILIADO]
-FOR INSERT 
+INSTEAD OF INSERT 
 AS
 	DECLARE @id_afiliado NUMERIC(18,0)
 	-- Creo una tabla para usarla como vector con las password iniciales
@@ -471,20 +501,50 @@ AS
 	DECLARE @post int;
 	DECLARE @passwordDefault VARCHAR(255);
 	DECLARE @ids INT;
-	DECLARE @nombre VARCHAR(255);
-	DECLARE @apellido VARCHAR(255);
 	DECLARE @idPush NUMERIC(18,0);
 	
+	
+	DECLARE @apellido VARCHAR(255);
+	DECLARE @nombre VARCHAR(255);
+	DECLARE @estadoCivil INT;
+	DECLARE @cod_plan INT;
+	DECLARE @tipo_documento INT;
+	DECLARE @documento INT;
+	DECLARE @telefono INT;
+	DECLARE @direccion VARCHAR(255); 
+	DECLARE @fecha VARCHAR(255);
+	DECLARE @email VARCHAR(255);
+	DECLARE @sexo CHAR;
+	DECLARE @numero INT;
+	
 	DECLARE cAfiliado CURSOR FOR 
-		SELECT [numero], [nombre], [apellido] FROM inserted;
+		SELECT apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
+			telefono, direccion, fecha_nac, mail, sexo 
+		FROM inserted;
 		
 	SET @post = 0;
 	
 	OPEN cAfiliado
 		FETCH NEXT FROM cAfiliado
-			INTO @id_afiliado, @nombre, @apellido
+			INTO @apellido, @nombre, @estadoCivil, @cod_plan, @tipo_documento, @documento,
+				@telefono, @direccion, @fecha, @email, @sexo
+		
 		WHILE (@@FETCH_STATUS = 0)
 		BEGIN
+			--Obtengo el numero de usuario de la tabla
+			
+			exec [NN_NN].FN_RETURN_ID_AFILIADO @id_afiliado OUTPUT;
+			
+			INSERT INTO [NN_NN].[AFILIADO](apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
+				telefono, direccion, fecha_nac, mail, sexo, numero_tipo_afiliado, numero)
+			VALUES  (@apellido, @nombre, @estadoCivil, @cod_plan, @tipo_documento, @documento,
+				@telefono, @direccion, @fecha, @email, @sexo, 0 , @id_afiliado);
+			PRINT NN_NN.GENERA_USER_NAME(
+					Substring('1', 1, 2), 
+					Substring('2', 1, 2),
+					@id_afiliado,
+					'A_'
+				);
 			SELECT @ids = (SELECT ROUND(((19) * RAND()), 0));
 			SELECT @passwordDefault = PASSWORD_DEFAULT 
 				FROM @PASS_TABLE 
@@ -499,12 +559,13 @@ AS
 				'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 
 				@id_afiliado,
 				0
-			)
+			) 
 			SET @idPush =  SCOPE_IDENTITY();
 			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 3);
 			SET @post = @post + 1;
 			FETCH NEXT FROM cAfiliado
-				INTO @id_afiliado, @nombre, @apellido
+				INTO @apellido, @nombre, @estadoCivil, @cod_plan, @tipo_documento, @documento,
+				@telefono, @direccion, @fecha, @email, @sexo
 		END
 		CLOSE cAfiliado
 		DEALLOCATE cAfiliado
@@ -516,7 +577,9 @@ GO
 *******************************************************/
 PRINT 'TIPO_DOCUMENTO'
 INSERT INTO NN_NN.TIPO_DOCUMENTO (descripcion)
-VALUES ('dni')
+VALUES ('dni'), 
+	('Libreta Cívica'), 
+	('Libreta de Enrolamiento')
 /******************************************************
 *                    ESTADO CIVIL                     *
 *******************************************************/
@@ -557,16 +620,25 @@ SELECT DISTINCT
 	Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
 FROM 
 	gd_esquema.Maestra
+GO
 /******************************************************
 *                    AFILIADO                         *
 *******************************************************/
+GO
 PRINT 'AFILIADO'
-INSERT INTO 
-	NN_NN.AFILIADO(numero_tipo_afiliado, apellido, nombre, codigo_documento, documento, direccion, fecha_nac, telefono, mail,  cod_plan)
-SELECT DISTINCT 
-	1, Paciente_Apellido, Paciente_Nombre, 1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
-FROM 
-	gd_esquema.Maestra
+INSERT INTO NN_NN.AFILIADO(
+	apellido, 
+	nombre,
+	codigo_documento, 
+	documento, 
+	direccion, 
+	fecha_nac, 
+	telefono, 
+	mail, 
+	cod_plan
+) 
+SELECT DISTINCT Paciente_Apellido, Paciente_Nombre,1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
+	FROM gd_esquema.Maestra
 /******************************************************
 *                    BONOS                            *
 *******************************************************/
@@ -816,13 +888,28 @@ WHERE
 GROUP BY
 	A.numero, D.codigo
 --ORDER BY D.codigo, A.numero
-	
-
+GO
+ALTER TABLE NN_NN.AFILIADO ALTER COLUMN numero [numeric](18, 0) NOT NULL;
+ALTER TABLE NN_NN.AFILIADO ALTER COLUMN numero_tipo_afiliado [numeric](18, 0) NOT NULL;
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT PK_AFILIADO_numero PRIMARY KEY (numero, numero_tipo_afiliado);
+ALTER TABLE NN_NN.ESTADO_CIVIL ADD CONSTRAINT PK_ESTADO_CIVIL_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.PLAN_MEDICO ADD CONSTRAINT PK_PLAN_MEDICO_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.TIPO_DOCUMENTO ADD CONSTRAINT PK_TIPO_DOCUMENTO_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT PK_BONO_CONSULTA_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT PK_BONO_FARMACIA_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.PROFESIONAL ADD CONSTRAINT PK_PROFESIONAL_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT PK_AGENDA_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.DIA ADD CONSTRAINT PK_DIA_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT PK_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.TIPO_ESPECIALIDAD ADD CONSTRAINT PK_TIPO_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.TURNO ADD CONSTRAINT PK_TURNO_numero PRIMARY KEY (numero);
+ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRIMARY KEY (codigo);
 /*************************************************************************************
 *                    CONSTRAINT FK                                                   *
 **************************************************************************************/
 
-
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_secuencia FOREIGN KEY (numero)
+	REFERENCES NN_NN.SECUENCIA_NUMERO_AFILIADO (id);
 ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_estado_civil FOREIGN KEY (cod_estado_civil)
 	REFERENCES NN_NN.ESTADO_CIVIL (codigo);
 ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT FK_AFILIADO_cod_plan FOREIGN KEY (cod_plan)
@@ -880,8 +967,4 @@ DROP TRIGGER [NN_NN].[TRIGGER_TEMPORAL_PROFESIONAL];
 DROP TRIGGER [NN_NN].[TRIGGER_TEMPORAL_AFILIADO];
 
 
-DECLARE @max INTEGER;
-SELECT @max = max(numero) FROM [NN_NN].[TURNO]
 
-ALTER TABLE [NN_NN].[TURNO] ADD numero INT IDENTITY (1 ,1)
-DBCC CHECKIDENT ([NTURNO], RESEED,NuevoValor)

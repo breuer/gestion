@@ -22,6 +22,7 @@ namespace Clinica_Frba.Abm_de_Afiliado
         private Afiliado afiliado;
         private List<SqlParameter> conyuge;
         private List<List<SqlParameter>> familiar = new List<List<SqlParameter>>();
+        private DataTable dtFamiliar;
 
         private PlanMedico planSeleccionado = new PlanMedico();
 
@@ -67,33 +68,33 @@ namespace Clinica_Frba.Abm_de_Afiliado
         }
         protected override void setControlsTag()
         {
-            tbNombre.Tag = new Tag("nombre", "Nombre", SqlDbType.Text);
+            tbNombre.Tag = new Tag("Nombre", "nombre", SqlDbType.Text);
             
-            tbApellido.Tag = new Tag("apellido", "Apellido", SqlDbType.Text);
+            tbApellido.Tag = new Tag("Apellido", "apellido", SqlDbType.Text);
 
             cbEstadoCivil.DataSource = Afiliado.getRepository.getEstadoCivil();
             cbEstadoCivil.DisplayMember = "estadoCivil";
-            cbEstadoCivil.Tag = new Tag("estadoCivil", "Estado Civil", SqlDbType.Text);
+            cbEstadoCivil.Tag = new Tag("EstadoCivil", "estadoCivil", "codigo",  SqlDbType.Int);
             
             cbPlan.DataSource = PlanMedico.getRepository.getPlanes();
             cbPlan.DisplayMember = "descripcion";
-            cbPlan.Tag = new Tag("plan", "Plan", SqlDbType.Int);
+            cbPlan.Tag = new Tag("Plan", "plan", "codigo", SqlDbType.Int);
 
             cbTipo.DataSource = Afiliado.getRepository.getTipoDocumento();
             cbTipo.DisplayMember = "tipo";
-            cbTipo.Tag = new Tag("tipoDocumento", "Tipo Documento", SqlDbType.Int);
+            cbTipo.Tag = new Tag("tipoDocumento", "tipoDocumento", "tipoDocumento", SqlDbType.Int);
 
-            tbDni.Tag = new Tag("documento", "Documento", SqlDbType.Int);
+            tbDni.Tag = new Tag("Documento", "documento", SqlDbType.Int);
 
-            tbTelefono.Tag = new Tag("telefono", "Telefono", SqlDbType.Int);
+            tbTelefono.Tag = new Tag("telefono", "telefono", SqlDbType.Int);
 
-            tbDireccion.Tag = new Tag("direccion", "Direccion", SqlDbType.Text);
+            tbDireccion.Tag = new Tag("direccion", "direccion", SqlDbType.Text);
 
-            dtFechaNacimiento.Tag = new Tag("fecha", "Fecha", SqlDbType.DateTime);
+            dtFechaNacimiento.Tag = new Tag("fecha", "fecha", SqlDbType.DateTime);
 
-            tbMail.Tag = new Tag("email", "Email", SqlDbType.Text);
+            tbMail.Tag = new Tag("email", "email", SqlDbType.Text);
 
-            gbSexo.Tag = new Tag("sexo", "Sexo", SqlDbType.Text);
+            gbSexo.Tag = new Tag("sexo", "sexo", SqlDbType.Text);
         }
 
         
@@ -107,7 +108,20 @@ namespace Clinica_Frba.Abm_de_Afiliado
                     DateTime today = this.GetFechaConfig();
                     this.dtFechaNacimiento.Value = today;
                     this.dtFechaNacimiento.MaxDate = today.AddYears(-18);
-                    
+
+
+                    dtFamiliar = new DataTable();
+                    dtFamiliar.Columns.Add("Apellido");
+                    dtFamiliar.Columns.Add("Nombre");
+                    dtFamiliar.Columns.Add("Estado Civil");
+                    //dt.Columns.Add("Plan");
+                    dtFamiliar.Columns.Add("Tipo documento");
+                    dtFamiliar.Columns.Add("Documento");
+                    dtFamiliar.Columns.Add("Telefono");
+                    dtFamiliar.Columns.Add("Direccion");
+                    dtFamiliar.Columns.Add("Fecha");
+                    dtFamiliar.Columns.Add("Email");
+                    dtFamiliar.Columns.Add("Sexo");
                     
                     break;
                 case EActionSearch.SELECCION:
@@ -139,40 +153,7 @@ namespace Clinica_Frba.Abm_de_Afiliado
         }
 
 
-        protected override void ejecutarConsulta(List<SqlParameter> parametros)
-        {
-            // Aca voy hacer todo los errores creo
-            base.ejecutarConsulta(parametros);
-            try
-            {
-                String storeProcedure = String.Empty;
-                switch (Accion)
-                {
-                    case EActionSearch.ALTA:
-                        storeProcedure = "NN_NN.sp_add_rol";
-                        break;
-                    case EActionSearch.SELECCION:
-                        break;
-                    case EActionSearch.MODIFICACION:
-                      /*  SqlParameter param_id = new SqlParameter(
-                            "id",
-                            rol.Id
-                        );
-                        parametros.Add(param_id);*/
-                        storeProcedure = "NN_NN.sp_modificar_rol";
-                        break;
-                }
-                Rol.getRepository.addModificar(storeProcedure, parametros);
-
-
-                MessageBox.Show("Operacion con exito");
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-        }
+       
 
         protected override String ValidarControls()
         {
@@ -220,18 +201,52 @@ namespace Clinica_Frba.Abm_de_Afiliado
 
         #endregion
 
+
+
         #region Miembros de IFInvocanteFamiliar
+
+
+        private DataRow fill(List<SqlParameter> lst, DataRow row)
+        {
+            // NO QUEDO MUY LINDO
+            foreach (SqlParameter param in lst)
+            {
+                switch (param.ParameterName)
+                {
+                    case "estadoCivil":
+                        DataTable dtEstadoCivil = (DataTable)cbEstadoCivil.DataSource;
+                        DataRow[] rowVetor = dtEstadoCivil.Select("codigo =" + param.Value);
+                        row["Estado Civil"] = rowVetor[0]["estadoCivil"];
+                        break;
+                    case "sexo":
+                        row["Sexo"] = ((Char)param.Value == 'F') ? ("Femenino") : ("Masculino");
+                        break;
+                    case "tipoDocumento":
+                        DataTable dttd = (DataTable)cbTipo.DataSource;
+                        DataRow[] rowDttd = dttd.Select("tipoDocumento =" + param.Value);
+                        row["Tipo documento"] = rowDttd[0]["tipo"];
+                        break;
+                    default:
+                        row[CultureInfo.InvariantCulture.TextInfo.ToTitleCase(param.ParameterName)] = param.Value;
+                        break;
+                }
+            }
+           
+            return row;
+        }
 
         public void seleccionarConyuge(List<SqlParameter> conyuge)
         {
             this.Conyuge = conyuge;
+            if (this.dgvConyuge.RowCount > 0)
+            {
+                return;
+            }
             DataTable dt = new DataTable();
-
-
             dt.Columns.Add("Apellido");
             dt.Columns.Add("Nombre");
             dt.Columns.Add("Estado Civil");
-            dt.Columns.Add("Plan");
+            //dt.Columns.Add("Plan");
             dt.Columns.Add("Tipo documento");
             dt.Columns.Add("Documento");
             dt.Columns.Add("Telefono");
@@ -240,19 +255,18 @@ namespace Clinica_Frba.Abm_de_Afiliado
             dt.Columns.Add("Email");
             dt.Columns.Add("Sexo");
             DataRow row = dt.NewRow();
-                
-            foreach (SqlParameter param in conyuge)
-            {
-                row[param.ParameterName] = param.Value.ToString();
-            }
-            dt.Rows.Add(row);
-            
+
+            dt.Rows.Add(fill(conyuge, row));
             this.dgvConyuge.DataSource = dt; 
         }
 
         public void seleccionarFamiliar(List<SqlParameter> familiar)
         {
             this.Familiares.Add(familiar);
+           
+            DataRow row = dtFamiliar.NewRow();
+            dtFamiliar.Rows.Add(fill(familiar, row));
+            this.dgvFamiliares.DataSource = dtFamiliar;
         }
 
         #endregion
@@ -268,16 +282,23 @@ namespace Clinica_Frba.Abm_de_Afiliado
 
         private void btAddConyuge_Click(object sender, EventArgs e)
         {
-            FormAltaAfiliado frm = new FormAltaAfiliado();
-            frm.Width = 354;
-            frm.Height = 490;
-            frm.isFamiliar = true;
-            frm.btAdd.Text = addConyugeText;
-            frm.Accion = EActionSearch.SELECCION;
-            frm.ShowDialog(this);
-            frm.PlanSeleccionado.Codigo = cbPlan.SelectedIndex;
-            this.btQuitarConyuge.Enabled = true;
-        }
+            if (this.dgvConyuge.RowCount == 0)
+            {
+                FormAltaAfiliado frm = new FormAltaAfiliado();
+                frm.Width = 354;
+                frm.Height = 490;
+                frm.isFamiliar = true;
+                frm.btAdd.Text = addConyugeText;
+                frm.Accion = EActionSearch.SELECCION;
+                frm.ShowDialog(this);
+                frm.PlanSeleccionado.Codigo = cbPlan.SelectedIndex;
+                this.btQuitarConyuge.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Ya se ha seleccionado el conyuge");
+            }
+       }
        
         
         private void btAdd_Click(object sender, EventArgs e)
@@ -350,7 +371,138 @@ namespace Clinica_Frba.Abm_de_Afiliado
 
         private void cbQuitarConyuge_Click(object sender, EventArgs e)
         {
-            this.dgvConyuge.ClearSelection();
+            this.dgvConyuge.Rows.Clear();
+        }
+
+        protected override void ejecutarConsulta(List<SqlParameter> parametros)
+        {
+            // Aca voy hacer todo los errores creo
+            //base.ejecutarConsulta(parametros);
+            try
+            {
+                String storeProcedure = String.Empty;
+                switch (Accion)
+                {
+                    case EActionSearch.ALTA:
+                        this.alta(parametros);
+                        break;
+                    case EActionSearch.SELECCION:
+                        break;
+                    case EActionSearch.MODIFICACION:
+                        /*  SqlParameter param_id = new SqlParameter(
+                              "id",
+                              rol.Id
+                          );
+                          parametros.Add(param_id);*/
+                        storeProcedure = "NN_NN.sp_modificar_rol";
+                        break;
+                }
+              
+
+                MessageBox.Show("Operacion con exito");
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+        }
+        private void alta(List<SqlParameter> parametros)
+        {
+            List<Afiliado> afiliados = new List<Afiliado>();
+            if (conyuge == null || conyuge.Count == 0)
+            {
+                DialogResult result = MessageBox.Show(
+                    "No agregado a su conyuge, desea continuar?",
+                    Application.ProductName,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            if (Familiares.Count == 0)
+            {
+                DialogResult result = MessageBox.Show(
+                    "No agregado a ningun familiar, desea continuar?",
+                    Application.ProductName,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            List<SqlParameter> parametroAux = new List<SqlParameter>();
+            SqlParameter sql = new SqlParameter("out", SqlDbType.Int);
+            sql.Direction = ParameterDirection.ReturnValue;
+            parametroAux.Add(sql);
+            SqlParameter sql1 = new SqlParameter("@id_afiliado", SqlDbType.Int);
+            sql1.Direction = ParameterDirection.Output;
+            parametroAux.Add(sql1);
+            long plan = long.Parse(((DataRowView)cbPlan.SelectedItem)["codigo"].ToString());
+            using (SqlConnection sqlConnection = Agenda.getRepository.OpenConnection())
+            {
+                sqlConnection.Open();
+                SqlTransaction transaccion = sqlConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                // agrego el usuario  
+                List<SqlParameter> result = Agenda.getRepository.callProcedure(
+                    "[NN_NN].FN_RETURN_ID_AFILIADO",
+                    parametroAux,
+                    sqlConnection,
+                    transaccion
+                );
+                Int32 idAfiliado = (Int32)result[0].Value;
+                parametros.Add(new SqlParameter("numero", idAfiliado));
+                Agenda.getRepository.callProcedure(
+                    "NN_NN.SP_ADD_AFILIADO",
+                    parametros,
+                    sqlConnection,
+                    transaccion
+                );
+                afiliados.Add(new Afiliado(parametros, idAfiliado, 0));
+                // Si hay conyuge lo creo
+                if (conyuge != null && conyuge.Count != 0)
+                {
+                    conyuge.Add(new SqlParameter("@numero", idAfiliado));
+                    conyuge.Add(new SqlParameter("@discriminador", 1));
+                    conyuge.Add(new SqlParameter("@plan", plan));
+                    Agenda.getRepository.callProcedure(
+                        "NN_NN.SP_ADD_AFILIADO",
+                        conyuge,
+                        sqlConnection,
+                        transaccion
+                    );
+                    afiliados.Add(new Afiliado(conyuge, idAfiliado, 1));
+                }
+                // Si hay 
+                if (Familiares.Count != 0)
+                {
+                    int i = 2; 
+                    foreach (List<SqlParameter> familiar in Familiares)
+                    {
+                        familiar.Add(new SqlParameter("@numero", idAfiliado));
+                        familiar.Add(new SqlParameter("@discriminador", i));
+                        familiar.Add(new SqlParameter("@plan", i));
+                        Agenda.getRepository.callProcedure(
+                            "NN_NN.SP_ADD_AFILIADO",
+                            familiar,
+                            sqlConnection,
+                            transaccion
+                        );
+                        afiliados.Add(new Afiliado(conyuge, idAfiliado, i));
+                        i++;
+                    }
+                }
+                // TODO el roolback deberia ponerlo aca en ves de hacer la llamada e callProcedure
+                transaccion.Commit();
+                
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Clinica_Frba.Base
     public class Tag
     {
         private String name;
+        private String paramColumn;
         private String paramName;
         private Object value;
         private SqlDbType sqlDbType;
@@ -23,6 +24,20 @@ namespace Clinica_Frba.Base
             this.Name = name;
             this.ParamName = paramName;
             this.SQLDbType = sqlDbType;
+        }
+
+        public Tag(String name, String paramName, String paramColumn, SqlDbType sqlDbType)
+        {
+            this.Name = name;
+            this.ParamName = paramName;
+            this.SQLDbType = sqlDbType;
+            this.ParamColumn = paramColumn;
+        }
+
+        public String ParamColumn
+        {
+            get { return paramColumn; }
+            set { paramColumn = value; }
         }
 
         public String Name
@@ -54,8 +69,8 @@ namespace Clinica_Frba.Base
                 if (sqlparameter == null)
                 {
                     sqlparameter = new SqlParameter(ParamName, SQLDbType);
-                    sqlparameter.Value = Value;
                 }
+                sqlparameter.Value = Value;
                 return sqlparameter; 
             }
         }

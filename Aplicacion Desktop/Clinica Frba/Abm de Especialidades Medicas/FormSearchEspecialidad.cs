@@ -93,10 +93,7 @@ namespace Clinica_Frba.Abm_de_Especialidades_Medicas
             }
             else
             {
-                // UpdateMicro frm = new UpdateMicro();
-                // frm.Accion = ETipoAccion.MODIFICACION;
-                // frm.Micro = dto;
-                // frm.ShowDialog(this);
+               //Para la modificacion
             }
         }
         protected override void fill()
