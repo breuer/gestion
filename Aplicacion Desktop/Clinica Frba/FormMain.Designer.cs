@@ -72,6 +72,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.btGenerarReceta = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
             this.gbEstadistico.SuspendLayout();
             this.gbPlan.SuspendLayout();
@@ -444,6 +445,7 @@
             // 
             // gbProfesional
             // 
+            this.gbProfesional.Controls.Add(this.btGenerarReceta);
             this.gbProfesional.Controls.Add(this.btRegistraAgenda);
             this.gbProfesional.Controls.Add(this.btVerAgenda);
             this.gbProfesional.Location = new System.Drawing.Point(18, 182);
@@ -541,6 +543,16 @@
             this.button8.UseVisualStyleBackColor = false;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+            // btGenerarReceta
+            // 
+            this.btGenerarReceta.Location = new System.Drawing.Point(12, 77);
+            this.btGenerarReceta.Name = "btGenerarReceta";
+            this.btGenerarReceta.Size = new System.Drawing.Size(182, 23);
+            this.btGenerarReceta.TabIndex = 7;
+            this.btGenerarReceta.Text = "Generar receta";
+            this.btGenerarReceta.UseVisualStyleBackColor = true;
+            this.btGenerarReceta.Click += new System.EventHandler(this.btGenerarReceta_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -617,6 +629,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btGenerarReceta;
 
     }
 }
