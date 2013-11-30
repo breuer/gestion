@@ -7,6 +7,55 @@ GO
 -----------------------------------------------------------------
 -- PROCEDURE ROL
 -----------------------------------------------------------------
+CREATE PROCEDURE NN_NN.sp_login
+	@userName VARCHAR(255),
+	@passWordHash VARCHAR(255)
+AS
+BEGIN
+	DECLARE @passHashPersistido VARCHAR(255),
+			@id INT,
+			@cantFail INT,
+			@habilitado bit,
+			@errorMsg varchar(max)
+
+	SELECT @passHashPersistido = USUARIO.PASSWORD, @id =  USUARIO.ID, @cantFail  = USUARIO.INTENTOS_FALLIDOS,
+			@habilitado = USUARIO.HABILITADO, USUARIO.ID_AFILIADO, USUARIO.ID_AFILIADO_DISCRIMINADOR, USUARIO.ID_PROFESIONAL
+		FROM [NN_NN].USUARIO AS USUARIO
+			WHERE USUARIO.USER_NAME = @userName AND USUARIO.HABILITADO = '1'
+
+	IF(@id IS NULL OR @id = 0)
+		BEGIN	
+			--NO EXISTE EL USUARIO
+			set @errorMsg = 'NO EXISTE EL USUARIO: ' + @userName
+			Raiserror (@errorMsg, 16, 2)
+		END
+	ELSE IF(@passWordHash = @passHashPersistido AND @cantFail >= 3)
+		BEGIN
+			--PASSWORD Y USERNAME OK PERO FALLO 3 O MAS VECES
+			set @errorMsg = 'USUARIO BLOQUEADO: ' + @userName
+			Raiserror (@errorMsg, 16, 2)
+		END
+	ELSE IF(@passWordHash != @passHashPersistido) 
+		BEGIN
+			-- PASSWORD INCORRETO
+			UPDATE [NN_NN].USUARIO SET INTENTOS_FALLIDOS = @cantFail + 1
+				WHERE ID = @ID
+			set @errorMsg = 'PASSWORD INCORRECTO. A LOS 3 FALLOS EL USUARIO SERA BLOQUEADO'
+			Raiserror (@errorMsg, 16, 2)
+		END
+	ELSE IF(@habilitado = 0)
+		BEGIN
+			set @errorMsg = 'EL USUARIO NO ESTA HABILITADO'
+			Raiserror (@errorMsg, 16, 2)
+		END
+	ELSE
+		BEGIN
+			UPDATE [NN_NN].USUARIO SET INTENTOS_FALLIDOS = 0
+				WHERE ID = @ID
+			SELECT @ID
+		END
+END
+GO
 CREATE PROCEDURE NN_NN.sp_add_rol
 	@nombre VARCHAR(255),
 	@habilitado bit = 1,
@@ -321,6 +370,7 @@ BEGIN
 		(@apellido, @nombre, @estadoCivil, @plan, @tipoDocumento, @documento,
 		@telefono, @direccion, @fecha, @email, @sexo, @discriminador, @numero);
 END
+GO
 CREATE PROCEDURE [NN_NN].[sp_listar_afiliado](
 	@apellido VARCHAR(255) = NULL,
 	@nombre VARCHAR(255) = NULL,
@@ -390,6 +440,18 @@ BEGIN
      end catch
 END
 GO
+CREATE PROCEDURE NN_NN.SP_RETURN_AFILIADO (
+	@discriminador INT = 0,
+	@numero INT
+)
+AS
+BEGIN 
+	SELECT apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
+		telefono, direccion, fecha_nac, mail, sexo, numero_tipo_afiliado, numero
+	FROM [NN_NN].[AFILIADO]
+		WHERE discriminador = @discriminador AND numero= @numero AND enable = '1'; 
+END
+GO
 /******************************************************
 *                    ADD PROFESIONAL                  *
 *******************************************************/
@@ -413,6 +475,16 @@ BEGIN
 		(@nombre, @apellido, @codigo_documento, @dni, @direccion, @fecha_nac, @telefono, @mail, @sexo, @matricula)
 	SET @ID = SCOPE_IDENTITY();
 	return @ID;
+END
+GO
+CREATE PROCEDURE NN_NN.SP_RETURN_PROFESIONAL (
+	@numero NUMERIC(18,0)
+)
+AS
+BEGIN
+	SELECT apellido, nombre, codigo_documento, dni, direccion, fecha_nac, telefono, mail, sexo, matricula
+		FROM [NN_NN].[PROFESIONAL]
+		WHERE numero = @numero AND enable = '1';
 END
 GO
 /******************************************************
@@ -701,16 +773,6 @@ GO
 /******************************************************
 *                    LOGIN                            *
 *******************************************************/
-CREATE PROCEDURE 
-	NN_NN.SP_LOGIN (@username VARCHAR(255), @password VARCHAR(255)) AS
-BEGIN
-	SELECT TOP 1 
-		U.ID, U.ID_AFILIADO, U.ID_AFILIADO_DISCRIMINADOR, U.ID_PROFESIONAL
-	FROM 
-		NN_NN.USUARIO U
-    WHERE USER_NAME = @username AND PASSWORD = @password
-END
-GO
 
 CREATE PROCEDURE 
 	NN_NN.SP_ROLES (@id_usuario int) AS
