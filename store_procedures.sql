@@ -19,10 +19,9 @@ BEGIN
 			@errorMsg varchar(max)
 
 	SELECT @passHashPersistido = USUARIO.PASSWORD, @id =  USUARIO.ID, @cantFail  = USUARIO.INTENTOS_FALLIDOS,
-			@habilitado = USUARIO.HABILITADO, USUARIO.ID_AFILIADO, USUARIO.ID_AFILIADO_DISCRIMINADOR, USUARIO.ID_PROFESIONAL
+			@habilitado = USUARIO.HABILITADO
 		FROM [NN_NN].USUARIO AS USUARIO
 			WHERE USUARIO.USER_NAME = @userName AND USUARIO.HABILITADO = '1'
-
 	IF(@id IS NULL OR @id = 0)
 		BEGIN	
 			--NO EXISTE EL USUARIO
@@ -52,8 +51,10 @@ BEGIN
 		BEGIN
 			UPDATE [NN_NN].USUARIO SET INTENTOS_FALLIDOS = 0
 				WHERE ID = @ID
-			SELECT @ID
+			SELECT TOP 1  U.ID, U.ID_AFILIADO, U.ID_AFILIADO_DISCRIMINADOR, U.ID_PROFESIONAL
+				FROM NN_NN.USUARIO U WHERE U.ID = @ID
 		END
+		
 END
 GO
 CREATE PROCEDURE NN_NN.sp_add_rol
@@ -653,36 +654,6 @@ BEGIN
 	WHERE c.nro_profesional = @nroProfesional AND CONVERT(DATE, c.fecha) >= CONVERT(DATE, @fecha,105)
 	GROUP BY CONVERT(DATE, c.fecha), c.nro_profesional,[nro_day], a.fecha_fin, a.fecha_inicio
 	ORDER BY CONVERT(DATE, c.fecha)
-END
-GO
-
-/******************************************************
-*                    TURNOS                           *
-*******************************************************/
-CREATE PROCEDURE [NN_NN].[SP_LISTA_TURNOS_LIBRE] (
-	@nro_profesional INT,
-	@fecha VARCHAR(255)
-)
-AS
-BEGIN
-	SELECT  T.fecha, T.nro_day, T.numero, CT.motivo
-	FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT
-		ON (T.numero = CT.nro_turno)
-	WHERE CT.motivo IS NULL AND T.nro_tipo_afiliado IS NULL 
-		AND T.nro_profesional = @nro_profesional 
-		AND CONVERT(DATE, T.fecha) = CONVERT(DATE, @fecha, 105)
-END
-GO
-CREATE PROCEDURE [NN_NN].[SP_RESERVAR_TURNO]
-	@nro_afiliado INT,
-	@nro_tipo_afiliado INT,
-	@numero INT
-AS
-BEGIN
-	UPDATE [NN_NN].[TURNO]
-		SET [nro_afiliado] = @nro_afiliado,
-			[nro_tipo_afiliado] = @nro_tipo_afiliado 
-		WHERE numero = @numero;
 END
 GO
 /******************************************************

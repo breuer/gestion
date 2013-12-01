@@ -166,10 +166,11 @@ CREATE TABLE NN_NN.CAMBIO_PLAN
 	motivo [varchar] (255) not null,
 	nro_afiliado [numeric](18, 0) not null,
 	nro_tipo_afiliado [numeric](18, 0) not null,
-	habilitado [char] not null default ('1')
+	habilitado [char] not null default ('1'),
+	fecha datetime
 )
 
-CREATE TABLE NN_NN.PLAN_MEDICO
+CREATE TABLE NN_NN.,_MEDICO
 (
 	codigo [numeric](18, 0) not null,
 	descripcion [varchar] (255) not null,
@@ -569,6 +570,46 @@ AS
 		END
 		CLOSE cAfiliado
 		DEALLOCATE cAfiliado
+	
+	
+GO
+CREATE TRIGGER [NN_NN].[TRIGGER_AFILIADO] ON [NN_NN].[AFILIADO]
+FOR INSERT, UPDATE 
+AS
+	DECLARE @id_profesional NUMERIC(18,0)
+	-- Creo una tabla para usarla como vector con las password iniciales
+	
+	DECLARE c CURSOR FOR 
+		SELECT [numero], [nombre], [apellido] FROM inserted;
+		
+	SET @post = 0;
+	
+	OPEN cProfecional
+		FETCH NEXT FROM cProfecional
+			INTO @id_profesional, @nombre, @apellido
+		WHILE (@@FETCH_STATUS = 0)
+		BEGIN
+			SELECT @ids = (SELECT ROUND(((19) * RAND()), 0));
+			SELECT @passwordDefault = PASSWORD_DEFAULT 
+				FROM @PASS_TABLE 
+					WHERE  IDs = @ids;
+			INSERT INTO NN_NN.USUARIO (USER_NAME, PASSWORD, ID_PROFESIONAL)	VALUES (
+				NN_NN.GENERA_USER_NAME(
+					Substring(@nombre, 1, 2), 
+					Substring(@apellido, 1, 2),
+					@id_profesional, 'p_'
+				), 
+				'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 
+				@id_profesional
+			)
+			SET @idPush =  SCOPE_IDENTITY();
+			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 2);
+			SET @post = @post + 1;
+			FETCH NEXT FROM cProfecional
+				INTO @id_profesional, @nombre, @apellido
+		END
+		CLOSE cProfecional
+		DEALLOCATE cProfecional
 	
 	
 GO
