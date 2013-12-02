@@ -127,5 +127,10 @@ namespace Clinica_Frba.NewFolder4
             Turno.getRepository.addModificar("[NN_NN].[SP_RESERVAR_TURNO]", parametros);
 
         }
+
+        private void FormPedirTurno_Load(object sender, EventArgs e)
+        {
+            this.FormBase_Load(sender, e);
+        }
     }
 }

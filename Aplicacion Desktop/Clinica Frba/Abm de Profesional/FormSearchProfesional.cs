@@ -81,9 +81,17 @@ namespace Clinica_Frba.Abm_de_Profesional
         {
             actualizarCombos();
         }
-       
-        
-    
+
+
+        protected override void search(List<System.Data.SqlClient.SqlParameter> parametros)
+        {
+
+            DataTable data = PlanMedico.getRepository.listar(
+                "[NN_NN].[sp_listar_profesional]",
+                parametros
+            );
+            dgvLista.DataSource = data;
+        }
         
     }
 }

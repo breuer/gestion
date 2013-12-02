@@ -147,6 +147,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "FormPedirTurno";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.FormPedirTurno_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();

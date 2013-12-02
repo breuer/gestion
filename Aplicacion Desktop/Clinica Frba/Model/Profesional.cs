@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Clinica_Frba.Model.Repository;
+using System.Data;
 
 namespace Clinica_Frba.Model
 {
@@ -18,10 +19,23 @@ namespace Clinica_Frba.Model
         private String mail;
         private int? matricula;
         private Boolean enable;
+        private Char sexo;
+        private Char habilitado;
 
         private static ProfesionalRepository repository = new ProfesionalRepository();
 
         public Profesional() { }
+
+        public Profesional(DataTable data) 
+        {
+            this.nombre = data.Rows[0]["nombre"].ToString();
+            this.Apellido = data.Rows[0]["apellido"].ToString();
+            this.dni = (Int32)data.Rows[0]["documento"];
+            this.telefono = (Int32)data.Rows[0]["telefono"];
+            this.Direccion = data.Rows[0]["direccion"].ToString();
+            this.Sexo = (char)data.Rows[0]["sexo"];
+            this.numero = (Int32)data.Rows[0]["numero"];
+        }
 
         public Profesional(int numero, String apellido, String nombre, String email, int ?matricula)
         {
@@ -95,6 +109,18 @@ namespace Clinica_Frba.Model
         public String ApellidoNombre
         {
             get { return Apellido + ", " + Nombre; }
+        }
+
+        public Char Sexo
+        {
+            set { sexo = value; }
+            get { return sexo; }
+        }
+
+        public Char Habilitado
+        {
+            set { habilitado = value; }
+            get { return habilitado; }
         }
     }
 }

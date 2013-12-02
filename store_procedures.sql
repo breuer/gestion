@@ -252,6 +252,8 @@ GO
 /******************************************************
 *                    ADD AFILIADO                     *
 *******************************************************/
+DROP PROCEDURE [NN_NN].[sp_listar_profesional];
+
 CREATE PROCEDURE [NN_NN].[sp_listar_profesional](
 	@apellido VARCHAR(255) = NULL,
 	@nombre VARCHAR(255) = NULL,
@@ -267,7 +269,7 @@ BEGIN
 			@chvWhere nvarchar(max), 
 			@chvSubQuery nvarchar(max),
 			@chvSubWhere nvarchar(max);
-	Select @chvQuery = 'SELECT numero, apellido, nombre, matricula, fecha_nac, enable ',
+	Select @chvQuery = 'SELECT numero, apellido, nombre, matricula, fecha_nac, habilitado ',
 		@chvWhere = ''
 	set @chvQuery += 'FROM [NN_NN].[PROFESIONAL] ';
 	
@@ -278,7 +280,7 @@ BEGIN
 	If (@matricula > 0)
 		Set @chvWhere = @chvWhere + ' matricula = '+ CONVERT (VARCHAR, @matricula) +' AND'
 	PRINT @chvWhere
-	Set @chvWhere = @chvWhere + ' enable = '+ CONVERT (VARCHAR, @enable) +' AND'
+	Set @chvWhere = @chvWhere + ' habilitado = '+ CONVERT (VARCHAR, @enable) +' AND'
 	PRINT @chvWhere
 	
 	If (@cod_tipo > 0 OR @cod_especialidad > 0)
@@ -318,8 +320,6 @@ BEGIN
 	begin try
 		If Len(@chvWhere) > 0
 			set @chvQuery = @chvQuery + ' WHERE ' + @chvWhere
-		print @chvQuery
-		print @chvWhere
 		exec (@chvQuery)
 	end try
     begin Catch

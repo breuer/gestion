@@ -26,6 +26,32 @@ namespace Clinica_Frba
         public void seleccionarRol(int idRol)
         {
             idRolSeleccionado = idRol;
+            if (idRolSeleccionado == 2)
+            {
+                List<SqlParameter> paramAfiliado = new List<SqlParameter>();
+                paramAfiliado.Add(new SqlParameter("@numero", DataSession.nroAfiliado));
+                paramAfiliado.Add(new SqlParameter("@discriminador", DataSession.nroDiscriminadorAfiliado));
+
+                DataTable dt = Afiliado.getRepository.listar("NN_NN.SP_RETURN_AFILIADO", paramAfiliado);
+                if (dt.Rows.Count != 1)
+                {
+                    MessageBox.Show("Se ha producido un error comuniquese con el administrador del sistema");
+                    Application.Exit();
+                }
+                DataSession.afiliadoSession = new Afiliado(dt);
+            }
+            else if (idRolSeleccionado == 3)
+            {
+                List<SqlParameter> paramProfesional = new List<SqlParameter>();
+                paramProfesional.Add(new SqlParameter("@numero", DataSession.nroProfesional));
+
+                DataTable dt = Afiliado.getRepository.listar("NN_NN.SP_RETURN_PROFESIONAL", paramProfesional);
+                {
+                    MessageBox.Show("Se ha producido un error comuniquese con el administrador del sistema");
+                    Application.Exit();
+                }
+                DataSession.profesionalSession = new Profesional(dt);
+            }
         }
         public static string GenerarSHA256(string texto)
         {
@@ -53,6 +79,13 @@ namespace Clinica_Frba
                     parametros.Clear();
                     parametros.Add(new SqlParameter("id_usuario", Convert.ToInt32(dataUsuario.Rows[0][0])));
                     DataTable dataRol = repo.listar("NN_NN.SP_ROLES", parametros);
+
+
+                    DataSession.nroAfiliado = Convert.ToString(dataUsuario.Rows[0][1]);
+                    DataSession.nroDiscriminadorAfiliado = Convert.ToString(dataUsuario.Rows[0][2]);
+                    DataSession.nroProfesional = Convert.ToString(dataUsuario.Rows[0][3]);
+
+
                     if (dataRol.Rows.Count > 1)
                     {
                         FormRol frmRol = new FormRol(dataRol);
@@ -61,10 +94,35 @@ namespace Clinica_Frba
                     if (dataRol.Rows.Count == 1)
                     {
                         idRolSeleccionado = Convert.ToInt32(dataRol.Rows[0][0]);
+                        if (idRolSeleccionado == 2)
+                        {
+                            List<SqlParameter> paramAfiliado = new List<SqlParameter>();
+                            paramAfiliado.Add(new SqlParameter("@numero", Convert.ToString(dataUsuario.Rows[0][1])));
+                            paramAfiliado.Add(new SqlParameter("@discriminador", Convert.ToString(dataUsuario.Rows[0][2])));
+
+                            DataTable dt = Afiliado.getRepository.listar("NN_NN.SP_RETURN_AFILIADO", paramAfiliado);
+                            if (dt.Rows.Count != 1)
+                            {
+                                MessageBox.Show("Se ha producido un error comuniquese con el administrador del sistema");
+                                Application.Exit();
+                            }
+                            DataSession.afiliadoSession = new Afiliado(dt);
+                        }
+                        else if (idRolSeleccionado == 3)
+                        {
+                            List<SqlParameter> paramProfesional = new List<SqlParameter>();
+                            paramProfesional.Add(new SqlParameter("@numero", Convert.ToString(dataUsuario.Rows[0][3])));
+
+                            DataTable dt = Afiliado.getRepository.listar("NN_NN.SP_RETURN_PROFESIONAL", paramProfesional);
+                            {
+                                MessageBox.Show("Se ha producido un error comuniquese con el administrador del sistema");
+                                Application.Exit();
+                            }
+                            DataSession.profesionalSession = new Profesional(dt);
+                        }
+
                     }
-                    DataSession.nroAfiliado = Convert.ToString(dataUsuario.Rows[0][1]);
-                    DataSession.nroDiscriminadorAfiliado = Convert.ToString(dataUsuario.Rows[0][2]);
-                    DataSession.nroProfesional = Convert.ToString(dataUsuario.Rows[0][3]);
+                    
                     DataSession.idRol = idRolSeleccionado;
                     this.DialogResult = DialogResult.OK;
                     this.Close();

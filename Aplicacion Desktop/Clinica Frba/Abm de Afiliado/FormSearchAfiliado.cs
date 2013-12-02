@@ -60,6 +60,9 @@ namespace Clinica_Frba.Abm_de_Afiliado
 
             tbNumero.Tag = new Tag("Numero", "numero", SqlDbType.Int);
             cbDiscriminador.DisplayMember = "discriminador";
+
+
+            FillCombo();
             cbDiscriminador.SelectedIndex = -1;
             cbDiscriminador.Tag = new Tag("discriminador", "discriminador", "codigo", SqlDbType.Int);
             
