@@ -3,7 +3,6 @@
 *******************************************************/
 use [GD2C2013]
 GO
-
 -----------------------------------------------------------------
 -- PROCEDURE ROL
 -----------------------------------------------------------------
@@ -25,27 +24,39 @@ BEGIN
 	IF(@id IS NULL OR @id = 0)
 		BEGIN	
 			--NO EXISTE EL USUARIO
-			set @errorMsg = 'NO EXISTE EL USUARIO: ' + @userName
-			Raiserror (@errorMsg, 16, 2)
+			SET @errorMsg = 'NO EXISTE EL USUARIO: ' + @userName
+			RAISERROR (@errorMsg, 16, 2)
 		END
 	ELSE IF(@passWordHash = @passHashPersistido AND @cantFail >= 3)
 		BEGIN
 			--PASSWORD Y USERNAME OK PERO FALLO 3 O MAS VECES
-			set @errorMsg = 'USUARIO BLOQUEADO: ' + @userName
-			Raiserror (@errorMsg, 16, 2)
+			SET @errorMsg = 'USUARIO BLOQUEADO: ' + @userName + ' COMUNIQUESE CON EL ADMINISTRADOR';
+			RAISERROR (@errorMsg, 16, 2)
 		END
 	ELSE IF(@passWordHash != @passHashPersistido) 
 		BEGIN
 			-- PASSWORD INCORRETO
 			UPDATE [NN_NN].USUARIO SET INTENTOS_FALLIDOS = @cantFail + 1
 				WHERE ID = @ID
-			set @errorMsg = 'PASSWORD INCORRECTO. A LOS 3 FALLOS EL USUARIO SERA BLOQUEADO'
-			Raiserror (@errorMsg, 16, 2)
+			DECLARE @restan INT;
+			SET @restan = 3 - @cantFail + 1;
+			IF (@restan = 0)
+			BEGIN
+				SET @errorMsg = 'PASSWORD INCORRECTO. A LOS 3 FALLOS EL USUARIO SERA BLOQUEADO.'
+				SET @errorMsg += ' RESTAN ' + CONVERT(VARCHAR, @restan) + ' INTENTOS. SU CUAENTA A SIDO BLOQUEDA COMUNIQUESE CON EL ADMINITRADOR';
+			END
+			ELSE
+			BEGIN
+				SET @errorMsg = 'PASSWORD INCORRECTO. A LOS 3 FALLOS EL USUARIO SERA BLOQUEADO.'
+				SET @errorMsg += ' RESTAN ' + CONVERT(VARCHAR, @restan) + ' INTENTOS. ';
+			END
+			
+			RAISERROR (@errorMsg, 16, 2)
 		END
 	ELSE IF(@habilitado = 0)
 		BEGIN
-			set @errorMsg = 'EL USUARIO NO ESTA HABILITADO'
-			Raiserror (@errorMsg, 16, 2)
+			SET @errorMsg = 'EL USUARIO NO ESTA HABILITADO'
+			RAISERROR (@errorMsg, 16, 2)
 		END
 	ELSE
 		BEGIN

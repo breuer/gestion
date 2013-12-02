@@ -19,10 +19,10 @@ namespace Clinica_Frba
             Application.SetCompatibleTextRenderingDefault(false);
             
             FormLogin frmLogin = new FormLogin();
-            //if (frmLogin.ShowDialog() == DialogResult.OK)
-            //{
+            if (frmLogin.ShowDialog() == DialogResult.OK)
+            {
                 Application.Run(new FormMain());
-            //}
+            }
 
             /*
             DataSession.idRol = 3;
