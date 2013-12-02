@@ -9,10 +9,12 @@ using System.Windows.Forms;
 using Clinica_Frba.Model;
 using Clinica_Frba.Base;
 using System.Data.SqlClient;
+using Clinica_Frba.Interface;
+using Clinica_Frba.Pedir_Turno;
 
 namespace Clinica_Frba.NewFolder4
 {
-    public partial class FormPedirTurno : FormBase
+    public partial class FormPedirTurno : FormBase, IFInvocanteProfesional
     {
         public FormPedirTurno()
         {
@@ -21,6 +23,9 @@ namespace Clinica_Frba.NewFolder4
 
         private void btSeleccionarProfesional_Click(object sender, EventArgs e)
         {
+            FormSearchTurno frm = new FormSearchTurno();
+            frm.ShowDialog(this);
+            
             //TODO DEBERIA LLAMAR AL SELECTOR DE P
             ProfesionalCurrent = new Profesional(
                 26,
@@ -132,5 +137,14 @@ namespace Clinica_Frba.NewFolder4
         {
             this.FormBase_Load(sender, e);
         }
+
+        #region Miembros de IFInvocanteProfesional
+
+        bool IFInvocanteProfesional.seleccionarProfesional(Profesional selected)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

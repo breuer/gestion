@@ -238,8 +238,10 @@
             this.tbHorasTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbHorasTotal.Location = new System.Drawing.Point(12, 19);
             this.tbHorasTotal.Name = "tbHorasTotal";
+            this.tbHorasTotal.ReadOnly = true;
             this.tbHorasTotal.Size = new System.Drawing.Size(825, 20);
             this.tbHorasTotal.TabIndex = 2;
+            this.tbHorasTotal.Enter += new System.EventHandler(this.tbHorasTotal_Enter);
             // 
             // groupBox2
             // 

@@ -461,7 +461,7 @@ BEGIN
 	SELECT apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
 		telefono, direccion, fecha_nac, mail, sexo, numero_tipo_afiliado, numero
 	FROM [NN_NN].[AFILIADO]
-		WHERE discriminador = @discriminador AND numero= @numero AND enable = '1'; 
+		WHERE discriminador = @discriminador AND numero= @numero AND habilitado = '1'; 
 END
 GO
 /******************************************************
@@ -489,6 +489,7 @@ BEGIN
 	return @ID;
 END
 GO
+
 CREATE PROCEDURE NN_NN.SP_RETURN_PROFESIONAL (
 	@numero NUMERIC(18,0)
 )
@@ -496,7 +497,7 @@ AS
 BEGIN
 	SELECT apellido, nombre, codigo_documento, dni, direccion, fecha_nac, telefono, mail, sexo, matricula
 		FROM [NN_NN].[PROFESIONAL]
-		WHERE numero = @numero AND enable = '1';
+		WHERE numero = @numero AND habilitado = '1';
 END
 GO
 /******************************************************

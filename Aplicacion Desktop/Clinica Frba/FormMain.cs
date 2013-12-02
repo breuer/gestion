@@ -43,8 +43,6 @@ namespace Clinica_Frba
             this.enableGroupBox(this.gbEstadistico, false);
             this.enableGroupBox(this.gbAfiliado, false);
             this.enableGroupBox(this.gbProfesional, false);
-
-            
         }
 
         

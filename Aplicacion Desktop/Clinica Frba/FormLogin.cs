@@ -97,8 +97,8 @@ namespace Clinica_Frba
                             if (idRolSeleccionado == 2)
                             {
                                 List<SqlParameter> paramAfiliado = new List<SqlParameter>();
-                                paramAfiliado.Add(new SqlParameter("@numero", Convert.ToString(dataUsuario.Rows[0][1])));
-                                paramAfiliado.Add(new SqlParameter("@discriminador", Convert.ToString(dataUsuario.Rows[0][2])));
+                                paramAfiliado.Add(new SqlParameter("@numero", dataUsuario.Rows[0][1]));
+                                paramAfiliado.Add(new SqlParameter("@discriminador", dataUsuario.Rows[0][2]));
 
                                 DataTable dt = Afiliado.getRepository.listar("NN_NN.SP_RETURN_AFILIADO", paramAfiliado);
                                 if (dt.Rows.Count != 1)
@@ -111,9 +111,10 @@ namespace Clinica_Frba
                             else if (idRolSeleccionado == 3)
                             {
                                 List<SqlParameter> paramProfesional = new List<SqlParameter>();
-                                paramProfesional.Add(new SqlParameter("@numero", Convert.ToString(dataUsuario.Rows[0][3])));
+                                paramProfesional.Add(new SqlParameter("@numero", dataUsuario.Rows[0][3]));
 
                                 DataTable dt = Afiliado.getRepository.listar("NN_NN.SP_RETURN_PROFESIONAL", paramProfesional);
+                                if (dt.Rows.Count != 1)
                                 {
                                     MessageBox.Show("Se ha producido un error comuniquese con el administrador del sistema");
                                     Application.Exit();
