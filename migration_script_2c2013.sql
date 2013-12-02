@@ -446,7 +446,7 @@ AS
 				@id_profesional
 			)
 			SET @idPush =  SCOPE_IDENTITY();
-			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 2);
+			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 3);
 			SET @post = @post + 1;
 			FETCH NEXT FROM cProfecional
 				INTO @id_profesional, @nombre, @apellido
@@ -562,7 +562,7 @@ AS
 				0
 			) 
 			SET @idPush =  SCOPE_IDENTITY();
-			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 3);
+			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 2);
 			SET @post = @post + 1;
 			FETCH NEXT FROM cAfiliado
 				INTO @apellido, @nombre, @estadoCivil, @cod_plan, @tipo_documento, @documento,
