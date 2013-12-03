@@ -3,10 +3,71 @@
 *******************************************************/
 use [GD2C2013]
 GO
-
 -----------------------------------------------------------------
 -- PROCEDURE ROL
 -----------------------------------------------------------------
+CREATE PROCEDURE NN_NN.sp_login
+	@userName VARCHAR(255),
+	@passWordHash VARCHAR(255)
+AS
+BEGIN
+	DECLARE @passHashPersistido VARCHAR(255),
+			@id INT,
+			@cantFail INT,
+			@habilitado bit,
+			@errorMsg varchar(max)
+
+	SELECT @passHashPersistido = USUARIO.PASSWORD, @id =  USUARIO.ID, @cantFail  = USUARIO.INTENTOS_FALLIDOS,
+			@habilitado = USUARIO.HABILITADO
+		FROM [NN_NN].USUARIO AS USUARIO
+			WHERE USUARIO.USER_NAME = @userName AND USUARIO.HABILITADO = '1'
+	IF(@id IS NULL OR @id = 0)
+		BEGIN	
+			--NO EXISTE EL USUARIO
+			SET @errorMsg = 'NO EXISTE EL USUARIO: ' + @userName
+			RAISERROR (@errorMsg, 16, 2)
+		END
+	ELSE IF(@passWordHash = @passHashPersistido AND @cantFail >= 3)
+		BEGIN
+			--PASSWORD Y USERNAME OK PERO FALLO 3 O MAS VECES
+			SET @errorMsg = 'USUARIO BLOQUEADO: ' + @userName + ' COMUNIQUESE CON EL ADMINISTRADOR';
+			RAISERROR (@errorMsg, 16, 2)
+		END
+	ELSE IF(@passWordHash != @passHashPersistido) 
+		BEGIN
+			-- PASSWORD INCORRETO
+			UPDATE [NN_NN].USUARIO SET INTENTOS_FALLIDOS = @cantFail + 1
+				WHERE ID = @ID
+			DECLARE @restan INT;
+			SET @restan = 3 - @cantFail + 1;
+			IF (@restan = 0)
+			BEGIN
+				SET @errorMsg = 'PASSWORD INCORRECTO. A LOS 3 FALLOS EL USUARIO SERA BLOQUEADO.'
+				SET @errorMsg += ' RESTAN ' + CONVERT(VARCHAR, @restan) + ' INTENTOS. SU CUAENTA A SIDO BLOQUEDA COMUNIQUESE CON EL ADMINITRADOR';
+			END
+			ELSE
+			BEGIN
+				SET @errorMsg = 'PASSWORD INCORRECTO. A LOS 3 FALLOS EL USUARIO SERA BLOQUEADO.'
+				SET @errorMsg += ' RESTAN ' + CONVERT(VARCHAR, @restan) + ' INTENTOS. ';
+			END
+			
+			RAISERROR (@errorMsg, 16, 2)
+		END
+	ELSE IF(@habilitado = 0)
+		BEGIN
+			SET @errorMsg = 'EL USUARIO NO ESTA HABILITADO'
+			RAISERROR (@errorMsg, 16, 2)
+		END
+	ELSE
+		BEGIN
+			UPDATE [NN_NN].USUARIO SET INTENTOS_FALLIDOS = 0
+				WHERE ID = @ID
+			SELECT TOP 1  U.ID, U.ID_AFILIADO, U.ID_AFILIADO_DISCRIMINADOR, U.ID_PROFESIONAL
+				FROM NN_NN.USUARIO U WHERE U.ID = @ID
+		END
+		
+END
+GO
 CREATE PROCEDURE NN_NN.sp_add_rol
 	@nombre VARCHAR(255),
 	@habilitado bit = 1,
@@ -217,7 +278,7 @@ BEGIN
 			@chvWhere nvarchar(max), 
 			@chvSubQuery nvarchar(max),
 			@chvSubWhere nvarchar(max);
-	Select @chvQuery = 'SELECT numero, apellido, nombre, matricula, fecha_nac, enable ',
+	Select @chvQuery = 'SELECT numero, apellido, nombre, matricula, fecha_nac, habilitado ',
 		@chvWhere = ''
 	set @chvQuery += 'FROM [NN_NN].[PROFESIONAL] ';
 	
@@ -228,7 +289,7 @@ BEGIN
 	If (@matricula > 0)
 		Set @chvWhere = @chvWhere + ' matricula = '+ CONVERT (VARCHAR, @matricula) +' AND'
 	PRINT @chvWhere
-	Set @chvWhere = @chvWhere + ' enable = '+ CONVERT (VARCHAR, @enable) +' AND'
+	Set @chvWhere = @chvWhere + ' habilitado = '+ CONVERT (VARCHAR, @enable) +' AND'
 	PRINT @chvWhere
 	
 	If (@cod_tipo > 0 OR @cod_especialidad > 0)
@@ -268,8 +329,6 @@ BEGIN
 	begin try
 		If Len(@chvWhere) > 0
 			set @chvQuery = @chvQuery + ' WHERE ' + @chvWhere
-		print @chvQuery
-		print @chvWhere
 		exec (@chvQuery)
 	end try
     begin Catch
@@ -321,6 +380,7 @@ BEGIN
 		(@apellido, @nombre, @estadoCivil, @plan, @tipoDocumento, @documento,
 		@telefono, @direccion, @fecha, @email, @sexo, @discriminador, @numero);
 END
+GO
 CREATE PROCEDURE [NN_NN].[sp_listar_afiliado](
 	@apellido VARCHAR(255) = NULL,
 	@nombre VARCHAR(255) = NULL,
@@ -390,6 +450,19 @@ BEGIN
      end catch
 END
 GO
+
+CREATE PROCEDURE NN_NN.SP_RETURN_AFILIADO (
+	@discriminador INT = 0,
+	@numero INT
+)
+AS
+BEGIN 
+	SELECT apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
+		telefono, direccion, fecha_nac, mail, sexo, numero_tipo_afiliado, numero
+	FROM [NN_NN].[AFILIADO]
+		WHERE numero_tipo_afiliado = @discriminador AND numero= @numero AND habilitado = '1'; 
+END
+GO
 /******************************************************
 *                    ADD PROFESIONAL                  *
 *******************************************************/
@@ -413,6 +486,17 @@ BEGIN
 		(@nombre, @apellido, @codigo_documento, @dni, @direccion, @fecha_nac, @telefono, @mail, @sexo, @matricula)
 	SET @ID = SCOPE_IDENTITY();
 	return @ID;
+END
+GO
+
+CREATE PROCEDURE NN_NN.SP_RETURN_PROFESIONAL (
+	@numero NUMERIC(18,0)
+)
+AS
+BEGIN
+	SELECT apellido, nombre, codigo_documento, dni, direccion, fecha_nac, telefono, mail, sexo, matricula, numero
+		FROM [NN_NN].[PROFESIONAL]
+		WHERE numero = @numero AND habilitado = '1';
 END
 GO
 /******************************************************
@@ -450,8 +534,7 @@ BEGIN
 	
 	INSERT  INTO NN_NN.AGENDA (nro_profesional, fecha_inicio, fecha_fin)
 		OUTPUT INSERTED.numero INTO @AuxTable
-	VALUES 
-		(@nro_profesional, @FECHA_F0, @FECHA_F1)	
+	VALUES (@nro_profesional, @FECHA_F0, @FECHA_F1)	
 	DECLARE @nro int = (SELECT T.nro_agenda FROM @AuxTable T)
 	RETURN @nro
 END
@@ -563,42 +646,27 @@ GO
 --
 CREATE PROCEDURE NN_NN.SP_LISTAR_AGENDA_DIAS(
 	@fecha VARCHAR(255),
-	@nroProfesional INT
+	@nroProfesional DECIMAL(18,0)
+
 )
 AS 
 BEGIN
-	SELECT CONVERT(DATE, c.fecha) AS fecha, c.nro_day AS DIA, 
-		CASE (
-			SELECT COUNT (*)
-				FROM [NN_NN].[TURNO] AS P 
-				WHERE P.nro_profesional = c.nro_profesional 
-				AND CONVERT(DATE, p.fecha) = CONVERT(DATE, c.fecha) AND p.nro_afiliado is null
-		) WHEN 0 THEN 'NO DISPONIBLE'
-		ELSE 'DISPONIBLE' END AS ESTADO, 
-		a.fecha_fin AS fechaFin, a.fecha_inicio AS fechaInicio
-	FROM [NN_NN].[TURNO] AS c LEFT JOIN [NN_NN].[AGENDA] AS a 
-		ON (CONVERT(DATE, c.fecha) BETWEEN (CONVERT(DATE, a.fecha_inicio)) AND (CONVERT(DATE, a.fecha_fin))) 
-	WHERE c.nro_profesional = @nroProfesional AND CONVERT(DATE, c.fecha) >= CONVERT(DATE, @fecha,105)
-	GROUP BY CONVERT(DATE, c.fecha), c.nro_profesional,[nro_day], a.fecha_fin, a.fecha_inicio
-	ORDER BY CONVERT(DATE, c.fecha)
-END
-GO
+	
+		SELECT CONVERT(DATE, c.fecha) AS fecha, c.nro_day AS DIA, 
+			CASE (
+				SELECT COUNT (*)
+					FROM [NN_NN].[TURNO] AS P 
+					WHERE P.nro_profesional = c.nro_profesional 
+					AND CONVERT(DATE, p.fecha) = CONVERT(DATE, c.fecha) AND p.nro_afiliado is null
+				) WHEN 0 THEN 'NO DISPONIBLE'
+			ELSE 'DISPONIBLE' END AS ESTADO, 
+				a.fecha_fin AS fechaFin, a.fecha_inicio AS fechaInicio
+			FROM [NN_NN].[TURNO] AS c LEFT JOIN [NN_NN].[AGENDA] AS a 
+				ON (CONVERT(DATE, c.fecha) BETWEEN (CONVERT(DATE, a.fecha_inicio)) AND (CONVERT(DATE, a.fecha_fin))) 
+			WHERE c.nro_profesional = @nroProfesional AND CONVERT(DATE, c.fecha) >= CONVERT(DATE, @fecha,105)
+			GROUP BY CONVERT(DATE, c.fecha), c.nro_profesional,[nro_day], a.fecha_fin, a.fecha_inicio
+			ORDER BY CONVERT(DATE, c.fecha)
 
-/******************************************************
-*                    TURNOS                           *
-*******************************************************/
-CREATE PROCEDURE [NN_NN].[SP_LISTA_TURNOS_LIBRE] (
-	@nro_profesional INT,
-	@fecha VARCHAR(255)
-)
-AS
-BEGIN
-	SELECT  T.fecha, T.nro_day, T.numero, CT.motivo
-	FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT
-		ON (T.numero = CT.nro_turno)
-	WHERE CT.motivo IS NULL AND T.nro_tipo_afiliado IS NULL 
-		AND T.nro_profesional = @nro_profesional 
-		AND CONVERT(DATE, T.fecha) = CONVERT(DATE, @fecha, 105)
 END
 GO
 
@@ -608,10 +676,10 @@ CREATE PROCEDURE [NN_NN].[SP_RESERVAR_TURNO]
 	@numero INT
 AS
 BEGIN
-	UPDATE [NN_NN].[TURNO]
-		SET [nro_afiliado] = @nro_afiliado,
-			[nro_tipo_afiliado] = @nro_tipo_afiliado 
-		WHERE numero = @numero;
+	SELECT numero, fecha_fin AS fechaFin, fecha_inicio AS fechaInicio
+		FROM [NN_NN].[AGENDA] 
+		WHERE nro_profesional = @nroProfesional AND habilitado = '1'
+		ORDER BY fechaFin DESC;
 END
 GO
 /******************************************************
@@ -632,9 +700,9 @@ BEGIN
 END
 GO
 CREATE PROCEDURE [NN_NN].[SP_RESERVAR_TURNO]
-	@nro_afiliado INT,
-	@nro_tipo_afiliado INT,
-	@numero INT
+	@nro_afiliado DECIMAL(18,0),
+	@nro_tipo_afiliado DECIMAL(18,0),
+	@numero DECIMAL(18,0)
 AS
 BEGIN
 	UPDATE [NN_NN].[TURNO]
@@ -643,6 +711,7 @@ BEGIN
 		WHERE numero = @numero;
 END
 GO
+
 /******************************************************
 *                    BONOS                            *
 *******************************************************/
@@ -702,16 +771,6 @@ GO
 /******************************************************
 *                    LOGIN                            *
 *******************************************************/
-CREATE PROCEDURE 
-	NN_NN.SP_LOGIN (@username VARCHAR(255), @password VARCHAR(255)) AS
-BEGIN
-	SELECT TOP 1 
-		U.ID, U.ID_AFILIADO, U.ID_AFILIADO_DISCRIMINADOR, U.ID_PROFESIONAL
-	FROM 
-		NN_NN.USUARIO U
-    WHERE USER_NAME = @username AND PASSWORD = @password
-END
-GO
 
 CREATE PROCEDURE 
 	NN_NN.SP_ROLES (@id_usuario int) AS

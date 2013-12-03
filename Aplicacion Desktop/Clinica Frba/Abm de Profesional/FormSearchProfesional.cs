@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.Base;
 using Clinica_Frba.Model;
+using Clinica_Frba.Interface;
 
 namespace Clinica_Frba.Abm_de_Profesional
 {
@@ -81,9 +82,39 @@ namespace Clinica_Frba.Abm_de_Profesional
         {
             actualizarCombos();
         }
-       
-        
-    
+
+
+        protected override void search(List<System.Data.SqlClient.SqlParameter> parametros)
+        {
+            DataTable data = PlanMedico.getRepository.listar(
+                "[NN_NN].[sp_listar_profesional]",
+                parametros
+            );
+            dgvLista.DataSource = data;
+        }
+
+        protected override void dgvLista_DoubleClick(object sender, EventArgs e)
+        {
+            Profesional profesional = new Profesional();
+            profesional.Numero = int.Parse(getValueDataGrit(dgvLista, "numero"));
+            profesional.Nombre = getValueDataGrit(dgvLista, "nombre");
+            profesional.Apellido = getValueDataGrit(dgvLista, "apellido");
+            profesional.Matricula = Decimal.Parse((getValueDataGrit(dgvLista, "matricula") == "") ? "0" : getValueDataGrit(dgvLista, "matricula"));
+
+            if (Accion == EActionSearch.SELECCION)
+            {
+                IFInvocanteProfesional iDestino = this.Owner as IFInvocanteProfesional;
+                if (iDestino != null)
+                {
+                    iDestino.seleccionarProfesional(profesional);
+                    this.Close();
+                }
+            }
+            else
+            {
+                //Para la modificacion
+            }
+        }
         
     }
 }

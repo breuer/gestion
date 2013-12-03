@@ -27,7 +27,7 @@ namespace Clinica_Frba.Pedir_Turno
             this.cbTipoCancelacion.DataSource = Turno.getRepository.fillCombo();
             this.cbTipoCancelacion.SelectedIndex = -1;
             this.cbTipoCancelacion.DisplayMember = "descripcion";
-            this.cbTipoCancelacion.Tag = new Tag("tipoCancelacion", "tipoCancelacion", SqlDbType.Int);
+            this.cbTipoCancelacion.Tag = new Tag("tipoCancelacion", "tipoCancelacion", "tipoCancelacion", SqlDbType.Int);
             
             if (AfiliadoCurrent != null)
             { 

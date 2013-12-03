@@ -18,6 +18,7 @@ namespace Clinica_Frba
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
+            
             FormLogin frmLogin = new FormLogin();
             if (frmLogin.ShowDialog() == DialogResult.OK)
             {

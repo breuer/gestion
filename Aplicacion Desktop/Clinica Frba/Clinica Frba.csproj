@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{71DE9239-635F-437B-BF7D-1D898AB408DD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -240,6 +240,12 @@
     <Compile Include="Model\Repository\TransactionSQLParam.cs" />
     <Compile Include="Model\Rol.cs" />
     <Compile Include="Model\TipoEspecialidadMedica.cs" />
+    <Compile Include="Pedir Turno\FormMisTurnos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pedir Turno\FormMisTurnos.Designer.cs">
+      <DependentUpon>FormMisTurnos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pedir Turno\FormSearchTurno.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -411,6 +417,9 @@
     <EmbeddedResource Include="Listados Estadisticos\FormListados.resx">
       <DependentUpon>FormListados.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pedir Turno\FormMisTurnos.resx">
+      <DependentUpon>FormMisTurnos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pedir Turno\FormPedirTurno.resx">
       <DependentUpon>FormPedirTurno.cs</DependentUpon>

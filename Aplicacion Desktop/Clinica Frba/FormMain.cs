@@ -26,9 +26,11 @@ namespace Clinica_Frba
         {
             InitializeComponent();
             //this.WindowState = FormWindowState.Maximized;
-
+            //this.gb.BackColor = Color.Transparent;
             this.gbAbmAfiliado.Visible = true;
+            this.gbAbmAfiliado.BackColor = Color.Transparent;
             this.gbAbmEspecialidad.Visible = true;
+            //this.gbAbmEspecialidad.BackColor = Color.Tomato;
             this.gbAbmProfesional.Visible = true;
             this.gbAbmAfiliado.Visible = true;
 
@@ -42,22 +44,6 @@ namespace Clinica_Frba
             this.enableGroupBox(this.gbEstadistico, false);
             this.enableGroupBox(this.gbAfiliado, false);
             this.enableGroupBox(this.gbProfesional, false);
-
-            switch (DataSession.idRol)
-            {
-                case 1:
-                    this.gbProfesional.Visible = false;
-                    this.gbAfiliado.Visible = false;
-                    break;
-                case 2:
-                    this.gbProfesional.Visible = false;
-                    this.gb.Visible = false;
-                    break;
-                case 3:
-                    this.gbAfiliado.Visible = false;
-                    this.gb.Visible = false;
-                    break;
-            }
         }
 
         
@@ -76,6 +62,22 @@ namespace Clinica_Frba
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            switch (DataSession.idRol)
+            {
+                case 1:
+                    this.gbProfesional.Visible = false;
+                    this.gbAfiliado.Visible = false;
+                    break;
+                case 2:
+                    this.gbProfesional.Visible = false;
+                    this.gb.Visible = false;
+                    break;
+                case 3:
+                    this.gbAfiliado.Visible = false;
+                    this.gb.Visible = false;
+                    break;
+            }
+
             btAltaRol.Enabled = true;
             btListarPlan.Enabled = true;
             btListarRol.Enabled = true;

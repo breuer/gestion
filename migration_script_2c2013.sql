@@ -166,7 +166,8 @@ CREATE TABLE NN_NN.CAMBIO_PLAN
 	motivo [varchar] (255) not null,
 	nro_afiliado [numeric](18, 0) not null,
 	nro_tipo_afiliado [numeric](18, 0) not null,
-	habilitado [char] not null default ('1')
+	habilitado [char] not null default ('1'),
+	fecha datetime
 )
 
 CREATE TABLE NN_NN.PLAN_MEDICO
@@ -341,28 +342,6 @@ CREATE TABLE NN_NN.RECETA_BONO_FARMACIA
 
 
 /*************************************************************************************
-*                    CONSTRAINT PK                                                   *
-**************************************************************************************/
-
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT PK_AFILIADO_numero PRIMARY KEY (numero, numero_tipo_afiliado);
-ALTER TABLE NN_NN.ESTADO_CIVIL ADD CONSTRAINT PK_ESTADO_CIVIL_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.PLAN_MEDICO ADD CONSTRAINT PK_PLAN_MEDICO_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TIPO_DOCUMENTO ADD CONSTRAINT PK_TIPO_DOCUMENTO_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT PK_BONO_CONSULTA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT PK_BONO_FARMACIA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.PROFESIONAL ADD CONSTRAINT PK_PROFESIONAL_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT PK_AGENDA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.DIA ADD CONSTRAINT PK_DIA_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT PK_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TIPO_ESPECIALIDAD ADD CONSTRAINT PK_TIPO_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TURNO ADD CONSTRAINT PK_TURNO_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.RECETA ADD CONSTRAINT PK_RECETA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT PK_CONSULTA_numero PRIMARY KEY (numero);
-
-
-
-/*************************************************************************************
 *                    MIGRATION                                                       *
 **************************************************************************************/
 GO
@@ -381,7 +360,7 @@ begin
 	SELECT @DateTimeSTRING = @INICIAL_1 + @INICIAL_2 + @POST + convert(varchar(18), @POS); 
 	--convert(varchar,DATEPART(Ms, @DateTime));
 	return @DateTimeSTRING
-  end
+end
 GO
 CREATE TRIGGER [NN_NN].[TRIGGER_TEMPORAL_PROFESIONAL] ON [NN_NN].[PROFESIONAL]
 FOR INSERT 
@@ -445,7 +424,7 @@ AS
 				@id_profesional
 			)
 			SET @idPush =  SCOPE_IDENTITY();
-			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 2);
+			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 3);
 			SET @post = @post + 1;
 			FETCH NEXT FROM cProfecional
 				INTO @id_profesional, @nombre, @apellido
@@ -561,7 +540,7 @@ AS
 				0
 			) 
 			SET @idPush =  SCOPE_IDENTITY();
-			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 3);
+			INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(@idPush, 2);
 			SET @post = @post + 1;
 			FETCH NEXT FROM cAfiliado
 				INTO @apellido, @nombre, @estadoCivil, @cod_plan, @tipo_documento, @documento,
@@ -635,9 +614,10 @@ INSERT INTO NN_NN.AFILIADO(
 	fecha_nac, 
 	telefono, 
 	mail, 
-	cod_plan
+	cod_plan,
+	cod_estado_civil
 ) 
-SELECT DISTINCT Paciente_Apellido, Paciente_Nombre,1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
+SELECT DISTINCT Paciente_Apellido, Paciente_Nombre,1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo, 1
 	FROM gd_esquema.Maestra
 /******************************************************
 *                    BONOS                            *
@@ -805,9 +785,9 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	NN_NN.TURNO(numero, fecha, nro_profesional, nro_afiliado, nro_tipo_afiliado, nro_day)
+	NN_NN.TURNO(numero, fecha, fecha_llegada, nro_profesional, nro_afiliado, nro_tipo_afiliado, nro_day)
 SELECT DISTINCT   
-	M.Turno_Numero, M.Turno_Fecha, P.numero, A.numero, A.numero_tipo_afiliado, datepart(dw,Turno_Fecha)
+	M.Turno_Numero, M.Turno_Fecha, M.Turno_Fecha ,P.numero, A.numero, A.numero_tipo_afiliado, datepart(dw,Turno_Fecha)
 FROM 
 	gd_esquema.Maestra M
 JOIN
@@ -889,21 +869,35 @@ GROUP BY
 	A.numero, D.codigo
 --ORDER BY D.codigo, A.numero
 GO
-ALTER TABLE NN_NN.AFILIADO ALTER COLUMN numero [numeric](18, 0) NOT NULL;
-ALTER TABLE NN_NN.AFILIADO ALTER COLUMN numero_tipo_afiliado [numeric](18, 0) NOT NULL;
-ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT PK_AFILIADO_numero PRIMARY KEY (numero, numero_tipo_afiliado);
-ALTER TABLE NN_NN.ESTADO_CIVIL ADD CONSTRAINT PK_ESTADO_CIVIL_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.PLAN_MEDICO ADD CONSTRAINT PK_PLAN_MEDICO_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TIPO_DOCUMENTO ADD CONSTRAINT PK_TIPO_DOCUMENTO_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT PK_BONO_CONSULTA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT PK_BONO_FARMACIA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.PROFESIONAL ADD CONSTRAINT PK_PROFESIONAL_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT PK_AGENDA_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.DIA ADD CONSTRAINT PK_DIA_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT PK_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TIPO_ESPECIALIDAD ADD CONSTRAINT PK_TIPO_ESPECIALIDAD_codigo PRIMARY KEY (codigo);
-ALTER TABLE NN_NN.TURNO ADD CONSTRAINT PK_TURNO_numero PRIMARY KEY (numero);
-ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRIMARY KEY (codigo);
+ALTER TABLE NN_NN.AFILIADO ALTER COLUMN numero [numeric](18, 0) NOT NULL
+GO
+ALTER TABLE NN_NN.AFILIADO ALTER COLUMN numero_tipo_afiliado [numeric](18, 0) NOT NULL
+GO
+ALTER TABLE NN_NN.AFILIADO ADD CONSTRAINT PK_AFILIADO_numero PRIMARY KEY (numero, numero_tipo_afiliado)
+GO
+ALTER TABLE NN_NN.ESTADO_CIVIL ADD CONSTRAINT PK_ESTADO_CIVIL_codigo PRIMARY KEY (codigo)
+GO
+ALTER TABLE NN_NN.PLAN_MEDICO ADD CONSTRAINT PK_PLAN_MEDICO_codigo PRIMARY KEY (codigo)
+GO
+ALTER TABLE NN_NN.TIPO_DOCUMENTO ADD CONSTRAINT PK_TIPO_DOCUMENTO_codigo PRIMARY KEY (codigo)
+GO
+ALTER TABLE NN_NN.BONO_CONSULTA ADD CONSTRAINT PK_BONO_CONSULTA_numero PRIMARY KEY (numero)
+GO
+ALTER TABLE NN_NN.BONO_FARMACIA ADD CONSTRAINT PK_BONO_FARMACIA_numero PRIMARY KEY (numero)
+GO
+ALTER TABLE NN_NN.PROFESIONAL ADD CONSTRAINT PK_PROFESIONAL_numero PRIMARY KEY (numero)
+GO
+ALTER TABLE NN_NN.AGENDA ADD CONSTRAINT PK_AGENDA_numero PRIMARY KEY (numero)
+GO
+ALTER TABLE NN_NN.DIA ADD CONSTRAINT PK_DIA_codigo PRIMARY KEY (codigo)
+GO
+ALTER TABLE NN_NN.ESPECIALIDAD ADD CONSTRAINT PK_ESPECIALIDAD_codigo PRIMARY KEY (codigo)
+GO
+ALTER TABLE NN_NN.TIPO_ESPECIALIDAD ADD CONSTRAINT PK_TIPO_ESPECIALIDAD_codigo PRIMARY KEY (codigo)
+GO
+ALTER TABLE NN_NN.TURNO ADD CONSTRAINT PK_TURNO_numero PRIMARY KEY (numero)
+GO
+ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRIMARY KEY (codigo)
 /*************************************************************************************
 *                    CONSTRAINT FK                                                   *
 **************************************************************************************/

@@ -38,7 +38,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(31, 50);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 0;
@@ -47,7 +47,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(31, 94);
+            this.label2.Location = new System.Drawing.Point(12, 53);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 1;
@@ -55,25 +55,26 @@
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(102, 47);
+            this.username.Location = new System.Drawing.Point(83, 6);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(100, 20);
             this.username.TabIndex = 2;
             // 
             // password
             // 
-            this.password.Location = new System.Drawing.Point(102, 91);
+            this.password.Location = new System.Drawing.Point(83, 50);
             this.password.Name = "password";
+            this.password.PasswordChar = '*';
             this.password.Size = new System.Drawing.Size(100, 20);
             this.password.TabIndex = 3;
             // 
             // btLogin
             // 
-            this.btLogin.Location = new System.Drawing.Point(102, 151);
+            this.btLogin.Location = new System.Drawing.Point(108, 89);
             this.btLogin.Name = "btLogin";
             this.btLogin.Size = new System.Drawing.Size(75, 23);
             this.btLogin.TabIndex = 4;
-            this.btLogin.Text = "Login";
+            this.btLogin.Text = "Enviar";
             this.btLogin.UseVisualStyleBackColor = true;
             this.btLogin.Click += new System.EventHandler(this.btLogin_Click);
             // 
@@ -81,14 +82,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(193, 116);
             this.Controls.Add(this.btLogin);
             this.Controls.Add(this.password);
             this.Controls.Add(this.username);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "FormLogin";
-            this.Text = "FormLogin2";
+            this.Text = "Ingresar";
             this.Load += new System.EventHandler(this.FormLogin2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

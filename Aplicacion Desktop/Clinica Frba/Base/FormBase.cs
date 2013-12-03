@@ -186,6 +186,10 @@ namespace Clinica_Frba.Base
                                     break;
                             }
                         }
+                        else
+                        {
+                            tag.Value = null;
+                        }
                         parametros.Add(tag.SQLParemeter);
                     } else if (obj is DateTimePicker)
                     {
@@ -237,6 +241,16 @@ namespace Clinica_Frba.Base
             {
                 e.Handled = true;
             }
+        }
+
+        protected DateTime GetFullFechaConfig()
+        {
+            DateTime configTime = DateTime.ParseExact(
+                Properties.Settings.Default.fechaConfig,
+                Properties.Settings.Default.fechaFormat,
+                CultureInfo.InvariantCulture
+            );
+            return configTime;
         }
         /// <summary>
         /// Retorna solo el dia mes año de la fecha de configuracion
@@ -343,6 +357,19 @@ namespace Clinica_Frba.Base
                     return dgvLista.CurrentRow.Cells[i].Value;
             }
             return "";
+        }
+
+        protected void FormBase_Load(object sender, EventArgs e)
+        {
+            switch (DataSession.idRol)
+            {
+                case 2:
+                    this.AfiliadoCurrent = DataSession.afiliadoSession;
+                    break;
+                case 3:
+                    this.ProfesionalCurrent = DataSession.profesionalSession;
+                    break;
+            }
         }
 
     }

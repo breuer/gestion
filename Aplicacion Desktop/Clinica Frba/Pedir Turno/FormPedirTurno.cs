@@ -9,10 +9,13 @@ using System.Windows.Forms;
 using Clinica_Frba.Model;
 using Clinica_Frba.Base;
 using System.Data.SqlClient;
+using Clinica_Frba.Interface;
+using Clinica_Frba.Pedir_Turno;
+using Clinica_Frba.Abm_de_Profesional;
 
 namespace Clinica_Frba.NewFolder4
 {
-    public partial class FormPedirTurno : FormBase
+    public partial class FormPedirTurno : FormBase, IFInvocanteProfesional
     {
         public FormPedirTurno()
         {
@@ -21,33 +24,11 @@ namespace Clinica_Frba.NewFolder4
 
         private void btSeleccionarProfesional_Click(object sender, EventArgs e)
         {
-            //TODO DEBERIA LLAMAR AL SELECTOR DE P
-            ProfesionalCurrent = new Profesional(
-                26,
-                "Vera",
-                "FORTUNATA",
-                "fortunata_Vera@gmail.com",
-                null
-            );
-
-            DataTable dt = new DataTable();
-
-            dt.Columns.Add("numero");
-            dt.Columns.Add("nombre");
-            dt.Columns.Add("apellido");
-            dt.Columns.Add("mail");
-            dt.Columns.Add("matricula");
-
-            DataRow row = dt.NewRow();
-            row["numero"] = ProfesionalCurrent.Numero;
-            row["nombre"] = ProfesionalCurrent.Nombre;
-            row["apellido"] = ProfesionalCurrent.Apellido;
-            row["mail"] = ProfesionalCurrent.Mail;
-            row["matricula"] = ProfesionalCurrent.Matricula;
-            dt.Rows.Add(row);
-
-            this.dgvProfesional.DataSource = dt;
-            this.FillDvgFechas();
+            FormSearchProfesional frm = new FormSearchProfesional();
+            frm.Accion = EActionSearch.SELECCION;
+            frm.ShowDialog(this);
+            
+           
         }
         /// <summary>
         /// Completa el Data grip view de la izquierda con los dias que tiene en la agenda el usuarios
@@ -106,8 +87,27 @@ namespace Clinica_Frba.NewFolder4
             List<SqlParameter> parametros = new List<SqlParameter>();
             parametros.Add(new SqlParameter("nro_profesional", ProfesionalCurrent.Numero));
             parametros.Add(new SqlParameter("fecha", fechaString));
-
+         
             this.dgvTurnosByDia.DataSource = Turno.getRepository.listar("NN_NN.SP_LISTA_TURNOS_LIBRE", parametros);
+
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Estado");
+            dt.Columns.Add("Descripcion");
+
+            DataRow r = dt.NewRow();
+            r["Estado"] = 0;
+            r["Descripcion"] = "DISPONIBLE";
+            dt.Rows.Add(r);
+            r = dt.NewRow();
+            r["Estado"] = 1;
+            r["Descripcion"] = "NO DISPONIBLE";
+            dt.Rows.Add(r);
+            this.cbEstado.DataSource = dt;
+            this.cbEstado.SelectedIndex = -1;
+            this.cbEstado.DisplayMember = "Descripcion";
+            this.cbEstado.Enabled = true;
+            this.dtPFiltro.Enabled = true;
         }
 
         private void dgvTurnosByDia_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -120,12 +120,47 @@ namespace Clinica_Frba.NewFolder4
         {
             // Aca se llama al profesion
             List<SqlParameter> parametros = new List<SqlParameter>();
-            Int32 numero = (Int32) this.getObjectValueDataGrit(this.dgvTurnosByDia, "numero");
+            Decimal numero = (Decimal )this.getObjectValueDataGrit(this.dgvTurnosByDia, "numero");
             parametros.Add(new SqlParameter("numero", numero));
-            parametros.Add(new SqlParameter("@numero", ProfesionalCurrent.Numero));
+            parametros.Add(new SqlParameter("@nro_afiliado", AfiliadoCurrent.NroAfiliado));
+            parametros.Add(new SqlParameter("@nro_tipo_afiliado", AfiliadoCurrent.NroDiscriminador));
 
             Turno.getRepository.addModificar("[NN_NN].[SP_RESERVAR_TURNO]", parametros);
-
+            MessageBox.Show("La operacion a terminado con exito");
         }
+
+        private void FormPedirTurno_Load(object sender, EventArgs e)
+        {
+            this.FormBase_Load(sender, e);
+            this.dtPFiltro.MinDate = this.GetFullFechaConfig();
+            this.dtPFiltro.Value = this.GetFullFechaConfig();
+        }
+
+        #region Miembros de IFInvocanteProfesional
+
+        bool IFInvocanteProfesional.seleccionarProfesional(Profesional selected)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("numero");
+            dt.Columns.Add("nombre");
+            dt.Columns.Add("apellido");
+            dt.Columns.Add("mail");
+            dt.Columns.Add("matricula");
+            this.ProfesionalCurrent = selected;
+            DataRow row = dt.NewRow();
+            row["numero"] = ProfesionalCurrent.Numero;
+            row["nombre"] = ProfesionalCurrent.Nombre;
+            row["apellido"] = ProfesionalCurrent.Apellido;
+            row["mail"] = ProfesionalCurrent.Mail;
+            row["matricula"] = ProfesionalCurrent.Matricula;
+            dt.Rows.Add(row);
+
+            this.dgvProfesional.DataSource = dt;
+            this.FillDvgFechas();
+            
+            return true;
+        }
+
+        #endregion
     }
 }

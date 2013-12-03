@@ -37,6 +37,9 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvProfesional = new System.Windows.Forms.DataGridView();
             this.btSeleccionarProfesional = new System.Windows.Forms.Button();
+            this.cbEstado = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dtPFiltro = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnosByDia)).BeginInit();
@@ -54,10 +57,13 @@
             this.groupBox1.Size = new System.Drawing.Size(1009, 467);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "Profesional";
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.dtPFiltro);
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.cbEstado);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.dgvTurnosByDia);
             this.groupBox3.Controls.Add(this.label1);
@@ -139,6 +145,33 @@
             this.btSeleccionarProfesional.UseVisualStyleBackColor = true;
             this.btSeleccionarProfesional.Click += new System.EventHandler(this.btSeleccionarProfesional_Click);
             // 
+            // cbEstado
+            // 
+            this.cbEstado.Enabled = false;
+            this.cbEstado.FormattingEnabled = true;
+            this.cbEstado.Location = new System.Drawing.Point(430, 317);
+            this.cbEstado.Name = "cbEstado";
+            this.cbEstado.Size = new System.Drawing.Size(121, 21);
+            this.cbEstado.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(381, 320);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(43, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Estado:";
+            // 
+            // dtPFiltro
+            // 
+            this.dtPFiltro.AllowDrop = true;
+            this.dtPFiltro.Enabled = false;
+            this.dtPFiltro.Location = new System.Drawing.Point(16, 318);
+            this.dtPFiltro.Name = "dtPFiltro";
+            this.dtPFiltro.Size = new System.Drawing.Size(200, 20);
+            this.dtPFiltro.TabIndex = 6;
+            // 
             // FormPedirTurno
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -147,6 +180,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "FormPedirTurno";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.FormPedirTurno_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -169,5 +203,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvFechas;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DateTimePicker dtPFiltro;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbEstado;
     }
 }

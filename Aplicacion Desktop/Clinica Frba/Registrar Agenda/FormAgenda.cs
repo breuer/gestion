@@ -16,16 +16,10 @@ namespace Clinica_Frba.NewFolder2
 {
     public partial class FormAgenda : FormBase, IFInvocanteProfesional
     {
-        private Profesional pro;
         private int horas = 0;
         private int minutos = 0;
         
-        public Profesional Pro
-        {
-            set { pro = value; }
-            get { return pro; }
-        }
-
+        
         public FormAgenda()
         {
             InitializeComponent();
@@ -69,10 +63,9 @@ namespace Clinica_Frba.NewFolder2
 
         private void FormAgenda_Load(object sender, EventArgs e)
         {
-            if (DataSession.profesionalSession != null)
+            base.FormBase_Load(sender, e);
+            if (this.ProfesionalCurrent != null)
             {
-                Pro = DataSession.profesionalSession;
-
                 // Busco la ultima agenda del usuario
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@nroProfesional", DataSession.profesionalSession.Numero));
@@ -84,10 +77,12 @@ namespace Clinica_Frba.NewFolder2
                     if (compararFechas(fecha, fechaSetting) < 1)
                     {
                         dtFechaDesde.Value = fechaSetting;
+                        dtFechaDesde.MinDate = fechaSetting;
                     }
                     else
                     {
                         dtFechaDesde.Value = fecha.AddDays(1);
+                        dtFechaDesde.MinDate = fecha.AddDays(1);
                     }
                     habilitarDias();
                     this.FillFechaFinal(this.FillComboDias());
@@ -96,11 +91,10 @@ namespace Clinica_Frba.NewFolder2
                 else
                 {
                     dtFechaDesde.Value = this.GetFechaConfig();
+                    dtFechaDesde.MinDate = this.GetFechaConfig();
                 }
-                
+                this.fill();
             }
-             
-      
         }
 
         private void cbDias_SelectionChangeCommitted(object sender, EventArgs e)
@@ -133,39 +127,42 @@ namespace Clinica_Frba.NewFolder2
 
         }
 
+        private void fill()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("numero");
+            dt.Columns.Add("nombre");
+            dt.Columns.Add("apellido");
+            dt.Columns.Add("mail");
+            dt.Columns.Add("matricula");
+
+            DataRow row = dt.NewRow();
+            row["numero"] = ProfesionalCurrent.Numero;
+            row["nombre"] = ProfesionalCurrent.Nombre;
+            row["apellido"] = ProfesionalCurrent.Apellido;
+            row["mail"] = ProfesionalCurrent.Mail;
+            row["matricula"] = ProfesionalCurrent.Matricula;
+            dt.Rows.Add(row);
+            this.dgvProfesional.DataSource = dt;
+        }
+
         private void btSeleccionarProfesional_Click(object sender, EventArgs e)
         {
             //TODO DEBERIA LLAMAR AL SELECTOR DE P
-            Pro = new Profesional(
+            ProfesionalCurrent = new Profesional(
                 26, 
                 "Vera", 
                 "FORTUNATA", 
                 "fortunata_Vera@gmail.com", 
                 null
             );
-            
-            DataTable dt = new DataTable();
 
-            dt.Columns.Add("numero");
-            dt.Columns.Add("nombre");
-            dt.Columns.Add("apellido");
-            dt.Columns.Add("mail");
-            dt.Columns.Add("matricula");
-            
-            DataRow row = dt.NewRow();
-            row["numero"] = Pro.Numero;
-            row["nombre"] = Pro.Nombre;
-            row["apellido"] = Pro.Apellido;
-            row["mail"] = Pro.Mail;
-            row["matricula"] = Pro.Matricula;
-            dt.Rows.Add(row);
-
-            this.dgvProfesional.DataSource = dt;
+            this.fill();
 
             List<SqlParameter> param = new List<SqlParameter>();
             param.Add(new SqlParameter("@nroProfesional", DataSession.profesionalSession.Numero));
-            dt = null;
-            dt = Agenda.getRepository.listar("NN_NN.SP_RETORNA_ULTIMA_AGENDA", param);
+            
+            DataTable dt = Agenda.getRepository.listar("NN_NN.SP_RETORNA_ULTIMA_AGENDA", param);
             if (dt != null)
             {
                 DateTime fecha = (DateTime)dt.Rows[0]["fechaFin"];
@@ -173,10 +170,12 @@ namespace Clinica_Frba.NewFolder2
                 if (compararFechas(fecha, fechaSetting) < 1)
                 {
                     dtFechaDesde.Value = fechaSetting;
+                    dtFechaDesde.MinDate = fechaSetting;
                 }
                 else
                 {
                     dtFechaDesde.Value = fecha.AddDays(1);
+                    dtFechaDesde.MinDate = fecha.AddDays(1);
                 }
                 habilitarDias();
                 this.FillFechaFinal(this.FillComboDias());
@@ -185,6 +184,7 @@ namespace Clinica_Frba.NewFolder2
             else
             {
                 dtFechaDesde.Value = this.GetFechaConfig();
+                dtFechaDesde.MinDate = this.GetFechaConfig();
             }
             habilitarDias();
         }
@@ -267,7 +267,7 @@ namespace Clinica_Frba.NewFolder2
             String fecha_f0 = dtFechaDesde.Value.ToString(Properties.Settings.Default.fechaFormat);
             String fecha_f1 = dtFechaFinal.Value.ToString(Properties.Settings.Default.fechaFormat);
             List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(new SqlParameter("nro_profesional", Pro.Numero));
+            parametros.Add(new SqlParameter("nro_profesional", ProfesionalCurrent.Numero));
             parametros.Add(new SqlParameter("fecha_inicio", fecha_f0));
             parametros.Add(new SqlParameter("fecha_fin", fecha_f1));
             SqlParameter paramReturn = new SqlParameter(
@@ -319,7 +319,7 @@ namespace Clinica_Frba.NewFolder2
                 parametros = new List<SqlParameter>();
                 parametros.Add(new SqlParameter("nro_agenda", idAgenda));
                 parametros.Add(new SqlParameter("duracionTurno", Properties.Settings.Default.duracionTurno));
-                parametros.Add(new SqlParameter("nro_profesional", Pro.Numero));
+                parametros.Add(new SqlParameter("nro_profesional", ProfesionalCurrent.Numero));
 
                 Agenda.getRepository.callProcedure(
                     "NN_NN.sp_generar_agenda",
@@ -329,7 +329,13 @@ namespace Clinica_Frba.NewFolder2
                 );
                 transaccion.Commit();
                 // TODO el roolback deberia ponerlo aca en ves de hacer la llamada e callProcedure
+                MessageBox.Show("La operacion se terminado con exito");
             }
+        }
+
+        private void tbHorasTotal_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
