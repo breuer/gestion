@@ -39,7 +39,7 @@
             this.groupBox1.Controls.Add(this.dgvTurnosByDia);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(603, 302);
+            this.groupBox1.Size = new System.Drawing.Size(559, 302);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
@@ -48,17 +48,18 @@
             this.dgvTurnosByDia.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTurnosByDia.Location = new System.Drawing.Point(6, 19);
             this.dgvTurnosByDia.Name = "dgvTurnosByDia";
-            this.dgvTurnosByDia.Size = new System.Drawing.Size(421, 273);
+            this.dgvTurnosByDia.Size = new System.Drawing.Size(387, 273);
             this.dgvTurnosByDia.TabIndex = 3;
             // 
             // FormMisTurnos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 326);
+            this.ClientSize = new System.Drawing.Size(581, 326);
             this.Controls.Add(this.groupBox1);
             this.Name = "FormMisTurnos";
             this.Text = "FormMisTurnos";
+            this.Load += new System.EventHandler(this.FormMisTurnos_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnosByDia)).EndInit();
             this.ResumeLayout(false);

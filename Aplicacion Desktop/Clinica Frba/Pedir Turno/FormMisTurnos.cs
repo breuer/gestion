@@ -16,5 +16,10 @@ namespace Clinica_Frba.Pedir_Turno
         {
             InitializeComponent();
         }
+
+        private void FormMisTurnos_Load(object sender, EventArgs e)
+        {
+            base.FormBase_Load(sender, e);
+        }
     }
 }

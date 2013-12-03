@@ -11,6 +11,7 @@ using Clinica_Frba.Base;
 using System.Data.SqlClient;
 using Clinica_Frba.Interface;
 using Clinica_Frba.Pedir_Turno;
+using Clinica_Frba.Abm_de_Profesional;
 
 namespace Clinica_Frba.NewFolder4
 {
@@ -23,7 +24,7 @@ namespace Clinica_Frba.NewFolder4
 
         private void btSeleccionarProfesional_Click(object sender, EventArgs e)
         {
-            FormSearchTurno frm = new FormSearchTurno();
+            FormSearchProfesional frm = new FormSearchProfesional();
             frm.ShowDialog(this);
             
             //TODO DEBERIA LLAMAR AL SELECTOR DE P
