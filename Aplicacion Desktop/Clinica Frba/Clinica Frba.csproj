@@ -152,6 +152,12 @@
       <DependentUpon>FormCompraBonos.cs</DependentUpon>
     </Compile>
     <Compile Include="Base\DataSession.cs" />
+    <Compile Include="Consulta\FormConsulta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consulta\FormConsulta.Designer.cs">
+      <DependentUpon>FormConsulta.cs</DependentUpon>
+    </Compile>
     <Compile Include="DiaAgenda.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -169,6 +175,12 @@
     </Compile>
     <Compile Include="FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormRegistroLLegada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRegistroLLegada.Designer.cs">
+      <DependentUpon>FormRegistroLLegada.cs</DependentUpon>
     </Compile>
     <Compile Include="FormRol.cs">
       <SubType>Form</SubType>
@@ -240,6 +252,18 @@
     <Compile Include="Registrar Agenda\FormSearchAgenda.Designer.cs">
       <DependentUpon>FormSearchAgenda.cs</DependentUpon>
     </Compile>
+    <Compile Include="Registrar llegada\FormRegistrarLLegada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registrar llegada\FormRegistrarLLegada.Designer.cs">
+      <DependentUpon>FormRegistrarLLegada.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registrar llegada\FormRegistrarLLegadaConBono.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registrar llegada\FormRegistrarLLegadaConBono.Designer.cs">
+      <DependentUpon>FormRegistrarLLegadaConBono.cs</DependentUpon>
+    </Compile>
     <Compile Include="Registro de Usuario\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -269,12 +293,6 @@
     </Compile>
     <Compile Include="Pedir Turno\FormPedirTurno.Designer.cs">
       <DependentUpon>FormPedirTurno.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Registro de LLegada\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Registro de LLegada\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro Resultado Atencion\Form1.cs">
       <SubType>Form</SubType>
@@ -326,6 +344,10 @@
       <DependentUpon>FormAlta.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Base\FormBase.resx">
+      <DependentUpon>FormBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Base\FormSearch.resx">
       <DependentUpon>FormSearch.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -346,6 +368,10 @@
       <DependentUpon>FormCompraBonos.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Consulta\FormConsulta.resx">
+      <DependentUpon>FormConsulta.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="DiaAgenda.resx">
       <DependentUpon>DiaAgenda.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -364,6 +390,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRegistroLLegada.resx">
+      <DependentUpon>FormRegistroLLegada.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRol.resx">
@@ -403,6 +433,18 @@
       <DependentUpon>FormSearchAgenda.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Registrar llegada\FormRegistrarLLegada.resx">
+      <DependentUpon>FormRegistrarLLegada.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registrar llegada\FormRegistrarLLegadaConBono.resx">
+      <DependentUpon>FormRegistrarLLegadaConBono.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro Resultado Atencion\FormAtencion.resx">
+      <DependentUpon>FormAtencion.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Registro Resultado Atencion\FormReceta.resx">
       <DependentUpon>FormReceta.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -421,6 +463,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\FormAtencion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro Resultado Atencion\FormAtencion.Designer.cs">
+      <DependentUpon>FormAtencion.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro Resultado Atencion\FormReceta.cs">
       <SubType>Form</SubType>
@@ -466,6 +514,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Login\" />
+    <Folder Include="registro\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

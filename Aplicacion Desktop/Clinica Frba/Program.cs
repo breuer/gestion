@@ -23,15 +23,9 @@ namespace Clinica_Frba
             {
                 Application.Run(new FormMain());
             }
-
-            /*
-            DataSession.idRol = 3;
-            DataSession.nroAfiliado = "1";
-            DataSession.nroDiscriminadorAfiliado = "1";
-            DataSession.nroAfiliadoReceta = 3;
-            Application.Run(new FormMain());
-            */
             
+            
+           
         }
     }
 }

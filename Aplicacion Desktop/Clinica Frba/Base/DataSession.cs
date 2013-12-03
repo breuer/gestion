@@ -16,6 +16,7 @@ namespace Clinica_Frba
 
         //para pruebas:
         public static int nroAfiliadoReceta;
+        public static int nroConsulta;
 
         public static Afiliado afiliadoSession;
         public static Profesional profesionalSession;

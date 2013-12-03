@@ -601,6 +601,7 @@ BEGIN
 		AND CONVERT(DATE, T.fecha) = CONVERT(DATE, @fecha, 105)
 END
 GO
+
 CREATE PROCEDURE [NN_NN].[SP_RESERVAR_TURNO]
 	@nro_afiliado INT,
 	@nro_tipo_afiliado INT,
@@ -763,7 +764,7 @@ END
 GO
 
 CREATE PROCEDURE 
-	NN_NN.SP_CHEQUEAR_VENCIMIENTO_BONO_FARMACIA (@nro_bono int) AS
+	NN_NN.SP_CHEQUEAR_VENCIMIENTO_BONO_FARMACIA (@nro_bono int, @fecha datetime) AS
 BEGIN
 	SELECT  
 		B.numero
@@ -772,11 +773,320 @@ BEGIN
     WHERE 
 		B.numero = @nro_bono 
 	AND
-		B.fecha_vencimiento < GETDATE ()		
+		--B.fecha_vencimiento < GETDATE ()		
+		B.fecha_vencimiento < @fecha
 END
+GO
 
+CREATE PROCEDURE 
+	NN_NN.SP_CHEQUEAR_USO_BONO_FARMACIA (@nro_bono int) AS
+BEGIN
+	SELECT  
+		RB.nro_bono_farmacia		
+    FROM 
+		NN_NN.RECETA_BONO_FARMACIA RB
+    WHERE 
+		RB.nro_bono_farmacia = @nro_bono 
+END
+GO
 
+CREATE PROCEDURE 
+	NN_NN.SP_ADD_MEDICAMENTO (@nro_bono int, @descripcion VARCHAR(255), @cantidad int) AS
+BEGIN
+	INSERT INTO 
+		NN_NN.MEDICAMENTO (nro_bono_farmacia, descripcion, cantidad)
+	VALUES
+		(@nro_bono, @descripcion, @cantidad)
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_GENERAR_RECETA (@nro_consulta int) AS
+BEGIN
+	DECLARE @ID NUMERIC(18,0)
+	INSERT INTO 
+		NN_NN.RECETA (nro_consulta)
+	VALUES
+		(@nro_consulta)
+	SET @ID = SCOPE_IDENTITY()
+	RETURN @ID
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_ADD_BONO_FARMACIA_IN_RECETA (@nro_receta int, @nro_bono int) AS
+BEGIN
+	INSERT INTO 
+		NN_NN.RECETA_BONO_FARMACIA(nro_receta, nro_bono_farmacia)
+	VALUES
+		(@nro_receta, @nro_bono)
+END
+GO
 
 /******************************************************
-*                    AGENDA                           *
+*                    REGISTRO LLEGADA                 *
 *******************************************************/
+
+CREATE PROCEDURE NN_NN.SP_LISTA_TURNOS_PROFESIONAL (
+	@nro_profesional INT,
+	@fecha datetime
+)
+AS
+BEGIN
+	SELECT  
+		T.fecha fecha,
+		T.numero nroTurno, 
+		A.numero nroAfiliado, 
+		A.numero_tipo_afiliado,
+		A.apellido apellidoAfiliado,
+		A.nombre nombreAfiliado
+	FROM 
+		[NN_NN].[TURNO] AS T 
+	LEFT JOIN 
+		[NN_NN].[CANCELACION_TURNO] AS CT	
+	ON
+		T.numero = CT.nro_turno
+	LEFT JOIN 
+		[NN_NN].[AFILIADO] AS A	
+	ON 
+		A.numero = T.nro_afiliado 
+	AND
+		A.numero_tipo_afiliado = T.nro_tipo_afiliado
+	WHERE 
+		CT.motivo IS NULL 	
+	AND 
+		DATEPART(YEAR, t.fecha) = DATEPART(YEAR, @fecha)
+	AND
+		DATEPART(MONTH, t.fecha) = DATEPART(MONTH, @fecha)
+	AND
+		DATEPART(DAY, t.fecha) = DATEPART(DAY, @fecha)
+	AND 
+		T.nro_profesional = @nro_profesional 
+	ORDER BY
+		T.fecha
+		
+END
+GO
+
+CREATE PROCEDURE NN_NN.SP_LISTA_TURNOS_AFILIADO (
+	@nro_afiliado INT,
+	@nro_tipo_afiliado INT,
+	@fecha datetime
+)
+AS
+BEGIN
+	SELECT  
+		T.fecha fecha,
+		T.numero nroTurno, 
+		P.apellido apellidoProfesional,
+		P.nombre nombreProfesional	
+	FROM 
+		[NN_NN].[TURNO] AS T 
+	LEFT JOIN 
+		[NN_NN].[CANCELACION_TURNO] AS CT	
+	ON
+		T.numero = CT.nro_turno
+	LEFT JOIN 
+		[NN_NN].[AFILIADO] AS A	
+	ON 
+		A.numero = T.nro_afiliado
+	AND
+		A.numero_tipo_afiliado = T.nro_tipo_afiliado
+	LEFT JOIN 
+		NN_NN.PROFESIONAL P
+	ON
+		P.numero = T.nro_profesional
+	WHERE 
+		CT.motivo IS NULL 
+	AND 
+		DATEPART(YEAR, t.fecha) = DATEPART(YEAR, @fecha)
+	AND
+		DATEPART(MONTH, t.fecha) = DATEPART(MONTH, @fecha)
+	AND
+		DATEPART(DAY, t.fecha) = DATEPART(DAY, @fecha)
+	AND
+		T.nro_afiliado = @nro_afiliado
+	AND
+		T.nro_tipo_afiliado = @nro_tipo_afiliado
+	ORDER BY
+		T.fecha
+		
+END
+GO
+
+CREATE PROCEDURE NN_NN.SP_LISTA_TURNOS_AFILIADO_PROFESIONAL (
+	@nro_afiliado INT,
+	@nro_tipo_afiliado INT,
+	@nro_profesional INT,
+	@fecha datetime
+)
+AS
+BEGIN
+	SELECT  
+		T.fecha fecha,
+		T.numero nroTurno, 
+		A.numero nroAfiliado, 
+		A.numero_tipo_afiliado,
+		A.apellido apellidoAfiliado,
+		A.nombre nombreAfiliado	
+	FROM 
+		[NN_NN].[TURNO] AS T 
+	LEFT JOIN 
+		[NN_NN].[CANCELACION_TURNO] AS CT	
+	ON
+		T.numero = CT.nro_turno
+	LEFT JOIN 
+		[NN_NN].[AFILIADO] AS A	
+	ON 
+		A.numero = @nro_afiliado 
+	AND
+		A.numero_tipo_afiliado = @nro_tipo_afiliado
+	LEFT JOIN 
+		NN_NN.PROFESIONAL P
+	ON
+		P.numero = T.nro_profesional
+	WHERE 
+		CT.motivo IS NULL 
+	AND 
+		DATEPART(YEAR, t.fecha) = DATEPART(YEAR, @fecha)
+	AND
+		DATEPART(MONTH, t.fecha) = DATEPART(MONTH, @fecha)
+	AND
+		DATEPART(DAY, t.fecha) = DATEPART(DAY, @fecha)
+	AND
+		T.nro_afiliado = @nro_afiliado
+	AND
+		T.nro_tipo_afiliado = @nro_tipo_afiliado
+	AND
+		T.nro_profesional = @nro_profesional
+	ORDER BY
+		T.fecha
+		
+END
+GO
+
+CREATE PROCEDURE NN_NN.CHEQUEAR_HORARIO (
+	@nro_turno INT,
+	@fecha datetime
+)
+AS
+BEGIN
+	SELECT  
+		T.numero 
+	FROM 
+		[NN_NN].[TURNO] T 	
+	WHERE
+		t.numero = @nro_turno
+	AND 		
+		DATEPART(YEAR, t.fecha) = DATEPART(YEAR, @fecha)
+	AND
+		DATEPART(MONTH, t.fecha) = DATEPART(MONTH, @fecha)
+	AND
+		DATEPART(DAY, t.fecha) = DATEPART(DAY, @fecha)
+	AND
+		@fecha <= T.fecha		
+END
+GO
+
+CREATE PROCEDURE NN_NN.REGISTRAR_LLEGADA_A_TURNO (
+	@nro_turno INT,
+	@fecha datetime
+)
+AS
+BEGIN
+	UPDATE
+		NN_NN.TURNO 
+	SET
+		fecha_llegada = @fecha
+END
+GO
+
+--INSERT INTO NN_NN.USUARIO_ROL (ID_USUARIO, ID_ROL) VALUES(1,1);
+
+CREATE PROCEDURE NN_NN.SP_GENERAR_CONSULTA (
+	@nro_turno INT,
+	@nro_bono_consulta int
+)
+AS
+BEGIN
+	DECLARE @ID NUMERIC(18,0)
+	INSERT INTO 
+		NN_NN.CONSULTA (nro_turno, nro_bono_consulta)
+	VALUES
+		(@nro_turno, @nro_bono_consulta)
+	SET @ID = SCOPE_IDENTITY()
+	RETURN @ID
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_CHEQUEAR_USO_BONO_CONSULTA (@nro_bono int) AS
+BEGIN
+	SELECT  
+		C.nro_bono_consulta		
+    FROM 
+		NN_NN.CONSULTA C
+    WHERE 
+		C.nro_bono_consulta = @nro_bono 
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_CHEQUEAR_PERTENENCIA_BONO_CONSULTA (@nro_bono int, @nro_usuario int) AS
+BEGIN
+
+	SELECT  
+		B.numero
+    FROM 
+		NN_NN.AFILIADO A
+    JOIN 
+		NN_NN.BONO_CONSULTA B
+    ON 
+		B.nro_afiliado = A.numero 
+    WHERE 
+		B.numero = @nro_bono
+END
+GO
+/******************************************************
+*                    CONSULTA                         *
+*******************************************************/
+CREATE PROCEDURE 
+	NN_NN.SP_CONSULTAS_PENDIENTES (@nro_profesional int, @fecha datetime) AS
+BEGIN
+
+	SELECT  
+		C.numero,
+		C.nro_turno,
+		T.fecha,
+		A.apellido,
+		A.nombre
+    FROM 
+		NN_NN.TURNO T
+    JOIN 
+		NN_NN.CONSULTA C
+    ON 
+		T.numero = C.nro_turno
+    JOIN 
+		NN_NN.PROFESIONAL P
+    ON 
+		P.numero = T.nro_profesional
+	JOIN
+		NN_NN.AFILIADO A
+	ON
+		A.numero = T.nro_afiliado
+	AND
+		A.numero_tipo_afiliado = T.nro_tipo_afiliado
+    WHERE 
+		T.fecha_llegada is not null
+	AND
+		P.numero = @nro_profesional
+	AND
+		DATEPART(YEAR, t.fecha) = DATEPART(YEAR, @fecha)
+	AND
+		DATEPART(MONTH, t.fecha) = DATEPART(MONTH, @fecha)
+	AND
+		DATEPART(DAY, t.fecha) = DATEPART(DAY, @fecha)	
+	ORDER BY
+		T.fecha
+END
+GO

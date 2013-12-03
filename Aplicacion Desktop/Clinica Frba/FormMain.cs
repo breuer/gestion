@@ -15,6 +15,7 @@ using Clinica_Frba.Base;
 using Clinica_Frba.Compra_de_Bono;
 using Clinica_Frba.Registro_Resultado_Atencion;
 using Clinica_Frba.Abm_de_Afiliado;
+using Clinica_Frba.Registrar_llegada;
 
 
 namespace Clinica_Frba
@@ -181,6 +182,12 @@ namespace Clinica_Frba
         private void btListarAfiliado_Click(object sender, EventArgs e)
         {
             FormSearchAfiliado frm = new FormSearchAfiliado();
+            frm.Show();
+        }
+
+        private void btRegistro_Click(object sender, EventArgs e)
+        {
+            FormRegistrarLLegada frm = new FormRegistrarLLegada();
             frm.Show();
         }
 

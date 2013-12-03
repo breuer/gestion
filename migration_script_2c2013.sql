@@ -311,8 +311,8 @@ CREATE TABLE NN_NN.TIPO_CANCELACION
 CREATE TABLE NN_NN.CONSULTA
 (
 	numero [numeric](18, 0) identity(1,1) not null,
-	diagnostico [varchar] (255) not null,
-	sintomas [varchar] (255) not null,
+	diagnostico [varchar] (255),
+	sintomas [varchar] (255),
 	fecha_atencion [datetime],
 	nro_bono_consulta [numeric](18, 0) not null,
 	nro_turno [numeric](18, 0) not null
