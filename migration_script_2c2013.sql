@@ -614,9 +614,10 @@ INSERT INTO NN_NN.AFILIADO(
 	fecha_nac, 
 	telefono, 
 	mail, 
-	cod_plan
+	cod_plan,
+	cod_estado_civil
 ) 
-SELECT DISTINCT Paciente_Apellido, Paciente_Nombre,1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo
+SELECT DISTINCT Paciente_Apellido, Paciente_Nombre,1, Paciente_Dni, Paciente_Direccion, Paciente_Fecha_Nac, Paciente_Telefono, Paciente_Mail, Plan_Med_Codigo, 1
 	FROM gd_esquema.Maestra
 /******************************************************
 *                    BONOS                            *
@@ -784,9 +785,9 @@ WHERE
 *******************************************************/
 
 INSERT INTO 
-	NN_NN.TURNO(numero, fecha, nro_profesional, nro_afiliado, nro_tipo_afiliado, nro_day)
+	NN_NN.TURNO(numero, fecha, fecha_llegada, nro_profesional, nro_afiliado, nro_tipo_afiliado, nro_day)
 SELECT DISTINCT   
-	M.Turno_Numero, M.Turno_Fecha, P.numero, A.numero, A.numero_tipo_afiliado, datepart(dw,Turno_Fecha)
+	M.Turno_Numero, M.Turno_Fecha, M.Turno_Fecha ,P.numero, A.numero, A.numero_tipo_afiliado, datepart(dw,Turno_Fecha)
 FROM 
 	gd_esquema.Maestra M
 JOIN
