@@ -99,7 +99,7 @@ namespace Clinica_Frba.Abm_de_Profesional
             profesional.Numero = int.Parse(getValueDataGrit(dgvLista, "numero"));
             profesional.Nombre = getValueDataGrit(dgvLista, "nombre");
             profesional.Apellido = getValueDataGrit(dgvLista, "apellido");
-            profesional.Matricula = Decimal.Parse(getValueDataGrit(dgvLista, "matricula"));
+            profesional.Matricula = Decimal.Parse((getValueDataGrit(dgvLista, "matricula") == "") ? "0" : getValueDataGrit(dgvLista, "matricula"));
 
             if (Accion == EActionSearch.SELECCION)
             {

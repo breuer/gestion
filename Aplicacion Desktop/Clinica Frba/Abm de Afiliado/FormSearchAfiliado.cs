@@ -88,8 +88,7 @@ namespace Clinica_Frba.Abm_de_Afiliado
             afiliado.NroDiscriminador = int.Parse(getValueDataGrit(dgvLista, "discriminador"));
             afiliado.Nombre = getValueDataGrit(dgvLista, "nombre");
             afiliado.Apellido = getValueDataGrit(dgvLista, "apellido");
-            
-
+           
             if (Accion == EActionSearch.SELECCION)
             {
                 IFInvocanteAfiliado iDestino = this.Owner as IFInvocanteAfiliado;

@@ -242,6 +242,16 @@ namespace Clinica_Frba.Base
                 e.Handled = true;
             }
         }
+
+        protected DateTime GetFullFechaConfig()
+        {
+            DateTime configTime = DateTime.ParseExact(
+                Properties.Settings.Default.fechaConfig,
+                Properties.Settings.Default.fechaFormat,
+                CultureInfo.InvariantCulture
+            );
+            return configTime;
+        }
         /// <summary>
         /// Retorna solo el dia mes año de la fecha de configuracion
         /// </summary>

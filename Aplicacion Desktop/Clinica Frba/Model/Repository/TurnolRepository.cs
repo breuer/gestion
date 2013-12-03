@@ -20,7 +20,12 @@ namespace Clinica_Frba.Model.Repository
         // TODO mas tarde ver!!!
         public DataTable existeProfesional(String docuemento, String tipo)
         {
-            return listar(queryTipoCancelacion + docuemento + " AND codigo_documento = " + tipo);
+            DataTable dt = listar(queryTipoCancelacion + docuemento + " AND codigo_documento = " + tipo);
+            DataRow row = dt.NewRow();
+            row["tipoCancelacion"] = 0;
+            row["descripcion"] = "libre";
+            dt.Rows.Add(row);
+            return dt;
         }
 
         

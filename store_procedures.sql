@@ -263,8 +263,6 @@ GO
 /******************************************************
 *                    ADD AFILIADO                     *
 *******************************************************/
-DROP PROCEDURE [NN_NN].[sp_listar_profesional];
-
 CREATE PROCEDURE [NN_NN].[sp_listar_profesional](
 	@apellido VARCHAR(255) = NULL,
 	@nombre VARCHAR(255) = NULL,
@@ -452,6 +450,7 @@ BEGIN
      end catch
 END
 GO
+
 CREATE PROCEDURE NN_NN.SP_RETURN_AFILIADO (
 	@discriminador INT = 0,
 	@numero INT
@@ -461,7 +460,7 @@ BEGIN
 	SELECT apellido, nombre, cod_estado_Civil, cod_plan, codigo_documento, documento,
 		telefono, direccion, fecha_nac, mail, sexo, numero_tipo_afiliado, numero
 	FROM [NN_NN].[AFILIADO]
-		WHERE discriminador = @discriminador AND numero= @numero AND habilitado = '1'; 
+		WHERE numero_tipo_afiliado = @discriminador AND numero= @numero AND habilitado = '1'; 
 END
 GO
 /******************************************************
@@ -495,7 +494,7 @@ CREATE PROCEDURE NN_NN.SP_RETURN_PROFESIONAL (
 )
 AS
 BEGIN
-	SELECT apellido, nombre, codigo_documento, dni, direccion, fecha_nac, telefono, mail, sexo, matricula
+	SELECT apellido, nombre, codigo_documento, dni, direccion, fecha_nac, telefono, mail, sexo, matricula, numero
 		FROM [NN_NN].[PROFESIONAL]
 		WHERE numero = @numero AND habilitado = '1';
 END
@@ -535,8 +534,7 @@ BEGIN
 	
 	INSERT  INTO NN_NN.AGENDA (nro_profesional, fecha_inicio, fecha_fin)
 		OUTPUT INSERTED.numero INTO @AuxTable
-	VALUES 
-		(@nro_profesional, @FECHA_F0, @FECHA_F1)	
+	VALUES (@nro_profesional, @FECHA_F0, @FECHA_F1)	
 	DECLARE @nro int = (SELECT T.nro_agenda FROM @AuxTable T)
 	RETURN @nro
 END
@@ -648,24 +646,38 @@ GO
 --
 CREATE PROCEDURE NN_NN.SP_LISTAR_AGENDA_DIAS(
 	@fecha VARCHAR(255),
-	@nroProfesional INT
+	@nroProfesional DECIMAL(18,0)
+
 )
 AS 
 BEGIN
-	SELECT CONVERT(DATE, c.fecha) AS fecha, c.nro_day AS DIA, 
-		CASE (
-			SELECT COUNT (*)
-				FROM [NN_NN].[TURNO] AS P 
-				WHERE P.nro_profesional = c.nro_profesional 
-				AND CONVERT(DATE, p.fecha) = CONVERT(DATE, c.fecha) AND p.nro_afiliado is null
-		) WHEN 0 THEN 'NO DISPONIBLE'
-		ELSE 'DISPONIBLE' END AS ESTADO, 
-		a.fecha_fin AS fechaFin, a.fecha_inicio AS fechaInicio
-	FROM [NN_NN].[TURNO] AS c LEFT JOIN [NN_NN].[AGENDA] AS a 
-		ON (CONVERT(DATE, c.fecha) BETWEEN (CONVERT(DATE, a.fecha_inicio)) AND (CONVERT(DATE, a.fecha_fin))) 
-	WHERE c.nro_profesional = @nroProfesional AND CONVERT(DATE, c.fecha) >= CONVERT(DATE, @fecha,105)
-	GROUP BY CONVERT(DATE, c.fecha), c.nro_profesional,[nro_day], a.fecha_fin, a.fecha_inicio
-	ORDER BY CONVERT(DATE, c.fecha)
+	
+		SELECT CONVERT(DATE, c.fecha) AS fecha, c.nro_day AS DIA, 
+			CASE (
+				SELECT COUNT (*)
+					FROM [NN_NN].[TURNO] AS P 
+					WHERE P.nro_profesional = c.nro_profesional 
+					AND CONVERT(DATE, p.fecha) = CONVERT(DATE, c.fecha) AND p.nro_afiliado is null
+				) WHEN 0 THEN 'NO DISPONIBLE'
+			ELSE 'DISPONIBLE' END AS ESTADO, 
+				a.fecha_fin AS fechaFin, a.fecha_inicio AS fechaInicio
+			FROM [NN_NN].[TURNO] AS c LEFT JOIN [NN_NN].[AGENDA] AS a 
+				ON (CONVERT(DATE, c.fecha) BETWEEN (CONVERT(DATE, a.fecha_inicio)) AND (CONVERT(DATE, a.fecha_fin))) 
+			WHERE c.nro_profesional = @nroProfesional AND CONVERT(DATE, c.fecha) >= CONVERT(DATE, @fecha,105)
+			GROUP BY CONVERT(DATE, c.fecha), c.nro_profesional,[nro_day], a.fecha_fin, a.fecha_inicio
+			ORDER BY CONVERT(DATE, c.fecha)
+
+END
+GO
+CREATE PROCEDURE NN_NN.SP_RETORNA_ULTIMA_AGENDA (
+	@nroProfesional DECIMAL(18,0)
+)
+AS
+BEGIN
+	SELECT numero, fecha_fin AS fechaFin, fecha_inicio AS fechaInicio
+		FROM [NN_NN].[AGENDA] 
+		WHERE nro_profesional = @nroProfesional AND habilitado = '1'
+		ORDER BY fechaFin DESC;
 END
 GO
 /******************************************************
@@ -686,9 +698,9 @@ BEGIN
 END
 GO
 CREATE PROCEDURE [NN_NN].[SP_RESERVAR_TURNO]
-	@nro_afiliado INT,
-	@nro_tipo_afiliado INT,
-	@numero INT
+	@nro_afiliado DECIMAL(18,0),
+	@nro_tipo_afiliado DECIMAL(18,0),
+	@numero DECIMAL(18,0)
 AS
 BEGIN
 	UPDATE [NN_NN].[TURNO]
@@ -697,6 +709,7 @@ BEGIN
 		WHERE numero = @numero;
 END
 GO
+
 /******************************************************
 *                    BONOS                            *
 *******************************************************/
