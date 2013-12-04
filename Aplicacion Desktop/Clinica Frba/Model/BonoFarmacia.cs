@@ -12,7 +12,11 @@ namespace Clinica_Frba.Model
         List<Medicamento> medicamentos = new List<Medicamento>();
 
         public int Numero { set { numero = value; } get { return numero; } }
-        public void addMedicamento(Medicamento medicamento) {
+
+        public List<Medicamento> Medicamentos { get { return medicamentos; } }
+        
+        public void addMedicamento(Medicamento medicamento)
+        {
             medicamentos.Add(medicamento);
         }
         public bool notFill() {

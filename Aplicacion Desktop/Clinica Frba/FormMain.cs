@@ -16,6 +16,7 @@ using Clinica_Frba.Compra_de_Bono;
 using Clinica_Frba.Registro_Resultado_Atencion;
 using Clinica_Frba.Abm_de_Afiliado;
 using Clinica_Frba.Registrar_llegada;
+using Clinica_Frba.Consultas_Pendientes;
 
 
 namespace Clinica_Frba
@@ -88,9 +89,9 @@ namespace Clinica_Frba
             btRegistraAgenda.Enabled = true;
             btPedirTunro.Enabled = true;
             btCompraBonoFarmacia.Enabled = true;
-            btCompraBonoConsulta.Enabled = true;
-            btGenerarReceta.Enabled = true;
+            btCompraBonoConsulta.Enabled = true;         
             btListarAfiliado.Enabled = true;
+            btConsultasPendientes.Enabled = true;
             
         }
 
@@ -175,12 +176,6 @@ namespace Clinica_Frba
             frm.Show();
         }
 
-        private void btGenerarReceta_Click(object sender, EventArgs e)
-        {
-            FormReceta frm = new FormReceta();
-            frm.Show();
-        }
-
         private void btListarAfiliado_Click(object sender, EventArgs e)
         {
             FormSearchAfiliado frm = new FormSearchAfiliado();
@@ -193,10 +188,11 @@ namespace Clinica_Frba
             frm.Show();
         }
 
-
-
-        
-
+        private void btConsultasPendientes_Click(object sender, EventArgs e)
+        {
+            FormConsultasPendientes frm = new FormConsultasPendientes();
+            frm.Show();
+        }   
       
     }
 }

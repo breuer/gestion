@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Clinica_Frba.Base;
+using Clinica_Frba.Model;
 
 
 namespace Clinica_Frba
@@ -24,9 +25,7 @@ namespace Clinica_Frba
             {
                 Application.Run(new FormMain());
             }
-            
-            
-           
+
         }
     }
 }

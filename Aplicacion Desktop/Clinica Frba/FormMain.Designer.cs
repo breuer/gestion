@@ -66,7 +66,7 @@
             this.btRegistraAgenda = new System.Windows.Forms.Button();
             this.btVerAgenda = new System.Windows.Forms.Button();
             this.gbProfesional = new System.Windows.Forms.GroupBox();
-            this.btGenerarReceta = new System.Windows.Forms.Button();
+            this.btConsultasPendientes = new System.Windows.Forms.Button();
             this.gbAfiliado = new System.Windows.Forms.GroupBox();
             this.btCompraBonoFarmacia = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -75,7 +75,6 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.btAtenderConsulta = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gbEstadistico.SuspendLayout();
@@ -470,8 +469,7 @@
             // 
             // gbProfesional
             // 
-            this.gbProfesional.Controls.Add(this.btAtenderConsulta);
-            this.gbProfesional.Controls.Add(this.btGenerarReceta);
+            this.gbProfesional.Controls.Add(this.btConsultasPendientes);
             this.gbProfesional.Controls.Add(this.btRegistraAgenda);
             this.gbProfesional.Controls.Add(this.btVerAgenda);
             this.gbProfesional.Location = new System.Drawing.Point(18, 182);
@@ -481,15 +479,15 @@
             this.gbProfesional.TabStop = false;
             this.gbProfesional.Text = "Menu Profesional";
             // 
-            // btGenerarReceta
+            // btConsultasPendientes
             // 
-            this.btGenerarReceta.Location = new System.Drawing.Point(12, 77);
-            this.btGenerarReceta.Name = "btGenerarReceta";
-            this.btGenerarReceta.Size = new System.Drawing.Size(182, 23);
-            this.btGenerarReceta.TabIndex = 7;
-            this.btGenerarReceta.Text = "Generar receta";
-            this.btGenerarReceta.UseVisualStyleBackColor = true;
-            this.btGenerarReceta.Click += new System.EventHandler(this.btGenerarReceta_Click);
+            this.btConsultasPendientes.Location = new System.Drawing.Point(12, 77);
+            this.btConsultasPendientes.Name = "btConsultasPendientes";
+            this.btConsultasPendientes.Size = new System.Drawing.Size(182, 23);
+            this.btConsultasPendientes.TabIndex = 8;
+            this.btConsultasPendientes.Text = "Consultas Pendientes";
+            this.btConsultasPendientes.UseVisualStyleBackColor = true;
+            this.btConsultasPendientes.Click += new System.EventHandler(this.btConsultasPendientes_Click);
             // 
             // gbAfiliado
             // 
@@ -579,15 +577,6 @@
             this.button8.UseVisualStyleBackColor = false;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
-            // btAtenderConsulta
-            // 
-            this.btAtenderConsulta.Location = new System.Drawing.Point(12, 106);
-            this.btAtenderConsulta.Name = "btAtenderConsulta";
-            this.btAtenderConsulta.Size = new System.Drawing.Size(182, 23);
-            this.btAtenderConsulta.TabIndex = 8;
-            this.btAtenderConsulta.Text = "Atender Consulta";
-            this.btAtenderConsulta.UseVisualStyleBackColor = true;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -665,10 +654,9 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button btGenerarReceta;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btRegistro;
-        private System.Windows.Forms.Button btAtenderConsulta;
+        private System.Windows.Forms.Button btConsultasPendientes;
 
     }
 }

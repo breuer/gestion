@@ -1116,7 +1116,8 @@ BEGIN
 	SELECT  
 		C.numero,
 		C.nro_turno,
-		T.fecha,
+		--T.fecha,
+		A.numero,
 		A.apellido,
 		A.nombre
     FROM 

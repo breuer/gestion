@@ -1,4 +1,4 @@
-﻿namespace Clinica_Frba.Registro_Resultado_Atencion
+﻿namespace Clinica_Frba.Generar_Receta
 {
     partial class FormReceta
     {
@@ -38,6 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tbNroBono = new System.Windows.Forms.TextBox();
             this.gbAgregarMedicamento = new System.Windows.Forms.GroupBox();
+            this.btGenerarReceta = new System.Windows.Forms.Button();
             this.gbAgregarMedicamento.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -132,11 +133,22 @@
             this.gbAgregarMedicamento.TabStop = false;
             this.gbAgregarMedicamento.Text = "groupBox1";
             // 
+            // btGenerarReceta
+            // 
+            this.btGenerarReceta.Location = new System.Drawing.Point(327, 560);
+            this.btGenerarReceta.Name = "btGenerarReceta";
+            this.btGenerarReceta.Size = new System.Drawing.Size(116, 23);
+            this.btGenerarReceta.TabIndex = 10;
+            this.btGenerarReceta.Text = "Generar receta";
+            this.btGenerarReceta.UseVisualStyleBackColor = true;
+            this.btGenerarReceta.Click += new System.EventHandler(this.btGenerarReceta_Click);
+            // 
             // FormReceta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(802, 595);
+            this.Controls.Add(this.btGenerarReceta);
             this.Controls.Add(this.gbAgregarMedicamento);
             this.Controls.Add(this.tbNroBono);
             this.Controls.Add(this.label3);
@@ -164,5 +176,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbNroBono;
         private System.Windows.Forms.GroupBox gbAgregarMedicamento;
+        private System.Windows.Forms.Button btGenerarReceta;
     }
 }
