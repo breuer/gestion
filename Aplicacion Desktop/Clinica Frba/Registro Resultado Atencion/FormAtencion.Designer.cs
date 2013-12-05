@@ -36,13 +36,17 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tbNroConsulta = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.dtpFechaConsulta = new System.Windows.Forms.DateTimePicker();
-            this.label5 = new System.Windows.Forms.Label();
             this.tbNroAfiliado = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dtpFechaConsulta = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
             this.btAceptar = new System.Windows.Forms.Button();
             this.btCancelar = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbRecetaMedica = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -81,11 +85,11 @@
             // 
             // btGenerarReceta
             // 
-            this.btGenerarReceta.Location = new System.Drawing.Point(567, 381);
+            this.btGenerarReceta.Location = new System.Drawing.Point(488, 35);
             this.btGenerarReceta.Name = "btGenerarReceta";
             this.btGenerarReceta.Size = new System.Drawing.Size(127, 23);
             this.btGenerarReceta.TabIndex = 4;
-            this.btGenerarReceta.Text = "Generar receta";
+            this.btGenerarReceta.Text = "Agregar receta médica";
             this.btGenerarReceta.UseVisualStyleBackColor = true;
             this.btGenerarReceta.Click += new System.EventHandler(this.btGenerarReceta_Click);
             // 
@@ -120,21 +124,12 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
-            // label4
+            // tbNroAfiliado
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 58);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(83, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Fecha consulta:";
-            // 
-            // dtpFechaConsulta
-            // 
-            this.dtpFechaConsulta.Location = new System.Drawing.Point(111, 52);
-            this.dtpFechaConsulta.Name = "dtpFechaConsulta";
-            this.dtpFechaConsulta.Size = new System.Drawing.Size(162, 20);
-            this.dtpFechaConsulta.TabIndex = 8;
+            this.tbNroAfiliado.Location = new System.Drawing.Point(422, 19);
+            this.tbNroAfiliado.Name = "tbNroAfiliado";
+            this.tbNroAfiliado.Size = new System.Drawing.Size(100, 20);
+            this.tbNroAfiliado.TabIndex = 10;
             // 
             // label5
             // 
@@ -145,12 +140,21 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "Nro afiliado:";
             // 
-            // tbNroAfiliado
+            // dtpFechaConsulta
             // 
-            this.tbNroAfiliado.Location = new System.Drawing.Point(422, 19);
-            this.tbNroAfiliado.Name = "tbNroAfiliado";
-            this.tbNroAfiliado.Size = new System.Drawing.Size(100, 20);
-            this.tbNroAfiliado.TabIndex = 10;
+            this.dtpFechaConsulta.Location = new System.Drawing.Point(111, 52);
+            this.dtpFechaConsulta.Name = "dtpFechaConsulta";
+            this.dtpFechaConsulta.Size = new System.Drawing.Size(162, 20);
+            this.dtpFechaConsulta.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(19, 58);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Fecha consulta:";
             // 
             // btAceptar
             // 
@@ -160,25 +164,55 @@
             this.btAceptar.TabIndex = 8;
             this.btAceptar.Text = "Aceptar";
             this.btAceptar.UseVisualStyleBackColor = true;
+            this.btAceptar.Click += new System.EventHandler(this.btAceptar_Click);
             // 
             // btCancelar
             // 
-            this.btCancelar.Location = new System.Drawing.Point(502, 536);
+            this.btCancelar.Location = new System.Drawing.Point(55, 536);
             this.btCancelar.Name = "btCancelar";
             this.btCancelar.Size = new System.Drawing.Size(75, 23);
             this.btCancelar.TabIndex = 9;
             this.btCancelar.Text = "Cancelar";
             this.btCancelar.UseVisualStyleBackColor = true;
+            this.btCancelar.Click += new System.EventHandler(this.btCancelar_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 35);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(82, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Receta médica:";
+            // 
+            // tbRecetaMedica
+            // 
+            this.tbRecetaMedica.Location = new System.Drawing.Point(111, 28);
+            this.tbRecetaMedica.Name = "tbRecetaMedica";
+            this.tbRecetaMedica.Size = new System.Drawing.Size(100, 20);
+            this.tbRecetaMedica.TabIndex = 11;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.tbRecetaMedica);
+            this.groupBox2.Controls.Add(this.btGenerarReceta);
+            this.groupBox2.Location = new System.Drawing.Point(55, 395);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(639, 75);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "groupBox2";
             // 
             // FormAtencion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(803, 610);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btCancelar);
             this.Controls.Add(this.btAceptar);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btGenerarReceta);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
@@ -188,6 +222,8 @@
             this.Load += new System.EventHandler(this.FormAtencion_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -209,5 +245,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btAceptar;
         private System.Windows.Forms.Button btCancelar;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox tbRecetaMedica;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

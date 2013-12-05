@@ -32,11 +32,10 @@ namespace Clinica_Frba.Consultas_Pendientes
             lvConsultasPendientes.GridLines = true;
             lvConsultasPendientes.FullRowSelect = true;
             lvConsultasPendientes.MultiSelect = false;
-            lvConsultasPendientes.Columns.Add("check");
+            //lvConsultasPendientes.Columns.Add("check");
             lvConsultasPendientes.Columns.Add("nro consulta");
             lvConsultasPendientes.Columns.Add("nro turno");
             lvConsultasPendientes.Columns.Add("nro afiliado");
-            lvConsultasPendientes.Columns.Add("nro fecha");
             lvConsultasPendientes.Columns.Add("apellido");
             lvConsultasPendientes.Columns.Add("nombre");
         }
@@ -44,8 +43,8 @@ namespace Clinica_Frba.Consultas_Pendientes
         private void btAtenderConsulta_Click(object sender, EventArgs e)
         {
             ListViewItem item = lvConsultasPendientes.SelectedItems[0];
-            int nroConsulta = int.Parse(item.SubItems[1].Text);
-            int nroAfiliado = int.Parse(item.SubItems[3].Text);
+            int nroConsulta = int.Parse(item.Text);
+            int nroAfiliado = int.Parse(item.SubItems[2].Text);
 
             
             //MessageBox.Show("consulta: " + item.SubItems[1].Text);
@@ -54,8 +53,7 @@ namespace Clinica_Frba.Consultas_Pendientes
         }
 
         private void btCargarConsultas_Click(object sender, EventArgs e)
-        {
-            
+        {            
             List<SqlParameter> parametros = new List<SqlParameter>();
             //DataSession.profesionalSession.
             int nroProfesional = Convert.ToInt32(DataSession.profesionalSession.Numero);
@@ -69,20 +67,22 @@ namespace Clinica_Frba.Consultas_Pendientes
             else
             {
                 lvConsultasPendientes.Items.Clear();
-
                 //lvTurnos.CheckBoxes = true;
-               
+                //C.numero nro_consulta,
+		        //C.nro_turno nro_turno,
+		        //A.numero nro_afiliado,
+		        //A.apellido apellido_afiliado,
+		        //A.nombre nombre_afiliado;
                 lvConsultasPendientes.BeginUpdate();
-                string subItem;
                 foreach (DataRow row in data.Rows)
                 {
-                    ListViewItem item1 = new ListViewItem();
-                    foreach (DataColumn column in data.Columns)
-                    {
-                        subItem = Convert.ToString(row[column]);
-                        item1.SubItems.Add(subItem);
-                    }
-                    lvConsultasPendientes.Items.Add(item1);
+                    ListViewItem item = new ListViewItem();
+                    item.Text = Convert.ToString(row["nro_consulta"]);
+                    item.SubItems.Add(Convert.ToString(row["nro_turno"]));
+                    item.SubItems.Add(Convert.ToString(row["nro_afiliado"]));
+                    item.SubItems.Add(Convert.ToString(row["apellido_afiliado"]));
+                    item.SubItems.Add(Convert.ToString(row["nombre_afiliado"]));   
+                    lvConsultasPendientes.Items.Add(item);
                 }
                 lvConsultasPendientes.EndUpdate();
             }

@@ -1,4 +1,4 @@
-﻿namespace Clinica_Frba.NewFolder9
+﻿namespace Clinica_Frba.Listados_Estadisticos
 {
     partial class FormListados
     {

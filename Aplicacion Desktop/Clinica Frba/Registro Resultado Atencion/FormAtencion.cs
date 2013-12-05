@@ -16,9 +16,11 @@ using Clinica_Frba.Generar_Receta;
 
 namespace Clinica_Frba.Registro_Resultado_Atencion
 {
-    public partial class FormAtencion : FormBase
+    public partial class FormAtencion : FormBase, IFormAtencion
     {
         int nroConsulta;
+        int nroReceta;
+
 
         public FormAtencion(int nroConsulta, int nroAfiliado)
         {
@@ -33,10 +35,32 @@ namespace Clinica_Frba.Registro_Resultado_Atencion
         private void btGenerarReceta_Click(object sender, EventArgs e)
         {
             FormReceta frm = new FormReceta(nroConsulta);
-            frm.Show();
+            frm.ShowDialog(this);
+            if (nroReceta != null) {
+                tbRecetaMedica.Text = Convert.ToString(nroReceta);
+            }
         }
 
         private void FormAtencion_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #region IFormAtencion Members
+
+        public void setNroReceta(int nroReceta)
+        {
+            this.nroReceta = nroReceta;
+        }
+
+        #endregion
+
+        private void btAceptar_Click(object sender, EventArgs e)
         {
 
         }

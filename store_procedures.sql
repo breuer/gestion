@@ -1016,20 +1016,6 @@ GO
 /******************************************************
 *                    RECETA                           *
 *******************************************************/
-CREATE PROCEDURE 
-	NN_NN.SP_CHEQUEAR_EXISTENCIA_BONO_FARMACIA (@nro_bono int) AS
-BEGIN
-
-	SELECT  
-		B.numero
-    FROM 
-		NN_NN.BONO_FARMACIA B
-    WHERE 
-		B.numero = @nro_bono
-END
-GO
-
-
 
 CREATE PROCEDURE 
 	NN_NN.SP_CHEQUEAR_PERTENENCIA_BONO_FARMACIA (@nro_bono int, @nro_usuario int) AS
@@ -1122,23 +1108,31 @@ BEGIN
 		T.fecha fecha,
 		T.numero nroTurno, 
 		A.numero nroAfiliado, 
-		A.numero_tipo_afiliado,
+		A.numero_tipo_afiliado nroTipoAfiliado,
 		A.apellido apellidoAfiliado,
-		A.nombre nombreAfiliado
+		A.nombre nombreAfiliado,
+		CT.motivo motivoCancelacion,
+		C.numero nroConsulta
 	FROM 
-		[NN_NN].[TURNO] AS T 
+		NN_NN.TURNO AS T 
 	LEFT JOIN 
-		[NN_NN].[CANCELACION_TURNO] AS CT	
+		NN_NN.CANCELACION_TURNO AS CT	
 	ON
 		T.numero = CT.nro_turno
 	LEFT JOIN 
+		NN_NN.CONSULTA AS C
+	ON
+		C.nro_turno = T.numero
+	JOIN 
 		[NN_NN].[AFILIADO] AS A	
 	ON 
-		A.numero = T.nro_afiliado 
+		A.numero = T.nro_afiliado
 	AND
 		A.numero_tipo_afiliado = T.nro_tipo_afiliado
 	WHERE 
-		CT.motivo IS NULL 	
+		CT.motivo IS NULL 
+	AND		
+		C.numero IS NULL 	
 	AND 
 		DATEPART(YEAR, t.fecha) = DATEPART(YEAR, @fecha)
 	AND
@@ -1164,25 +1158,33 @@ BEGIN
 		T.fecha fecha,
 		T.numero nroTurno, 
 		P.apellido apellidoProfesional,
-		P.nombre nombreProfesional	
+		P.nombre nombreProfesional,
+		CT.motivo,
+		C.numero	
 	FROM 
-		[NN_NN].[TURNO] AS T 
+		NN_NN.TURNO AS T 
 	LEFT JOIN 
-		[NN_NN].[CANCELACION_TURNO] AS CT	
+		NN_NN.CANCELACION_TURNO AS CT	
 	ON
 		T.numero = CT.nro_turno
 	LEFT JOIN 
+		NN_NN.CONSULTA AS C
+	ON
+		C.nro_turno = T.numero
+	JOIN 
 		[NN_NN].[AFILIADO] AS A	
 	ON 
 		A.numero = T.nro_afiliado
 	AND
 		A.numero_tipo_afiliado = T.nro_tipo_afiliado
-	LEFT JOIN 
+	JOIN 
 		NN_NN.PROFESIONAL P
 	ON
 		P.numero = T.nro_profesional
 	WHERE 
 		CT.motivo IS NULL 
+	AND		
+		C.numero IS NULL 
 	AND 
 		DATEPART(YEAR, t.fecha) = DATEPART(YEAR, @fecha)
 	AND
@@ -1211,27 +1213,35 @@ BEGIN
 		T.fecha fecha,
 		T.numero nroTurno, 
 		A.numero nroAfiliado, 
-		A.numero_tipo_afiliado,
+		A.numero_tipo_afiliado nroTipoAfiliado,
 		A.apellido apellidoAfiliado,
-		A.nombre nombreAfiliado	
+		A.nombre nombreAfiliado,	
+		CT.motivo motivoCancelacion,
+		C.numero nroConsulta
 	FROM 
-		[NN_NN].[TURNO] AS T 
+		NN_NN.TURNO AS T 
 	LEFT JOIN 
-		[NN_NN].[CANCELACION_TURNO] AS CT	
+		NN_NN.CANCELACION_TURNO AS CT	
 	ON
 		T.numero = CT.nro_turno
 	LEFT JOIN 
+		NN_NN.CONSULTA AS C
+	ON
+		C.nro_turno = T.numero
+	JOIN 
 		[NN_NN].[AFILIADO] AS A	
 	ON 
-		A.numero = @nro_afiliado 
+		A.numero = T.nro_afiliado
 	AND
-		A.numero_tipo_afiliado = @nro_tipo_afiliado
-	LEFT JOIN 
+		A.numero_tipo_afiliado = T.nro_tipo_afiliado
+	JOIN 
 		NN_NN.PROFESIONAL P
 	ON
 		P.numero = T.nro_profesional
 	WHERE 
 		CT.motivo IS NULL 
+	AND		
+		C.numero IS NULL 
 	AND 
 		DATEPART(YEAR, t.fecha) = DATEPART(YEAR, @fecha)
 	AND
@@ -1296,9 +1306,9 @@ AS
 BEGIN
 	DECLARE @ID NUMERIC(18,0)
 	INSERT INTO 
-		NN_NN.CONSULTA (nro_turno, nro_bono_consulta)
+		NN_NN.CONSULTA (nro_turno, nro_bono_consulta, consulta_abierta)
 	VALUES
-		(@nro_turno, @nro_bono_consulta)
+		(@nro_turno, @nro_bono_consulta, 1)
 	SET @ID = SCOPE_IDENTITY()
 	RETURN @ID
 END
@@ -1340,12 +1350,11 @@ CREATE PROCEDURE
 BEGIN
 
 	SELECT  
-		C.numero,
-		C.nro_turno,
-		--T.fecha,
-		A.numero,
-		A.apellido,
-		A.nombre
+		C.numero nro_consulta,
+		C.nro_turno nro_turno,
+		A.numero nro_afiliado,
+		A.apellido apellido_afiliado,
+		A.nombre nombre_afiliado
     FROM 
 		NN_NN.TURNO T
     JOIN 
@@ -1376,3 +1385,51 @@ BEGIN
 		T.fecha
 END
 GO
+
+
+/******************************************************
+*                    UTILS                            *
+*******************************************************/
+CREATE PROCEDURE 
+	NN_NN.SP_GET_USER_BY_TURNO (@nro_turno int) AS
+BEGIN
+
+	SELECT TOP 1
+		A.numero nroAfiliado,
+		A.numero_tipo_afiliado nroTipoAfiliado
+    FROM 
+		NN_NN.AFILIADO A
+    JOIN 
+		NN_NN.TURNO T
+    ON 
+		T.nro_afiliado = A.numero 
+	AND
+		T.nro_tipo_afiliado = A.numero_tipo_afiliado
+    WHERE 
+		T.numero = @nro_turno
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_GET_BONO_CONSULTA_BY_NRO (@nro_bono int) AS
+BEGIN
+	SELECT TOP 1
+		B.numero
+    FROM 
+		NN_NN.BONO_CONSULTA B
+    WHERE 
+		B.numero = @nro_bono
+END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_GET_BONO_FARMACIA_BY_NRO (@nro_bono int) AS
+BEGIN
+	SELECT TOP 1
+		B.numero
+    FROM 
+		NN_NN.BONO_FARMACIA B
+    WHERE 
+		B.numero = @nro_bono
+END
+

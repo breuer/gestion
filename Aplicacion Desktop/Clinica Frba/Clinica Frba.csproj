@@ -481,6 +481,7 @@
     <Compile Include="Generar Receta\FormReceta.Designer.cs">
       <DependentUpon>FormReceta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Registro Resultado Atencion\IFormAtencion.cs" />
     <Compile Include="Validator\ValidatorFrmFullCalle.cs" />
     <Compile Include="Validator\ValidatorFrmProfesional.cs" />
     <Compile Include="Validator\Validator.cs" />
