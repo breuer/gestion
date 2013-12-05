@@ -291,7 +291,8 @@ CREATE TABLE NN_NN.TURNO
 	nro_tipo_afiliado [numeric](18, 0) null,
 	nro_profesional [numeric](18, 0) not null,
 	nro_day [numeric](18, 0) not null,
-	habilitado [char] not null default ('1')
+	habilitado [char] not null default ('1'),
+	cod_especialidad [numeric] (18,0) null
 )
 
 CREATE TABLE NN_NN.CANCELACION_TURNO

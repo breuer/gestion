@@ -91,5 +91,16 @@ namespace Clinica_Frba
             }
         }
 
+        private void btMenor_Click(object sender, EventArgs e)
+        {
+            StringBuilder st = new StringBuilder();
+            st.Append(dpFecha.Value.ToString());
+            st.Append("    <  ");
+            st.Append(dpFecha2.Value.ToString() + " :: ");
+            st.Append(dpFecha.Value < dpFecha2.Value);
+            tbFecha.Text = st.ToString();
+
+        }
+
     }
 }

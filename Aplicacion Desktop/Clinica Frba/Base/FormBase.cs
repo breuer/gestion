@@ -371,6 +371,14 @@ namespace Clinica_Frba.Base
                     break;
             }
         }
+        protected Boolean isProfesional()
+        {
+            return profesionalCurrent != null;
+        }
+        protected Boolean isAfiliado()
+        {
+            return afiliadoCurrent != null;
+        }
 
     }
 
