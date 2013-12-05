@@ -116,7 +116,7 @@
             // 
             // btFiltrar
             // 
-            this.btFiltrar.Location = new System.Drawing.Point(583, 187);
+            this.btFiltrar.Location = new System.Drawing.Point(596, 185);
             this.btFiltrar.Name = "btFiltrar";
             this.btFiltrar.Size = new System.Drawing.Size(75, 23);
             this.btFiltrar.TabIndex = 17;
@@ -126,7 +126,7 @@
             // 
             // btRegistrarLLegada
             // 
-            this.btRegistrarLLegada.Location = new System.Drawing.Point(554, 450);
+            this.btRegistrarLLegada.Location = new System.Drawing.Point(567, 448);
             this.btRegistrarLLegada.Name = "btRegistrarLLegada";
             this.btRegistrarLLegada.Size = new System.Drawing.Size(104, 23);
             this.btRegistrarLLegada.TabIndex = 18;

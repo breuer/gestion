@@ -10,7 +10,7 @@ using Clinica_Frba.Base;
 using System.Data.SqlClient;
 using Clinica_Frba.Model.Repository;
 
-namespace Clinica_Frba.NewFolder9
+namespace Clinica_Frba.Listados_Estadisticos
 {
     public partial class FormListados : FormBase
     {

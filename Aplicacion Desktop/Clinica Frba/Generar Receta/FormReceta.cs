@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using Clinica_Frba.Model;
 using System.Collections;
 using Clinica_Frba.Base;
+using Clinica_Frba.Registro_Resultado_Atencion;
 
 
 namespace Clinica_Frba.Generar_Receta
@@ -75,10 +76,10 @@ namespace Clinica_Frba.Generar_Receta
             {
                 List<SqlParameter> parametros = new List<SqlParameter>();
                 parametros.Add(new SqlParameter("nro_bono", int.Parse(tbNroBono.Text)));
-                DataTable dataUsuario = repo.listar("NN_NN.SP_CHEQUEAR_EXISTENCIA_BONO_FARMACIA", parametros);
+                DataTable dataUsuario = repo.listar("NN_NN.SP_GET_BONO_FARMACIA_BY_NRO", parametros);
                 if (dataUsuario.Rows.Count == 0)
                 {
-                    MessageBox.Show("Bono farmacia no existe");
+                    MessageBox.Show("No existe ningún bono farmacia con ese número");
                     tbNroBono.Clear();
                     return;
                 }
@@ -153,6 +154,13 @@ namespace Clinica_Frba.Generar_Receta
                 parametros.Add(new SqlParameter("nro_receta", nroReceta));
                 parametros.Add(new SqlParameter("nro_bono", bono.Numero));
                 repo.callProcedure("NN_NN.SP_ADD_BONO_FARMACIA_IN_RECETA", parametros);
+            }
+            IFormAtencion iDestino = this.Owner as IFormAtencion;
+            if (iDestino != null)
+            {
+                iDestino.setNroReceta(nroReceta);
+                //string s = Convert.ToString(rol);
+                this.Close();
             }
             MessageBox.Show("Receta creada con éxito");
             this.Close();

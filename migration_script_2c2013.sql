@@ -316,7 +316,8 @@ CREATE TABLE NN_NN.CONSULTA
 	sintomas [varchar] (255),
 	fecha_atencion [datetime],
 	nro_bono_consulta [numeric](18, 0) not null,
-	nro_turno [numeric](18, 0) not null
+	nro_turno [numeric](18, 0) not null,
+	consulta_abierta [numeric](18, 0)
 )
 
 /*
@@ -692,6 +693,14 @@ where
 	M.Consulta_Sintomas is not null
 --order by M.Bono_Consulta_Numero
 */
+/******************************************************
+*                    RECETA                           *
+*******************************************************/
+
+
+/******************************************************
+*                    RECETA_BONO_FARMACIA             *
+*******************************************************/
 
 /******************************************************
 *                    MEDICAMENTOS                     *
@@ -898,6 +907,10 @@ GO
 ALTER TABLE NN_NN.TURNO ADD CONSTRAINT PK_TURNO_numero PRIMARY KEY (numero)
 GO
 ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRIMARY KEY (codigo)
+GO
+ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT PK_CONSULTA_numero PRIMARY KEY (numero)
+GO
+ALTER TABLE NN_NN.RECETA ADD CONSTRAINT PK_RECETA_numero PRIMARY KEY (numero)
 /*************************************************************************************
 *                    CONSTRAINT FK                                                   *
 **************************************************************************************/
