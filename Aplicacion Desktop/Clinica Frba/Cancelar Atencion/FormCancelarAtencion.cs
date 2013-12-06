@@ -47,6 +47,8 @@ namespace Clinica_Frba.Cancelar_Atencion
             {
                 parametros.Add(new SqlParameter("nroAfiliado", this.AfiliadoCurrent.NroAfiliado));
                 parametros.Add(new SqlParameter("nroTipoAfiliado", this.AfiliadoCurrent.NroDiscriminador));
+                parametros.Add(new SqlParameter("dateNow", this.GetFullFechaConfig()));
+                
                 dtMisTurnos = Turno.getRepository.listar(spName, parametros);
                 return dtMisTurnos;
             }

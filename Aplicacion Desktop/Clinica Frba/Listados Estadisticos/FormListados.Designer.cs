@@ -62,7 +62,7 @@
             // 
             // btGenerar
             // 
-            this.btGenerar.Location = new System.Drawing.Point(609, 102);
+            this.btGenerar.Location = new System.Drawing.Point(414, 28);
             this.btGenerar.Name = "btGenerar";
             this.btGenerar.Size = new System.Drawing.Size(157, 23);
             this.btGenerar.TabIndex = 15;
@@ -75,7 +75,7 @@
             this.dgvLista.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLista.Location = new System.Drawing.Point(18, 144);
             this.dgvLista.Name = "dgvLista";
-            this.dgvLista.Size = new System.Drawing.Size(748, 229);
+            this.dgvLista.Size = new System.Drawing.Size(373, 229);
             this.dgvLista.TabIndex = 14;
             // 
             // lbTitulo
