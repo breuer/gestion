@@ -69,9 +69,9 @@
             // 
             // gbControl
             // 
-            this.gbControl.Location = new System.Drawing.Point(12, 12);
+            this.gbControl.Location = new System.Drawing.Point(12, 85);
             this.gbControl.Name = "gbControl";
-            this.gbControl.Size = new System.Drawing.Size(488, 415);
+            this.gbControl.Size = new System.Drawing.Size(488, 342);
             this.gbControl.TabIndex = 4;
             this.gbControl.TabStop = false;
             // 
@@ -83,7 +83,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(512, 469);
+            this.ClientSize = new System.Drawing.Size(511, 469);
             this.Controls.Add(this.gbControl);
             this.Controls.Add(this.btLimpiar);
             this.Controls.Add(this.Cancelar);
@@ -91,8 +91,13 @@
             this.Name = "FormAlta";
             this.Text = "FormAlta";
             this.Load += new System.EventHandler(this.FormAlta_Load);
+            this.Controls.SetChildIndex(this.btAccion, 0);
+            this.Controls.SetChildIndex(this.Cancelar, 0);
+            this.Controls.SetChildIndex(this.btLimpiar, 0);
+            this.Controls.SetChildIndex(this.gbControl, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

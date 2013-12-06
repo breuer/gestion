@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbTituloMain = new System.Windows.Forms.Label();
             this.pBusqueda = new System.Windows.Forms.Panel();
             this.btVolver = new System.Windows.Forms.Button();
             this.btAlta = new System.Windows.Forms.Button();
@@ -38,20 +37,12 @@
             this.gbFiltro = new System.Windows.Forms.GroupBox();
             this.gbBaja = new System.Windows.Forms.GroupBox();
             this.ckBaja = new System.Windows.Forms.CheckBox();
+            this.lbTituloMain = new System.Windows.Forms.Label();
             this.pBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLista)).BeginInit();
             this.gbFiltro.SuspendLayout();
             this.gbBaja.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lbTituloMain
-            // 
-            this.lbTituloMain.AutoSize = true;
-            this.lbTituloMain.Location = new System.Drawing.Point(2, 9);
-            this.lbTituloMain.Name = "lbTituloMain";
-            this.lbTituloMain.Size = new System.Drawing.Size(133, 13);
-            this.lbTituloMain.TabIndex = 9;
-            this.lbTituloMain.Text = "Gestor De FLotas Desktop";
             // 
             // pBusqueda
             // 
@@ -61,7 +52,7 @@
             this.pBusqueda.Controls.Add(this.btBuscar);
             this.pBusqueda.Controls.Add(this.btLimpiar);
             this.pBusqueda.Controls.Add(this.gbFiltro);
-            this.pBusqueda.Location = new System.Drawing.Point(2, 35);
+            this.pBusqueda.Location = new System.Drawing.Point(4, 102);
             this.pBusqueda.Name = "pBusqueda";
             this.pBusqueda.Size = new System.Drawing.Size(913, 476);
             this.pBusqueda.TabIndex = 11;
@@ -146,16 +137,27 @@
             this.ckBaja.Text = "Baja";
             this.ckBaja.UseVisualStyleBackColor = true;
             // 
+            // lbTituloMain
+            // 
+            this.lbTituloMain.AutoSize = true;
+            this.lbTituloMain.Location = new System.Drawing.Point(2, 9);
+            this.lbTituloMain.Name = "lbTituloMain";
+            this.lbTituloMain.Size = new System.Drawing.Size(133, 13);
+            this.lbTituloMain.TabIndex = 9;
+            this.lbTituloMain.Text = "Gestor De FLotas Desktop";
+            // 
             // FormSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(917, 517);
-            this.Controls.Add(this.pBusqueda);
+            this.ClientSize = new System.Drawing.Size(917, 606);
             this.Controls.Add(this.lbTituloMain);
+            this.Controls.Add(this.pBusqueda);
             this.Name = "FormSearch";
             this.Text = "FormSearch";
             this.Load += new System.EventHandler(this.FormSearch_Load);
+            this.Controls.SetChildIndex(this.pBusqueda, 0);
+            this.Controls.SetChildIndex(this.lbTituloMain, 0);
             this.pBusqueda.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLista)).EndInit();
             this.gbFiltro.ResumeLayout(false);
@@ -168,7 +170,6 @@
 
         #endregion
 
-        protected System.Windows.Forms.Label lbTituloMain;
         protected System.Windows.Forms.Panel pBusqueda;
         protected System.Windows.Forms.Button btVolver;
         public System.Windows.Forms.Button btAlta;
@@ -178,5 +179,6 @@
         public System.Windows.Forms.DataGridView dgvLista;
         public System.Windows.Forms.CheckBox ckBaja;
         public System.Windows.Forms.GroupBox gbBaja;
+        protected System.Windows.Forms.Label lbTituloMain;
     }
 }

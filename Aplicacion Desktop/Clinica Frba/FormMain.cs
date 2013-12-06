@@ -22,7 +22,7 @@ using Clinica_Frba.Cancelar_Atencion;
 
 namespace Clinica_Frba
 {
-    public partial class FormMain : Form
+    public partial class FormMain : FormBase
     {
         public FormMain()
         {
