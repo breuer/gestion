@@ -363,13 +363,36 @@ namespace Clinica_Frba.Base
         {
             switch (DataSession.idRol)
             {
+                case 1:
+                    llbUsuario.Text = "Mombre de usuario";
+                    break;
                 case 2:
                     this.AfiliadoCurrent = DataSession.afiliadoSession;
+                    llbUsuario.Text = this.AfiliadoCurrent.ApellidoNombre;
                     break;
                 case 3:
                     this.ProfesionalCurrent = DataSession.profesionalSession;
+                    llbUsuario.Text = this.ProfesionalCurrent.ApellidoNombre;
                     break;
             }
+        }
+        protected Boolean isProfesional()
+        {
+            return profesionalCurrent != null;
+        }
+        protected Boolean isAfiliado()
+        {
+            return afiliadoCurrent != null;
+        }
+
+        private void btSalir_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
         }
 
     }

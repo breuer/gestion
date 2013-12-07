@@ -711,7 +711,233 @@ BEGIN
 		WHERE numero = @numero;
 END
 GO
+CREATE PROCEDURE [NN_NN].[SP_MIS_TURNOS_AFILIADO] (
+	@nroTipoAfiliado DECIMAL(18,0)= 0,
+	@nroAfiliado DECIMAL(18,0),
+	@dateF0 VARCHAR(255) = null,
+	@dateF1 VARCHAR(255) = null,
+	@dateNow VARCHAR(255)
+)
+AS
+BEGIN
+	DECLARE  @fechaNOW DATETIME;
+	SELECT @fechaNOW = convert(datetime, @dateNow, 120);
+	-- Si no tiene fecha de llega quiere decir que todabia no se ha cumplido el Turno
+	-- Si tiene fecha de llegada es que el turno ya se uso.
+	-- Si tiene cancelacion es que se cancelo
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a la del presente se muestra como Perdido.
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a 24 hs no se puede cancelar
 
+	IF @dateF0 is null OR @dateF1 is null
+	BEGIN
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+				LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+				LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+			WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+			AND fecha <= @fechaNOW
+			ORDER BY fecha DESC
+	END
+	ELSE
+	BEGIN
+		DECLARE @fecha0 DATETIME,
+				@fecha1 DATETIME
+			
+		SELECT @fecha0 = convert(datetime, @dateF0, 120);
+		SELECT @fecha1 = convert(datetime, @dateF1, 120);	
+		
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+				LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+				LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+					AND fecha <= @fechaNOW
+					AND T.fecha BETWEEN @fecha0 AND @fecha1
+					ORDER BY fecha DESC
+	END			
+END
+GO
+CREATE PROCEDURE [NN_NN].[SP_MIS_TURNOS_AFILIADO_CANCELADOS] (
+	@nroTipoAfiliado DECIMAL(18,0)= 0,
+	@nroAfiliado DECIMAL(18,0),
+	@dateF0 VARCHAR(255) = null,
+	@dateF1 VARCHAR(255) = null,
+	@dateNow VARCHAR(255)
+)
+AS
+BEGIN
+	-- Si no tiene fecha de llega quiere decir que todabia no se ha cumplido el Turno
+	-- Si tiene fecha de llegada es que el turno ya se uso.
+	-- Si tiene cancelacion es que se cancelo
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a la del presente se muestra como Perdido.
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a 24 hs no se puede cancelar
+	DECLARE  @fechaNOW DATETIME;
+	SELECT @fechaNOW = convert(datetime, @dateNow, 120);
+	
+	IF @dateF0 is null OR @dateF1 is null
+	BEGIN
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+				LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+				LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+					AND CT.nro_turno IS NOT NULL AND fecha <= @fechaNOW
+					ORDER BY fecha DESC
+	END
+	ELSE
+	BEGIN
+		DECLARE @fecha0 DATETIME,
+				@fecha1 DATETIME
+			
+		SELECT @fecha0 = convert(datetime, @dateF0, 120);
+		SELECT @fecha1 = convert(datetime, @dateF1, 120);	
+		
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+				LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+				LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+					AND fecha <= @fechaNOW
+					AND CT.nro_turno IS NOT NULL AND fecha BETWEEN @fecha0 AND @fecha1 
+					ORDER BY fecha DESC
+	END
+END
+GO
+CREATE PROCEDURE [NN_NN].[SP_MIS_TURNOS_AFILIADO_ASISTIDOS] (
+	@nroTipoAfiliado DECIMAL(18,0)= 0,
+	@nroAfiliado DECIMAL(18,0),
+	@dateF0 VARCHAR(255) = null,
+	@dateF1 VARCHAR(255) = null,
+	@dateNow VARCHAR(255)
+)
+AS
+BEGIN
+	-- Si no tiene fecha de llega quiere decir que todabia no se ha cumplido el Turno
+	-- Si tiene fecha de llegada es que el turno ya se uso.
+	-- Si tiene cancelacion es que se cancelo
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a la del presente se muestra como Perdido.
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a 24 hs no se puede cancelar
+	DECLARE  @fechaNOW DATETIME;
+	SELECT @fechaNOW = convert(datetime, @dateNow, 120);
+	IF @dateF0 is null OR @dateF1 is null
+	BEGIN
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+			LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+			LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+				AND CT.nro_turno IS NULL AND t.fecha_llegada IS NOT NULL AND fecha <= @fechaNOW
+				ORDER BY fecha DESC
+	END
+	ELSE
+	BEGIN
+		DECLARE @fecha0 DATETIME,
+				@fecha1 DATETIME
+			
+		SELECT @fecha0 = convert(datetime, @dateF0, 120);
+		SELECT @fecha1 = convert(datetime, @dateF1, 120);	
+		
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+			LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+			LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+				AND CT.nro_turno IS NULL AND t.fecha_llegada IS NOT NULL AND fecha <= @fechaNOW
+				AND fecha BETWEEN @fecha0 AND @fecha1
+				ORDER BY fecha DESC
+	END			
+END
+GO
+CREATE PROCEDURE [NN_NN].[SP_MIS_TURNOS_AFILIADO_FUTUROS] (
+	@nroTipoAfiliado DECIMAL(18,0)= 0,
+	@nroAfiliado DECIMAL(18,0),
+	@fecha VARCHAR(255),
+	@dateF0 VARCHAR(255) = null,
+	@dateF1 VARCHAR(255) = null,
+	@dateNow VARCHAR(255)
+)
+AS
+BEGIN
+	-- Si no tiene fecha de llega quiere decir que todabia no se ha cumplido el Turno
+	-- Si tiene fecha de llegada es que el turno ya se uso.
+	-- Si tiene cancelacion es que se cancelo
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a la del presente se muestra como Perdido.
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a 24 hs no se puede cancelar
+	DECLARE  @fechaNOW DATETIME;
+	SELECT @fechaNOW = convert(datetime, @dateNow, 120);
+	IF @dateF0 is null OR @dateF1 is null
+	BEGIN
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+			LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+			LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+				AND CT.nro_turno IS NULL AND t.fecha_llegada IS NULL AND fecha > @fechaNOW
+				ORDER BY fecha ASC
+	END
+	ELSE
+	BEGIN
+		DECLARE @fecha0 DATETIME,
+				@fecha1 DATETIME
+			
+		SELECT @fecha0 = convert(datetime, @dateF0, 120);
+		SELECT @fecha1 = convert(datetime, @dateF1, 120);	
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+			LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+			LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+				AND CT.nro_turno IS NULL AND t.fecha_llegada IS NULL AND fecha > @fechaNOW
+				AND fecha BETWEEN @fecha0 AND @fecha1
+				ORDER BY fecha ASC			
+	END			
+END
+GO
+CREATE PROCEDURE [NN_NN].[SP_MIS_TURNOS_AFILIADO_PERDIDOS] (
+	@nroTipoAfiliado DECIMAL(18,0)= 0,
+	@nroAfiliado DECIMAL(18,0),
+	@fecha VARCHAR(255),
+	@dateF0 VARCHAR(255) = null,
+	@dateF1 VARCHAR(255) = null,
+	@dateNow VARCHAR(255)
+)
+AS
+BEGIN
+	-- Si no tiene fecha de llega quiere decir que todabia no se ha cumplido el Turno
+	-- Si tiene fecha de llegada es que el turno ya se uso.
+	-- Si tiene cancelacion es que se cancelo
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a la del presente se muestra como Perdido.
+	-- Si no tiene fecha de llegada y la fecha del turno es menos a 24 hs no se puede cancelar
+	DECLARE  @fechaNOW DATETIME;
+	SELECT @fechaNOW = convert(datetime, @dateNow, 120);
+	IF @dateF0 is null OR @dateF1 is null
+	BEGIN
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+			LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+			LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+				AND CT.nro_turno IS NULL AND t.fecha_llegada IS NULL AND fecha < @fechaNOW
+				ORDER BY fecha DESC
+	END
+	ELSE
+	BEGIN
+		DECLARE @fecha0 DATETIME,
+				@fecha1 DATETIME
+			
+		SELECT @fecha0 = convert(datetime, @dateF0, 120);
+		SELECT @fecha1 = convert(datetime, @dateF1, 120);	
+		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
+			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
+			LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
+			LEFT JOIN [NN_NN].[PROFESIONAL] AS P ON (T.nro_profesional = P.numero)
+				WHERE T.nro_tipo_afiliado = @nroTipoAfiliado AND t.nro_afiliado = @nroAfiliado
+				AND CT.nro_turno IS NULL AND t.fecha_llegada IS NULL AND fecha < @fechaNOW
+				AND fecha BETWEEN @fecha0 AND @fecha1
+				ORDER BY fecha DESC			
+	END			
+END
+GO
 /******************************************************
 *                    BONOS                            *
 *******************************************************/

@@ -69,7 +69,7 @@
             this.btConsultasPendientes = new System.Windows.Forms.Button();
             this.gbAfiliado = new System.Windows.Forms.GroupBox();
             this.btCompraBonoFarmacia = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.btCancelarTurno = new System.Windows.Forms.Button();
             this.btCompraBonoConsulta = new System.Windows.Forms.Button();
             this.btPedirTunro = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -493,7 +493,7 @@
             // gbAfiliado
             // 
             this.gbAfiliado.Controls.Add(this.btCompraBonoFarmacia);
-            this.gbAfiliado.Controls.Add(this.button7);
+            this.gbAfiliado.Controls.Add(this.btCancelarTurno);
             this.gbAfiliado.Controls.Add(this.btCompraBonoConsulta);
             this.gbAfiliado.Controls.Add(this.btPedirTunro);
             this.gbAfiliado.Location = new System.Drawing.Point(224, 182);
@@ -513,14 +513,15 @@
             this.btCompraBonoFarmacia.UseVisualStyleBackColor = true;
             this.btCompraBonoFarmacia.Click += new System.EventHandler(this.btCompraBonoFarmacia_Click);
             // 
-            // button7
+            // btCancelarTurno
             // 
-            this.button7.Location = new System.Drawing.Point(6, 106);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(182, 23);
-            this.button7.TabIndex = 13;
-            this.button7.Text = "Cancelar Turno";
-            this.button7.UseVisualStyleBackColor = true;
+            this.btCancelarTurno.Location = new System.Drawing.Point(6, 106);
+            this.btCancelarTurno.Name = "btCancelarTurno";
+            this.btCancelarTurno.Size = new System.Drawing.Size(182, 23);
+            this.btCancelarTurno.TabIndex = 13;
+            this.btCancelarTurno.Text = "Cancelar Turno";
+            this.btCancelarTurno.UseVisualStyleBackColor = true;
+            this.btCancelarTurno.Click += new System.EventHandler(this.btCancelarTurno_Click);
             // 
             // btCompraBonoConsulta
             // 
@@ -649,7 +650,7 @@
         private System.Windows.Forms.Button btCompraBonoFarmacia;
         private System.Windows.Forms.Button btCompraBonoConsulta;
         private System.Windows.Forms.Button btPedirTunro;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button btCancelarTurno;
         private System.Windows.Forms.GroupBox gbEstadistico;
         private System.Windows.Forms.Button btEstadisticas;
         private System.Windows.Forms.Button button5;

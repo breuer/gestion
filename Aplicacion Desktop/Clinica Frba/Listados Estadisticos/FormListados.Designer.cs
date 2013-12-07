@@ -62,7 +62,7 @@
             // 
             // btGenerar
             // 
-            this.btGenerar.Location = new System.Drawing.Point(609, 102);
+            this.btGenerar.Location = new System.Drawing.Point(414, 28);
             this.btGenerar.Name = "btGenerar";
             this.btGenerar.Size = new System.Drawing.Size(157, 23);
             this.btGenerar.TabIndex = 15;
