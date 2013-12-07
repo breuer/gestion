@@ -47,7 +47,13 @@
             this.button5 = new System.Windows.Forms.Button();
             this.dpFecha2 = new System.Windows.Forms.DateTimePicker();
             this.btMenor = new System.Windows.Forms.Button();
+            this.ss = new System.Windows.Forms.StatusStrip();
+            this.ssLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ssLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ssLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ssLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.ss.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -216,11 +222,61 @@
             this.btMenor.UseVisualStyleBackColor = true;
             this.btMenor.Click += new System.EventHandler(this.btMenor_Click);
             // 
+            // ss
+            // 
+            this.ss.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ssLabel1,
+            this.ssLabel2,
+            this.ssLabel3,
+            this.ssLabel4});
+            this.ss.Location = new System.Drawing.Point(0, 492);
+            this.ss.Name = "ss";
+            this.ss.Size = new System.Drawing.Size(805, 22);
+            this.ss.TabIndex = 23;
+            this.ss.Text = "statusStrip1";
+            this.ss.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ss_ItemClicked);
+            // 
+            // ssLabel1
+            // 
+            this.ssLabel1.AutoSize = false;
+            this.ssLabel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ssLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.ssLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.ssLabel1.Name = "ssLabel1";
+            this.ssLabel1.Size = new System.Drawing.Size(300, 17);
+            // 
+            // ssLabel2
+            // 
+            this.ssLabel2.Name = "ssLabel2";
+            this.ssLabel2.Size = new System.Drawing.Size(0, 17);
+            // 
+            // ssLabel3
+            // 
+            this.ssLabel3.AutoSize = false;
+            this.ssLabel3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ssLabel3.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.ssLabel3.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.ssLabel3.DoubleClickEnabled = true;
+            this.ssLabel3.Name = "ssLabel3";
+            this.ssLabel3.Size = new System.Drawing.Size(300, 17);
+            // 
+            // ssLabel4
+            // 
+            this.ssLabel4.AutoSize = false;
+            this.ssLabel4.Name = "ssLabel4";
+            this.ssLabel4.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ssLabel4.Size = new System.Drawing.Size(100, 17);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(805, 514);
+            this.Controls.Add(this.ss);
             this.Controls.Add(this.btMenor);
             this.Controls.Add(this.dpFecha2);
             this.Controls.Add(this.button5);
@@ -244,6 +300,8 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.ss.ResumeLayout(false);
+            this.ss.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -270,6 +328,11 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.DateTimePicker dpFecha2;
         private System.Windows.Forms.Button btMenor;
+        private System.Windows.Forms.StatusStrip ss;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel4;
     }
 }
 

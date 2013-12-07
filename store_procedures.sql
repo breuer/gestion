@@ -727,9 +727,12 @@ BEGIN
 	-- Si tiene cancelacion es que se cancelo
 	-- Si no tiene fecha de llegada y la fecha del turno es menos a la del presente se muestra como Perdido.
 	-- Si no tiene fecha de llegada y la fecha del turno es menos a 24 hs no se puede cancelar
-
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('FECHA_NOW ',CONVERT(VARCHAR, @fechaNOW));
+	
 	IF @dateF0 is null OR @dateF1 is null
 	BEGIN
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('TRACE','VINO POR ACA');
+	
 		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
 			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
 				LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
@@ -740,6 +743,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('TRACE','VINO POR ELSE');
+	
 		DECLARE @fecha0 DATETIME,
 				@fecha1 DATETIME
 			
