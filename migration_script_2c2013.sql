@@ -313,6 +313,8 @@ CREATE TABLE NN_NN.TIPO_CANCELACION
 CREATE TABLE NN_NN.CONSULTA
 (
 	numero [numeric](18, 0) identity(1,1) not null,
+	nro_afiliado [numeric](18, 0),
+	nro_tipo_afiliado [numeric](18, 0),
 	diagnostico [varchar] (255),
 	sintomas [varchar] (255),
 	fecha_atencion [datetime],
@@ -328,19 +330,26 @@ CREATE TABLE NN_NN.CONSULTA_BONO_FARMACIA
 	nro_turno [numeric](18, 0) not null,
 	nro_bono_consulta [numeric](18, 0) not null
 )*/
-
+/*
 CREATE TABLE NN_NN.RECETA
 (
 	numero [numeric](18, 0) identity(1,1) not null,
-	nro_consulta [numeric](18, 0) not null
+	nro_consulta [numeric](18, 0) not null,
+	nro_afiliado [numeric](18, 0),
+	nro_tipo_afiliado [numeric](18, 0)
 )
 
 CREATE TABLE NN_NN.RECETA_BONO_FARMACIA
 (
 	nro_bono_farmacia [numeric](18, 0) not null,
 	nro_receta [numeric](18, 0) not null
-)
+)*/
 
+CREATE TABLE NN_NN.BONO_CONSULTA_BONO_FARMACIA
+(
+	nro_bono_farmacia [numeric](18, 0) not null,
+	nro_bono_consulta [numeric](18, 0) not null
+)
 
 
 /*************************************************************************************
@@ -649,9 +658,9 @@ WHERE
 	
 -- bonos farmacia 
 INSERT INTO 
-	NN_NN.BONO_FARMACIA(fecha_compra, numero, fecha_impresion, nro_afiliado, nro_tipo_afiliado)
+	NN_NN.BONO_FARMACIA(fecha_compra, fecha_vencimiento, numero, fecha_impresion, nro_afiliado, nro_tipo_afiliado)
 SELECT DISTINCT 
-	 M.Compra_Bono_Fecha, M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.numero, A.numero_tipo_afiliado
+	 M.Compra_Bono_Fecha, DATEADD(day, 60, M.Compra_Bono_Fecha), M.Bono_Farmacia_Numero, M.Bono_Farmacia_Fecha_Impresion, A.numero, A.numero_tipo_afiliado
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
@@ -668,11 +677,15 @@ WHERE
 *                    CONSULTA                         *
 *******************************************************/
 INSERT INTO 
-	NN_NN.CONSULTA(nro_bono_consulta, diagnostico, sintomas, nro_turno)
+	NN_NN.CONSULTA(nro_bono_consulta, diagnostico, sintomas, nro_turno, nro_afiliado, nro_tipo_afiliado)
 SELECT DISTINCT 
-	 M.Bono_Consulta_Numero, M.Consulta_Enfermedades, M.Consulta_Sintomas, M.Turno_Numero 
+	 M.Bono_Consulta_Numero, M.Consulta_Enfermedades, M.Consulta_Sintomas, M.Turno_Numero, A.numero, A.numero_tipo_afiliado  
 FROM 
 	gd_esquema.Maestra M
+INNER JOIN
+	NN_NN.AFILIADO A	
+ON
+	M.Paciente_Dni=A.documento
 where
 	M.Bono_Consulta_Numero is not null and 
 	M.Consulta_Enfermedades is not null and 
@@ -680,36 +693,28 @@ where
 --order by M.Bono_Consulta_Numero
 
 /******************************************************
-*                    CONSULTA_BONO_FARMACIA           *
+*                    BONO_CONSULTA_BONO_FARMACIA           *
 *******************************************************/
-/*INSERT INTO 
-	NN_NN.CONSULTA_BONO_FARMACIA(nro_bono_consulta, nro_bono_farmacia, nro_turno)
-SELECT DISTINCT 
-	 M.Bono_Consulta_Numero, M.Bono_Farmacia_Numero, M.Turno_Numero 
+
+INSERT INTO 
+	NN_NN.BONO_CONSULTA_BONO_FARMACIA (nro_bono_consulta, nro_bono_farmacia)
+SELECT  
+	M.Bono_Consulta_Numero, M.Bono_Farmacia_Numero
 FROM 
 	gd_esquema.Maestra M
-where
-	M.Bono_Consulta_Numero is not null and 
-	M.Consulta_Enfermedades is not null and 
-	M.Consulta_Sintomas is not null
---order by M.Bono_Consulta_Numero
-*/
-/******************************************************
-*                    RECETA                           *
-*******************************************************/
+WHERE
+	M.Bono_Farmacia_Numero IS NOT NULL
+AND
+	M.Bono_Consulta_Numero IS NOT NULL
 
-
-/******************************************************
-*                    RECETA_BONO_FARMACIA             *
-*******************************************************/
 
 /******************************************************
 *                    MEDICAMENTOS                     *
 *******************************************************/
 INSERT INTO 
-	NN_NN.MEDICAMENTO(descripcion, nro_bono_farmacia)
+	NN_NN.MEDICAMENTO(descripcion, nro_bono_farmacia, cantidad)
 SELECT 
-	 M.Bono_Farmacia_Medicamento, M.Bono_Farmacia_Numero
+	 M.Bono_Farmacia_Medicamento, M.Bono_Farmacia_Numero, 1
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN
@@ -911,7 +916,6 @@ ALTER TABLE NN_NN.TIPO_CANCELACION ADD CONSTRAINT PK_TIPO_CANCELACION_codigo PRI
 GO
 ALTER TABLE NN_NN.CONSULTA ADD CONSTRAINT PK_CONSULTA_numero PRIMARY KEY (numero)
 GO
-ALTER TABLE NN_NN.RECETA ADD CONSTRAINT PK_RECETA_numero PRIMARY KEY (numero)
 /*************************************************************************************
 *                    CONSTRAINT FK                                                   *
 **************************************************************************************/
@@ -962,12 +966,10 @@ ALTER TABLE NN_NN.CANCELACION_TURNO ADD CONSTRAINT FK_TURNO_cod_tipo_cancelacion
 	REFERENCES NN_NN.TIPO_CANCELACION(codigo);
 ALTER TABLE NN_NN.REGISTRO_COMPRA_BONO ADD CONSTRAINT FK_REGISTRO_COMPRA_BONO_nro_afiliado FOREIGN KEY (nro_afiliado,nro_tipo_afiliado)
 	REFERENCES NN_NN.AFILIADO (numero,numero_tipo_afiliado);
-ALTER TABLE NN_NN.RECETA ADD CONSTRAINT FK_RECETA_nro_consulta FOREIGN KEY (nro_consulta)
-	REFERENCES NN_NN.CONSULTA (numero);
-ALTER TABLE NN_NN.RECETA_BONO_FARMACIA ADD CONSTRAINT FK_RECETA_BONO_FARMACIA_nro_receta FOREIGN KEY (nro_receta)
-	REFERENCES NN_NN.RECETA (numero);
-ALTER TABLE NN_NN.RECETA_BONO_FARMACIA ADD CONSTRAINT FK_RECETA_BONO_FARMACIA_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
+ALTER TABLE NN_NN.BONO_CONSULTA_BONO_FARMACIA ADD CONSTRAINT BONO_CONSULTA_BONO_FARMACIA_nro_bono_farmacia FOREIGN KEY (nro_bono_farmacia)
 	REFERENCES NN_NN.BONO_FARMACIA (numero);
+ALTER TABLE NN_NN.BONO_CONSULTA_BONO_FARMACIA ADD CONSTRAINT BONO_CONSULTA_BONO_FARMACIA_nro_bono_consulta FOREIGN KEY (nro_bono_consulta)
+	REFERENCES NN_NN.BONO_CONSULTA (numero);
 	
 	
 DROP FUNCTION NN_NN.GENERA_USER_NAME;

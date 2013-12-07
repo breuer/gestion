@@ -16,11 +16,9 @@ using Clinica_Frba.Generar_Receta;
 
 namespace Clinica_Frba.Registro_Resultado_Atencion
 {
-    public partial class FormAtencion : FormBase, IFormAtencion
+    public partial class FormAtencion : FormBase
     {
         int nroConsulta;
-        int nroReceta;
-
 
         public FormAtencion(int nroConsulta, int nroAfiliado)
         {
@@ -36,9 +34,7 @@ namespace Clinica_Frba.Registro_Resultado_Atencion
         {
             FormReceta frm = new FormReceta(nroConsulta);
             frm.ShowDialog(this);
-            if (nroReceta != null) {
-                tbRecetaMedica.Text = Convert.ToString(nroReceta);
-            }
+   
         }
 
         private void FormAtencion_Load(object sender, EventArgs e)
@@ -51,18 +47,17 @@ namespace Clinica_Frba.Registro_Resultado_Atencion
             this.Close();
         }
 
-        #region IFormAtencion Members
-
-        public void setNroReceta(int nroReceta)
-        {
-            this.nroReceta = nroReceta;
-        }
-
-        #endregion
-
         private void btAceptar_Click(object sender, EventArgs e)
         {
-
+            Repository repo = new Repository();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("nro_consulta", nroConsulta));
+            parametros.Add(new SqlParameter("sintomas", tbSintomas.Text));
+            parametros.Add(new SqlParameter("diagnostico", tbDiagnostico.Text));
+            repo.callProcedure("NN_NN.SP_CARGAR_RESULTADO_ATENCION", parametros);
+            this.Close();
         }
+
+
     }
 }

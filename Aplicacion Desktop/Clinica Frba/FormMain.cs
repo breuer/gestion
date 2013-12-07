@@ -17,7 +17,9 @@ using Clinica_Frba.Registro_Resultado_Atencion;
 using Clinica_Frba.Abm_de_Afiliado;
 using Clinica_Frba.Registrar_llegada;
 using Clinica_Frba.Consultas_Pendientes;
+using Clinica_Frba.Listados_Estadisticos;
 using Clinica_Frba.Cancelar_Atencion;
+
 
 
 namespace Clinica_Frba
@@ -93,6 +95,7 @@ namespace Clinica_Frba
             btCompraBonoConsulta.Enabled = true;         
             btListarAfiliado.Enabled = true;
             btConsultasPendientes.Enabled = true;
+            btEstadisticas.Enabled = true;
             btCancelarTurno.Enabled = true;
             
         }
@@ -196,10 +199,19 @@ namespace Clinica_Frba
             frm.Show();
         }
 
+
+        private void btEstadisticas_Click(object sender, EventArgs e)
+        {
+            FormListados frm = new FormListados();
+            frm.Show();
+        }   
+      
+
         private void btCancelarTurno_Click(object sender, EventArgs e)
         {
             FormCancelarAtencion frm = new FormCancelarAtencion();
             frm.ShowDialog(this);
         }     
+
     }
 }

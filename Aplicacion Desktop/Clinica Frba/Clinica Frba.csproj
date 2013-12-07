@@ -416,6 +416,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pedir Turno\FormMisTurnos.resx">
       <DependentUpon>FormMisTurnos.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pedir Turno\FormPedirTurno.resx">
       <DependentUpon>FormPedirTurno.cs</DependentUpon>

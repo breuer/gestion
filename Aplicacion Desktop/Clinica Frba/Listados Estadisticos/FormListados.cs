@@ -9,11 +9,17 @@ using System.Windows.Forms;
 using Clinica_Frba.Base;
 using System.Data.SqlClient;
 using Clinica_Frba.Model.Repository;
+using System.Collections.ObjectModel;
+
+
 
 namespace Clinica_Frba.Listados_Estadisticos
 {
     public partial class FormListados : FormBase
     {
+        DataGrid d;
+        private ListView myListView;
+
         public FormListados()
         {
             InitializeComponent();
@@ -78,15 +84,14 @@ namespace Clinica_Frba.Listados_Estadisticos
         private void ejecutar(String sql, DateTime fechaF0, DateTime fechaF1)
         {
             List<SqlParameter> lst = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("fechaF0", SqlDbType.DateTime);
+            SqlParameter param = new SqlParameter("dateFirst", SqlDbType.DateTime);
             param.Value = fechaF0;
             lst.Add(param);
-            param = new SqlParameter("fechaF1", SqlDbType.DateTime);
+            param = new SqlParameter("dateLast", SqlDbType.DateTime);
             param.Value = fechaF1;
             lst.Add(param);
-
             DataTable dt = (new Repository()).listar(sql, lst);
-            this.dgvLista.DataSource = dt;
+            this.dgvLista.DataSource = dt;            
         }
 
         // Sobreprograme un poco. Con una lista de nombres de storeProcedure puede que sea mas simple
@@ -101,7 +106,7 @@ namespace Clinica_Frba.Listados_Estadisticos
         private void listaTop5BonosFarmacia(DateTime fechaF0, DateTime fechaF1)
         {
             lbTitulo.Text = "Top 5 de la cantidad total de bonos farmacia vencidos por afiliado.";
-            this.ejecutar("[NN_NN].[SP_TOP_5_BONOS_FARMACIA]", fechaF0, fechaF1);
+            this.ejecutar("[NN_NN].[SP_TOP_5_BONOS_FARMACIA]", fechaF0, fechaF1);  
         }
         //Top 5 de las especialidades de médicos con más bonos de farmacia recetados.
         private void listaTop5EspecialidadesByMedicosWithMoreBonos(DateTime fechaF0, DateTime fechaF1)
@@ -129,4 +134,5 @@ namespace Clinica_Frba.Listados_Estadisticos
             delegado(fechaF0, fechaF1);
         }
     }
+
 }
