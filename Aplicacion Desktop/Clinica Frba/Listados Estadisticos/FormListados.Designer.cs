@@ -75,7 +75,7 @@
             this.dgvLista.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLista.Location = new System.Drawing.Point(18, 144);
             this.dgvLista.Name = "dgvLista";
-            this.dgvLista.Size = new System.Drawing.Size(748, 229);
+            this.dgvLista.Size = new System.Drawing.Size(748, 223);
             this.dgvLista.TabIndex = 14;
             // 
             // lbTitulo
@@ -100,9 +100,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(15, 102);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 13);
+            this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 11;
-            this.label3.Text = "EL TRIMESTRE";
+            this.label3.Text = "EL SEMESTRE";
             // 
             // cbYear
             // 

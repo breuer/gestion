@@ -12,7 +12,7 @@ using Clinica_Frba.Base;
 
 namespace Clinica_Frba.Compra_de_Bono
 {
-    public partial class FormCompraBonoFarmacia : Form
+    public partial class FormCompraBonoFarmacia : FormBase
     {
         public FormCompraBonoFarmacia()
         {
@@ -24,8 +24,9 @@ namespace Clinica_Frba.Compra_de_Bono
             Repository repo = new Repository();
      
             List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(new SqlParameter("nro_afiliado", int.Parse(DataSession.nroAfiliado)));
-            parametros.Add(new SqlParameter("nro_tipo_afiliado", int.Parse(DataSession.nroDiscriminadorAfiliado)));
+            parametros.Add(new SqlParameter("nro_afiliado", DataSession.afiliadoSession.NroAfiliado));
+            parametros.Add(new SqlParameter("nro_tipo_afiliado", DataSession.afiliadoSession.NroDiscriminador));
+            parametros.Add(new SqlParameter("fecha_compra", GetFechaConfig()));
             parametros.Add(new SqlParameter("cant", int.Parse(tbCantidadBonosFarmacia.Text)));
             repo.callProcedure("NN_NN.SP_BUY_CANT_BONO_FARMACIA", parametros);
             this.Close();

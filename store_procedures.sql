@@ -718,7 +718,7 @@ GO
 
 
 CREATE PROCEDURE 
-	NN_NN.SP_BUY_CANT_BONO_FARMACIA (@cant int, @nro_afiliado int, @nro_tipo_afiliado int) AS
+	NN_NN.SP_BUY_CANT_BONO_FARMACIA (@cant int, @nro_afiliado int, @nro_tipo_afiliado int, @fecha_compra date) AS
 BEGIN
 	DECLARE @max_nro int = ( 
 		SELECT 
@@ -737,14 +737,14 @@ BEGIN
 		INSERT INTO 
 			NN_NN.BONO_FARMACIA (numero, fecha_impresion, fecha_compra, nro_afiliado, nro_tipo_afiliado, fecha_vencimiento)
 		VALUES 
-			(@max_nro + @i, GETDATE(), GETDATE(), @nro_afiliado, @nro_tipo_afiliado, DATEADD(day, 60, GETDATE()))
+			(@max_nro + @i, @fecha_compra, @fecha_compra, @nro_afiliado, @nro_tipo_afiliado, DATEADD(day, 60, @fecha_compra))
 		SET @i = @i + 1
 	END
 END
 GO
 
 CREATE PROCEDURE 
-	NN_NN.SP_BUY_CANT_BONO_CONSULTA (@cant int, @nro_afiliado int, @nro_tipo_afiliado int) AS
+	NN_NN.SP_BUY_CANT_BONO_CONSULTA (@cant int, @nro_afiliado int, @nro_tipo_afiliado int, @fecha_compra date) AS
 BEGIN
 	DECLARE @max_nro int = ( 
 		SELECT 
@@ -762,7 +762,7 @@ BEGIN
 		INSERT INTO 
 			NN_NN.BONO_CONSULTA (numero, fecha_impresion, fecha_compra, nro_afiliado, nro_tipo_afiliado)
 		VALUES 
-			(@max_nro + @i, GETDATE(), GETDATE(), @nro_afiliado, @nro_tipo_afiliado)
+			(@max_nro + @i, @fecha_compra, @fecha_compra, @nro_afiliado, @nro_tipo_afiliado)
 		SET @i = @i + 1
 	END
 END
@@ -827,11 +827,11 @@ CREATE PROCEDURE
 	NN_NN.SP_CHEQUEAR_USO_BONO_FARMACIA (@nro_bono int) AS
 BEGIN
 	SELECT  
-		RB.nro_bono_farmacia		
+		BCBF.nro_bono_farmacia		
     FROM 
-		NN_NN.RECETA_BONO_FARMACIA RB
+		NN_NN.BONO_CONSULTA_BONO_FARMACIA BCBF
     WHERE 
-		RB.nro_bono_farmacia = @nro_bono 
+		BCBF.nro_bono_farmacia = @nro_bono 
 END
 GO
 
@@ -844,7 +844,7 @@ BEGIN
 		(@nro_bono, @descripcion, @cantidad)
 END
 GO
-
+/*
 CREATE PROCEDURE 
 	NN_NN.SP_GENERAR_RECETA (@nro_consulta int) AS
 BEGIN
@@ -862,9 +862,23 @@ CREATE PROCEDURE
 	NN_NN.SP_ADD_BONO_FARMACIA_IN_RECETA (@nro_receta int, @nro_bono int) AS
 BEGIN
 	INSERT INTO 
-		NN_NN.RECETA_BONO_FARMACIA(nro_receta, nro_bono_farmacia)
+		NN_NN.RECETA_BONO_FARMACIA (nro_receta, nro_bono_farmacia)
 	VALUES
 		(@nro_receta, @nro_bono)
+END
+GO*/
+
+CREATE PROCEDURE 
+	NN_NN.SP_ADD_BONO_FARMACIA_IN_CONSULTA (@nro_consulta int, @nro_bono_farmacia int) AS
+BEGIN
+	INSERT INTO 
+		NN_NN.BONO_CONSULTA_BONO_FARMACIA(nro_bono_consulta, nro_bono_farmacia)
+	SELECT  TOP 1
+		C.nro_bono_consulta, @nro_bono_farmacia	
+    FROM 
+		NN_NN.CONSULTA C
+    WHERE 
+		C.numero  = @nro_consulta
 END
 GO
 
@@ -1074,15 +1088,17 @@ GO
 
 CREATE PROCEDURE NN_NN.SP_GENERAR_CONSULTA (
 	@nro_turno INT,
-	@nro_bono_consulta int
+	@nro_bono_consulta int,
+	@nro_afiliado int,
+	@nro_tipo_afiliado int
 )
 AS
 BEGIN
 	DECLARE @ID NUMERIC(18,0)
 	INSERT INTO 
-		NN_NN.CONSULTA (nro_turno, nro_bono_consulta, consulta_abierta)
+		NN_NN.CONSULTA (nro_turno, nro_bono_consulta, consulta_abierta, nro_afiliado, nro_tipo_afiliado)
 	VALUES
-		(@nro_turno, @nro_bono_consulta, 1)
+		(@nro_turno, @nro_bono_consulta, 1, @nro_afiliado, @nro_tipo_afiliado)
 	SET @ID = SCOPE_IDENTITY()
 	RETURN @ID
 END
@@ -1159,8 +1175,21 @@ BEGIN
 		T.fecha
 END
 GO
+/******************************************************
+*                    RESULTADO ATENCION               *
+*******************************************************/
+CREATE PROCEDURE 
+	NN_NN.SP_CARGAR_RESULTADO_ATENCION (@diagnostico  VARCHAR(255), @sintomas VARCHAR(255), @nro_consulta int) AS
+BEGIN
 
-
+	UPDATE 
+		NN_NN.CONSULTA
+	SET
+		diagnostico = @diagnostico, sintomas = @sintomas
+	WHERE
+		numero = @nro_consulta
+END
+GO
 /******************************************************
 *                    UTILS                            *
 *******************************************************/
@@ -1206,4 +1235,57 @@ BEGIN
     WHERE 
 		B.numero = @nro_bono
 END
+GO
 
+/******************************************************
+*                    LISTADOS ESTADISTICOS            *
+*******************************************************/
+CREATE PROCEDURE 
+	[NN_NN].[SP_TOP_5_BONOS_FARMACIA] (@dateFirst date, @dateLast date) AS
+BEGIN
+SELECT  
+	BONOS_POR_SEMESTRE.nroAfiliado, 
+	BONOS_POR_SEMESTRE.totalBonosSemestre,
+	BONOS_POR_MES.mes,
+	BONOS_POR_MES.totalBonosMes
+FROM
+	(SELECT top 5
+		A.numero as nroAfiliado, COUNT(B.numero) as totalBonosSemestre
+	FROM
+		NN_NN.AFILIADO A
+	JOIN
+		NN_NN.BONO_FARMACIA B	
+	ON
+		B.nro_afiliado = A.numero
+	AND
+		B.nro_tipo_afiliado = A.numero_tipo_afiliado
+	WHERE
+		B.fecha_compra >= @dateFirst
+	AND
+		B.fecha_compra <= @dateLast
+	GROUP BY 
+		A.numero	
+	ORDER BY 
+		COUNT(B.numero) DESC) AS BONOS_POR_SEMESTRE
+JOIN
+	(SELECT
+		A.numero nroAfiliado, DATEPART(MONTH, B.fecha_compra) as mes, COUNT(B.numero) as totalBonosMes
+	FROM
+		NN_NN.AFILIADO A
+	JOIN
+		NN_NN.BONO_FARMACIA B	
+	ON
+		B.nro_afiliado = A.numero
+	AND
+		B.nro_tipo_afiliado = A.numero_tipo_afiliado
+	WHERE
+		B.fecha_compra >= @dateFirst
+	AND
+		B.fecha_compra <= @dateLast
+	GROUP BY 
+		A.numero, DATEPART(MONTH, B.fecha_compra)) AS BONOS_POR_MES
+ON
+	BONOS_POR_SEMESTRE.nroAfiliado = BONOS_POR_MES.nroAfiliado
+ORDER BY
+	BONOS_POR_SEMESTRE.totalBonosSemestre DESC
+END

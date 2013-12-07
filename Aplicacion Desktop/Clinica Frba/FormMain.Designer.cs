@@ -32,7 +32,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btRegistro = new System.Windows.Forms.Button();
             this.gbEstadistico = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btEstadisticas = new System.Windows.Forms.Button();
             this.gbPlan = new System.Windows.Forms.GroupBox();
             this.btAltaPlan = new System.Windows.Forms.Button();
             this.btBajaPlan = new System.Windows.Forms.Button();
@@ -127,7 +127,7 @@
             // 
             // gbEstadistico
             // 
-            this.gbEstadistico.Controls.Add(this.button4);
+            this.gbEstadistico.Controls.Add(this.btEstadisticas);
             this.gbEstadistico.Location = new System.Drawing.Point(634, 19);
             this.gbEstadistico.Name = "gbEstadistico";
             this.gbEstadistico.Size = new System.Drawing.Size(106, 135);
@@ -135,14 +135,15 @@
             this.gbEstadistico.TabStop = false;
             this.gbEstadistico.Text = "Estadistico";
             // 
-            // button4
+            // btEstadisticas
             // 
-            this.button4.Location = new System.Drawing.Point(15, 59);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 1;
-            this.button4.Text = "Ver";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btEstadisticas.Location = new System.Drawing.Point(15, 59);
+            this.btEstadisticas.Name = "btEstadisticas";
+            this.btEstadisticas.Size = new System.Drawing.Size(75, 23);
+            this.btEstadisticas.TabIndex = 1;
+            this.btEstadisticas.Text = "Ver";
+            this.btEstadisticas.UseVisualStyleBackColor = true;
+            this.btEstadisticas.Click += new System.EventHandler(this.btEstadisticas_Click);
             // 
             // gbPlan
             // 
@@ -650,7 +651,7 @@
         private System.Windows.Forms.Button btPedirTunro;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.GroupBox gbEstadistico;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btEstadisticas;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button8;

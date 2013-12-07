@@ -130,16 +130,19 @@ namespace Clinica_Frba.Generar_Receta
         {
             StringBuilder st = new StringBuilder();
             List<SqlParameter> parametros = new List<SqlParameter>();
+            /*
             parametros.Add(new SqlParameter("nro_consulta", nroConsulta));
             SqlParameter salid = new SqlParameter("return", SqlDbType.Text);
             salid.Direction = ParameterDirection.ReturnValue;
             parametros.Add(salid);
+           
             List<SqlParameter> rta = repo.callProcedure("NN_NN.SP_GENERAR_RECETA", parametros);            
             foreach (SqlParameter s in rta)
             {
                 st.Append(s.Value);
             }
             int nroReceta = int.Parse(st.ToString());
+            */
             foreach (BonoFarmacia bono in bonosFarmacia)
             {
                 foreach (Medicamento medicamento in bono.Medicamentos)
@@ -151,17 +154,17 @@ namespace Clinica_Frba.Generar_Receta
                     repo.callProcedure("NN_NN.SP_ADD_MEDICAMENTO", parametros);
                 }
                 parametros.Clear();
-                parametros.Add(new SqlParameter("nro_receta", nroReceta));
-                parametros.Add(new SqlParameter("nro_bono", bono.Numero));
-                repo.callProcedure("NN_NN.SP_ADD_BONO_FARMACIA_IN_RECETA", parametros);
+                parametros.Add(new SqlParameter("nro_consulta", nroConsulta));
+                parametros.Add(new SqlParameter("nro_bono_farmacia", bono.Numero));
+                repo.callProcedure("NN_NN.SP_ADD_BONO_FARMACIA_IN_CONSULTA", parametros);
             }
-            IFormAtencion iDestino = this.Owner as IFormAtencion;
+            /*IFormAtencion iDestino = this.Owner as IFormAtencion;
             if (iDestino != null)
             {
-                iDestino.setNroReceta(nroReceta);
+                //iDestino.setNroReceta(nroReceta);
                 //string s = Convert.ToString(rol);
                 this.Close();
-            }
+            }*/
             MessageBox.Show("Receta creada con éxito");
             this.Close();
         }

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbSintomas = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbDiagnostico = new System.Windows.Forms.TextBox();
             this.btGenerarReceta = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.tbNroConsulta = new System.Windows.Forms.TextBox();
@@ -43,7 +43,6 @@
             this.btAceptar = new System.Windows.Forms.Button();
             this.btCancelar = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.tbRecetaMedica = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -58,13 +57,13 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Síntomas";
             // 
-            // textBox1
+            // tbSintomas
             // 
-            this.textBox1.Location = new System.Drawing.Point(161, 155);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(533, 69);
-            this.textBox1.TabIndex = 1;
+            this.tbSintomas.Location = new System.Drawing.Point(161, 155);
+            this.tbSintomas.Multiline = true;
+            this.tbSintomas.Name = "tbSintomas";
+            this.tbSintomas.Size = new System.Drawing.Size(533, 69);
+            this.tbSintomas.TabIndex = 1;
             // 
             // label2
             // 
@@ -75,13 +74,13 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Diagnóstico";
             // 
-            // textBox2
+            // tbDiagnostico
             // 
-            this.textBox2.Location = new System.Drawing.Point(161, 255);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(533, 83);
-            this.textBox2.TabIndex = 3;
+            this.tbDiagnostico.Location = new System.Drawing.Point(161, 255);
+            this.tbDiagnostico.Multiline = true;
+            this.tbDiagnostico.Name = "tbDiagnostico";
+            this.tbDiagnostico.Size = new System.Drawing.Size(533, 83);
+            this.tbDiagnostico.TabIndex = 3;
             // 
             // btGenerarReceta
             // 
@@ -185,17 +184,9 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Receta médica:";
             // 
-            // tbRecetaMedica
-            // 
-            this.tbRecetaMedica.Location = new System.Drawing.Point(111, 28);
-            this.tbRecetaMedica.Name = "tbRecetaMedica";
-            this.tbRecetaMedica.Size = new System.Drawing.Size(100, 20);
-            this.tbRecetaMedica.TabIndex = 11;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.tbRecetaMedica);
             this.groupBox2.Controls.Add(this.btGenerarReceta);
             this.groupBox2.Location = new System.Drawing.Point(55, 395);
             this.groupBox2.Name = "groupBox2";
@@ -213,9 +204,9 @@
             this.Controls.Add(this.btCancelar);
             this.Controls.Add(this.btAceptar);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.tbDiagnostico);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbSintomas);
             this.Controls.Add(this.label1);
             this.Name = "FormAtencion";
             this.Text = "FormAtencion";
@@ -232,9 +223,9 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbSintomas;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbDiagnostico;
         private System.Windows.Forms.Button btGenerarReceta;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbNroConsulta;
@@ -246,7 +237,6 @@
         private System.Windows.Forms.Button btAceptar;
         private System.Windows.Forms.Button btCancelar;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox tbRecetaMedica;
         private System.Windows.Forms.GroupBox groupBox2;
     }
 }
