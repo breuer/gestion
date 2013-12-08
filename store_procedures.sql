@@ -943,6 +943,30 @@ BEGIN
 	END			
 END
 GO
+CREATE PROCEDURE [NN_NN].[SP_CANCELAR_TURNO_BY_AFILIADO] (
+	@idTurno DECIMAL(18,0)= 0,
+	@date VARCHAR(255) = null,
+	@dateNow VARCHAR(255),
+	@motivo VARCHAR(255)
+)
+AS
+BEGIN
+	DECLARE @fecha DATETIME,
+			@fechaNOW DATETIME,
+			@dias INT = 0
+			
+	SELECT @fechaNOW = convert(datetime, @dateNow, 120);
+	SELECT @fecha = convert(datetime, @date, 120);
+	SET @dias = DATEDIFF(DAY,  @fecha, @fechaNOW);
+	
+	IF (@dias >= 0 OR @dias <= 1)
+	BEGIN
+		Raiserror ('No se puede cancelar el turno. Debe hacerlo con 24hs de anticipacion', 16, 2);
+	END 
+	INSERT INTO [NN_NN].[CANCELACION_TURNO]([motivo], [nro_turno],[cod_tipo_cancelacion], [fecha])
+		VALUES(@motivo, @idTurno, 1, @fechaNOW);
+END
+GO
 /******************************************************
 *                    BONOS                            *
 *******************************************************/
