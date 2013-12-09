@@ -5,9 +5,6 @@
     <Setting Name="dbConnectionString" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Data Source=localhost\SQLSERVER2008;Initial Catalog=GD2C2013;User ID=gd;Password=gd2013</Value>
     </Setting>
-    <Setting Name="fechaConfig" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">2013-03-04 18:37:58</Value>
-    </Setting>
     <Setting Name="fechaFormat" Type="System.String" Scope="Application">
       <Value Profile="(Default)">yyyy-MM-dd HH:mm:ss</Value>
     </Setting>
@@ -40,6 +37,9 @@
     </Setting>
     <Setting Name="SoloFechaFormat" Type="System.String" Scope="Application">
       <Value Profile="(Default)">dd-MM-yyyy</Value>
+    </Setting>
+    <Setting Name="fechaConfig" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">2013-12-31 09:40:58</Value>
     </Setting>
   </Settings>
 </SettingsFile>

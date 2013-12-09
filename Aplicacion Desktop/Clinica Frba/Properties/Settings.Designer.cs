@@ -35,15 +35,6 @@ namespace Clinica_Frba.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2013-03-04 18:37:58")]
-        public string fechaConfig {
-            get {
-                return ((string)(this["fechaConfig"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("yyyy-MM-dd HH:mm:ss")]
         public string fechaFormat {
             get {
@@ -138,6 +129,15 @@ namespace Clinica_Frba.Properties {
         public string SoloFechaFormat {
             get {
                 return ((string)(this["SoloFechaFormat"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2013-12-31 09:40:58")]
+        public string fechaConfig {
+            get {
+                return ((string)(this["fechaConfig"]));
             }
         }
     }

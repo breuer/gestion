@@ -104,5 +104,10 @@ namespace Clinica_Frba.Cancelar_Atencion
             PulsarBoton(sender, e);
             this.dgwTurnos.DataSource = FillTodos("[NN_NN].[SP_MIS_TURNOS_AFILIADO_CANCELADOS]");
         }
+
+        private void dgwTurnos_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }
