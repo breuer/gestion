@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.Base;
+using Clinica_Frba.Model;
+using System.Data.SqlClient;
 
 namespace Clinica_Frba.Cancelar_Atencion
 {
     public partial class FormCancelar : FormBase
     {
         public Boolean isRango = false;
+        public Decimal idTurno = 0;
+        public DateTime fecha;
 
         public FormCancelar()
         {
@@ -46,13 +50,67 @@ namespace Clinica_Frba.Cancelar_Atencion
             }
             else
             {
+                // Cancelacion por parte del Profesional puede ser por rango o por turno
                 if (this.AfiliadoCurrent != null)
                 {
-
-
+                    List<SqlParameter> parametros = new List<SqlParameter>();
+                    parametros.Add(new SqlParameter("idTurno", idTurno));
+                    parametros.Add(new SqlParameter(
+                        "date", 
+                        fecha.ToString(Properties.Settings.Default.fechaFormat)
+                    ));
+                    parametros.Add(new SqlParameter(
+                        "dateNow", 
+                        this.GetFullFechaConfig().ToString(Properties.Settings.Default.fechaFormat)
+                    ));
+                    parametros.Add(new SqlParameter("motivo", tbMotivo.Text));
+                    Turno.getRepository.callProcedure(
+                        "[NN_NN].[SP_CANCELAR_TURNO_BY_AFILIADO]",
+                        parametros
+                    );
                 }
                 else
                 {
+                    if (isRango == false)
+                    {
+                        List<SqlParameter> parametros = new List<SqlParameter>();
+                        parametros.Add(new SqlParameter("idTurno", idTurno));
+                        parametros.Add(new SqlParameter(
+                            "date",
+                            fecha.ToString(Properties.Settings.Default.fechaFormat)
+                        ));
+                        parametros.Add(new SqlParameter(
+                            "dateNow",
+                            this.GetFullFechaConfig().ToString(Properties.Settings.Default.fechaFormat)
+                        ));
+                        parametros.Add(new SqlParameter("motivo", tbMotivo.Text));
+                        Turno.getRepository.callProcedure(
+                            "[NN_NN].[SP_CANCELAR_TURNO_BY_PROFESIONAL]",
+                            parametros
+                        );
+                    }
+                    else
+                    {
+                        List<SqlParameter> parametros = new List<SqlParameter>();
+                        parametros.Add(new SqlParameter("idTurno", idTurno));
+                        parametros.Add(new SqlParameter(
+                            "dateF0",
+                            dpF0.Value.ToString(Properties.Settings.Default.fechaFormat)
+                        ));
+                        parametros.Add(new SqlParameter(
+                            "dateF1",
+                            dpF1.Value.ToString(Properties.Settings.Default.fechaFormat)
+                        ));
+                        parametros.Add(new SqlParameter(
+                            "dateNow",
+                            this.GetFullFechaConfig().ToString(Properties.Settings.Default.fechaFormat)
+                        ));
+                        parametros.Add(new SqlParameter("motivo", tbMotivo.Text));
+                        Turno.getRepository.callProcedure(
+                            "[NN_NN].[SP_CANCELAR_RANGO_TURNO_BY_PROFESIONAL]",
+                            parametros
+                        );
+                    }
 
                 }
             }

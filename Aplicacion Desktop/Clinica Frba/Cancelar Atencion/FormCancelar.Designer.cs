@@ -77,6 +77,8 @@
             // 
             // dpF0
             // 
+            this.dpF0.CustomFormat = "MM/dd/yyyy";
+            this.dpF0.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dpF0.Location = new System.Drawing.Point(9, 139);
             this.dpF0.Name = "dpF0";
             this.dpF0.Size = new System.Drawing.Size(200, 20);
@@ -84,6 +86,8 @@
             // 
             // dpF1
             // 
+            this.dpF1.CustomFormat = "MM/dd/yyyy";
+            this.dpF1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dpF1.Location = new System.Drawing.Point(265, 139);
             this.dpF1.Name = "dpF1";
             this.dpF1.Size = new System.Drawing.Size(200, 20);

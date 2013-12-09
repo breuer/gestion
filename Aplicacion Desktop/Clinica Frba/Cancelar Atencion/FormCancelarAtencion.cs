@@ -14,6 +14,9 @@ namespace Clinica_Frba.Cancelar_Atencion
 {
     public partial class FormCancelarAtencion : FormBase
     {
+
+        private Turno turno;
+
         public FormCancelarAtencion()
         {
             InitializeComponent();
@@ -106,6 +109,14 @@ namespace Clinica_Frba.Cancelar_Atencion
         }
 
         private void dgwTurnos_DoubleClick(object sender, EventArgs e)
+        {
+            turno = new Turno();
+            turno.Numero = int.Parse(getValueDataGrit(dgwTurnos, "numero"));
+            turno.Fecha = (DateTime)getObjectValueDataGrit(dgwTurnos, "fecha") ;
+            //turno.NroAfilido = int.Parse(getValueDataGrit(dgwTurnos, "numero"));
+        }
+
+        private void btCancelarTurno_Click(object sender, EventArgs e)
         {
 
         }
