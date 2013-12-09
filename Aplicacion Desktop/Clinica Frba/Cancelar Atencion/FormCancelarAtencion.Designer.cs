@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.paAfiliado = new System.Windows.Forms.Panel();
             this.gbTurnos = new System.Windows.Forms.GroupBox();
+            this.btCancelarTurno = new System.Windows.Forms.Button();
+            this.tbDatosTurnos = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dpHasta = new System.Windows.Forms.DateTimePicker();
@@ -44,8 +46,7 @@
             this.btFuturos = new System.Windows.Forms.Button();
             this.btAsistidos = new System.Windows.Forms.Button();
             this.dgwTurnos = new System.Windows.Forms.DataGridView();
-            this.tbDatosTurnos = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btCancelarPerido = new System.Windows.Forms.Button();
             this.paAfiliado.SuspendLayout();
             this.gbTurnos.SuspendLayout();
             this.plBotones.SuspendLayout();
@@ -62,7 +63,8 @@
             // 
             // gbTurnos
             // 
-            this.gbTurnos.Controls.Add(this.button1);
+            this.gbTurnos.Controls.Add(this.btCancelarPerido);
+            this.gbTurnos.Controls.Add(this.btCancelarTurno);
             this.gbTurnos.Controls.Add(this.tbDatosTurnos);
             this.gbTurnos.Controls.Add(this.label2);
             this.gbTurnos.Controls.Add(this.label1);
@@ -76,6 +78,23 @@
             this.gbTurnos.TabIndex = 0;
             this.gbTurnos.TabStop = false;
             this.gbTurnos.Text = "Mis Turnos";
+            // 
+            // btCancelarTurno
+            // 
+            this.btCancelarTurno.Location = new System.Drawing.Point(700, 135);
+            this.btCancelarTurno.Name = "btCancelarTurno";
+            this.btCancelarTurno.Size = new System.Drawing.Size(139, 23);
+            this.btCancelarTurno.TabIndex = 13;
+            this.btCancelarTurno.Text = "Cancelar turno";
+            this.btCancelarTurno.UseVisualStyleBackColor = true;
+            // 
+            // tbDatosTurnos
+            // 
+            this.tbDatosTurnos.Location = new System.Drawing.Point(446, 47);
+            this.tbDatosTurnos.Multiline = true;
+            this.tbDatosTurnos.Name = "tbDatosTurnos";
+            this.tbDatosTurnos.Size = new System.Drawing.Size(393, 82);
+            this.tbDatosTurnos.TabIndex = 12;
             // 
             // label2
             // 
@@ -178,53 +197,45 @@
             // 
             // dgwTurnos
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgwTurnos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgwTurnos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgwTurnos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgwTurnos.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgwTurnos.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgwTurnos.Location = new System.Drawing.Point(6, 47);
             this.dgwTurnos.Name = "dgwTurnos";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgwTurnos.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgwTurnos.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgwTurnos.Size = new System.Drawing.Size(399, 409);
             this.dgwTurnos.TabIndex = 0;
             this.dgwTurnos.DoubleClick += new System.EventHandler(this.dgwTurnos_DoubleClick);
             // 
-            // tbDatosTurnos
+            // btCancelarPerido
             // 
-            this.tbDatosTurnos.Location = new System.Drawing.Point(446, 47);
-            this.tbDatosTurnos.Multiline = true;
-            this.tbDatosTurnos.Name = "tbDatosTurnos";
-            this.tbDatosTurnos.Size = new System.Drawing.Size(393, 82);
-            this.tbDatosTurnos.TabIndex = 12;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(764, 135);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Cancelar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btCancelarPerido.Location = new System.Drawing.Point(446, 135);
+            this.btCancelarPerido.Name = "btCancelarPerido";
+            this.btCancelarPerido.Size = new System.Drawing.Size(139, 23);
+            this.btCancelarPerido.TabIndex = 14;
+            this.btCancelarPerido.Text = "Cancelar Periodo";
+            this.btCancelarPerido.UseVisualStyleBackColor = true;
             // 
             // FormCancelarAtencion
             // 
@@ -262,6 +273,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbDatosTurnos;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btCancelarTurno;
+        private System.Windows.Forms.Button btCancelarPerido;
     }
 }
