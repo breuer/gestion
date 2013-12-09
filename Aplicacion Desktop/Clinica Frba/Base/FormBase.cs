@@ -361,18 +361,31 @@ namespace Clinica_Frba.Base
 
         protected void FormBase_Load(object sender, EventArgs e)
         {
+            ssTop.Height = 30;
+            ssLabel1.Width = this.Width / 4;
+            ssLabel2.Width = this.Width / 4;
+            ssLabel3.Width = this.Width / 4;
+            ssLabel4.Width = this.Width - ssLabel1.Width - ssLabel2.Width - ssLabel3.Width - 25;
+            
+            ssLabel3.Text = this.GetFullFechaConfig().ToString(Properties.Settings.Default.fechaFormat);
+          
+            ssLabel1.BackColor = Color.WhiteSmoke;
+            ssLabel2.BackColor = Color.WhiteSmoke;
+            ssLabel4.BackColor = Color.WhiteSmoke;
+            ssLabel3.BackColor = Color.WhiteSmoke;
+
             switch (DataSession.idRol)
             {
                 case 1:
-                    llbUsuario.Text = "Mombre de usuario";
+                    ssLabel1.Text = "Mombre de usuario";
                     break;
                 case 2:
                     this.AfiliadoCurrent = DataSession.afiliadoSession;
-                    llbUsuario.Text = this.AfiliadoCurrent.ApellidoNombre;
+                    ssLabel4.Text = this.AfiliadoCurrent.ApellidoNombre;
                     break;
                 case 3:
                     this.ProfesionalCurrent = DataSession.profesionalSession;
-                    llbUsuario.Text = this.ProfesionalCurrent.ApellidoNombre;
+                    ssLabel4.Text = this.ProfesionalCurrent.ApellidoNombre;
                     break;
             }
         }
@@ -393,6 +406,11 @@ namespace Clinica_Frba.Base
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
+        }
+
+        private void ssLabel4_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("uk");
         }
 
     }

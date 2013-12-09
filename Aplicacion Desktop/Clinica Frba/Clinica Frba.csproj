@@ -126,6 +126,12 @@
       <DependentUpon>FormSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Base\Tag.cs" />
+    <Compile Include="Cancelar Atencion\FormCancelar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\FormCancelar.Designer.cs">
+      <DependentUpon>FormCancelar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cancelar Atencion\FormCancelarAtencion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -357,6 +363,9 @@
     <EmbeddedResource Include="Base\FormSearch.resx">
       <DependentUpon>FormSearch.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\FormCancelar.resx">
+      <DependentUpon>FormCancelar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Compra de Bono\FormCompraBonoConsulta.resx">
       <DependentUpon>FormCompraBonoConsulta.cs</DependentUpon>

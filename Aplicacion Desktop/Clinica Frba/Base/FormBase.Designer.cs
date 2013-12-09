@@ -28,86 +28,69 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btSalir = new System.Windows.Forms.Button();
-            this.llbUsuario = new System.Windows.Forms.LinkLabel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.ssTop = new System.Windows.Forms.StatusStrip();
+            this.ssLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ssLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ssLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ssLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ssTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // statusStrip1
+            // ssTop
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 570);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(930, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
+            this.ssTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ssTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ssLabel1,
+            this.ssLabel2,
+            this.ssLabel3,
+            this.ssLabel4});
+            this.ssTop.Location = new System.Drawing.Point(0, 0);
+            this.ssTop.Name = "ssTop";
+            this.ssTop.Size = new System.Drawing.Size(930, 22);
+            this.ssTop.TabIndex = 0;
             // 
-            // groupBox1
+            // ssLabel1
             // 
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Controls.Add(this.llbUsuario);
-            this.groupBox1.Controls.Add(this.btSalir);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(906, 83);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Session:";
+            this.ssLabel1.AutoSize = false;
+            this.ssLabel1.Name = "ssLabel1";
+            this.ssLabel1.Size = new System.Drawing.Size(109, 17);
+            this.ssLabel1.Text = "toolStripStatusLabel1";
             // 
-            // label1
+            // ssLabel2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(713, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Usuario:";
+            this.ssLabel2.AutoSize = false;
+            this.ssLabel2.Name = "ssLabel2";
+            this.ssLabel2.Size = new System.Drawing.Size(109, 17);
+            this.ssLabel2.Text = "toolStripStatusLabel1";
             // 
-            // btSalir
+            // ssLabel3
             // 
-            this.btSalir.Location = new System.Drawing.Point(825, 54);
-            this.btSalir.Name = "btSalir";
-            this.btSalir.Size = new System.Drawing.Size(75, 23);
-            this.btSalir.TabIndex = 2;
-            this.btSalir.Text = "Salir";
-            this.btSalir.UseVisualStyleBackColor = true;
-            this.btSalir.Click += new System.EventHandler(this.btSalir_Click);
+            this.ssLabel3.AutoSize = false;
+            this.ssLabel3.Name = "ssLabel3";
+            this.ssLabel3.Size = new System.Drawing.Size(109, 17);
+            this.ssLabel3.Text = "toolStripStatusLabel1";
             // 
-            // llbUsuario
+            // ssLabel4
             // 
-            this.llbUsuario.AutoSize = true;
-            this.llbUsuario.Location = new System.Drawing.Point(774, 20);
-            this.llbUsuario.Name = "llbUsuario";
-            this.llbUsuario.Size = new System.Drawing.Size(0, 13);
-            this.llbUsuario.TabIndex = 2;
-            this.llbUsuario.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(701, 50);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.ssLabel4.AutoSize = false;
+            this.ssLabel4.IsLink = true;
+            this.ssLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
+            this.ssLabel4.Name = "ssLabel4";
+            this.ssLabel4.Size = new System.Drawing.Size(109, 17);
+            this.ssLabel4.Text = "toolStripStatusLabel4";
+            this.ssLabel4.Click += new System.EventHandler(this.ssLabel4_Click);
             // 
             // FormBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(930, 592);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.ssTop);
             this.Name = "FormBase";
             this.Text = "FormBase";
             this.Load += new System.EventHandler(this.FormBase_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ssTop.ResumeLayout(false);
+            this.ssTop.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -115,11 +98,10 @@
 
         #endregion
 
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btSalir;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.LinkLabel llbUsuario;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.StatusStrip ssTop;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel4;
     }
 }

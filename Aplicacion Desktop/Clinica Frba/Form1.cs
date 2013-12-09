@@ -102,5 +102,10 @@ namespace Clinica_Frba
 
         }
 
+        private void ss_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
     }
 }

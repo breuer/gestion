@@ -727,9 +727,12 @@ BEGIN
 	-- Si tiene cancelacion es que se cancelo
 	-- Si no tiene fecha de llegada y la fecha del turno es menos a la del presente se muestra como Perdido.
 	-- Si no tiene fecha de llegada y la fecha del turno es menos a 24 hs no se puede cancelar
-
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('FECHA_NOW ',CONVERT(VARCHAR, @fechaNOW));
+	
 	IF @dateF0 is null OR @dateF1 is null
 	BEGIN
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('TRACE','VINO POR ACA');
+	
 		SELECT T.numero, T.fecha, T.fecha_llegada, D.descripcion, P.apellido, P.nombre, CT.motivo
 			FROM [NN_NN].[TURNO] AS T LEFT JOIN [NN_NN].[DIA] AS D ON (T.nro_day = D.codigo)
 				LEFT JOIN [NN_NN].[CANCELACION_TURNO] AS CT ON (T.numero = CT.nro_turno)
@@ -740,6 +743,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
+	INSERT INTO NN_NN.LOG (NAME, LOGS) VALUES ('TRACE','VINO POR ELSE');
+	
 		DECLARE @fecha0 DATETIME,
 				@fecha1 DATETIME
 			
@@ -938,6 +943,77 @@ BEGIN
 	END			
 END
 GO
+CREATE PROCEDURE [NN_NN].[SP_CANCELAR_TURNO_BY_AFILIADO] (
+	@idTurno DECIMAL(18,0)= 0,
+	@date VARCHAR(255) = null,
+	@dateNow VARCHAR(255),
+	@motivo VARCHAR(255)
+)
+AS
+BEGIN
+	DECLARE @fecha DATETIME,
+			@fechaNOW DATETIME,
+			@dias INT = 0
+			
+	SELECT @fechaNOW = convert(datetime, @dateNow, 120);
+	SELECT @fecha = convert(datetime, @date, 120);
+	SET @dias = DATEDIFF(DAY, @fechaNOW, @fecha);
+	
+	IF (@dias <= 1)
+	BEGIN
+		Raiserror ('No se puede cancelar el turno. Debe hacerlo con 24hs de anticipacion', 16, 2);
+	END 
+	INSERT INTO [NN_NN].[CANCELACION_TURNO]([motivo], [nro_turno],[cod_tipo_cancelacion], [fecha])
+		VALUES(@motivo, @idTurno, 1, @fechaNOW);
+END
+GO
+CREATE PROCEDURE [NN_NN].[SP_CANCELAR_RANGO_TURNO_BY_PROFESIONAL] (
+	@idProfesional DECIMAL(18,0)= 0,
+	@dateF0 VARCHAR(255) = null,
+	@dateF1 VARCHAR(255) = null,
+	@dateNow VARCHAR(255),
+	@motivo VARCHAR(255)
+)
+AS
+BEGIN
+	DECLARE @fechaF0 DATETIME,
+			@fechaF1 DATETIME,
+			@fechaNOW DATETIME,
+			@dias INT = 0
+			
+	SELECT @fechaNOW = convert(datetime, @dateNow, 120);
+	SELECT @fechaF0 = convert(datetime, @dateF0, 120);
+	SELECT @fechaF1 = convert(datetime, @dateF1, 120);
+	
+	SET @dias = DATEDIFF(DAY,  @fechaNOW, @fechaF0);
+	
+	IF (@dias <= 1)
+	BEGIN
+		Raiserror ('No se puede cancelar el rango. Debe hacerlo con 24hs de anticipacion', 16, 2);
+	END
+	
+	DECLARE cTurnos CURSOR FOR
+		SELECT numero FROM [NN_NN].[TURNO] 
+			WHERE fecha BETWEEN @fechaF0 AND @fechaF1 AND fecha_llegada is NULL
+				and not exists (select nro_turno FROM [NN_NN].[CANCELACION_TURNO] WHERE
+				nro_turno = numero)
+	OPEN cDias
+	
+	DECLARE @numero DECIMAL(18,0)= 0
+	FETCH NEXT FROM cTurnos
+		INTO @numero 
+	WHILE @@fetch_status = 0
+	BEGIN
+	
+		INSERT INTO [NN_NN].[CANCELACION_TURNO]([motivo], [nro_turno],[cod_tipo_cancelacion], [fecha])
+			VALUES(@motivo, @numeros, 2, @fechaNOW);
+		FETCH NEXT FROM cTurnos
+			INTO @numeros
+	END
+	CLOSE cTurnos
+	DEALLOCATE cTurnos
+	
+END
 /******************************************************
 *                    BONOS                            *
 *******************************************************/
