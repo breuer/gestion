@@ -211,6 +211,12 @@ namespace Clinica_Frba
         {
             FormCancelarAtencion frm = new FormCancelarAtencion();
             frm.ShowDialog(this);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FormRegistrarLLegada frm = new FormRegistrarLLegada();
+            frm.Show();
         }     
 
     }

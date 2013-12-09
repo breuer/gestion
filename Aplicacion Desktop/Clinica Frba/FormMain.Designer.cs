@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.gb = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btRegistro = new System.Windows.Forms.Button();
+            this.btRegistro2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.gbEstadistico = new System.Windows.Forms.GroupBox();
             this.btEstadisticas = new System.Windows.Forms.Button();
             this.gbPlan = new System.Windows.Forms.GroupBox();
@@ -53,16 +53,18 @@
             this.btBajaAfiliado = new System.Windows.Forms.Button();
             this.btListarAfiliado = new System.Windows.Forms.Button();
             this.btModificacionAfiliado = new System.Windows.Forms.Button();
-            this.gbAbmUser = new System.Windows.Forms.GroupBox();
-            this.btAltaUsaurio = new System.Windows.Forms.Button();
-            this.btBajaUsuario = new System.Windows.Forms.Button();
-            this.btListarUsuario = new System.Windows.Forms.Button();
-            this.btModificarUsuario = new System.Windows.Forms.Button();
             this.gbAbmRol = new System.Windows.Forms.GroupBox();
             this.btAltaRol = new System.Windows.Forms.Button();
             this.btBajaRol = new System.Windows.Forms.Button();
             this.btListarRol = new System.Windows.Forms.Button();
             this.btModificacionRol = new System.Windows.Forms.Button();
+            this.gbAbmUser = new System.Windows.Forms.GroupBox();
+            this.btAltaUsaurio = new System.Windows.Forms.Button();
+            this.btBajaUsuario = new System.Windows.Forms.Button();
+            this.btListarUsuario = new System.Windows.Forms.Button();
+            this.btModificarUsuario = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btRegistro = new System.Windows.Forms.Button();
             this.btRegistraAgenda = new System.Windows.Forms.Button();
             this.btVerAgenda = new System.Windows.Forms.Button();
             this.gbProfesional = new System.Windows.Forms.GroupBox();
@@ -76,54 +78,55 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.btRegistro2.SuspendLayout();
             this.gbEstadistico.SuspendLayout();
             this.gbPlan.SuspendLayout();
             this.gbAbmEspecialidad.SuspendLayout();
             this.gbAbmProfesional.SuspendLayout();
             this.gbAbmAfiliado.SuspendLayout();
-            this.gbAbmUser.SuspendLayout();
             this.gbAbmRol.SuspendLayout();
+            this.gbAbmUser.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.gbProfesional.SuspendLayout();
             this.gbAfiliado.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb
             // 
-            this.gb.Controls.Add(this.groupBox1);
+            this.gb.Controls.Add(this.btRegistro2);
             this.gb.Controls.Add(this.gbEstadistico);
             this.gb.Controls.Add(this.gbPlan);
             this.gb.Controls.Add(this.gbAbmEspecialidad);
             this.gb.Controls.Add(this.gbAbmProfesional);
             this.gb.Controls.Add(this.gbAbmAfiliado);
-            this.gb.Controls.Add(this.gbAbmUser);
             this.gb.Controls.Add(this.gbAbmRol);
+            this.gb.Controls.Add(this.gbAbmUser);
             this.gb.Location = new System.Drawing.Point(12, 12);
             this.gb.Name = "gb";
-            this.gb.Size = new System.Drawing.Size(891, 160);
+            this.gb.Size = new System.Drawing.Size(917, 160);
             this.gb.TabIndex = 0;
             this.gb.TabStop = false;
             this.gb.Text = "Menu administrativo";
             // 
-            // groupBox1
+            // btRegistro2
             // 
-            this.groupBox1.Controls.Add(this.btRegistro);
-            this.groupBox1.Location = new System.Drawing.Point(758, 19);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(118, 135);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Registro llegada";
+            this.btRegistro2.Controls.Add(this.button1);
+            this.btRegistro2.Location = new System.Drawing.Point(765, 19);
+            this.btRegistro2.Name = "btRegistro2";
+            this.btRegistro2.Size = new System.Drawing.Size(135, 129);
+            this.btRegistro2.TabIndex = 11;
+            this.btRegistro2.TabStop = false;
+            this.btRegistro2.Text = "groupBox2";
             // 
-            // btRegistro
+            // button1
             // 
-            this.btRegistro.Location = new System.Drawing.Point(11, 59);
-            this.btRegistro.Name = "btRegistro";
-            this.btRegistro.Size = new System.Drawing.Size(75, 23);
-            this.btRegistro.TabIndex = 0;
-            this.btRegistro.Text = "Registro";
-            this.btRegistro.UseVisualStyleBackColor = true;
-            this.btRegistro.Click += new System.EventHandler(this.btRegistro_Click);
+            this.button1.Location = new System.Drawing.Point(12, 64);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(112, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Registrar llegada";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // gbEstadistico
             // 
@@ -346,55 +349,6 @@
             this.btModificacionAfiliado.Text = "Modificacion";
             this.btModificacionAfiliado.UseVisualStyleBackColor = true;
             // 
-            // gbAbmUser
-            // 
-            this.gbAbmUser.Controls.Add(this.btAltaUsaurio);
-            this.gbAbmUser.Controls.Add(this.btBajaUsuario);
-            this.gbAbmUser.Controls.Add(this.btListarUsuario);
-            this.gbAbmUser.Controls.Add(this.btModificarUsuario);
-            this.gbAbmUser.Location = new System.Drawing.Point(99, 19);
-            this.gbAbmUser.Name = "gbAbmUser";
-            this.gbAbmUser.Size = new System.Drawing.Size(87, 135);
-            this.gbAbmUser.TabIndex = 1;
-            this.gbAbmUser.TabStop = false;
-            this.gbAbmUser.Text = "User";
-            // 
-            // btAltaUsaurio
-            // 
-            this.btAltaUsaurio.Location = new System.Drawing.Point(6, 19);
-            this.btAltaUsaurio.Name = "btAltaUsaurio";
-            this.btAltaUsaurio.Size = new System.Drawing.Size(75, 23);
-            this.btAltaUsaurio.TabIndex = 1;
-            this.btAltaUsaurio.Text = "Alta";
-            this.btAltaUsaurio.UseVisualStyleBackColor = true;
-            // 
-            // btBajaUsuario
-            // 
-            this.btBajaUsuario.Location = new System.Drawing.Point(6, 48);
-            this.btBajaUsuario.Name = "btBajaUsuario";
-            this.btBajaUsuario.Size = new System.Drawing.Size(75, 23);
-            this.btBajaUsuario.TabIndex = 2;
-            this.btBajaUsuario.Text = "Baja";
-            this.btBajaUsuario.UseVisualStyleBackColor = true;
-            // 
-            // btListarUsuario
-            // 
-            this.btListarUsuario.Location = new System.Drawing.Point(6, 106);
-            this.btListarUsuario.Name = "btListarUsuario";
-            this.btListarUsuario.Size = new System.Drawing.Size(75, 23);
-            this.btListarUsuario.TabIndex = 4;
-            this.btListarUsuario.Text = "Listar";
-            this.btListarUsuario.UseVisualStyleBackColor = true;
-            // 
-            // btModificarUsuario
-            // 
-            this.btModificarUsuario.Location = new System.Drawing.Point(6, 77);
-            this.btModificarUsuario.Name = "btModificarUsuario";
-            this.btModificarUsuario.Size = new System.Drawing.Size(75, 23);
-            this.btModificarUsuario.TabIndex = 3;
-            this.btModificarUsuario.Text = "Modificacion";
-            this.btModificarUsuario.UseVisualStyleBackColor = true;
-            // 
             // gbAbmRol
             // 
             this.gbAbmRol.Controls.Add(this.btAltaRol);
@@ -448,6 +402,75 @@
             this.btModificacionRol.TabIndex = 3;
             this.btModificacionRol.Text = "Modificacion";
             this.btModificacionRol.UseVisualStyleBackColor = true;
+            // 
+            // gbAbmUser
+            // 
+            this.gbAbmUser.Controls.Add(this.btAltaUsaurio);
+            this.gbAbmUser.Controls.Add(this.btBajaUsuario);
+            this.gbAbmUser.Controls.Add(this.btListarUsuario);
+            this.gbAbmUser.Controls.Add(this.btModificarUsuario);
+            this.gbAbmUser.Location = new System.Drawing.Point(99, 19);
+            this.gbAbmUser.Name = "gbAbmUser";
+            this.gbAbmUser.Size = new System.Drawing.Size(87, 135);
+            this.gbAbmUser.TabIndex = 1;
+            this.gbAbmUser.TabStop = false;
+            this.gbAbmUser.Text = "User";
+            // 
+            // btAltaUsaurio
+            // 
+            this.btAltaUsaurio.Location = new System.Drawing.Point(6, 19);
+            this.btAltaUsaurio.Name = "btAltaUsaurio";
+            this.btAltaUsaurio.Size = new System.Drawing.Size(75, 23);
+            this.btAltaUsaurio.TabIndex = 1;
+            this.btAltaUsaurio.Text = "Alta";
+            this.btAltaUsaurio.UseVisualStyleBackColor = true;
+            // 
+            // btBajaUsuario
+            // 
+            this.btBajaUsuario.Location = new System.Drawing.Point(6, 48);
+            this.btBajaUsuario.Name = "btBajaUsuario";
+            this.btBajaUsuario.Size = new System.Drawing.Size(75, 23);
+            this.btBajaUsuario.TabIndex = 2;
+            this.btBajaUsuario.Text = "Baja";
+            this.btBajaUsuario.UseVisualStyleBackColor = true;
+            // 
+            // btListarUsuario
+            // 
+            this.btListarUsuario.Location = new System.Drawing.Point(6, 106);
+            this.btListarUsuario.Name = "btListarUsuario";
+            this.btListarUsuario.Size = new System.Drawing.Size(75, 23);
+            this.btListarUsuario.TabIndex = 4;
+            this.btListarUsuario.Text = "Listar";
+            this.btListarUsuario.UseVisualStyleBackColor = true;
+            // 
+            // btModificarUsuario
+            // 
+            this.btModificarUsuario.Location = new System.Drawing.Point(6, 77);
+            this.btModificarUsuario.Name = "btModificarUsuario";
+            this.btModificarUsuario.Size = new System.Drawing.Size(75, 23);
+            this.btModificarUsuario.TabIndex = 3;
+            this.btModificarUsuario.Text = "Modificacion";
+            this.btModificarUsuario.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btRegistro);
+            this.groupBox1.Location = new System.Drawing.Point(758, 19);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(118, 135);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Registro llegada";
+            // 
+            // btRegistro
+            // 
+            this.btRegistro.Location = new System.Drawing.Point(11, 59);
+            this.btRegistro.Name = "btRegistro";
+            this.btRegistro.Size = new System.Drawing.Size(75, 23);
+            this.btRegistro.TabIndex = 0;
+            this.btRegistro.Text = "Registro";
+            this.btRegistro.UseVisualStyleBackColor = true;
+            this.btRegistro.Click += new System.EventHandler(this.btRegistro_Click);
             // 
             // btRegistraAgenda
             // 
@@ -584,7 +607,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Clinica_Frba.Properties.Resources.Fondo;
-            this.ClientSize = new System.Drawing.Size(955, 509);
+            this.ClientSize = new System.Drawing.Size(1025, 509);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -595,18 +618,26 @@
             this.Name = "FormMain";
             this.Text = "FormMain";
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Controls.SetChildIndex(this.gb, 0);
+            this.Controls.SetChildIndex(this.gbProfesional, 0);
+            this.Controls.SetChildIndex(this.gbAfiliado, 0);
+            this.Controls.SetChildIndex(this.button5, 0);
+            this.Controls.SetChildIndex(this.button6, 0);
+            this.Controls.SetChildIndex(this.button8, 0);
             this.gb.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
+            this.btRegistro2.ResumeLayout(false);
             this.gbEstadistico.ResumeLayout(false);
             this.gbPlan.ResumeLayout(false);
             this.gbAbmEspecialidad.ResumeLayout(false);
             this.gbAbmProfesional.ResumeLayout(false);
             this.gbAbmAfiliado.ResumeLayout(false);
-            this.gbAbmUser.ResumeLayout(false);
             this.gbAbmRol.ResumeLayout(false);
+            this.gbAbmUser.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.gbProfesional.ResumeLayout(false);
             this.gbAfiliado.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -659,6 +690,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btRegistro;
         private System.Windows.Forms.Button btConsultasPendientes;
+        private System.Windows.Forms.GroupBox btRegistro2;
+        private System.Windows.Forms.Button button1;
 
     }
 }

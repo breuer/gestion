@@ -677,9 +677,9 @@ WHERE
 *                    CONSULTA                         *
 *******************************************************/
 INSERT INTO 
-	NN_NN.CONSULTA(nro_bono_consulta, diagnostico, sintomas, nro_turno, nro_afiliado, nro_tipo_afiliado)
+	NN_NN.CONSULTA(nro_bono_consulta, diagnostico, sintomas, nro_turno, nro_afiliado, nro_tipo_afiliado, fecha_atencion)
 SELECT DISTINCT 
-	 M.Bono_Consulta_Numero, M.Consulta_Enfermedades, M.Consulta_Sintomas, M.Turno_Numero, A.numero, A.numero_tipo_afiliado  
+	 M.Bono_Consulta_Numero, M.Consulta_Enfermedades, M.Consulta_Sintomas, M.Turno_Numero, A.numero, A.numero_tipo_afiliado, M.Turno_Fecha 
 FROM 
 	gd_esquema.Maestra M
 INNER JOIN

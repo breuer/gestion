@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections; 
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +20,7 @@ namespace Clinica_Frba.Listados_Estadisticos
     {
         DataGrid d;
         private ListView myListView;
+        Repository repo;
 
         public FormListados()
         {
@@ -79,6 +81,52 @@ namespace Clinica_Frba.Listados_Estadisticos
             this.cbPeriodo.SelectedIndex = 0;
             this.cbReportes.SelectedIndex = 0;
             this.cbYear.SelectedIndex = 0;
+            
+            repo = new Repository();
+            lvListado.View = View.Details;
+        }
+
+
+        private void fillListado(string id, 
+            DataTable dtGroup, DataTable dtBody, Hashtable groupHash) 
+        {
+            lvListado.BeginUpdate();
+            lvListado.Items.Clear();
+            lvListado.Columns.Clear();
+            lvListado.ShowGroups = true;
+            lvListado.GridLines = true;
+            Hashtable groups = new Hashtable();
+            string text;
+            foreach (DataRow row in dtGroup.Rows)
+            {
+                text = "";
+                foreach(DataColumn dc in dtGroup.Columns)
+                {
+                    text = text + groupHash[dc.ColumnName] + row[dc].ToString() + "  ";
+                }
+                ListViewGroup lvg = new ListViewGroup(text, HorizontalAlignment.Left);
+                groups.Add(row[id], lvg);
+                lvListado.Groups.Add(lvg);
+            }
+
+            foreach (DataColumn dc in dtBody.Columns)
+            {
+                lvListado.Columns.Add(dc.ColumnName);
+            }
+            foreach (DataRow row in dtBody.Rows)
+            {        
+                ListViewItem item = new ListViewItem();                
+                foreach (DataColumn dc in dtBody.Columns)
+                {
+                    if (dc.ColumnName.Equals(id))
+                        item.Text = Convert.ToString(row[dc]);
+                    else
+                        item.SubItems.Add(Convert.ToString(row[dc]));
+                }
+                item.Group = (ListViewGroup)groups[row[id]];                
+                lvListado.Items.Add(item);
+            }
+            lvListado.EndUpdate();    
         }
 
         private void ejecutar(String sql, DateTime fechaF0, DateTime fechaF1)
@@ -91,7 +139,7 @@ namespace Clinica_Frba.Listados_Estadisticos
             param.Value = fechaF1;
             lst.Add(param);
             DataTable dt = (new Repository()).listar(sql, lst);
-            this.dgvLista.DataSource = dt;            
+            //this.dgvLista.DataSource = dt;            
         }
 
         // Sobreprograme un poco. Con una lista de nombres de storeProcedure puede que sea mas simple
@@ -106,13 +154,30 @@ namespace Clinica_Frba.Listados_Estadisticos
         private void listaTop5BonosFarmacia(DateTime fechaF0, DateTime fechaF1)
         {
             lbTitulo.Text = "Top 5 de la cantidad total de bonos farmacia vencidos por afiliado.";
-            this.ejecutar("[NN_NN].[SP_TOP_5_BONOS_FARMACIA]", fechaF0, fechaF1);  
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("dateFirst", fechaF0));
+            parametros.Add(new SqlParameter("dateLast", fechaF1));
+            parametros.Add(new SqlParameter("dateToday", GetFechaConfig()));
+            DataTable data1 = repo.listar("NN_NN.SP_TOP_5_TOTAL_BONOS_FARMACIA_VENCIDO_POR_AFILIADO", parametros);
+            DataTable data2 = repo.listar("NN_NN.SP_TOP_5_TOTAL_BONOS_FARMACIA_VENCIDO_POR_AFILIADO_SEG_MENSUAL", parametros);
+            Hashtable groupHash = new Hashtable();
+            groupHash.Add("nroAfiliado", "Nro afiliado: ");
+            groupHash.Add("totalBonos", "Total bonos: ");
+            fillListado("nroAfiliado", data1, data2, groupHash);
         }
         //Top 5 de las especialidades de médicos con más bonos de farmacia recetados.
         private void listaTop5EspecialidadesByMedicosWithMoreBonos(DateTime fechaF0, DateTime fechaF1)
         {
             lbTitulo.Text = "Top 5 de las especialidades de médicos con más bonos de farmacia recetados.";
-            this.ejecutar("[NN_NN].[SP_TOP_5_ESPECIALIDADES_BY_MORE_BONOS]", fechaF0, fechaF1);
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("dateFirst", fechaF0));
+            parametros.Add(new SqlParameter("dateLast", fechaF1));
+            DataTable dataGroup = repo.listar("NN_NN.SP_TOP_5_ESPECIALIDADES_CON_MAS_BONOS_FARMACIA_RECETADOS", parametros);
+            DataTable dataBody = repo.listar("NN_NN.SP_TOP_5_ESPECIALIDADES_CON_MAS_BONOS_FARMACIA_RECETADOS_SEG_MENSUAL", parametros);
+            Hashtable groupHash = new Hashtable();
+            groupHash.Add("codigoEspecialidad", "Cod: ");
+            groupHash.Add("totalBonos", "Total bonos: ");
+            fillListado("codigoEspecialidad", dataGroup, dataBody, groupHash);
         }
 
         //Top 10 de los afiliados que utilizaron bonos que ellos mismo no compraron.

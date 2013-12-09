@@ -1467,51 +1467,261 @@ GO
 *                    LISTADOS ESTADISTICOS            *
 *******************************************************/
 CREATE PROCEDURE 
-	[NN_NN].[SP_TOP_5_BONOS_FARMACIA] (@dateFirst date, @dateLast date) AS
+	NN_NN.SP_TOP_5_TOTAL_BONOS_FARMACIA_VENCIDO_POR_AFILIADO (
+	@dateFirst date, 
+	@dateLast date,
+	@dateToday date
+	) AS
 BEGIN
-SELECT  
-	BONOS_POR_SEMESTRE.nroAfiliado, 
-	BONOS_POR_SEMESTRE.totalBonosSemestre,
-	BONOS_POR_MES.mes,
-	BONOS_POR_MES.totalBonosMes
-FROM
-	(SELECT top 5
-		A.numero as nroAfiliado, COUNT(B.numero) as totalBonosSemestre
-	FROM
-		NN_NN.AFILIADO A
-	JOIN
-		NN_NN.BONO_FARMACIA B	
-	ON
-		B.nro_afiliado = A.numero
-	AND
-		B.nro_tipo_afiliado = A.numero_tipo_afiliado
-	WHERE
-		B.fecha_compra >= @dateFirst
-	AND
-		B.fecha_compra <= @dateLast
-	GROUP BY 
-		A.numero	
-	ORDER BY 
-		COUNT(B.numero) DESC) AS BONOS_POR_SEMESTRE
-JOIN
-	(SELECT
-		A.numero nroAfiliado, DATEPART(MONTH, B.fecha_compra) as mes, COUNT(B.numero) as totalBonosMes
-	FROM
-		NN_NN.AFILIADO A
-	JOIN
-		NN_NN.BONO_FARMACIA B	
-	ON
-		B.nro_afiliado = A.numero
-	AND
-		B.nro_tipo_afiliado = A.numero_tipo_afiliado
-	WHERE
-		B.fecha_compra >= @dateFirst
-	AND
-		B.fecha_compra <= @dateLast
-	GROUP BY 
-		A.numero, DATEPART(MONTH, B.fecha_compra)) AS BONOS_POR_MES
-ON
-	BONOS_POR_SEMESTRE.nroAfiliado = BONOS_POR_MES.nroAfiliado
-ORDER BY
-	BONOS_POR_SEMESTRE.totalBonosSemestre DESC
+		SELECT TOP 10
+			A.numero nroAfiliado,
+			A.apellido apellido,
+			A.nombre nombre,
+			COUNT (BF.numero) totalBonos
+	    FROM
+			NN_NN.AFILIADO A
+		JOIN
+			NN_NN.BONO_FARMACIA BF
+		ON
+			A.numero = BF.nro_afiliado
+		AND
+			A.numero_tipo_afiliado = BF.nro_tipo_afiliado
+		WHERE 
+		NOT EXISTS
+			(SELECT 
+				* 
+			FROM
+				NN_NN.BONO_CONSULTA_BONO_FARMACIA BCBF
+			WHERE
+				BCBF.nro_bono_farmacia = BF.numero)
+		AND
+			DATEPART(MONTH, BF.fecha_vencimiento) >= DATEPART(MONTH, @dateFirst)
+		AND
+			DATEPART(MONTH, BF.fecha_vencimiento) <= DATEPART(MONTH, @dateLast)
+		AND
+			BF.fecha_vencimiento < @dateToday
+		GROUP BY
+			A.numero, A.apellido, A.nombre
+		ORDER BY
+			COUNT (BF.numero) DESC
 END
+GO
+
+CREATE PROCEDURE 
+	NN_NN.SP_TOP_5_TOTAL_BONOS_FARMACIA_VENCIDO_POR_AFILIADO_SEG_MENSUAL (
+	@dateFirst date, 
+	@dateLast date,
+	@dateToday date
+	) AS
+BEGIN
+	SELECT
+		bonosFarmaciasVencidosTotal.nroAfiliado nroAfiliado, 
+		--bonosFarmaciasVencidosTotal.bonosFarmacia totalBonosFarmacia,
+		bonosFarmaciaVencidosPorMes.mes mes,
+		bonosFarmaciaVencidosPorMes.bonosFarmacia totalMesBonosFarmacia
+	FROM
+		(SELECT TOP 10
+			A.numero nroAfiliado,
+			COUNT (BF.numero) bonosFarmacia
+		FROM
+			NN_NN.AFILIADO A
+		JOIN
+			NN_NN.BONO_FARMACIA BF
+		ON
+			A.numero = BF.nro_afiliado
+		AND
+			A.numero_tipo_afiliado = BF.nro_tipo_afiliado
+		WHERE 
+		NOT EXISTS
+			(SELECT 
+				* 
+			FROM
+				NN_NN.BONO_CONSULTA_BONO_FARMACIA BCBF
+			WHERE
+				BCBF.nro_bono_farmacia = BF.numero)
+		AND
+			DATEPART(MONTH, BF.fecha_vencimiento) >= DATEPART(MONTH, @dateFirst)
+		AND
+			DATEPART(MONTH, BF.fecha_vencimiento) <= DATEPART(MONTH, @dateLast)
+		AND
+			BF.fecha_vencimiento < @dateToday
+		GROUP BY
+			A.numero
+		ORDER BY
+			COUNT (BF.numero) DESC
+		) bonosFarmaciasVencidosTotal
+	JOIN	
+		(SELECT
+			A.numero nroAfiliado,
+			DATEPART(MONTH, BF.fecha_vencimiento) mes,
+			COUNT (BF.numero) bonosFarmacia
+		FROM
+			NN_NN.AFILIADO A
+		JOIN
+			NN_NN.BONO_FARMACIA BF
+		ON
+			A.numero = BF.nro_afiliado
+		AND
+			A.numero_tipo_afiliado = BF.nro_tipo_afiliado
+		WHERE 
+		NOT EXISTS
+			(SELECT 
+				* 
+			FROM
+				NN_NN.BONO_CONSULTA_BONO_FARMACIA BCBF
+			WHERE
+				BCBF.nro_bono_farmacia = BF.numero)
+		AND
+			DATEPART(MONTH, BF.fecha_vencimiento) >= DATEPART(MONTH, @dateFirst)
+		AND
+			DATEPART(MONTH, BF.fecha_vencimiento) <= DATEPART(MONTH, @dateLast)
+		AND
+			BF.fecha_vencimiento < @dateToday
+		GROUP BY
+			A.numero, DATEPART(MONTH, BF.fecha_vencimiento)
+		--order by
+		--	COUNT (BF.numero)
+		) bonosFarmaciaVencidosPorMes
+	ON
+		bonosFarmaciasVencidosTotal.nroAfiliado = bonosFarmaciaVencidosPorMes.nroAfiliado
+	ORDER BY
+		bonosFarmaciasVencidosTotal.bonosFarmacia DESC
+END
+GO
+--------------------------------------------------------------------------------
+CREATE PROCEDURE 
+	NN_NN.SP_TOP_5_ESPECIALIDADES_CON_MAS_BONOS_FARMACIA_RECETADOS (
+	@dateFirst date, 
+	@dateLast date
+	) AS
+BEGIN
+	SELECT  TOP 5
+		E.codigo codigoEspecialidad, 
+		E.descripcion descripcionEspecialidad, 
+		COUNT(BCBF.nro_bono_farmacia) totalBonos
+	FROM
+		NN_NN.ESPECIALIDAD E
+	JOIN
+		NN_NN.PROFESIONAL_ESPECIALIDAD PE
+	ON
+		E.codigo = PE.cod_especialidad
+	JOIN
+		NN_NN.PROFESIONAL p
+	ON
+		P.numero = PE.nro_profesional
+	JOIN
+		NN_NN.TURNO T
+	ON
+		T.nro_profesional = P.numero
+	JOIN
+		NN_NN.CONSULTA C
+	ON 
+		C.nro_turno = T.numero
+	JOIN
+		NN_NN.BONO_CONSULTA_BONO_FARMACIA BCBF
+	ON
+		C.nro_bono_consulta = BCBF.nro_bono_consulta
+	WHERE		
+		DATEPART(MONTH, C.fecha_atencion) >= DATEPART(MONTH, @dateFirst)
+	AND
+		DATEPART(MONTH, C.fecha_atencion) <= DATEPART(MONTH, @dateLast)
+	GROUP BY
+		E.codigo, E.descripcion
+	ORDER BY
+		COUNT(BCBF.nro_bono_farmacia) DESC	
+END
+GO
+
+
+CREATE PROCEDURE 
+	NN_NN.SP_TOP_5_ESPECIALIDADES_CON_MAS_BONOS_FARMACIA_RECETADOS_SEG_MENSUAL (
+	@dateFirst date, 
+	@dateLast date
+	) AS
+BEGIN
+SELECT 
+	totalTop5.codigo codigoEspecialidad, 
+	--totalTop5.descripcion descripcionEspecialidad, 
+	--totalTop5.totalBonosFarmacia totalBonos, 
+	totalPorMes.mes mes, 
+	totalPorMes.totalBonosFarmaciaMes totalBonosMes
+FROM
+	(SELECT  TOP 5
+		E.codigo, 
+		E.descripcion, 
+		COUNT(BCBF.nro_bono_farmacia) totalBonosFarmacia
+	FROM
+		NN_NN.ESPECIALIDAD E
+	JOIN
+		NN_NN.PROFESIONAL_ESPECIALIDAD PE
+	ON
+		E.codigo = PE.cod_especialidad
+	JOIN
+		NN_NN.PROFESIONAL p
+	ON
+		P.numero = PE.nro_profesional
+	JOIN
+		NN_NN.TURNO T
+	ON
+		T.nro_profesional = P.numero
+	JOIN
+		NN_NN.CONSULTA C
+	ON 
+		C.nro_turno = T.numero
+	JOIN
+		NN_NN.BONO_CONSULTA_BONO_FARMACIA BCBF
+	ON
+		C.nro_bono_consulta = BCBF.nro_bono_consulta
+	WHERE		
+		DATEPART(MONTH, C.fecha_atencion) >= DATEPART(MONTH, @dateFirst)
+	AND
+		DATEPART(MONTH, C.fecha_atencion) <= DATEPART(MONTH, @dateLast)
+	GROUP BY
+		E.codigo, E.descripcion
+	ORDER BY
+		COUNT(BCBF.nro_bono_farmacia) DESC
+	) totalTop5	
+join		
+	(SELECT  
+		e.codigo, e.descripcion, 
+		DATEPART(MONTH, C.fecha_atencion) mes, 
+		COUNT(BCBF.nro_bono_farmacia) totalBonosFarmaciaMes
+	from
+		NN_NN.ESPECIALIDAD E
+	JOIN
+		NN_NN.PROFESIONAL_ESPECIALIDAD PE
+	ON
+		e.codigo = pe.cod_especialidad
+	JOIN 
+		NN_NN.PROFESIONAL p
+	ON
+		p.numero = pe.nro_profesional
+	JOIN
+		NN_NN.TURNO t
+	ON
+		t.nro_profesional = p.numero
+	JOIN
+		NN_NN.CONSULTA c
+	ON 
+		c.nro_turno = t.numero
+	JOIN
+		NN_NN.BONO_CONSULTA_BONO_FARMACIA BCBF
+	ON
+		c.nro_bono_consulta = BCBF.nro_bono_consulta
+	WHERE		
+		DATEPART(MONTH, C.fecha_atencion) >= DATEPART(MONTH, @dateFirst)
+	AND
+		DATEPART(MONTH, C.fecha_atencion) <= DATEPART(MONTH, @dateLast)
+	GROUP BY
+		e.codigo, e.descripcion, DATEPART(MONTH, C.fecha_atencion)
+	--order by
+	--	COUNT(BCBF.nro_bono_farmacia) DESC
+	) totalPorMes
+ON
+	totalTop5.codigo = totalPorMes.codigo
+ORDER BY
+	totalTop5.totalBonosFarmacia DESC, totalTop5.codigo, totalPorMes.mes ASC
+END
+
+----------------------------------------------------------------------------
+
