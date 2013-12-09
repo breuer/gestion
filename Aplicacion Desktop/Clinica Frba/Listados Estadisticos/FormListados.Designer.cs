@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.gbSelector = new System.Windows.Forms.GroupBox();
+            this.lvListado = new System.Windows.Forms.ListView();
             this.btGenerar = new System.Windows.Forms.Button();
-            this.dgvLista = new System.Windows.Forms.DataGridView();
             this.lbTitulo = new System.Windows.Forms.Label();
             this.cbPeriodo = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,13 +39,12 @@
             this.lTipo = new System.Windows.Forms.Label();
             this.cbReportes = new System.Windows.Forms.ComboBox();
             this.gbSelector.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvLista)).BeginInit();
             this.SuspendLayout();
             // 
             // gbSelector
             // 
+            this.gbSelector.Controls.Add(this.lvListado);
             this.gbSelector.Controls.Add(this.btGenerar);
-            this.gbSelector.Controls.Add(this.dgvLista);
             this.gbSelector.Controls.Add(this.lbTitulo);
             this.gbSelector.Controls.Add(this.cbPeriodo);
             this.gbSelector.Controls.Add(this.label3);
@@ -55,10 +54,18 @@
             this.gbSelector.Controls.Add(this.cbReportes);
             this.gbSelector.Location = new System.Drawing.Point(12, 12);
             this.gbSelector.Name = "gbSelector";
-            this.gbSelector.Size = new System.Drawing.Size(795, 394);
+            this.gbSelector.Size = new System.Drawing.Size(795, 538);
             this.gbSelector.TabIndex = 0;
             this.gbSelector.TabStop = false;
             this.gbSelector.Text = "Opciones";
+            // 
+            // lvListado
+            // 
+            this.lvListado.Location = new System.Drawing.Point(18, 153);
+            this.lvListado.Name = "lvListado";
+            this.lvListado.Size = new System.Drawing.Size(748, 379);
+            this.lvListado.TabIndex = 2;
+            this.lvListado.UseCompatibleStateImageBehavior = false;
             // 
             // btGenerar
             // 
@@ -69,14 +76,6 @@
             this.btGenerar.Text = "Listar";
             this.btGenerar.UseVisualStyleBackColor = true;
             this.btGenerar.Click += new System.EventHandler(this.btGenerar_Click);
-            // 
-            // dgvLista
-            // 
-            this.dgvLista.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvLista.Location = new System.Drawing.Point(18, 144);
-            this.dgvLista.Name = "dgvLista";
-            this.dgvLista.Size = new System.Drawing.Size(748, 223);
-            this.dgvLista.TabIndex = 14;
             // 
             // lbTitulo
             // 
@@ -144,15 +143,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(836, 418);
+            this.ClientSize = new System.Drawing.Size(836, 599);
             this.Controls.Add(this.gbSelector);
             this.Name = "FormListados";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.FormListados_Load);
+            this.Controls.SetChildIndex(this.gbSelector, 0);
             this.gbSelector.ResumeLayout(false);
             this.gbSelector.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvLista)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -166,7 +166,7 @@
         private System.Windows.Forms.Label lTipo;
         private System.Windows.Forms.ComboBox cbReportes;
         private System.Windows.Forms.Label lbTitulo;
-        private System.Windows.Forms.DataGridView dgvLista;
         private System.Windows.Forms.Button btGenerar;
+        private System.Windows.Forms.ListView lvListado;
     }
 }

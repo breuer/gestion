@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{71DE9239-635F-437B-BF7D-1D898AB408DD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -366,6 +366,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\FormCancelar.resx">
       <DependentUpon>FormCancelar.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Compra de Bono\FormCompraBonoConsulta.resx">
       <DependentUpon>FormCompraBonoConsulta.cs</DependentUpon>

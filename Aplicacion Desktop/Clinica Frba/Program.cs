@@ -25,8 +25,8 @@ namespace Clinica_Frba
             {
                 Application.Run(new FormMain());
             }
-        
 
+       
   
         }
     }
